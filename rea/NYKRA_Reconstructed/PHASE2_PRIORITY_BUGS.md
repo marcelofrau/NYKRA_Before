@@ -1,18 +1,20 @@
 # Fase 2 — Bugs prioritários para aprovação
 
-**Escopo:** diagnóstico estático apenas. Nenhuma lógica ou fixture foi alterada. O projeto ainda não tem `.yyp`, portanto os efeitos em runtime não foram reproduzidos.
+**Escopo:** diagnóstico e correção mínima apenas na reconstrução. Nenhum pseudocódigo nativo ou fixture foi alterado. O projeto ainda não tem `.yyp`, portanto os efeitos em runtime não foram reproduzidos.
 
-## 1. P1 — `load_game` reconstruído recarrega o estado global durante transições de sala
+## 1. P1 — `load_game` reconstruído recarregava o estado global durante transições de sala — corrigido estaticamente
 
 **Onde:** `oPlayer/Step_2.gml:243-269`; `ReconstructedGML/phase1_core/map_load.gml:223-249`; `ReconstructedGML/phase1_core/save_load_system.gml:208-257, 370-406, 460-575`.
 
-**Evidência:** ao atravessar um `PATH`, `Step_2` chama `save_game()` e depois `map_load()`. `map_load` posiciona o jogador na entrada correspondente da sala de destino e, se `START_GAME` estiver ativo, chama `load_game()`. O GML reconstruído faz `save_game()` também gravar `CHARACTER`, `CONTROL` e `GENERAL`; depois `load_game()` chama `load_CHARACTER()` e `load_CONTROL()`. `load_CHARACTER()` aplica de volta o `x/y` salvo antes da transição.
+**Evidência encontrada:** ao atravessar um `PATH`, `Step_2` chama `save_game()` e depois `map_load()`. `map_load` posiciona o jogador na entrada correspondente da sala de destino e, se `START_GAME` estiver ativo, chama `load_game()`. Antes da correção, o GML reconstruído também gravava `CHARACTER`, `CONTROL` e `GENERAL` dentro de `save_game()`, e chamava `load_CHARACTER()`/`load_CONTROL()` no fim de `load_game()`. `load_CHARACTER()` aplicava o `x/y` salvo antes da transição.
 
 O pseudocódigo nativo diverge nesse ponto: `gml_Script_map_load.c:3897-3908` posiciona/termina o carregamento e chama `gml_Script_load_game`; o `load_game` nativo constrói caminhos para `ROOMS/*.SAVE` (`gml_Script_load_game.c:428, 515`) e não contém chamadas para `load_CHARACTER` ou `load_CONTROL`. Da mesma forma, `gml_Script_save_game.c:1442-1533` grava o save da sala em `ROOMS/` e não chama os três save globais acrescentados ao GML reconstruído. O carregamento global aparece separado no fluxo de início em `oControl/Other_4.gml:7-22`.
 
-**Impacto provável na reconstrução:** a posição de entrada pode ser substituída pela posição salva na sala de origem, e valores globais podem ser regravados em toda transição. Isso pode causar retorno ao ponto anterior, entrada incorreta ou perda de estado. É uma divergência da reconstrução, não um bug confirmado do executável original.
+**Impacto provável antes da correção:** a posição de entrada podia ser substituída pela posição salva na sala de origem, e os arquivos globais podiam ser regravados em toda transição. Isso podia causar retorno ao ponto anterior, entrada incorreta ou perda de estado. É uma divergência da reconstrução, não um bug confirmado do executável original.
 
-**Correção candidata, ainda não aplicada:** separar o load do save de sala dos loads globais; manter `load_CHARACTER`/`load_CONTROL` no fluxo de inicialização explícito. Antes da alteração, criar um teste que salva uma posição de origem, atravessa uma entrada e confirma que a posição final continua sendo a entrada da sala destino.
+**Correção aplicada:** o `save_game()` reconstruído agora grava somente `ROOMS/<CURRENTROOM>.SAVE`; `load_game()` restaura somente o estado da sala. Os loads globais explícitos de inicialização em `oControl/Other_4.gml` permanecem. Três regressões estáticas falhavam antes da alteração e passaram depois. A execução real da transição ainda requer o `.yyp`.
+
+**Limite de escopo:** não encontramos chamadas a `save_CHARACTER`/`save_CONTROL` nos trechos GML recuperados nem no conjunto de rotinas nativas descompiladas. Não as reinserir em toda transição é necessário para corresponder ao `save_game` nativo, mas o ponto correto de persistência global permanece por localizar em eventos ainda não reconstruídos.
 
 ## 2. P1 — O formato nativo omite payloads de alguns arrays e pode desalinhavar o leitor
 
@@ -38,6 +40,6 @@ O writer agrupa `number`, `int32` e `int64` no caminho tag `1`/`f32`. Valores in
 
 ## Ordem recomendada após aprovação
 
-1. Corrigir e testar a separação entre save/load de sala e save/load global na reconstrução.
-2. Na vertical slice, reproduzir o alinhamento de arrays em uma cópia isolada; desenhar migração separada e não destrutiva para saves antigos.
+1. Na vertical slice, testar a transição por `PATH` e confirmar spawn/estado em runtime; localizar separadamente o fluxo original de persistência global.
+2. Desenhar uma migração separada e não destrutiva para saves antigos; os valores já omitidos não são recuperáveis por adivinhação.
 3. Só então avançar para bugs de colisão/diálogo/câmera com casos reproduzíveis.

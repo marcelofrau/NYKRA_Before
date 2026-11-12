@@ -251,10 +251,6 @@ function save_game() {
     buffer_write(_b, buffer_u8, 0);
     buffer_save(_b, working_directory + "PROFILES/HEPTAVERSE_" + string(PROFILE) + "/ROOMS/" + CURRENTROOM + ".SAVE");
     buffer_delete(_b);
-
-    save_CHARACTER();
-    save_CONTROL();
-    save_GENERAL();
 }
 
 function _read_saved_type(_b) {
@@ -571,6 +567,4 @@ function load_game() {
         buffer_delete(_b);
     }
 
-    load_CHARACTER();
-    load_CONTROL();
 }

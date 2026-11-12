@@ -232,6 +232,32 @@ class SaveLoadCompatibilityTests(unittest.TestCase):
         self.assert_in_source_order(loader, load_fields)
         self.assert_in_source_order(saver, save_fields)
 
+    def test_room_save_writer_does_not_write_profile_global_records(self):
+        start = self.source.index("function save_game(")
+        end = self.source.index("function _read_saved_type(", start)
+        save_game = self.source[start:end]
+
+        for call in ("save_CHARACTER();", "save_CONTROL();", "save_GENERAL();"):
+            self.assertNotIn(call, save_game)
+
+    def test_room_save_loader_does_not_restore_profile_global_records(self):
+        start = self.source.index("function load_game(")
+        load_game = self.source[start:]
+
+        self.assertNotIn("load_CHARACTER();", load_game)
+        self.assertNotIn("load_CONTROL();", load_game)
+
+    def test_map_transition_keeps_destination_path_spawn_after_room_load(self):
+        source = MAP_LOAD_PATH.read_text(encoding="utf-8")
+        self.assert_in_source_order(source, (
+            "var _px = x + (-2 * oPlayer.path_side);",
+            "obj_setpos(oPlayer, _px, _py);",
+            "if (oControl.START_GAME) {",
+            "load_game();",
+        ))
+        self.assertNotIn("load_CHARACTER();", source)
+        self.assertNotIn("load_CONTROL();", source)
+
     def assert_in_source_order(self, source, fields):
         offset = 0
         for field in fields:
