@@ -1,0 +1,82 @@
+#version 120
+#define LOWPREC 
+#define lowp
+#define mediump
+#define highp
+#define precision
+// Uniforms look like they're shared between vertex and fragment shaders in GLSL, so we have to be careful to avoid name clashes
+
+uniform sampler2D gm_BaseTexture;
+
+uniform bool gm_PS_FogEnabled;
+uniform vec4 gm_FogColour;
+uniform bool gm_AlphaTestEnabled;
+uniform float gm_AlphaRefValue;
+
+void DoAlphaTest(vec4 SrcColour)
+{
+	if (gm_AlphaTestEnabled)
+	{
+		if (SrcColour.a <= gm_AlphaRefValue)
+		{
+			discard;
+		}
+	}
+}
+
+void DoFog(inout vec4 SrcColour, float fogval)
+{
+	if (gm_PS_FogEnabled)
+	{
+		SrcColour = mix(SrcColour, gm_FogColour, clamp(fogval, 0.0, 1.0)); 
+	}
+}
+
+#define _YY_GLSL_ 1
+varying vec4  v_pos;
+varying vec4  v_col;
+varying vec3  v_nor;
+varying vec2  v_cor;
+varying float v_dep;
+
+uniform vec2 time;
+uniform vec4 uv;
+
+#define scan_freq 180.
+#define scan_speed 4.
+#define scan_amount .15
+
+//Minimum clip distance of the camera.
+#define cam_min .01
+//Maximum clip distance of the camera.
+#define cam_max 2000.
+
+vec4 pack_depth(float d)
+{
+	//Calculate the depth values in between the given min/max range.
+	float depth = clamp((d-cam_min)/(cam_max-cam_min),0.,1.);
+	
+	//Encode the final color while taking advantage of the RGB channels.
+	return fract(floor(depth*vec4(1.,255.,65025.,16581375.)*255.)/255.);
+}
+//Calculate per pixel alpha threshold.
+float fade(vec2 p,float a)
+{
+	float t = mod(dot(p,vec2(7.455,-4.938)),299.8);
+	float h = fract(cos(t)*825.79)*a+a;
+	vec2 m = mod(floor(p),2.);
+	return sign(m.x+m.y)+h;	
+}
+
+void main()
+{
+	float scan = pow(1.-(cos(v_cor.y*20.+time.x*2.5)*scan_amount),2.);//1.-(cos(v_cor.y*scan_freq+time.x*scan_speed)-1.)*scan_amount;
+	vec2 cor = v_cor/.9-.05;
+    cor.x += pow(max((cos(v_cor.y*4.+time.x*1.25)*200.)-192.,0.),3.)*.0001;
+    vec4 tex = texture2D(gm_BaseTexture,cor*uv.zw+uv.xy);
+	if (tex.a<=fade(v_pos.xy,time.y) || abs(cor.x-.5)>.5 || abs(cor.y-.5)>.5) discard;
+	
+	gl_FragData[0] = v_col*vec4(tex.rgb*scan,1);
+	gl_FragData[1] = pack_depth(v_dep.x);
+	gl_FragData[2] = vec4(.5-.5*v_nor,1);
+}

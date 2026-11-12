@@ -1,0 +1,1164 @@
+[
+  {
+    "Index": 0,
+    "Name": "Room12",
+    "Caption": null,
+    "Width": 1366,
+    "Height": 768,
+    "Speed": 0,
+    "Persistent": false,
+    "BackgroundColor": 4278190080,
+    "DrawBackgroundColor": false,
+    "Flags": "IsGMS2_3, IsGMS2",
+    "Views": [],
+    "GameObjects": [],
+    "Layers": [
+      {
+        "LayerName": "Instances",
+        "LayerId": 0,
+        "LayerType": "Instances",
+        "LayerDepth": 0,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": []
+      },
+      {
+        "LayerName": "Background",
+        "LayerId": 1,
+        "LayerType": "Background",
+        "LayerDepth": 100,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      }
+    ]
+  },
+  {
+    "Index": 1,
+    "Name": "rmREALITY",
+    "Caption": null,
+    "Width": 1280,
+    "Height": 720,
+    "Speed": 0,
+    "Persistent": false,
+    "BackgroundColor": 4278190080,
+    "DrawBackgroundColor": false,
+    "Flags": "IsGMS2_3, IsGMS2",
+    "Views": [],
+    "GameObjects": [
+      {
+        "InstanceID": 100000,
+        "Object": "o3d_CONTROL",
+        "X": 0,
+        "Y": 0,
+        "ScaleX": 1.0,
+        "ScaleY": 1.0,
+        "Color": 4294967295,
+        "Rotation": 0.0,
+        "ImageSpeed": 1.0,
+        "ImageIndex": 0
+      }
+    ],
+    "Layers": [
+      {
+        "LayerName": "Instances",
+        "LayerId": 2,
+        "LayerType": "Instances",
+        "LayerDepth": 0,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": [
+          {
+            "InstanceID": 100000,
+            "Object": "o3d_CONTROL",
+            "X": 0,
+            "Y": 0,
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "Color": 4294967295,
+            "Rotation": 0.0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Index": 2,
+    "Name": "INIT",
+    "Caption": null,
+    "Width": 1024,
+    "Height": 768,
+    "Speed": 0,
+    "Persistent": false,
+    "BackgroundColor": 4278190080,
+    "DrawBackgroundColor": false,
+    "Flags": "DoNotClearDisplayBuffer, IsGMS2_3, IsGMS2",
+    "Views": [],
+    "GameObjects": [
+      {
+        "InstanceID": 100001,
+        "Object": "oControl",
+        "X": 0,
+        "Y": 0,
+        "ScaleX": 1.0,
+        "ScaleY": 1.0,
+        "Color": 4294967295,
+        "Rotation": 0.0,
+        "ImageSpeed": 1.0,
+        "ImageIndex": 0
+      }
+    ],
+    "Layers": [
+      {
+        "LayerName": "Instances",
+        "LayerId": 3,
+        "LayerType": "Instances",
+        "LayerDepth": 0,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": [
+          {
+            "InstanceID": 100001,
+            "Object": "oControl",
+            "X": 0,
+            "Y": 0,
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "Color": 4294967295,
+            "Rotation": 0.0
+          }
+        ]
+      },
+      {
+        "LayerName": "Background",
+        "LayerId": 4,
+        "LayerType": "Background",
+        "LayerDepth": 100,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": false,
+        "Instances": null
+      }
+    ]
+  },
+  {
+    "Index": 3,
+    "Name": "rmMM",
+    "Caption": null,
+    "Width": 1024,
+    "Height": 768,
+    "Speed": 0,
+    "Persistent": false,
+    "BackgroundColor": 4278190080,
+    "DrawBackgroundColor": false,
+    "Flags": "EnableViews, ShowColor, IsGMS2_3, IsGMS2",
+    "Views": [
+      {
+        "ViewX": 0,
+        "ViewY": 0,
+        "ViewWidth": 1024,
+        "ViewHeight": 768,
+        "PortX": 0,
+        "PortY": 0,
+        "PortWidth": 1024,
+        "PortHeight": 768,
+        "ObjectId": null
+      }
+    ],
+    "GameObjects": [
+      {
+        "InstanceID": 100002,
+        "Object": "oFade_in",
+        "X": 64,
+        "Y": 32,
+        "ScaleX": 1.0,
+        "ScaleY": 1.0,
+        "Color": 4294967295,
+        "Rotation": 0.0,
+        "ImageSpeed": 1.0,
+        "ImageIndex": 0
+      },
+      {
+        "InstanceID": 100003,
+        "Object": "oIs_Inside",
+        "X": 96,
+        "Y": 32,
+        "ScaleX": 1.0,
+        "ScaleY": 1.0,
+        "Color": 4294967295,
+        "Rotation": 0.0,
+        "ImageSpeed": 1.0,
+        "ImageIndex": 0
+      },
+      {
+        "InstanceID": 100004,
+        "Object": "oMainMenu",
+        "X": 32,
+        "Y": 32,
+        "ScaleX": 1.0,
+        "ScaleY": 1.0,
+        "Color": 4294967295,
+        "Rotation": 0.0,
+        "ImageSpeed": 1.0,
+        "ImageIndex": 0
+      }
+    ],
+    "Layers": [
+      {
+        "LayerName": "Instances",
+        "LayerId": 5,
+        "LayerType": "Instances",
+        "LayerDepth": 0,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": [
+          {
+            "InstanceID": 100002,
+            "Object": "oFade_in",
+            "X": 64,
+            "Y": 32,
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "Color": 4294967295,
+            "Rotation": 0.0
+          },
+          {
+            "InstanceID": 100003,
+            "Object": "oIs_Inside",
+            "X": 96,
+            "Y": 32,
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "Color": 4294967295,
+            "Rotation": 0.0
+          },
+          {
+            "InstanceID": 100004,
+            "Object": "oMainMenu",
+            "X": 32,
+            "Y": 32,
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "Color": 4294967295,
+            "Rotation": 0.0
+          }
+        ]
+      },
+      {
+        "LayerName": "Background",
+        "LayerId": 6,
+        "LayerType": "Background",
+        "LayerDepth": 100,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      }
+    ]
+  },
+  {
+    "Index": 4,
+    "Name": "rmMAIN",
+    "Caption": null,
+    "Width": 2048,
+    "Height": 1024,
+    "Speed": 0,
+    "Persistent": false,
+    "BackgroundColor": 4278190080,
+    "DrawBackgroundColor": false,
+    "Flags": "EnableViews, DoNotClearDisplayBuffer, IsGMS2_3, IsGMS2",
+    "Views": [
+      {
+        "ViewX": 0,
+        "ViewY": 0,
+        "ViewWidth": 1024,
+        "ViewHeight": 768,
+        "PortX": 0,
+        "PortY": 0,
+        "PortWidth": 1024,
+        "PortHeight": 768,
+        "ObjectId": null
+      }
+    ],
+    "GameObjects": [],
+    "Layers": [
+      {
+        "LayerName": "tFRONT_over",
+        "LayerId": 7,
+        "LayerType": "Tiles",
+        "LayerDepth": -30,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "tFRONT",
+        "LayerId": 8,
+        "LayerType": "Tiles",
+        "LayerDepth": -20,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "aFRONT",
+        "LayerId": 9,
+        "LayerType": "Assets",
+        "LayerDepth": -15,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "tFRONT_bg",
+        "LayerId": 10,
+        "LayerType": "Tiles",
+        "LayerDepth": -10,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "Instances",
+        "LayerId": 11,
+        "LayerType": "Instances",
+        "LayerDepth": 0,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": []
+      },
+      {
+        "LayerName": "tBACK_over",
+        "LayerId": 12,
+        "LayerType": "Tiles",
+        "LayerDepth": 10,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "tBACK",
+        "LayerId": 13,
+        "LayerType": "Tiles",
+        "LayerDepth": 20,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "aBACK",
+        "LayerId": 14,
+        "LayerType": "Assets",
+        "LayerDepth": 25,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "tBACK_bg",
+        "LayerId": 15,
+        "LayerType": "Tiles",
+        "LayerDepth": 30,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      }
+    ]
+  },
+  {
+    "Index": 5,
+    "Name": "rmDEMO_START",
+    "Caption": null,
+    "Width": 2048,
+    "Height": 1024,
+    "Speed": 0,
+    "Persistent": false,
+    "BackgroundColor": 4278190080,
+    "DrawBackgroundColor": false,
+    "Flags": "EnableViews, ShowColor, IsGMS2_3, IsGMS2",
+    "Views": [
+      {
+        "ViewX": 0,
+        "ViewY": 0,
+        "ViewWidth": 1024,
+        "ViewHeight": 768,
+        "PortX": 0,
+        "PortY": 0,
+        "PortWidth": 1024,
+        "PortHeight": 768,
+        "ObjectId": null
+      }
+    ],
+    "GameObjects": [
+      {
+        "InstanceID": 100005,
+        "Object": "oDEMO_START",
+        "X": 32,
+        "Y": 32,
+        "ScaleX": 1.0,
+        "ScaleY": 1.0,
+        "Color": 4294967295,
+        "Rotation": 0.0,
+        "ImageSpeed": 1.0,
+        "ImageIndex": 0
+      }
+    ],
+    "Layers": [
+      {
+        "LayerName": "tFRONT_over",
+        "LayerId": 16,
+        "LayerType": "Tiles",
+        "LayerDepth": -30,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "tFRONT",
+        "LayerId": 17,
+        "LayerType": "Tiles",
+        "LayerDepth": -20,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "aFRONT",
+        "LayerId": 18,
+        "LayerType": "Assets",
+        "LayerDepth": -15,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "tFRONT_bg",
+        "LayerId": 19,
+        "LayerType": "Tiles",
+        "LayerDepth": -10,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "Instances",
+        "LayerId": 20,
+        "LayerType": "Instances",
+        "LayerDepth": 0,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": [
+          {
+            "InstanceID": 100005,
+            "Object": "oDEMO_START",
+            "X": 32,
+            "Y": 32,
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "Color": 4294967295,
+            "Rotation": 0.0
+          }
+        ]
+      },
+      {
+        "LayerName": "tBACK_over",
+        "LayerId": 21,
+        "LayerType": "Tiles",
+        "LayerDepth": 10,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "tBACK",
+        "LayerId": 22,
+        "LayerType": "Tiles",
+        "LayerDepth": 20,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "aBACK",
+        "LayerId": 23,
+        "LayerType": "Assets",
+        "LayerDepth": 25,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "tBACK_bg",
+        "LayerId": 24,
+        "LayerType": "Tiles",
+        "LayerDepth": 30,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      }
+    ]
+  },
+  {
+    "Index": 6,
+    "Name": "rmDEMO_END",
+    "Caption": null,
+    "Width": 2048,
+    "Height": 1024,
+    "Speed": 0,
+    "Persistent": false,
+    "BackgroundColor": 4278190080,
+    "DrawBackgroundColor": false,
+    "Flags": "EnableViews, ShowColor, IsGMS2_3, IsGMS2",
+    "Views": [
+      {
+        "ViewX": 0,
+        "ViewY": 0,
+        "ViewWidth": 1024,
+        "ViewHeight": 768,
+        "PortX": 0,
+        "PortY": 0,
+        "PortWidth": 1024,
+        "PortHeight": 768,
+        "ObjectId": null
+      }
+    ],
+    "GameObjects": [
+      {
+        "InstanceID": 100006,
+        "Object": "oDEMO_END",
+        "X": 32,
+        "Y": 32,
+        "ScaleX": 1.0,
+        "ScaleY": 1.0,
+        "Color": 4294967295,
+        "Rotation": 0.0,
+        "ImageSpeed": 1.0,
+        "ImageIndex": 0
+      }
+    ],
+    "Layers": [
+      {
+        "LayerName": "tFRONT_over",
+        "LayerId": 25,
+        "LayerType": "Tiles",
+        "LayerDepth": -30,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "tFRONT",
+        "LayerId": 26,
+        "LayerType": "Tiles",
+        "LayerDepth": -20,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "aFRONT",
+        "LayerId": 27,
+        "LayerType": "Assets",
+        "LayerDepth": -15,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "tFRONT_bg",
+        "LayerId": 28,
+        "LayerType": "Tiles",
+        "LayerDepth": -10,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "Instances",
+        "LayerId": 29,
+        "LayerType": "Instances",
+        "LayerDepth": 0,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": [
+          {
+            "InstanceID": 100006,
+            "Object": "oDEMO_END",
+            "X": 32,
+            "Y": 32,
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "Color": 4294967295,
+            "Rotation": 0.0
+          }
+        ]
+      },
+      {
+        "LayerName": "tBACK_over",
+        "LayerId": 30,
+        "LayerType": "Tiles",
+        "LayerDepth": 10,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "tBACK",
+        "LayerId": 31,
+        "LayerType": "Tiles",
+        "LayerDepth": 20,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "aBACK",
+        "LayerId": 32,
+        "LayerType": "Assets",
+        "LayerDepth": 25,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      },
+      {
+        "LayerName": "tBACK_bg",
+        "LayerId": 33,
+        "LayerType": "Tiles",
+        "LayerDepth": 30,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      }
+    ]
+  },
+  {
+    "Index": 7,
+    "Name": "rmFullscreen",
+    "Caption": null,
+    "Width": 720,
+    "Height": 580,
+    "Speed": 0,
+    "Persistent": false,
+    "BackgroundColor": 4278190080,
+    "DrawBackgroundColor": false,
+    "Flags": "IsGMS2_3, IsGMS2",
+    "Views": [],
+    "GameObjects": [
+      {
+        "InstanceID": 100007,
+        "Object": "oFullscreen",
+        "X": 32,
+        "Y": 32,
+        "ScaleX": 1.0,
+        "ScaleY": 1.0,
+        "Color": 4294967295,
+        "Rotation": 0.0,
+        "ImageSpeed": 1.0,
+        "ImageIndex": 0
+      }
+    ],
+    "Layers": [
+      {
+        "LayerName": "Instances",
+        "LayerId": 34,
+        "LayerType": "Instances",
+        "LayerDepth": 0,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": [
+          {
+            "InstanceID": 100007,
+            "Object": "oFullscreen",
+            "X": 32,
+            "Y": 32,
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "Color": 4294967295,
+            "Rotation": 0.0
+          }
+        ]
+      },
+      {
+        "LayerName": "Background",
+        "LayerId": 35,
+        "LayerType": "Background",
+        "LayerDepth": 100,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      }
+    ]
+  },
+  {
+    "Index": 8,
+    "Name": "rmIntro",
+    "Caption": null,
+    "Width": 1024,
+    "Height": 768,
+    "Speed": 0,
+    "Persistent": false,
+    "BackgroundColor": 4278190080,
+    "DrawBackgroundColor": false,
+    "Flags": "EnableViews, ShowColor, IsGMS2_3, IsGMS2",
+    "Views": [
+      {
+        "ViewX": 0,
+        "ViewY": 0,
+        "ViewWidth": 1024,
+        "ViewHeight": 768,
+        "PortX": 0,
+        "PortY": 0,
+        "PortWidth": 1024,
+        "PortHeight": 768,
+        "ObjectId": null
+      }
+    ],
+    "GameObjects": [
+      {
+        "InstanceID": 100008,
+        "Object": "oIntro",
+        "X": 224,
+        "Y": 256,
+        "ScaleX": 1.0,
+        "ScaleY": 1.0,
+        "Color": 4294967295,
+        "Rotation": 0.0,
+        "ImageSpeed": 1.0,
+        "ImageIndex": 0
+      }
+    ],
+    "Layers": [
+      {
+        "LayerName": "Instances",
+        "LayerId": 36,
+        "LayerType": "Instances",
+        "LayerDepth": 0,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": [
+          {
+            "InstanceID": 100008,
+            "Object": "oIntro",
+            "X": 224,
+            "Y": 256,
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "Color": 4294967295,
+            "Rotation": 0.0
+          }
+        ]
+      },
+      {
+        "LayerName": "Background",
+        "LayerId": 37,
+        "LayerType": "Background",
+        "LayerDepth": 100,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      }
+    ]
+  },
+  {
+    "Index": 9,
+    "Name": "room_3",
+    "Caption": null,
+    "Width": 1024,
+    "Height": 768,
+    "Speed": 0,
+    "Persistent": false,
+    "BackgroundColor": 4278190080,
+    "DrawBackgroundColor": false,
+    "Flags": "IsGMS2_3, IsGMS2",
+    "Views": [],
+    "GameObjects": [
+      {
+        "InstanceID": 100009,
+        "Object": "oConsole_Code_Temp",
+        "X": 352,
+        "Y": 192,
+        "ScaleX": 1.0,
+        "ScaleY": 1.0,
+        "Color": 4294967295,
+        "Rotation": 0.0,
+        "ImageSpeed": 1.0,
+        "ImageIndex": 0
+      }
+    ],
+    "Layers": [
+      {
+        "LayerName": "Instances",
+        "LayerId": 38,
+        "LayerType": "Instances",
+        "LayerDepth": 0,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": [
+          {
+            "InstanceID": 100009,
+            "Object": "oConsole_Code_Temp",
+            "X": 352,
+            "Y": 192,
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "Color": 4294967295,
+            "Rotation": 0.0
+          }
+        ]
+      },
+      {
+        "LayerName": "Background",
+        "LayerId": 39,
+        "LayerType": "Background",
+        "LayerDepth": 100,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      }
+    ]
+  },
+  {
+    "Index": 10,
+    "Name": "room0",
+    "Caption": null,
+    "Width": 1024,
+    "Height": 768,
+    "Speed": 0,
+    "Persistent": false,
+    "BackgroundColor": 4278190080,
+    "DrawBackgroundColor": false,
+    "Flags": "EnableViews, ShowColor, IsGMS2_3, IsGMS2",
+    "Views": [
+      {
+        "ViewX": 0,
+        "ViewY": 0,
+        "ViewWidth": 1024,
+        "ViewHeight": 768,
+        "PortX": 0,
+        "PortY": 0,
+        "PortWidth": 1024,
+        "PortHeight": 768,
+        "ObjectId": null
+      }
+    ],
+    "GameObjects": [
+      {
+        "InstanceID": 100010,
+        "Object": "oPlayer",
+        "X": 96,
+        "Y": 80,
+        "ScaleX": 1.0,
+        "ScaleY": 1.0,
+        "Color": 4294967295,
+        "Rotation": 0.0,
+        "ImageSpeed": 1.0,
+        "ImageIndex": 0
+      },
+      {
+        "InstanceID": 100011,
+        "Object": "oCamera",
+        "X": 96,
+        "Y": 128,
+        "ScaleX": 1.0,
+        "ScaleY": 1.0,
+        "Color": 4294967295,
+        "Rotation": 0.0,
+        "ImageSpeed": 1.0,
+        "ImageIndex": 0
+      }
+    ],
+    "Layers": [
+      {
+        "LayerName": "Instances",
+        "LayerId": 40,
+        "LayerType": "Instances",
+        "LayerDepth": 0,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": [
+          {
+            "InstanceID": 100010,
+            "Object": "oPlayer",
+            "X": 96,
+            "Y": 80,
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "Color": 4294967295,
+            "Rotation": 0.0
+          },
+          {
+            "InstanceID": 100011,
+            "Object": "oCamera",
+            "X": 96,
+            "Y": 128,
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "Color": 4294967295,
+            "Rotation": 0.0
+          }
+        ]
+      },
+      {
+        "LayerName": "Background",
+        "LayerId": 41,
+        "LayerType": "Background",
+        "LayerDepth": 0,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      }
+    ]
+  },
+  {
+    "Index": 11,
+    "Name": "rmDEMO_INTRO",
+    "Caption": null,
+    "Width": 1024,
+    "Height": 768,
+    "Speed": 0,
+    "Persistent": false,
+    "BackgroundColor": 4278190080,
+    "DrawBackgroundColor": false,
+    "Flags": "EnableViews, ShowColor, IsGMS2_3, IsGMS2",
+    "Views": [
+      {
+        "ViewX": 0,
+        "ViewY": 0,
+        "ViewWidth": 1024,
+        "ViewHeight": 768,
+        "PortX": 0,
+        "PortY": 0,
+        "PortWidth": 1024,
+        "PortHeight": 768,
+        "ObjectId": null
+      }
+    ],
+    "GameObjects": [
+      {
+        "InstanceID": 100012,
+        "Object": "oDEMO_INTRO",
+        "X": 32,
+        "Y": 32,
+        "ScaleX": 1.0,
+        "ScaleY": 1.0,
+        "Color": 4294967295,
+        "Rotation": 0.0,
+        "ImageSpeed": 1.0,
+        "ImageIndex": 0
+      }
+    ],
+    "Layers": [
+      {
+        "LayerName": "Instances",
+        "LayerId": 42,
+        "LayerType": "Instances",
+        "LayerDepth": 0,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": [
+          {
+            "InstanceID": 100012,
+            "Object": "oDEMO_INTRO",
+            "X": 32,
+            "Y": 32,
+            "ScaleX": 1.0,
+            "ScaleY": 1.0,
+            "Color": 4294967295,
+            "Rotation": 0.0
+          }
+        ]
+      },
+      {
+        "LayerName": "Background",
+        "LayerId": 43,
+        "LayerType": "Background",
+        "LayerDepth": 100,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      }
+    ]
+  },
+  {
+    "Index": 12,
+    "Name": "room7",
+    "Caption": null,
+    "Width": 1024,
+    "Height": 768,
+    "Speed": 0,
+    "Persistent": false,
+    "BackgroundColor": 4278190080,
+    "DrawBackgroundColor": false,
+    "Flags": "EnableViews, ShowColor, IsGMS2_3, IsGMS2",
+    "Views": [
+      {
+        "ViewX": 0,
+        "ViewY": 0,
+        "ViewWidth": 1024,
+        "ViewHeight": 768,
+        "PortX": 0,
+        "PortY": 0,
+        "PortWidth": 1024,
+        "PortHeight": 768,
+        "ObjectId": null
+      }
+    ],
+    "GameObjects": [],
+    "Layers": [
+      {
+        "LayerName": "Instances",
+        "LayerId": 44,
+        "LayerType": "Instances",
+        "LayerDepth": 0,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": []
+      },
+      {
+        "LayerName": "Background",
+        "LayerId": 45,
+        "LayerType": "Background",
+        "LayerDepth": 100,
+        "XOffset": 0.0,
+        "YOffset": 0.0,
+        "HSpeed": 0.0,
+        "VSpeed": 0.0,
+        "IsVisible": true,
+        "Instances": null
+      }
+    ]
+  }
+]

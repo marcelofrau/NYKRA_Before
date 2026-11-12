@@ -1,0 +1,65 @@
+precision mediump float;
+#define LOWPREC lowp
+// Uniforms look like they're shared between vertex and fragment shaders in GLSL, so we have to be careful to avoid name clashes
+
+uniform sampler2D gm_BaseTexture;
+
+uniform bool gm_PS_FogEnabled;
+uniform vec4 gm_FogColour;
+uniform bool gm_AlphaTestEnabled;
+uniform float gm_AlphaRefValue;
+
+void DoAlphaTest(vec4 SrcColour)
+{
+	if (gm_AlphaTestEnabled)
+	{
+		if (SrcColour.a <= gm_AlphaRefValue)
+		{
+			discard;
+		}
+	}
+}
+
+void DoFog(inout vec4 SrcColour, float fogval)
+{
+	if (gm_PS_FogEnabled)
+	{
+		SrcColour = mix(SrcColour, gm_FogColour, clamp(fogval, 0.0, 1.0)); 
+	}
+}
+
+#define _YY_GLSLES_ 1
+//Pass in vertex color and texture coordinate as always.
+varying vec4 v_vColour;
+varying vec2 v_vTexcoord;
+
+//Pass in  blur variables (width, height, radius) from object.
+uniform vec4 Blur;
+
+//Set constant integers for linear and angular quality.
+const int LQ = 16; 
+const int AQ = 40;
+
+void main()
+{
+    //Set Org to original, unaltered texture color.
+    vec4 Org = texture2D(gm_BaseTexture,v_vTexcoord);
+    //Set Tex for blurred texture color.
+    vec4 Tex = vec4(0);
+    
+    //Repeat for each length and angle.
+    for(int L = 1;L<LQ+1;L++)
+    for(int A = 0;A<AQ;A++)
+    {
+        //Find angle in radians (plus length for spiral)
+        float Angle = float(A)*6.28/20.+float(L);
+        //Calculate length multiplied by radius.
+        float Length = float(L)/float(LQ)*Blur.z;
+        //Find UV offset using the angle and trignometry.
+        vec2 UV = vec2(cos(Angle),sin(Angle))*Length;
+        //Add to make blurred color (divided by the number of loops).
+        Tex += ((texture2D(gm_BaseTexture,v_vTexcoord+UV/Blur.xy)/float(LQ*AQ))*0.9);
+    }
+    //Finally, get the brightest color from the orignal texture and the blurred texture.
+    gl_FragColor = v_vColour * max(Tex,Org);
+}

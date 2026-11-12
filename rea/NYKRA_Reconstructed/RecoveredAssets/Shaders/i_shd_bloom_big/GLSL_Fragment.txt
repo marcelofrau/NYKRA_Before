@@ -1,0 +1,111 @@
+#version 120
+#define LOWPREC 
+#define lowp
+#define mediump
+#define highp
+#define precision
+// Uniforms look like they're shared between vertex and fragment shaders in GLSL, so we have to be careful to avoid name clashes
+
+uniform sampler2D gm_BaseTexture;
+
+uniform bool gm_PS_FogEnabled;
+uniform vec4 gm_FogColour;
+uniform bool gm_AlphaTestEnabled;
+uniform float gm_AlphaRefValue;
+
+void DoAlphaTest(vec4 SrcColour)
+{
+	if (gm_AlphaTestEnabled)
+	{
+		if (SrcColour.a <= gm_AlphaRefValue)
+		{
+			discard;
+		}
+	}
+}
+
+void DoFog(inout vec4 SrcColour, float fogval)
+{
+	if (gm_PS_FogEnabled)
+	{
+		SrcColour = mix(SrcColour, gm_FogColour, clamp(fogval, 0.0, 1.0)); 
+	}
+}
+
+#define _YY_GLSL_ 1
+/*
+	Bloom fragment shader.
+	
+*/
+
+//The resolution of the surface.
+const vec2 Texel = vec2(320,180);
+//The intensity of the bloom effect.
+const float Intensity = 1.5;
+
+//Exponential noise scale. Higher = smaller/finer
+#define noise_scale 3.
+//Noise fade rate. Higher = shorter visible range
+#define noise_falloff .05
+
+varying vec2 vCoord;
+varying vec4 vColor;
+
+uniform float uTime;
+
+float hash(float p)
+{
+	#define phi 1.6180339887498948482045868343656381177203091798057628
+	
+	float n = mod(p,1e5);
+	return fract(phi+cos((n*phi+phi-n)*phi)*(n+phi));
+}
+float value(vec3 p)
+{
+	vec2 o = vec2(0,1);
+	vec3 stp = vec3(110,241,171);
+
+    vec3 f = floor(p);
+    vec3 s = p-f;
+    float n = dot(f, stp);
+    s *= s * (3. - 2. * s);
+    return mix(mix(mix(hash(n+dot(stp,o.xxx)), hash(n+dot(stp,o.yxx)),s.x),
+                     mix(hash(n+dot(stp,o.xyx)), hash(n+dot(stp,o.yyx)),s.x),s.y),
+                mix(mix(hash(n+dot(stp,o.xxy)), hash(n+dot(stp,o.yxy)),s.x),
+                     mix(hash(n+dot(stp,o.xyy)), hash(n+dot(stp,o.yyy)),s.x),s.y),s.z);
+}
+float soft(vec3 p,float d,float f)
+{	
+	float l = log2(d);
+	float s = exp2(noise_scale-floor(l));
+	return (mix(value(p*s),value(p*s*.5),fract(l))-.5)/(1.+f*d);
+}
+
+void main()
+{
+	//Get original color.
+	vec4 Tex = texture2D(gm_BaseTexture,vCoord);
+	
+	vec4 Bloom = vec4(0,0,0,1);
+	float Weight = 0.;
+	
+	//Run through a 5x5 area. It's 5 because of going from -2 to 2.
+	for(int X=-13;X<=13;X++) for(int Y=-13;Y<=13;Y++)
+	{
+		//Get the current blur pixel color.
+		vec3 Color = texture2D(gm_BaseTexture,vCoord+vec2(X,Y)/Texel).rgb;
+		Color = (Color * Color);
+		//Get a weight based off of brightness (grayscale) and distance from the origin.
+		float W = (dot(Color,vec3(.299,.587,.114))*.9+.1)/(1.+.4*float(X*X+Y*Y));
+		Bloom.rgb += Color*W;
+		Weight += W;
+	}
+	//Return the original color plus the final bloom value.
+	
+	float noi = soft(vec3(vCoord.x+uTime,vCoord.y+(uTime*.25),1.+(uTime*.75)),1.,noise_falloff);
+	
+	vec4 tempcol = vec4(Intensity*Bloom/Weight);
+    gl_FragColor = (vColor * Tex + (tempcol))*((1.+mix(noi,1.,Tex.r))*.5);
+	gl_FragColor *= .5;
+	gl_FragColor.b *= .5;
+}

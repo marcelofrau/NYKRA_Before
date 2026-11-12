@@ -1,0 +1,63 @@
+#version 120
+#define LOWPREC 
+#define lowp
+#define mediump
+#define highp
+#define precision
+// Uniforms look like they're shared between vertex and fragment shaders in GLSL, so we have to be careful to avoid name clashes
+
+uniform sampler2D gm_BaseTexture;
+
+uniform bool gm_PS_FogEnabled;
+uniform vec4 gm_FogColour;
+uniform bool gm_AlphaTestEnabled;
+uniform float gm_AlphaRefValue;
+
+void DoAlphaTest(vec4 SrcColour)
+{
+	if (gm_AlphaTestEnabled)
+	{
+		if (SrcColour.a <= gm_AlphaRefValue)
+		{
+			discard;
+		}
+	}
+}
+
+void DoFog(inout vec4 SrcColour, float fogval)
+{
+	if (gm_PS_FogEnabled)
+	{
+		SrcColour = mix(SrcColour, gm_FogColour, clamp(fogval, 0.0, 1.0)); 
+	}
+}
+
+#define _YY_GLSL_ 1
+//Simple Gravitational lensing effect.
+varying vec2 v_vTexcoord;
+
+void main()
+{   
+    float intensity = 1.0/2000.0;
+    
+    vec2 uv = v_vTexcoord;
+    float proxStrength = pow(distance(uv.xy,vec2(0.5)),-2.0);
+    vec2 warp = normalize(uv.xy-vec2(0.5)) * -(proxStrength * intensity);
+    uv += warp; 
+    //warp defines how much we shift the UV coords.
+    //Normalizing the vector from the center to the edge of the screen gives us a parallel vector of length 1; the vector direction from the center of the screen to the uv.
+    //The length of the change for the uv coord is defined by the negative of the inverse square of the distance from the center(proxStrength), multiplied by an intensity. 
+    //At the center pixels swap sides with pixels on the opposite side of the center, weakening as the distance from the center increases.
+    
+    vec4 colour = texture2D( gm_BaseTexture, uv);
+    colour.a *= proxStrength;
+    colour.rgb *= pow(1.0+length(warp),2.0);
+    if (length(warp) > 0.9) colour = vec4(0,0,0,1);   
+    // We get the color from the UV coords   
+    // Alpha is set to the same intensity for the warp.
+    // Increase the intensity of the RGB towards the middle as if photons stack up.
+    // If inside the event horizon where warp is larger than 1.0, truencate RGB;
+    
+    gl_FragColor = colour;
+}
+

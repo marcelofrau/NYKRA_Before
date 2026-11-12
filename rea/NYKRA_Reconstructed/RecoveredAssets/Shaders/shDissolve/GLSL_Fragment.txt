@@ -1,0 +1,102 @@
+#version 120
+#define LOWPREC 
+#define lowp
+#define mediump
+#define highp
+#define precision
+// Uniforms look like they're shared between vertex and fragment shaders in GLSL, so we have to be careful to avoid name clashes
+
+uniform sampler2D gm_BaseTexture;
+
+uniform bool gm_PS_FogEnabled;
+uniform vec4 gm_FogColour;
+uniform bool gm_AlphaTestEnabled;
+uniform float gm_AlphaRefValue;
+
+void DoAlphaTest(vec4 SrcColour)
+{
+	if (gm_AlphaTestEnabled)
+	{
+		if (SrcColour.a <= gm_AlphaRefValue)
+		{
+			discard;
+		}
+	}
+}
+
+void DoFog(inout vec4 SrcColour, float fogval)
+{
+	if (gm_PS_FogEnabled)
+	{
+		SrcColour = mix(SrcColour, gm_FogColour, clamp(fogval, 0.0, 1.0)); 
+	}
+}
+
+#define _YY_GLSL_ 1
+//
+// Simple passthrough fragment shader
+//
+uniform vec2  size;
+uniform float amount;
+uniform vec3  fadeColor;
+uniform float offset;
+
+varying vec2 v_vTexcoord;
+varying vec4 v_vColour;
+
+// BEGIN PASTE //
+
+// Function from:
+// https://stackoverflow.com/questions/4200224/random-noise-functions-for-glsl
+float rand(vec2 co){
+	return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
+// These 3 functions from:
+// https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83
+float rand(float n){return fract(sin(n) * 43758.5453123);}
+
+float noise(float p){
+	float fl = floor(p);
+  float fc = fract(p);
+	return mix(rand(fl), rand(fl + 1.0), fc);
+}
+	
+float noise(vec2 n) {
+	const vec2 d = vec2(0.0, 1.0);
+  vec2 b = floor(n), f = smoothstep(vec2(0.0), vec2(1.0), fract(n));
+	return mix(mix(rand(b), rand(b + d.yx), f.x), mix(rand(b + d.xy), rand(b + d.yy), f.x), f.y);
+}
+
+// END PASTE //
+
+void main()
+{
+    vec4 col = v_vColour * texture2D( gm_BaseTexture, v_vTexcoord );
+	
+	vec2 pos = vec2(
+		floor( v_vTexcoord.x / size.x ) * size.x + offset,
+		floor( v_vTexcoord.y / size.y ) * size.y + offset
+	);
+	
+	float n = noise( pos * (10.79/(size.x+1.0)) );
+	float _t = (clamp(((amount-n)/amount)+(amount),0.0,1.0));
+
+	if (_t > 0.75) {
+		float _tam = ((_t-0.75)*4.0);
+		col = vec4(
+			mix(fadeColor.r,  col.r, _tam),
+			mix(fadeColor.g,  col.g, _tam),
+			mix(fadeColor.b,  col.b, _tam),
+			col.a * _t * min(_t*5.0,1.0));
+	}
+	else
+	{
+		col = vec4(fadeColor.rgb,col.a * _t * min(_t*5.0,1.0));
+	};
+	gl_FragColor = col;
+}
+
+
+
+

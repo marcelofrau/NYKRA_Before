@@ -1,0 +1,29 @@
+{
+  "Name": "NYKRA",
+  "FileName": "NYKRA",
+  "Config": "Default",
+  "BytecodeVersion": 17,
+  "IsYYC": true,
+  "Major": 2,
+  "Minor": 3,
+  "Release": 6,
+  "Build": 0,
+  "DefaultWindowWidth": 1024,
+  "DefaultWindowHeight": 768,
+  "InfoFlags": "SyncVertex1, UseAppDataSaveLocation",
+  "RoomOrder": [
+    "INIT",
+    "rmMM",
+    "rmMAIN",
+    "rmDEMO_START",
+    "rmDEMO_END",
+    "rmFullscreen",
+    "rmIntro",
+    "room_3",
+    "room0",
+    "rmDEMO_INTRO",
+    "room7",
+    "Room12",
+    "rmREALITY"
+  ]
+}

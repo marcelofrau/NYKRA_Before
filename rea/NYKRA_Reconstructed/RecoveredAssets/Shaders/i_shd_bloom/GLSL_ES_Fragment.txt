@@ -1,0 +1,67 @@
+precision mediump float;
+#define LOWPREC lowp
+// Uniforms look like they're shared between vertex and fragment shaders in GLSL, so we have to be careful to avoid name clashes
+
+uniform sampler2D gm_BaseTexture;
+
+uniform bool gm_PS_FogEnabled;
+uniform vec4 gm_FogColour;
+uniform bool gm_AlphaTestEnabled;
+uniform float gm_AlphaRefValue;
+
+void DoAlphaTest(vec4 SrcColour)
+{
+	if (gm_AlphaTestEnabled)
+	{
+		if (SrcColour.a <= gm_AlphaRefValue)
+		{
+			discard;
+		}
+	}
+}
+
+void DoFog(inout vec4 SrcColour, float fogval)
+{
+	if (gm_PS_FogEnabled)
+	{
+		SrcColour = mix(SrcColour, gm_FogColour, clamp(fogval, 0.0, 1.0)); 
+	}
+}
+
+#define _YY_GLSLES_ 1
+/*
+	Bloom fragment shader.
+	
+*/
+
+//The resolution of the surface.
+const vec2 Texel = vec2(320,180);
+//The intensity of the bloom effect.
+const float Intensity = 1.5;
+
+varying vec2 vCoord;
+varying vec4 vColor;
+
+void main()
+{
+	//Get original color.
+	vec4 Tex = texture2D(gm_BaseTexture,vCoord);
+	
+	vec4 Bloom = vec4(0,0,0,1);
+	float Weight = 0.;
+	
+	//Run through a 5x5 area. It's 5 because of going from -2 to 2.
+	for(int X=-2;X<=2;X++) for(int Y=-2;Y<=2;Y++)
+	{
+		//Get the current blur pixel color.
+		vec3 Color = texture2D(gm_BaseTexture,vCoord+vec2(X,Y)/Texel).rgb;
+		Color = (Color * Color);
+		//Get a weight based off of brightness (grayscale) and distance from the origin.
+		float W = (dot(Color,vec3(.299,.587,.114))*.9+.1)/(1.+.4*float(X*X+Y*Y));
+		Bloom.rgb += Color*W;
+		Weight += W;
+	}
+	//Return the original color plus the final bloom value.
+	vec4 tempcol = vec4(Intensity*Bloom/Weight);
+    gl_FragColor = vColor * Tex + (tempcol*tempcol*.5);
+}

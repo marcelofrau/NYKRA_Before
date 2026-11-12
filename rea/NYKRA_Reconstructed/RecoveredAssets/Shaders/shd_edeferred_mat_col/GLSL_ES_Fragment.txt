@@ -1,0 +1,200 @@
+precision mediump float;
+#define LOWPREC lowp
+// Uniforms look like they're shared between vertex and fragment shaders in GLSL, so we have to be careful to avoid name clashes
+
+uniform sampler2D gm_BaseTexture;
+
+uniform bool gm_PS_FogEnabled;
+uniform vec4 gm_FogColour;
+uniform bool gm_AlphaTestEnabled;
+uniform float gm_AlphaRefValue;
+
+void DoAlphaTest(vec4 SrcColour)
+{
+	if (gm_AlphaTestEnabled)
+	{
+		if (SrcColour.a <= gm_AlphaRefValue)
+		{
+			discard;
+		}
+	}
+}
+
+void DoFog(inout vec4 SrcColour, float fogval)
+{
+	if (gm_PS_FogEnabled)
+	{
+		SrcColour = mix(SrcColour, gm_FogColour, clamp(fogval, 0.0, 1.0)); 
+	}
+}
+
+#define _YY_GLSLES_ 1
+varying	vec4  v_col;
+varying	vec4  v_mat;
+varying	vec3  v_wor;
+varying	vec3  v_ver;
+varying	vec3  v_nor;
+varying	vec3  v_nom;
+varying	float v_dep;
+
+//Fog parameters
+#define fog_start .01
+#define fog_end 160.
+//Fog velocity.
+#define fog_vel vec3(.025,.0333,.05)*.5
+#define fog_color vec3(0,0,0) //.10,.08,.04
+
+//Amount of specularity variation.
+#define spec_pow 20.
+#define spec_diffuse .2
+#define spec_reflect 1.
+
+//Normal roughness.
+#define rough_norm .5
+//Diffuse roughness. 
+#define rough_diffuse .5
+//Shading flatness.
+#define rough_flat .5
+
+//Normal direction amount.
+#define sss_dir .5
+//Light distance amount. sss_dir+sss_dist should = 1.0
+#define sss_dist .5
+//Color falloff for all models (maybe change later?). Higher = darker
+#define sss_color (4.-4.*pow(col.rgb,vec3(4.)))//vec3(1,3,4)
+//Amount of light reflected to surrounding geometry.
+#define sss_reflect .3
+
+//Exponential noise scale. Higher = smaller/finer
+#define noise_scale 8.2
+//Noise fade rate. Higher = shorter visible range
+#define noise_falloff .05
+
+#define lig_num 16
+#define con_num 16
+
+uniform float fog_time;
+uniform vec3 cam_pos;
+uniform float gamma;
+
+uniform vec4 lig_pos[lig_num];
+uniform vec3 lig_col[lig_num];
+
+uniform vec4 con_pos1[con_num];
+uniform vec4 con_pos2[con_num];
+uniform vec3 con_col [con_num];
+
+//Minimum clip distance of the camera.
+#define cam_min .01
+//Maximum clip distance of the camera.
+#define cam_max 2000.
+
+vec4 pack_depth(float d)
+{
+	//Calculate the depth values in between the given min/max range.
+	float depth = clamp((d-cam_min)/(cam_max-cam_min),0.,1.);
+	
+	//Encode the final color while taking advantage of the RGB channels.
+	return fract(floor(depth*vec4(1.,255.,65025.,16581375.)*255.)/255.);
+}
+float hash(float p)
+{
+	#define phi 1.6180339887498948482045868343656381177203091798057628
+	
+	float n = mod(p,1e5);
+	return fract(phi+cos((n*phi+phi-n)*phi)*(n+phi));
+}
+float value(vec3 p)
+{
+	vec2 o = vec2(0,1);
+	vec3 stp = vec3(110,241,171);
+
+    vec3 f = floor(p);
+    vec3 s = p-f;
+    float n = dot(f, stp);
+    s *= s * (3. - 2. * s);
+    return mix(mix(mix(hash(n+dot(stp,o.xxx)), hash(n+dot(stp,o.yxx)),s.x),
+                   mix(hash(n+dot(stp,o.xyx)), hash(n+dot(stp,o.yyx)),s.x),s.y),
+               mix(mix(hash(n+dot(stp,o.xxy)), hash(n+dot(stp,o.yxy)),s.x),
+                   mix(hash(n+dot(stp,o.xyy)), hash(n+dot(stp,o.yyy)),s.x),s.y),s.z);
+}
+float soft(vec3 p,float d,float f)
+{	
+	float l = log2(d);
+	float s = exp2(noise_scale-floor(l));
+	return (mix(value(p*s),value(p*s*.5),fract(l))-.5)/(1.+f*d);
+}
+vec4 point_light(vec3 dif,vec4 mat,vec3 col,vec3 dir,float noi,vec3 nor)
+{
+	float lng = length(dif);
+	float att = max(1.-lng,0.); att *= att;
+	float lam = dot(nor,dif/lng);
+	float spec = att*pow(dot(reflect(dir,nor),dif/lng)*.5+.5,1.+spec_pow*mat.x);
+	float lig = max(mix(lam,.5+(noi-.5)*rough_diffuse,mat.y*rough_flat),.0);
+	lig += (att-lig)*mat.w;
+	lig += (lig*spec_diffuse+spec-lig)*mat.x;
+	vec3 sss = 1.+sss_color*mat.w;
+	//vec3 sss = 1.+(4.*pow(color.rgb,4.))*mat.w;
+	
+	return vec4(col*lig*att*pow(vec3(max(lam,0.)*sss_dir+sss_dist*att),sss), spec_reflect*spec*mat.x+sss_reflect*att*mat.w);
+}
+vec4 cone_light(vec3 dif,vec4 mat,vec3 con,float a1,float a2,vec3 col,vec3 dir,float noi,vec3 nor)
+{
+	float att = smoothstep(a1,a2,dot(normalize(dif),con));
+	
+	return point_light(dif,mat,col,dir,noi,nor)*att;
+}
+
+void main()
+{
+	float lng = length(v_wor-cam_pos);
+	vec3 dir = (v_wor-cam_pos)/lng;
+	float noi = soft(v_ver,lng,noise_falloff)*v_mat.y;
+	vec3 nor = normalize(v_nor+v_nor.yzx*noi*rough_norm);
+	vec4 tot = vec4(0);
+	vec3 glo = vec3(0);
+	
+	vec3 pos = cam_pos/50.+dir-fog_time*fog_vel;
+	pos += dir.zxy*value(pos*6.+fog_time)*.1;
+	pos += dir.yzx*value(pos*15.-fog_time)*.06;
+	float val = 16.*value(pos*7.)+8.*value(pos*13.)+4.*value(pos*23.);
+	float som = val/64.+.5;
+	
+	for(int i = 0;i<lig_num;i++)
+	{
+		if (lig_pos[i].w<=0.) break;
+		vec3 dif = (lig_pos[i].xyz-v_wor)/lig_pos[i].w;
+		tot += point_light(dif,v_mat,lig_col[i],dir,noi,nor);
+		
+		vec3 c = cross(dif,dir);
+		vec3 cam_dif = lig_pos[i].xyz-cam_pos;
+		float cam_lng = length(cam_dif);
+		glo += lig_col[i]/(1.+dot(c,c)*lig_pos[i].w)*max(dot(cam_dif/cam_lng,dir),0.)*min(cam_lng/lig_pos[i].w,1./(cam_lng/lig_pos[i].w));
+	}
+	for(int j = 0;j<con_num;j++)
+	{
+		vec3 con = con_pos1[j].xyz-con_pos2[j].xyz;
+		float rad = length(con);
+		
+		if (rad==0.) break;
+		vec3 dif = (con_pos1[j].xyz-v_wor)/rad;
+		tot += cone_light(dif,v_mat,con/rad,con_pos1[j].w,con_pos2[j].w,con_col[j],dir,noi,nor);
+		
+		vec3 c = cross(dif,dir);
+		vec3 cam_dif = con_pos1[j].xyz-cam_pos;
+		float cam_lng = length(cam_dif);
+		
+		//vec3 c_2 = cross(cam_dif/cam_lng,dir);
+		
+		glo += con_col[j]/(1.+dot(c,c)*rad)*max(dot(cam_dif/cam_lng,dir),0.)*min(cam_lng/rad,1./(1.+cam_lng/rad));
+		//smoothstep(con_pos1[j].w,con_pos2[j].w,);
+	}
+	
+	float fog = sqrt(smoothstep(fog_start,fog_end,lng+val/2.));
+	vec4 col = v_col*vec4(tot.rgb+(1.-tot.rgb)*v_mat.z,tot.a+v_mat.z);
+	col = mix(col,vec4(fog_color+glo*som,col.a),fog);
+	
+	gl_FragData[0] = pow(col,vec4(gamma,gamma,gamma,1));	
+	//gl_FragData[1] = pack_depth(v_dep);
+	//gl_FragData[2] = vec4(.5-.5*v_nom,1.-fog);
+}

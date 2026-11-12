@@ -1,0 +1,3 @@
+in_Position
+in_Color
+in_TextureCoord

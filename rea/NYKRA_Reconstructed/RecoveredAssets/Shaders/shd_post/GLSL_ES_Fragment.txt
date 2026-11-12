@@ -1,0 +1,61 @@
+precision mediump float;
+#define LOWPREC lowp
+// Uniforms look like they're shared between vertex and fragment shaders in GLSL, so we have to be careful to avoid name clashes
+
+uniform sampler2D gm_BaseTexture;
+
+uniform bool gm_PS_FogEnabled;
+uniform vec4 gm_FogColour;
+uniform bool gm_AlphaTestEnabled;
+uniform float gm_AlphaRefValue;
+
+void DoAlphaTest(vec4 SrcColour)
+{
+	if (gm_AlphaTestEnabled)
+	{
+		if (SrcColour.a <= gm_AlphaRefValue)
+		{
+			discard;
+		}
+	}
+}
+
+void DoFog(inout vec4 SrcColour, float fogval)
+{
+	if (gm_PS_FogEnabled)
+	{
+		SrcColour = mix(SrcColour, gm_FogColour, clamp(fogval, 0.0, 1.0)); 
+	}
+}
+
+#define _YY_GLSLES_ 1
+#define radius 0.02
+#define res 0.1
+
+#define vig_inner .0
+#define vig_outer 1.
+#define vig_stren .75
+
+varying vec2 v_coord;
+varying vec2 v_texel;
+
+float hash(vec2 p)
+{
+	return mod(cos(p.x*93.6+p.y*97.9)*515.7,2.)-1.;	
+}
+
+void main()
+{
+	float vignette = vig_stren*smoothstep(vig_inner,vig_outer,length((v_coord-.5)*vec2(1,1)));
+	
+	float off = res*hash(v_coord);
+	vec4 tex = vec4(0);
+	for(float i = 0.; i<=1.; i+=res)
+	{
+		//Cubic interpolation for the gradient
+		vec4 grad = max(vec4(1.-i,1.-abs(i*2.-1.),i,.75)*2.-.5,0.);
+		//Radial sampling
+		tex += texture2D(gm_BaseTexture, (v_coord-.5)/(1.+radius*(i+off))+.5)*grad;	
+	}
+    gl_FragColor = tex*res/.5;
+}

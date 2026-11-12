@@ -1,0 +1,74 @@
+precision mediump float;
+#define LOWPREC lowp
+// Uniforms look like they're shared between vertex and fragment shaders in GLSL, so we have to be careful to avoid name clashes
+
+uniform sampler2D gm_BaseTexture;
+
+uniform bool gm_PS_FogEnabled;
+uniform vec4 gm_FogColour;
+uniform bool gm_AlphaTestEnabled;
+uniform float gm_AlphaRefValue;
+
+void DoAlphaTest(vec4 SrcColour)
+{
+	if (gm_AlphaTestEnabled)
+	{
+		if (SrcColour.a <= gm_AlphaRefValue)
+		{
+			discard;
+		}
+	}
+}
+
+void DoFog(inout vec4 SrcColour, float fogval)
+{
+	if (gm_PS_FogEnabled)
+	{
+		SrcColour = mix(SrcColour, gm_FogColour, clamp(fogval, 0.0, 1.0)); 
+	}
+}
+
+#define _YY_GLSLES_ 1
+varying vec4 v_color;
+varying vec2 v_coord;
+
+#define radius 2.
+#define resolution vec2(1024, 512)
+
+uniform sampler2D color;
+
+vec4 sample(vec2 coord)
+{
+	vec3 lit = texture2D(gm_BaseTexture,coord).rgb;
+	vec4 col = texture2D(color,coord);
+	return vec4(lit-col.rgb*(1.-col.a),1.-col.a);
+}
+
+vec2 hash2(vec2 p)
+{
+	return normalize(fract(cos(p*mat2(94.55,-69.38,-89.27,78.69))*625.79)-.5);
+}
+void main()
+{
+	vec2 h = hash2(v_coord);
+	mat2 r = mat2(h,-h.y,h.x);
+	vec3 s = vec3(-1,0,1);
+	vec2 off = radius/resolution;
+	
+	vec4 tex = vec4(0);
+	tex += sample(v_coord+s.xx*r*off)*.5;
+	tex += sample(v_coord+s.yx*r*off)*.7;
+	tex += sample(v_coord+s.zx*r*off)*.5;
+	
+	tex += sample(v_coord+s.xy*r*off)*.7;
+	tex += sample(v_coord);
+	tex += sample(v_coord+s.zy*r*off)*.7;
+	
+	tex += sample(v_coord+s.xz*r*off)*.5;
+	tex += sample(v_coord+s.yz*r*off)*.7;
+	tex += sample(v_coord+s.zz*r*off)*.5;
+	tex /= 5.8;
+	tex += tex.a*texture2D(color,v_coord);// /5.8
+	
+	gl_FragColor = v_color*vec4(tex.rgb,1);
+}

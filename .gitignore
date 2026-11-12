@@ -1,0 +1,8 @@
+# Ignorar binários gigantes que excedem o limite de 100 MB do GitHub
+rea/NYKRA.zip
+rea/NYKRA_Reconstructed/RuntimeBaseline/data.win
+
+# Ignorar projetos/caches pesados do Ghidra (regeneráveis via script)
+rea/NYKRA_Reconstructed/NativeAnalysis/ghidra-projects/
+rea/NYKRA_Reconstructed/NativeAnalysis/ghidra-projects-retry/
+rea/NYKRA_Reconstructed/NativeAnalysis/ghidra-headless.log

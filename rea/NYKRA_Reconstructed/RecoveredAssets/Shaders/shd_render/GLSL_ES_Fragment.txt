@@ -1,0 +1,133 @@
+precision mediump float;
+#define LOWPREC lowp
+// Uniforms look like they're shared between vertex and fragment shaders in GLSL, so we have to be careful to avoid name clashes
+
+uniform sampler2D gm_BaseTexture;
+
+uniform bool gm_PS_FogEnabled;
+uniform vec4 gm_FogColour;
+uniform bool gm_AlphaTestEnabled;
+uniform float gm_AlphaRefValue;
+
+void DoAlphaTest(vec4 SrcColour)
+{
+	if (gm_AlphaTestEnabled)
+	{
+		if (SrcColour.a <= gm_AlphaRefValue)
+		{
+			discard;
+		}
+	}
+}
+
+void DoFog(inout vec4 SrcColour, float fogval)
+{
+	if (gm_PS_FogEnabled)
+	{
+		SrcColour = mix(SrcColour, gm_FogColour, clamp(fogval, 0.0, 1.0)); 
+	}
+}
+
+#define _YY_GLSLES_ 1
+varying vec2 v_coord;
+
+//Shadow occlusion.
+#define occlusion 7.7777777
+//Triangle emissive light intensity.
+#define emission 7.7777777
+//Bloom glow intensity.
+#define brightness 3.
+//Radius is occlusion spread distance.
+#define radius 7.7777777
+//Intensity is the strength of the shadow. 1 is default.
+#define intensity 2.
+
+//Resolution of the surfaces.
+#define resolution vec2(1024, 512)
+//Surface aspect ratio.
+#define ratio resolution.x/resolution.y
+
+//Minimum clip distance of the camera.
+#define cam_min .1
+//Maximum clip distance of the camera.
+#define cam_max 1024.
+
+uniform float samples;
+
+uniform sampler2D depth;
+uniform sampler2D normal;
+uniform sampler2D noise;
+
+//Calculates the depth_z taken from the depth shader.
+float unpack_depth(vec4 rgba)
+{
+	return (cam_max-cam_min)*(rgba.r+rgba.g/255.+rgba.b/65025.+rgba.a/16581375.)+cam_min;	
+}
+//Simple pseudo random noise function.
+float hash1(vec2 p)
+{
+	return texture2D(noise,p*resolution/128.).r-.5;
+	//(fract(cos(p.x*94.55-p.y*69.38)*925.79)-.5);
+}
+vec2 hash2(vec2 p)
+{
+	return texture2D(noise,p*resolution/128.).gb-.5;
+	//(fract(cos(p*2.*mat2(94.55,-69.38,-89.27,78.69))*925.79)-.5);
+}
+void main()
+{
+	//Get the starting depth and normal values.
+	vec4 color_rgba = texture2D(gm_BaseTexture,v_coord);
+	vec4 depth_rgba = texture2D(depth,v_coord);
+	vec4 normal_rgba = texture2D(normal,v_coord);
+	
+	//Calculate the depth and normal values.
+	float depth_z = unpack_depth(depth_rgba);
+	vec3 normal_xyz = normalize(normal_rgba.rgb-.5);
+	
+	//Calculate screen space position.
+	vec3 pos = vec3(v_coord-.5,1)*vec3(ratio,-1,1)*depth_z;
+
+	vec3 light = vec3(0);
+	vec4 bloom = vec4(0);
+	
+	//float scale = radius/samples*resolution.x/depth_z;
+	//Try out this for relative scale (other values would need tweaking):
+	float scale = radius/samples*16. + radius/samples*resolution.x/depth_z*.5;
+	
+	vec2 ray = hash2(v_coord)*scale;
+	mat2 rotate = mat2(.73736882209777832,-.67549037933349609,.67549037933349609,.73736882209777832);
+	//Sample near positions to calculate occlusion.
+	for(float i = 1.;i<=samples;i++)
+	{
+		ray *= rotate;
+		
+		//Get UV coordinates of the casted ray.
+		vec2 uv = v_coord + ray*i/resolution;
+		vec2 b = abs(uv-.5);
+		//Check if the U is within the borders.
+		if (b.x>.5 || b.y>.5) continue;
+		
+		vec4 samp = texture2D(gm_BaseTexture,uv);
+		bloom += vec4(samp.rgb*samp.a,1)/i;
+		
+		//Get depth of the casted ray.
+		float ray_dep = unpack_depth(texture2D(depth,uv));
+		//Get screen space coordinates of the casted ray minus pos (the origin position).
+		vec3 ray_pos = vec3(uv-.5,1)*vec3(ratio,-1,1)*ray_dep-pos;
+		//Calculate the distance between the casted ray and the origin.
+		float ray_len = length(ray_pos);
+		float ray_dot = dot(normal_xyz,ray_pos/ray_len);
+		//Calculate occlusion with normal, length and position difference.
+		light += mix(min(1.+2.*ray_dot,0.)*vec3(1),max(.2-.8*ray_dot,0.)*samp.rgb*emission,samp.a)*
+		inversesqrt(1.+(ray_len/=radius))*clamp(1.-ray_len,0.,1.);
+	}
+	//Output final brightness.
+	vec3 lig = intensity*light/samples*pow(1.-depth_z/cam_max,3.);
+	vec3 shade = max(min(lig+1.,1.),color_rgba.a);
+	shade = max(pow(shade,vec3(occlusion)),0.);
+	vec3 glow = max(lig,0.)+bloom.rgb/bloom.a*brightness;
+	
+	gl_FragColor = vec4(color_rgba.rgb*shade+glow,1);
+	//gl_FragColor = mix(gl_FragColor,color_rgba,.5);
+}

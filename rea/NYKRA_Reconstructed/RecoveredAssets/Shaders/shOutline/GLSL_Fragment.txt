@@ -1,0 +1,92 @@
+#version 120
+#define LOWPREC 
+#define lowp
+#define mediump
+#define highp
+#define precision
+// Uniforms look like they're shared between vertex and fragment shaders in GLSL, so we have to be careful to avoid name clashes
+
+uniform sampler2D gm_BaseTexture;
+
+uniform bool gm_PS_FogEnabled;
+uniform vec4 gm_FogColour;
+uniform bool gm_AlphaTestEnabled;
+uniform float gm_AlphaRefValue;
+
+void DoAlphaTest(vec4 SrcColour)
+{
+	if (gm_AlphaTestEnabled)
+	{
+		if (SrcColour.a <= gm_AlphaRefValue)
+		{
+			discard;
+		}
+	}
+}
+
+void DoFog(inout vec4 SrcColour, float fogval)
+{
+	if (gm_PS_FogEnabled)
+	{
+		SrcColour = mix(SrcColour, gm_FogColour, clamp(fogval, 0.0, 1.0)); 
+	}
+}
+
+#define _YY_GLSL_ 1
+//
+// Simple passthrough fragment shader
+//
+varying vec2 v_vTexcoord;
+varying vec4 v_vColour;
+
+uniform vec2 sprite_size;
+uniform vec4 outlineColor;
+
+void main()
+{
+    float alpha = 0.0;
+ 
+    //Now add alpha depending on the pixels surround it
+    alpha += texture2D( gm_BaseTexture, v_vTexcoord + vec2(-sprite_size.x, 0.0) ).a; //Left
+    alpha += texture2D( gm_BaseTexture, v_vTexcoord + vec2(sprite_size.x , 0.0) ).a; //Right
+    alpha += texture2D( gm_BaseTexture, v_vTexcoord + vec2(0.0, -sprite_size.y) ).a; //Up
+    alpha += texture2D( gm_BaseTexture, v_vTexcoord + vec2(0.0,  sprite_size.y) ).a; //Down
+	if ((texture2D( gm_BaseTexture, v_vTexcoord ).a) == 1.0) alpha = 0.0;
+ 
+    //Now draw the results
+    gl_FragColor = vec4(outlineColor.r, outlineColor.g, outlineColor.b, alpha*outlineColor.a);
+}
+
+
+
+
+
+//
+// Sprite outline shader
+//
+/*
+varying vec2 v_vTexcoord;
+varying vec4 v_vColour;
+uniform vec4 outlineColor;
+uniform vec2 spriteSize;
+vec4 originalColor = v_vColour * texture2D( gm_BaseTexture, v_vTexcoord);
+vec4 newColor = outlineColor;
+newColor.a = 1.0;
+//Original
+newColor = originalColor;
+//Transparent
+if(originalColor.a == 0.0)
+{
+    newColor = outlineColor;
+    float newAlpha = 0.0;
+    newAlpha = max(newAlpha, texture2D(gm_BaseTexture, v_vTexcoord + vec2(spriteSize.x, 0.0)).a);
+    newAlpha = max(newAlpha, texture2D(gm_BaseTexture, v_vTexcoord + vec2(-spriteSize.x, 0.0)).a);
+    newAlpha = max(newAlpha, texture2D(gm_BaseTexture, v_vTexcoord + vec2(0.0, spriteSize.y)).a);
+    newAlpha = max(newAlpha, texture2D(gm_BaseTexture, v_vTexcoord + vec2(0.0, -spriteSize.y)).a);
+    newAlpha = max(newAlpha, texture2D(gm_BaseTexture, v_vTexcoord + spriteSize).a);
+    newAlpha = max(newAlpha, texture2D(gm_BaseTexture, v_vTexcoord + vec2(spriteSize.x, -spriteSize.y)).a);
+    newAlpha = max(newAlpha, texture2D(gm_BaseTexture, v_vTexcoord + vec2(-spriteSize.x, spriteSize.y)).a);
+    newAlpha = max(newAlpha, texture2D(gm_BaseTexture, v_vTexcoord + vec2(-spriteSize.x, -spriteSize.y)).a);
+    newColor.a = newAlpha;
+}
+gl_FragColor = newColor;*/
