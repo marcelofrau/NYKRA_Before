@@ -72,6 +72,27 @@ class SaveLoadCompatibilityTests(unittest.TestCase):
         self.assertEqual(instance["decode_issues"][0]["variable"], "empty_array")
         self.assertEqual(instance["decode_issues"][0]["status"], "missing_or_unknown_payload")
 
+    def test_chapter4_control_fixture_has_bool_and_omitted_array_evidence(self):
+        fixture = (
+            VALIDATOR.INCLUDED_DIR
+            / "DATA"
+            / "CHAPTER_TEMPLATES"
+            / "chapter_4"
+            / "CONTROL"
+        ).read_bytes()
+        anim_offset = fixture.index(b"anim1\x00")
+        array_offset = fixture.index(b"asset_layer\x00")
+        instance, _ = VALIDATOR.parse_saved_instance(
+            fixture, 0, VALIDATOR.load_object_hierarchy()
+        )
+
+        self.assertEqual(fixture[anim_offset : anim_offset + 15], b"anim1\x00\x04\x01min_mh\x00")
+        self.assertEqual(fixture[array_offset : array_offset + 16], b"asset_layer\x00FPS\x00")
+        self.assertIn(
+            "asset_layer",
+            {issue["variable"] for issue in instance["decode_issues"]},
+        )
+
     def test_string_arrays_use_a_legacy_safe_element_tag(self):
         writer = function_body(self.source, "_save_type_rec", "_save_type_rec2")
         nested_writer = function_body(self.source, "_save_type_rec2", "_save_ds_list")

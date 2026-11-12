@@ -188,6 +188,7 @@ def read_saved_type(buf, pos):
         n = struct.unpack_from("<H", buf, pos)[0]
         pos += 2
         arr = []
+        decode_issue = None
         for _ in range(n):
             elem_start = pos
             if pos >= len(buf):
@@ -197,6 +198,9 @@ def read_saved_type(buf, pos):
             if t2 == 1:
                 v = struct.unpack_from("<f", buf, pos)[0]
                 pos += 4
+            elif t2 == 2:
+                v, pos = read_cstring(buf, pos)
+                decode_issue = decode_issue or "array_string_tag_2_not_supported_by_native_loader"
             elif t2 == 3:
                 n2 = struct.unpack_from("<H", buf, pos)[0]
                 pos += 2
@@ -211,8 +215,8 @@ def read_saved_type(buf, pos):
                         v3 = struct.unpack_from("<f", buf, pos)[0]
                         pos += 4
                     elif t3 == 2:
-                        v3 = struct.unpack_from("<q", buf, pos)[0]
-                        pos += 8
+                        v3, pos = read_cstring(buf, pos)
+                        decode_issue = decode_issue or "array_string_tag_2_not_supported_by_native_loader"
                     else:
                         return arr + [v], nested_start, f"unknown_nested_array_tag_{t3}"
                     v.append(v3)
@@ -222,7 +226,7 @@ def read_saved_type(buf, pos):
             else:
                 return arr, elem_start, f"unknown_array_tag_{t2}"
             arr.append(v)
-        return arr, pos, None
+        return arr, pos, decode_issue
     elif tag == 4:
         return (buf[pos] != 0), pos + 1, None
     elif tag == 5:
@@ -253,7 +257,10 @@ def parse_saved_instance(buf, pos, obj_by_name, is_room_save=False):
         _, pos, issue = read_saved_type(buf, pos)
         if issue:
             decode_issues.append({"variable": vname, "offset": value_offset, "status": issue})
-            if issue != "missing_or_unknown_payload":
+            if issue not in (
+                "missing_or_unknown_payload",
+                "array_string_tag_2_not_supported_by_native_loader",
+            ):
                 parse_stopped = True
                 break
         else:
@@ -388,7 +395,10 @@ def main():
         "rmlvl_with_save_wire": [r["file"] for r in rmlvl_summaries if r["has_save_wire"]],
         "rmlvl_with_deleted_slot": [r["file"] for r in rmlvl_summaries if r["truncated_slot"]],
         "chapter_templates_validated": len(chapter_summaries),
+        "chapter_templates_scanned": len(chapter_summaries),
         "room_save_files_validated": save_file_count,
+        "room_save_files_scanned": save_file_count,
+        "save_value_integrity_certified": False,
         "save_decode_issue_count": len(save_decode_issues),
         "save_files_with_decode_issues": sorted({issue["file"] for issue in save_decode_issues}),
         "save_decode_issues": save_decode_issues,

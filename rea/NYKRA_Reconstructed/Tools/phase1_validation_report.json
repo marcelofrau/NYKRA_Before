@@ -1,0 +1,479 @@
+{
+  "rmlvl_total": 183,
+  "rmlvl_exact_eof": 117,
+  "rmlvl_power_of_2_padded": 66,
+  "rmlvl_with_save_wire": [
+    "rmMal_2_2.rmlvl"
+  ],
+  "rmlvl_with_deleted_slot": [
+    "rmMal_1_2.rmlvl",
+    "rmMal_5__2.rmlvl",
+    "rmMal_6.rmlvl"
+  ],
+  "chapter_templates_validated": 6,
+  "chapter_templates_scanned": 6,
+  "room_save_files_validated": 27,
+  "room_save_files_scanned": 27,
+  "save_value_integrity_certified": false,
+  "save_decode_issue_count": 51,
+  "save_files_with_decode_issues": [
+    "DATA\\CHAPTER_TEMPLATES\\chapter_1\\CHARACTER",
+    "DATA\\CHAPTER_TEMPLATES\\chapter_1\\CONTROL",
+    "DATA\\CHAPTER_TEMPLATES\\chapter_1\\ROOMS\\rmMal_1p.SAVE",
+    "DATA\\CHAPTER_TEMPLATES\\chapter_2\\CHARACTER",
+    "DATA\\CHAPTER_TEMPLATES\\chapter_2\\CONTROL",
+    "DATA\\CHAPTER_TEMPLATES\\chapter_2\\ROOMS\\rmMal_1p.SAVE",
+    "DATA\\CHAPTER_TEMPLATES\\chapter_3\\CHARACTER",
+    "DATA\\CHAPTER_TEMPLATES\\chapter_3\\CONTROL",
+    "DATA\\CHAPTER_TEMPLATES\\chapter_3\\ROOMS\\rmMal_1p.SAVE",
+    "DATA\\CHAPTER_TEMPLATES\\chapter_4\\CHARACTER",
+    "DATA\\CHAPTER_TEMPLATES\\chapter_4\\CONTROL",
+    "DATA\\CHAPTER_TEMPLATES\\chapter_4\\ROOMS\\rmMal_1p.SAVE",
+    "DATA\\CHAPTER_TEMPLATES\\chapter_5\\CHARACTER",
+    "DATA\\CHAPTER_TEMPLATES\\chapter_5\\CONTROL",
+    "DATA\\CHAPTER_TEMPLATES\\chapter_5\\ROOMS\\rmMal_1p.SAVE",
+    "DATA\\CHAPTER_TEMPLATES\\chapter_5\\ROOMS\\rmMex_Heptagate.SAVE",
+    "DATA\\CHAPTER_TEMPLATES\\chapter_6\\CHARACTER",
+    "DATA\\CHAPTER_TEMPLATES\\chapter_6\\CONTROL"
+  ],
+  "save_decode_issues": [
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_1\\CONTROL",
+      "object": "oControl",
+      "variable": "asset_layer",
+      "offset": 311,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_1\\CONTROL",
+      "object": "oControl",
+      "variable": "touch",
+      "offset": 593,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_1\\CONTROL",
+      "object": "oControl",
+      "variable": "TEST_ARRAY2",
+      "offset": 893,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_1\\CONTROL",
+      "object": "oControl",
+      "variable": "planet_name",
+      "offset": 1340,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_1\\CONTROL",
+      "object": "oControl",
+      "variable": "TEST_ARRAY",
+      "offset": 1416,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_1\\CONTROL",
+      "object": "oControl",
+      "variable": "_layer",
+      "offset": 1539,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_1\\CHARACTER",
+      "object": "oPlayer",
+      "variable": "book_desc",
+      "offset": 1399,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_1\\ROOMS\\rmMal_1p.SAVE",
+      "object": "oBook_UI",
+      "variable": "page_txt",
+      "offset": 6181,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_2\\CONTROL",
+      "object": "oControl",
+      "variable": "asset_layer",
+      "offset": 311,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_2\\CONTROL",
+      "object": "oControl",
+      "variable": "touch",
+      "offset": 593,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_2\\CONTROL",
+      "object": "oControl",
+      "variable": "TEST_ARRAY2",
+      "offset": 893,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_2\\CONTROL",
+      "object": "oControl",
+      "variable": "planet_name",
+      "offset": 1340,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_2\\CONTROL",
+      "object": "oControl",
+      "variable": "TEST_ARRAY",
+      "offset": 1416,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_2\\CONTROL",
+      "object": "oControl",
+      "variable": "_layer",
+      "offset": 1549,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_2\\CHARACTER",
+      "object": "oPlayer",
+      "variable": "book_desc",
+      "offset": 1405,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_2\\ROOMS\\rmMal_1p.SAVE",
+      "object": "oBook_UI",
+      "variable": "page_txt",
+      "offset": 6181,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_3\\CONTROL",
+      "object": "oControl",
+      "variable": "asset_layer",
+      "offset": 311,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_3\\CONTROL",
+      "object": "oControl",
+      "variable": "touch",
+      "offset": 583,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_3\\CONTROL",
+      "object": "oControl",
+      "variable": "TEST_ARRAY2",
+      "offset": 883,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_3\\CONTROL",
+      "object": "oControl",
+      "variable": "planet_name",
+      "offset": 1330,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_3\\CONTROL",
+      "object": "oControl",
+      "variable": "TEST_ARRAY",
+      "offset": 1406,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_3\\CONTROL",
+      "object": "oControl",
+      "variable": "_layer",
+      "offset": 1536,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_3\\CHARACTER",
+      "object": "oPlayer",
+      "variable": "book_desc",
+      "offset": 1415,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_3\\ROOMS\\rmMal_1p.SAVE",
+      "object": "oBook_UI",
+      "variable": "page_txt",
+      "offset": 6181,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_4\\CONTROL",
+      "object": "oControl",
+      "variable": "asset_layer",
+      "offset": 311,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_4\\CONTROL",
+      "object": "oControl",
+      "variable": "touch",
+      "offset": 588,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_4\\CONTROL",
+      "object": "oControl",
+      "variable": "TEST_ARRAY2",
+      "offset": 888,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_4\\CONTROL",
+      "object": "oControl",
+      "variable": "planet_name",
+      "offset": 1335,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_4\\CONTROL",
+      "object": "oControl",
+      "variable": "TEST_ARRAY",
+      "offset": 1411,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_4\\CONTROL",
+      "object": "oControl",
+      "variable": "_layer",
+      "offset": 1538,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_4\\CHARACTER",
+      "object": "oPlayer",
+      "variable": "book_desc",
+      "offset": 1399,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_4\\CHARACTER",
+      "object": "oEo",
+      "variable": "ui_s",
+      "offset": 5870,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_4\\ROOMS\\rmMal_1p.SAVE",
+      "object": "oBook_UI",
+      "variable": "page_txt",
+      "offset": 6181,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_5\\CONTROL",
+      "object": "oControl",
+      "variable": "asset_layer",
+      "offset": 311,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_5\\CONTROL",
+      "object": "oControl",
+      "variable": "touch",
+      "offset": 583,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_5\\CONTROL",
+      "object": "oControl",
+      "variable": "TEST_ARRAY2",
+      "offset": 883,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_5\\CONTROL",
+      "object": "oControl",
+      "variable": "planet_name",
+      "offset": 1330,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_5\\CONTROL",
+      "object": "oControl",
+      "variable": "TEST_ARRAY",
+      "offset": 1406,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_5\\CONTROL",
+      "object": "oControl",
+      "variable": "_layer",
+      "offset": 1536,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_5\\CHARACTER",
+      "object": "oPlayer",
+      "variable": "book_desc",
+      "offset": 1402,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_5\\CHARACTER",
+      "object": "oEo",
+      "variable": "ui_s",
+      "offset": 5858,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_5\\ROOMS\\rmMal_1p.SAVE",
+      "object": "oBook_UI",
+      "variable": "page_txt",
+      "offset": 6181,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_5\\ROOMS\\rmMex_Heptagate.SAVE",
+      "object": "oHeptagate",
+      "variable": "dia",
+      "offset": 5163,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_6\\CONTROL",
+      "object": "oControl",
+      "variable": "asset_layer",
+      "offset": 311,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_6\\CONTROL",
+      "object": "oControl",
+      "variable": "touch",
+      "offset": 583,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_6\\CONTROL",
+      "object": "oControl",
+      "variable": "TEST_ARRAY2",
+      "offset": 883,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_6\\CONTROL",
+      "object": "oControl",
+      "variable": "planet_name",
+      "offset": 1330,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_6\\CONTROL",
+      "object": "oControl",
+      "variable": "TEST_ARRAY",
+      "offset": 1406,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_6\\CONTROL",
+      "object": "oControl",
+      "variable": "_layer",
+      "offset": 1538,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_6\\CHARACTER",
+      "object": "oPlayer",
+      "variable": "book_desc",
+      "offset": 1404,
+      "status": "missing_or_unknown_payload"
+    },
+    {
+      "file": "DATA\\CHAPTER_TEMPLATES\\chapter_6\\CHARACTER",
+      "object": "oEo",
+      "variable": "ui_s",
+      "offset": 5890,
+      "status": "missing_or_unknown_payload"
+    }
+  ],
+  "zlib_data_buffers_validated": 29,
+  "chapters": [
+    {
+      "chapter": 1,
+      "version": "0",
+      "room": "rmMal_1p",
+      "d_number": 7118,
+      "chapter_val": 1,
+      "control_vars": 110,
+      "player_vars": 276,
+      "eo_present": false,
+      "control_decode_issues": 6,
+      "player_decode_issues": 1,
+      "room_saves": 2
+    },
+    {
+      "chapter": 2,
+      "version": "0",
+      "room": "rmPrae_Keu_Bedroom",
+      "d_number": 6179,
+      "chapter_val": 1,
+      "control_vars": 110,
+      "player_vars": 276,
+      "eo_present": false,
+      "control_decode_issues": 6,
+      "player_decode_issues": 1,
+      "room_saves": 3
+    },
+    {
+      "chapter": 3,
+      "version": "1",
+      "room": "rmMex_escapepod",
+      "d_number": 6546,
+      "chapter_val": 1,
+      "control_vars": 110,
+      "player_vars": 276,
+      "eo_present": false,
+      "control_decode_issues": 6,
+      "player_decode_issues": 1,
+      "room_saves": 6
+    },
+    {
+      "chapter": 4,
+      "version": "1",
+      "room": "rmEO_CHAMBER",
+      "d_number": 6077,
+      "chapter_val": 1,
+      "control_vars": 110,
+      "player_vars": 277,
+      "eo_present": true,
+      "control_decode_issues": 6,
+      "player_decode_issues": 1,
+      "room_saves": 7
+    },
+    {
+      "chapter": 5,
+      "version": "1",
+      "room": "rmMex_Heptagate",
+      "d_number": 7051,
+      "chapter_val": 1,
+      "control_vars": 110,
+      "player_vars": 276,
+      "eo_present": true,
+      "control_decode_issues": 6,
+      "player_decode_issues": 1,
+      "room_saves": 8
+    },
+    {
+      "chapter": 6,
+      "version": "1",
+      "room": "rmMex_Office_Irn2",
+      "d_number": 4719,
+      "chapter_val": 1,
+      "control_vars": 110,
+      "player_vars": 276,
+      "eo_present": true,
+      "control_decode_issues": 6,
+      "player_decode_issues": 1,
+      "room_saves": 1
+    }
+  ]
+}
