@@ -1,24 +1,18 @@
-# Save Migration Design — Proposal for Approval
+# Reconstructed Save V1 — Design (Legacy Profiles Unsupported)
 
 ## Goal and non-negotiable safety rules
 
-Support original NYKRA saves without silently rewriting them, while giving future reconstructed saves an unambiguous format. The original `rea/NYKRA.zip`, extracted chapter templates, and existing profile saves remain read-only inputs. Migration writes to a separate profile root; it never converts in place or deletes the source.
+Give new reconstructed saves an unambiguous format. Per the user's direction, **unversioned legacy profile saves do not need to be read or migrated**. The original `rea/NYKRA.zip`, extracted chapter templates, and legacy profile saves remain untouched in their current locations. The target runtime will use a separate V1 profile root and start a fresh profile when none exists. The current GML save/load functions are not yet integrated with V1; do not treat their unversioned output as V1 or test them on valuable profiles.
 
 Current evidence: `validate_formats.py` structurally scans 6 chapter templates and 27 room saves, and reports 51 ambiguous/unsupported values across 18 files. Missing array payloads cannot be recovered from their bytes alone. These counts do not classify a user save as intact or corrupt.
 
-## Save classification
+## Format recognition
 
-Use explicit states; do not infer corruption from a parse failure or from a hash mismatch alone.
+- `V1_VALID`: exact V1 magic/version, supported file kind, valid bounds, and matching payload digest; load from `PROFILES_V1`.
+- `INVALID_V1`: V1 magic is present but version, kind, bounds, or digest is invalid; reject without trying the legacy parser.
+- `UNVERSIONED_LEGACY_UNSUPPORTED`: no V1 magic; do not load or migrate it in the reconstructed build. Leave it untouched in the legacy location.
 
-| State | Evidence | Automatic action |
-|---|---|---|
-| `KNOWN_ORIGINAL_FIXTURE` | SHA-256 exactly matches a manifest entry for a supplied canonical chapter-template file | Read-only legacy parse; never overwrite the fixture |
-| `V1_VALID` | Recognized V1 magic/version, valid file kind/length, and digest match | Load reconstructed data |
-| `LEGACY_UNVERIFIED` | Unversioned file not matching a known fixture; provenance and modification history unknown | Dry-run report only; no automatic migration or write |
-| `LEGACY_AMBIGUOUS` | Unversioned file has omitted/unsupported values, unknown tags, truncation, or failed structural checks | Do not activate as a migrated profile; preserve source and report exact fields/offsets |
-| `INVALID_V1` | V1 marker exists but version, kind, bounds, or digest is invalid | Reject without fallback parsing or touching the source |
-
-An old save that was loaded and re-saved by a buggy build cannot, in general, be distinguished from an intact user save using its unversioned bytes alone. A prior backup/hash or trustworthy version marker is required. Tag-6 strings can indicate a reconstructed-format candidate, but that is only a heuristic, not proof of provenance.
+No classifier for "intact" versus "previously loaded/resaved" legacy profiles is needed because the reconstructed build will not consume those profiles. This does not authorize deleting them. Canonical chapter templates are separate read-only game data; if a later GameMaker vertical slice needs them to seed chapters, build and validate a dedicated one-time template seeder rather than routing them through the V1 profile reader.
 
 ## Proposed V1 binary contract
 
@@ -45,32 +39,27 @@ The payload retains the logical records (instance header, variable names, room g
 
 Unknown tags can be skipped using their payload length and reported. Parsers enforce maximum file size, element count, and nesting depth before allocation. V1 does not reuse the ambiguous legacy array tags, and it preserves integer precision.
 
-## Migration and rollback sequence
+## Fresh-profile rollout and rollback sequence
 
-1. **Inventory only:** hash each candidate source file, report its path/size/classification, and run a bounded read-only legacy parse. No writes.
-2. **Preview:** show recovered, missing, and ambiguous fields. Do not invent values. A field default may be applied only when its initialization is verified from the corresponding GameMaker object/script.
-3. **Stage separately:** write a complete snapshot under `PROFILES_V1/HEPTAVERSE_<profile>/snapshots/<snapshot-id>/`; include a manifest with each relative path, byte length, digest, and import report. Never write into `PROFILES/` or `DATA/CHAPTER_TEMPLATES/`.
-4. **Verify before activation:** reopen every staged V1 file, validate lengths/digests/schema and compare preserved values. Only after all checks pass, update a small active-snapshot pointer using a same-volume temp-and-replace operation.
-5. **Rollback:** the original profile remains untouched. If any stage fails or the process is interrupted, the old active pointer remains; incomplete staging is ignored and can be retried idempotently. Keep prior snapshots until a separate cleanup action is explicitly approved.
-6. **No downgrade:** V1 is not written back to legacy format; that could lose strings, nested arrays, or integer precision.
+1. **Separate root:** all new saves use `PROFILES_V1/HEPTAVERSE_<profile>/`; the old `PROFILES/` path is not a fallback or write target.
+2. **Stage a snapshot:** write the complete profile under `snapshots/<snapshot-id>/` and include a manifest with relative path, byte length, and digest.
+3. **Verify before activation:** reopen every V1 file and validate lengths, digest, kind, and schema. Only then update the active-snapshot pointer using a same-volume temp-and-replace operation.
+4. **Rollback/retry:** if any write or verification fails, keep the previous active pointer; ignore incomplete staging and retry idempotently. Keep old profiles and prior V1 snapshots until a separate cleanup action is explicitly approved.
+5. **No downgrade or legacy fallback:** V1 is never written back to legacy format, and an unversioned save is not silently loaded as V1.
 
-The V1 reader/writer must be implemented only after the `.yyp` exists and the GameMaker runtime path/API for checksum and atomic activation has been validated. Until then, this document is a format proposal, not an implemented migration tool.
+The Python reference encoder/decoder is implemented in `Tools/save_v1_format.py` with tests in `Tools/test_save_v1_format.py`; it validates the wire contract only and is not called by GML. Integration with GameMaker path creation, checksum calculation, template seeding, and snapshot activation remains gated on a `.yyp` and runtime tests. This is not yet an in-game save system.
 
 ## Regression-test matrix for implementation
 
-1. **Canonical fixture:** chapter template hashes match the manifest; parsing is read-only and the original bytes/hash remain unchanged.
-2. **Legacy ambiguity:** synthetic empty/string-first arrays, chapter-4 `asset_layer` evidence, and unknown/truncated values classify as ambiguous; no destination snapshot is activated.
-3. **Provenance honesty:** an unversioned modified copy is `LEGACY_UNVERIFIED`, not automatically labelled corrupt or intact. Without a trusted backup, previously resaved corruption remains unclassifiable.
-4. **V1 round-trip:** bool false/true, signed int64 min/max and values above `2^24`, f64, empty/Unicode strings, empty/mixed/nested arrays, and all four file kinds preserve exact values.
-5. **V1 rejection:** bad magic/version/kind, unreasonable lengths/counts/depth, truncation, trailing payload mismatch, and digest mismatch are rejected before state application.
-6. **Failure and retry:** simulate interruption while writing each file, manifest, and active pointer; original source and previous active snapshot remain unchanged; retry is idempotent.
-7. **Regression gate:** existing level/template/room/DATA coverage remains 183/183, 6/6, 27/27, and 29/29; tests use copies/synthetic buffers, never write into the recovered fixtures.
+1. **Legacy separation:** an unversioned profile is rejected/ignored without touching it; no implicit legacy parser or fallback is called.
+2. **V1 round-trip:** bool false/true, signed int64 min/max and values above `2^24`, f64, empty/Unicode strings, empty/mixed/nested arrays, and all four file kinds preserve exact values.
+3. **V1 rejection:** bad magic/version/kind, unreasonable lengths/counts/depth, truncation, trailing payload mismatch, and digest mismatch are rejected before state application.
+4. **Failure and retry:** simulate interruption while writing each file, manifest, and active pointer; old profile and previous active V1 snapshot remain unchanged; retry is idempotent.
+5. **Template safety:** canonical chapter templates remain byte-for-byte unchanged. If chapter starts require them, a separate seeder has its own tests and validation gate.
+6. **Regression gate:** existing level/template/room/DATA coverage remains 183/183, 6/6, 27/27, and 29/29; tests use synthetic buffers or copies, never write into recovered fixtures.
 
-## Approval gate
+## Scope decisions
 
-Before implementation, approve or revise these four decisions:
-
-1. Use the V1 header and tag contract above.
-2. Keep migrated/reconstructed saves under a separate `PROFILES_V1` root.
-3. Block automatic migration of ambiguous legacy data; do not guess missing values.
-4. Preserve source files and previous snapshots indefinitely until separately authorized cleanup.
+- Legacy profile compatibility/migration is intentionally out of scope; the user confirmed these old saves need not work in the reconstruction.
+- Safety rule remains: old profile files and canonical templates are not deleted or overwritten by this work.
+- The V1 header and typed-value contract above are the agreed direction; runtime integration and template seeding remain separate validation stages.
