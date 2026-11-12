@@ -43,6 +43,10 @@ function _save_type_rec(_b, _arr) {
         if (is_real(_el)) {
             buffer_write(_b, buffer_u8, 1);
             buffer_write(_b, buffer_f32, _el);
+        } else if (is_string(_el)) {
+            // Tag 6 avoids colliding with legacy array tag 2 integer payloads.
+            buffer_write(_b, buffer_u8, 6);
+            buffer_write(_b, buffer_string, _el);
         } else if (is_array(_el)) {
             buffer_write(_b, buffer_u8, 3);
             _save_type_rec2(_b, _el);
@@ -50,7 +54,6 @@ function _save_type_rec(_b, _arr) {
             buffer_write(_b, buffer_u8, 4);
             buffer_write(_b, buffer_u64, _el);
         }
-        // NOTE (Phase 2 bug finding): string elements inside arrays are not handled here in the binary!
     }
 }
 
@@ -62,6 +65,9 @@ function _save_type_rec2(_b, _arr2) {
         if (is_real(_el2)) {
             buffer_write(_b, buffer_u8, 1);
             buffer_write(_b, buffer_f32, _el2);
+        } else if (is_string(_el2)) {
+            buffer_write(_b, buffer_u8, 6);
+            buffer_write(_b, buffer_string, _el2);
         } else if (is_int64(_el2)) {
             buffer_write(_b, buffer_u8, 2);
             buffer_write(_b, buffer_u64, _el2);
@@ -270,6 +276,8 @@ function _read_saved_type(_b) {
                     _arr[_i] = buffer_read(_b, buffer_f32);
                 } else if (_t2 == 2) {
                     _arr[_i] = buffer_read(_b, buffer_u64);
+                } else if (_t2 == 6) {
+                    _arr[_i] = buffer_read(_b, buffer_string);
                 } else if (_t2 == 3) {
                     var _n2 = buffer_read(_b, buffer_u16);
                     var _arr2 = 0;
@@ -282,6 +290,8 @@ function _read_saved_type(_b) {
                             _arr2[_j] = buffer_read(_b, buffer_f32);
                         } else if (_t3 == 2) {
                             _arr2[_j] = buffer_read(_b, buffer_u64);
+                        } else if (_t3 == 6) {
+                            _arr2[_j] = buffer_read(_b, buffer_string);
                         }
                     }
                     _arr[_i] = _arr2;
@@ -564,4 +574,3 @@ function load_game() {
     load_CHARACTER();
     load_CONTROL();
 }
-
