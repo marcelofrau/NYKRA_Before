@@ -1,6 +1,6 @@
 # Fase 3 — Plano de execução e handoff para outro agente
 
-**Estado em 12/11/2026:** planejamento e inspeção somente; nenhum projeto `.yyp` foi criado, compilado ou executado. Branch: `reconstruction-attempt-1`. O objetivo é um recorte jogável comprovado, não declarar o jogo inteiro recuperado. Pedir validação do usuário entre os marcos. Não avançar para Fase 4 automaticamente.
+**Estado em 12/11/2026:** ambiente confirmado com projeto GameMaker vazio; nenhum projeto NYKRA `.yyp` foi criado, compilado ou executado. Branch: `reconstruction-attempt-1`. O objetivo é um recorte jogável comprovado, não declarar o jogo inteiro recuperado. Pedir validação do usuário entre os marcos. Não avançar para Fase 4 automaticamente.
 
 ## 1. Segurança e escopo obrigatórios
 
@@ -13,7 +13,8 @@
 
 ## 2. Ambiente e licença — verificar antes de construir
 
-- **Atualização nesta máquina em 12/11/2026:** `winget` informou instalação concluída e verificou o hash. A IDE está em `C:\Program Files\GameMaker\GameMaker.exe` (versão do executável `2024.14.4.222`, assinatura YoYo Games válida); `version.txt` e `matching.runtime` indicam `2024.14.4.268`. O IDE ainda não foi iniciado e nenhum runtime foi encontrado na pasta padrão; login próprio e instalação/validação do runtime continuam pendentes. `winget list` não identificou o pacote após a instalação, embora os arquivos e atalho existam. Outra máquina pode ter um ambiente diferente.
+- **Atualização nesta máquina em 12/11/2026:** `winget` informou instalação concluída e verificou o hash. A IDE está em `C:\Program Files\GameMaker\GameMaker.exe` (versão do executável `2024.14.4.222`, assinatura YoYo Games válida); `version.txt` e `matching.runtime` indicam `2024.14.4.268`. O usuário fez login. Runtime `2024.14.4.268` instalado em `C:\ProgramData\GameMakerStudio2\Cache\runtimes\runtime-2024.14.4.268`, incluindo módulo Windows e `Igor.exe`. `winget list` não identificou o pacote após instalação, embora arquivos e atalho existam. Outra máquina pode ter um ambiente diferente.
+- **Smoke test de ambiente:** o template oficial vazio foi extraído para `%LOCALAPPDATA%\Temp\opencode\gm-smoke-20261112` (fora do repositório). `Igor.exe` compilou VM Windows e criou executável/ZIP. A ação `windows Run` inicializou o runner, inicializou rooms/objetos e chegou a `Entering main loop`; o comando permaneceu aberto enquanto o jogo rodava e o harness o encerrou pelo timeout de 120s. A janela não foi inspecionada visualmente. Saída temporária acidental na raiz do repo foi conferida e removida; nenhum save, asset original ou projeto NYKRA foi tocado. Isto comprova o ambiente vazio, não o projeto reconstruído.
 - `winget` e `scoop` existem. O usuário informou que o projeto é pessoal, aberto e sem fins comerciais; o uso descrito parece compatível com a modalidade gratuita. Políticas corporativas e conta/licença própria continuam questões separadas. Não solicitar credenciais ao usuário nem assumir licença comercial de terceiros.
 - O catálogo consultado pelo `winget` encontrou `YoYoGames.GameMaker.Studio.2`, versão `2024.14.4.222`. Conferir versão, canal, URL oficial e hash no momento da instalação: não presumir que seja a mais recente. `scoop search gamemaker` não retornou antes do timeout. Alternativa: [download oficial LTS](https://gamemaker.io/en/download); evitar beta para o projeto principal.
 - O arquivo original informa GMS 2.3.6.0 e YYC (`general-info.json`), mas isso não significa que essa IDE/runtime estejam instalados ou que o projeto reconstruído seja compatível sem ajustes. Registrar IDE, runtime, alvo e erros exatos. Começar com Windows **VM**, não presumir que seja necessário YYC.
@@ -62,7 +63,7 @@ Na origem, as portas `oMal_Door_Flat` são n=7 → `rmMal_1` e n=8 → `rmMal_o1
 ### 3.0 Pré-requisitos
 1. Verificar IDE, runtime e conta/licença própria; instalar somente com política corporativa compatível. Criar/abrir projeto vazio na IDE escolhida, registrar versões. Usar VM Windows.
 2. Identificar diretório de saves real de um projeto de teste com identidade própria antes de qualquer escrita. Conservar cópia/hash dos fixtures de origem; não executar com o save original.
-3. **Aceite:** projeto vazio abre, compila e executa; se faltar IDE, licença, runner ou permissão de instalação, parar com erro exato e pedir ação ao usuário.
+3. **Aceite:** IDE/logon, runtime Windows e VM de projeto vazio estão confirmados. Smoke compile passou e runner chegou ao main loop; falta apenas inspeção visual da janela. A etapa de ambiente está essencialmente pronta para iniciar 3.1; não confundir com aprovação do primeiro slice NYKRA.
 
 ### 3.1 Projeto estrutural e um sprite
 1. Gerar um projeto de teste na IDE para usar seus `.yyp`/`.yy` como modelo da versão instalada; não presumir que um gerador de 2.3 crie estrutura válida para outra versão. Ver [formato oficial](https://manual.gamemaker.io/lts/en/Additional_Information/Project_Format.htm).
