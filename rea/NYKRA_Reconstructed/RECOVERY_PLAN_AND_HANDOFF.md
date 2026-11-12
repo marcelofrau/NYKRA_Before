@@ -66,19 +66,15 @@ Como o `data.win` (292 MB) e o `NYKRA.zip` (374 MB) excedem o limite de 100 MB p
 
 > **Regra de Condução:** Validar cada etapa antes de avançar para a próxima. Priorizar segurança dos dados (nunca sobrescrever os templates/níveis originais sem backup e validação por hash/script).
 
-### Fase 1 — Engenharia Reversa das Funções de Nível e Save (`NYKRA.exe`) *(Próximo Passo Imediato)*
-Usando `rea/NYKRA_Reconstructed/RecoveredAssets/Metadata/yyc-function-table.json` e `rea/NYKRA_Reconstructed/RuntimeBaseline/NYKRA.exe`:
-1. Descompilar (via Ghidra, `objdump`/`llvm-objdump`, Capstone ou script Python/Ghidra) as funções críticas nos endereços já mapeados:
-   - `gml_Script_map_load` (`va: 0x14004bac0`, wrapper `gml_GlobalScript_map_load` em `0x14005b210`)
-   - `gml_GlobalScript_map_save` (`va: 0x1400474b0`)
-   - `gml_Script__SET_SCENE`
-   - `gml_Script_clear_objects` (`va: 0x14005ffa0`)
-   - `gml_Script_goto_map`, `gml_Script_reset_files` (`va: 0x14003ec80`)
-   - `gml_Script_load_GENERAL`, `gml_Script_load_CHARACTER`, `gml_Script_load_CONTROL`, `gml_Script_save_game`, `gml_Script_load_game`
-   - `gml_Script_COLLIDE` (`va: 0x141671610`), `gml_Script_col_move` (`va: 0x140061cf0`), `gml_Script_col_move_yeah` (`va: 0x140063e70`)
-2. Escrever um script validador em Python que leia os **183 arquivos `.rmlvl`** em `RecoveredAssets/Included Files/level_data/` e os saves em `DATA/CHAPTER_TEMPLATES/`, confirmando 100% do layout binário.
-3. Reconstruir esses scripts em GML limpo dentro da pasta `scripts/`.
-- **Critério de validação da Fase 1:** Todos os 183 `.rmlvl` lidos sem erro pelo validador e scripts GML de `map_load` / `save_game` reconstruídos.
+### Fase 1 — Engenharia Reversa das Funções de Nível e Save (`NYKRA.exe`) *(Em fechamento)*
+O mapeamento YYC, as tabelas de resolução, o pseudocódigo anotado das rotinas centrais e os primeiros GMLs reconstruídos já estão em `NativeAnalysis/` e `ReconstructedGML/phase1_core/`. O validador também percorre os **183 `.rmlvl`** e os **29 buffers `DATA/*`**.
+
+**Pendências antes de marcar a Fase 1 como concluída:**
+1. Corrigir documentação e parser de saves para refletir o pseudocódigo: a inversão tag-4/tag-5 não foi comprovada no executável original; int64 nativo passa pelo caminho tag-1/f32; arrays podem ter valores omitidos ou não suportados.
+2. Executar regressões nos **6 templates** e **27 `.SAVE`** sem classificar valores ambíguos como íntegros. Manter as contagens de arquivos e registrar explicitamente campos não decodificados.
+3. Revisar a reconstrução de `map_load`/`map_save` contra os formatos e fixtures. O `.yyp` ainda não existe, então compilação e execução no GameMaker ficam para a Fase 3.
+
+- **Critério de validação da Fase 1:** Layout dos níveis validado, formatos de saves documentados sem afirmações não comprovadas, e cada save classificado como decodificado ou ambíguo (sem sobrescrever fixtures). A validação em runtime só pode ocorrer após a criação do projeto na Fase 3.
 
 ### Fase 2 — Diagnóstico dos Bugs Prioritários
 1. Cruzar o GML original (`oControl`, `oPlayer`, `parDialogue`, `oEo`) com o código reconstruído na Fase 1.
