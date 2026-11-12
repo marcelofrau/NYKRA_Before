@@ -94,6 +94,11 @@ Read by `gml_Script_map_load` (`0x14004bac0`) and written by `gml_Script_map_sav
 - Because `map_save` creates the buffer with `buffer_create(2, buffer_grow, 1)` and calls `buffer_save(_b, path)` directly (which saves the entire allocated capacity of the grow buffer rather than `buffer_tell(_b)`), **66 of the 183 `.rmlvl` files** have power-of-2 sizes (`8192`, `16384`, `32768`) padded with `0x00` bytes after the last object.
 - When `obj_list` contained a deleted/undefined instance during editing (e.g., `rmMal_6.rmlvl`), `ds_list_size(obj_list)` is 1 higher than the number of written objects; `map_load` safely stops or skips when `buffer_tell >= buffer_get_size` or `asset_get_index("") == -1`.
 
+### 2.7. Static Parity Review of Reconstructed Level GML
+`ReconstructedGML/phase1_core/map_load.gml` and `map_save.gml` were compared against the annotated native routines for the file contract. Their field order agrees for the 8-byte header, column-major collision grid, six tilemap layers, two counted sprite layers, counted object list, and the known PATH/loot/door/roof/note/book/wire payloads. Static ordering checks are in `Tools/test_save_load_compat.py`.
+
+This verifies source-level consistency with the decompilation and fixture parser; it is **not** a GameMaker execution or round-trip test. No `.yyp` exists yet.
+
 ---
 
 ## 3. Save & Chapter Template Formats (`DATA/CHAPTER_TEMPLATES/` & `PROFILES/`)
@@ -153,3 +158,4 @@ All 29 standalone files in `Included Files/DATA/` (`main`, `map`, `dodeca`, `doo
 - Native array serialization can omit the array payload when the array is empty, its first element is a string, or its first nested element is a string. Later string elements can be written with tag `2`, but the inspected native array readers do not handle that tag. A missing payload makes the following variable name appear where a type tag was expected; the absent value itself cannot be recovered from that file alone.
 - `validate_formats.py` reports save files/fields with ambiguous or unsupported values. Counts such as 6 chapter templates and 27 room saves mean those files were scanned; they are not a claim that every save value was decoded or that the original game could load every value correctly.
 - The reconstructed GML’s scalar-tag fix and tag-6 array-string extension apply only to that reconstruction. There is not yet a file-level version marker or automatic classifier/migrator separating original saves from reconstructed saves.
+- The annotated `load_game` pseudocode still does not resolve every buffer-type constant to a named `buffer_*` type. No tag-4/tag-5 conclusion is claimed for that reader.

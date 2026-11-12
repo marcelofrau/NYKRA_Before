@@ -66,15 +66,12 @@ Como o `data.win` (292 MB) e o `NYKRA.zip` (374 MB) excedem o limite de 100 MB p
 
 > **Regra de Condução:** Validar cada etapa antes de avançar para a próxima. Priorizar segurança dos dados (nunca sobrescrever os templates/níveis originais sem backup e validação por hash/script).
 
-### Fase 1 — Engenharia Reversa das Funções de Nível e Save (`NYKRA.exe`) *(Em fechamento)*
-O mapeamento YYC, as tabelas de resolução, o pseudocódigo anotado das rotinas centrais e os primeiros GMLs reconstruídos já estão em `NativeAnalysis/` e `ReconstructedGML/phase1_core/`. O validador também percorre os **183 `.rmlvl`** e os **29 buffers `DATA/*`**.
+### Fase 1 — Engenharia Reversa das Funções de Nível e Save (`NYKRA.exe`) *(Concluída em análise estática)*
+O mapeamento YYC, as tabelas de resolução, o pseudocódigo anotado das rotinas centrais e os GMLs reconstruídos estão em `NativeAnalysis/` e `ReconstructedGML/phase1_core/`. `map_load`/`map_save` foram comparados estaticamente com o contrato binário; `validate_formats.py` percorre os **183 `.rmlvl`**, **6 templates**, **27 `.SAVE`** e **29 buffers `DATA/*`**.
 
-**Pendências antes de marcar a Fase 1 como concluída:**
-1. Corrigir documentação e parser de saves para refletir o pseudocódigo: a inversão tag-4/tag-5 não foi comprovada no executável original; int64 nativo passa pelo caminho tag-1/f32; arrays podem ter valores omitidos ou não suportados.
-2. Executar regressões nos **6 templates** e **27 `.SAVE`** sem classificar valores ambíguos como íntegros. Manter as contagens de arquivos e registrar explicitamente campos não decodificados.
-3. Revisar a reconstrução de `map_load`/`map_save` contra os formatos e fixtures. O `.yyp` ainda não existe, então compilação e execução no GameMaker ficam para a Fase 3.
-
-- **Critério de validação da Fase 1:** Layout dos níveis validado, formatos de saves documentados sem afirmações não comprovadas, e cada save classificado como decodificado ou ambíguo (sem sobrescrever fixtures). A validação em runtime só pode ocorrer após a criação do projeto na Fase 3.
+- O relatório lista **51 valores ambíguos/não suportados em 18 arquivos de save**. Isso é deliberado: valores ausentes não são inventados nem certificados como intactos.
+- A inversão tag-4/tag-5 não foi comprovada no executável original; o writer nativo grava int64 no caminho tag-1/f32, e as limitações remanescentes estão registradas em `PHASE1_FORMATS_AND_INFRASTRUCTURE.md`.
+- **Limite:** a análise não é runtime. O `.yyp` ainda não existe, portanto abrir, compilar e executar no GameMaker permanece para a Fase 3. As constantes de tipo buffer em `load_game` não estão todas resolvidas no pseudocódigo anotado; não se faz afirmação sobre tag-4/tag-5 nesse leitor.
 
 ### Fase 2 — Diagnóstico dos Bugs Prioritários
 1. Cruzar o GML original (`oControl`, `oPlayer`, `parDialogue`, `oEo`) com o código reconstruído na Fase 1.
