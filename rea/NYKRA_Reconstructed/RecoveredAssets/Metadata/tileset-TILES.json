@@ -1,0 +1,55 @@
+{
+  "name": "TILES",
+  "resource_index": 0,
+  "transparent": false,
+  "smooth": false,
+  "preload": false,
+  "runtime_texture": {
+    "width": 1560,
+    "height": 1580,
+    "source_x": 4,
+    "source_y": 4,
+    "source_width": 1560,
+    "source_height": 1580,
+    "target_x": 0,
+    "target_y": 0,
+    "target_width": 1560,
+    "target_height": 1580,
+    "texture_page": "Texture 10"
+  },
+  "tileset": {
+    "tile_width": 16,
+    "tile_height": 16,
+    "tile_columns": 78,
+    "tile_count": 6144,
+    "tile_separation_x": 0,
+    "tile_separation_y": 0,
+    "output_border_x": 2,
+    "output_border_y": 2,
+    "items_per_tile_count": 1,
+    "frame_length_us": 66666,
+    "tile_ids": {
+      "first": 0,
+      "last": 6143,
+      "count": 6144,
+      "identity_mapping": true
+    },
+    "source_sprite_width": 1560,
+    "source_sprite_height": 1580,
+    "source_grid_cells": 6162,
+    "source_import": {
+      "source_is_compiled_runtime_texture": true,
+      "tile_offset_x": 2,
+      "tile_offset_y": 2,
+      "tile_separation_x": 4,
+      "tile_separation_y": 4,
+      "output_border_x": 0,
+      "output_border_y": 0,
+      "note": "Equivalent import layout for the already-padded runtime texture; these are reconstruction settings, not claims about the original editable project."
+    }
+  },
+  "sha256": {
+    "runtime_texture_png": "FB7DBBF0491FE894A4556D0F0258AEC160CD759795C13BCE23D3CAD581160563",
+    "project_source_sprite_png": "FB7DBBF0491FE894A4556D0F0258AEC160CD759795C13BCE23D3CAD581160563"
+  }
+}
