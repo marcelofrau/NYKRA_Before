@@ -1,6 +1,6 @@
 # Fase 3 — Plano de execução e handoff para outro agente
 
-**Estado em 12/11/2026:** ambiente e esqueleto visual do vertical slice confirmados; o projeto separado `GameMakerProject/NYKRA_VerticalSlice.yyp` compila e mostra uma árvore composta. O carregamento do `.rmlvl`, tilesets, player, transições e saves ainda não foi executado. Branch: `reconstruction-attempt-1`. O objetivo é um recorte jogável comprovado, não declarar o jogo inteiro recuperado. Pedir validação do usuário entre os marcos. Não avançar para Fase 4 automaticamente.
+**Estado em 13/11/2026:** ambiente e esqueleto visual confirmados; o projeto separado `GameMakerProject/NYKRA_VerticalSlice.yyp` compila. O primeiro probe GML abre `rmMal_Origin.rmlvl`, valida header/grids/camadas e mostra uma visualização diagnóstica do grid; o usuário confirmou os números. O tileset real, objetos do nível, player, transições e saves ainda não foram carregados. Branch: `reconstruction-attempt-1`. O objetivo é um recorte jogável comprovado, não declarar o jogo inteiro recuperado. Pedir validação do usuário entre os marcos. Não avançar para Fase 4 automaticamente.
 
 ## 1. Segurança e escopo obrigatórios
 
@@ -73,8 +73,9 @@ Na origem, as portas `oMal_Door_Flat` são n=7 → `rmMal_1` e n=8 → `rmMal_o1
 
 ### 3.2 Renderizar e examinar o nível original
 1. Adicionar cópia de `rmMal_Origin.rmlvl` como Included File (`datafiles/level_data/`), não mover o original. O [manual](https://manual.gamemaker.io/lts/en/Additional_Information/The_File_System.htm) informa que leitura sandbox procura save area e depois bundle; registrar caminhos/precedência e evitar que saves sombrem fixtures. [Included Files](https://manual.gamemaker.io/lts/en/Settings/Included_Files.htm) podem ser normalizados para minúsculas/underscores no pacote: testar a resolução de nomes e a localização reais.
-2. Primeiro validar a leitura do cabeçalho, grid, layers e contagens sem spawn de objetos; não chamar `map_save`. Depois recuperar a associação real de `TILES`, criar as seis tilemaps e verificar valores/representação com o arquivo original. Inspecionar as 4 referências `<undefined>` sem crash e documentar perda visual.
-3. **Aceite:** o runner mostra o nível 54×25 com camadas e grid coerentes, exibe diagnostics para os sprites inválidos e não altera hashes do fixture. Isto ainda é um visualizador, não um slice jogável.
+2. **Probe inicial concluído:** Included File registrado no `.yyp`; a build contém `level_data/rmMal_Origin.rmlvl`; `buffer_load("level_data/rmmal_origin.rmlvl")` funcionou em sandbox. O probe GML lê o header de 8 bytes, grid de colisão, seis tile layers, duas listas de sprite e a contagem declarada de objetos, sem instanciar objetos nem chamar `map_save`. Valores verificados no fixture: 54×25, 173 células de colisão não zero, tile counts `[18, 589, 10, 20, 203, 114]`, `aFRONT/aBACK=0/5`, quatro `<undefined>`, uma `sMal_Tree_1`, 79 objetos declarados. As cores verde/azul/laranja são apenas diagnósticos para IDs 1/2/outros não-zero; cinza é zero, não a paleta original. O usuário confirmou o texto/contagens sem falha. `test_phase3_level_probe.py` foi adicionado; os 20 testes Python passam. SHA-256 de `RuntimeBaseline/data.win` continua `24099ee60291c4282a66633fbca9cc87f0fc5c0d5054ead25f5bb8a1d8eae4fd`.
+3. **Ainda pendente para concluir 3.2:** recuperar no `data.win` a associação correta entre `TILES`, tile dimensions/IDs e os seis arrays, criar tilemaps reais e comparar com referência visual. Inspecionar as quatro referências `<undefined>` sem crash e documentar perda visual. Até então o probe é um visualizador de grid, não o nível original completo.
+4. **Aceite de 3.2:** tiles corretos e seis camadas aparecem na posição/ordem esperadas, o runner reporta as referências inválidas sem crash, e hashes dos fixtures permanecem idênticos. Não confundir o probe de colisão com esta aceitação final.
 
 ### 3.3 Player, objetos e transição real
 1. Inicializar câmera/estado/listas; integrar progressivamente fonte original e eventos realmente reconstruídos. Avaliar `oOrigin`, movimento/colisão herdados e `parDoor_Flat` pelo pseudocódigo antes de implementar. Usar placeholders somente em um modo experimental explícito.
@@ -92,11 +93,11 @@ Execute na raiz do repositório, em PowerShell:
 
 ```powershell
 git status --short --branch
-python -B -m unittest rea.NYKRA_Reconstructed.Tools.test_save_load_compat rea.NYKRA_Reconstructed.Tools.test_save_v1_format -v
+python -B -m unittest rea.NYKRA_Reconstructed.Tools.test_save_load_compat rea.NYKRA_Reconstructed.Tools.test_save_v1_format rea.NYKRA_Reconstructed.Tools.test_phase3_level_probe -v
 python -B rea/NYKRA_Reconstructed/Tools/validate_formats.py
 ```
 
-Na verificação de 12/11/2026 os 18 testes Python passaram; são majoritariamente estruturais, não compilam nem executam GML. O validador escaneia 183 níveis, 6 templates, 27 saves de sala e 29 buffers DATA; **reescreve** `Tools/phase1_validation_report.json`, portanto revisar `git diff` e, caso queira leitura estrita, executar em cópia isolada. Os 51 valores ambíguos em 18 saves não certificam integridade nem corrupção global.
+Na verificação de 13/11/2026 os 20 testes Python passaram; são majoritariamente estruturais e não executam GML. O build VM do projeto de teste e o probe de leitura foram validados separadamente no GameMaker. O validador escaneia 183 níveis, 6 templates, 27 saves de sala e 29 buffers DATA; **reescreve** `Tools/phase1_validation_report.json`, portanto revisar `git diff` e, caso queira leitura estrita, executar em cópia isolada. Os 51 valores ambíguos em 18 saves não certificam integridade nem corrupção global.
 
 Hashes de referência dos níveis observados: `rmMal_Origin.rmlvl` SHA-256 `4dcb0788792dd631a9efc53315a3f3de869bb80b79c465a9cfdabf0fd4e92d29`; `rmMal_1.rmlvl` SHA-256 `07a2b082213898154110d51825dd79978fedd299209efcde74fb3b633f67349b`. O ZIP original e `RuntimeBaseline/data.win` são locais e ignorados pelo Git por tamanho; outro agente/máquina pode precisar recebê-los novamente do usuário por canal autorizado.
 
