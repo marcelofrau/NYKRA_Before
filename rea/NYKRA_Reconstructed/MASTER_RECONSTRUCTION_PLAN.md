@@ -1,0 +1,244 @@
+# NYKRA: Before — Plano Mestre de Reconstrução
+
+**Criado em 17/11/2026.** Este documento consolida `RECOVERY_PLAN_AND_HANDOFF.md`, `PHASE1_FORMATS_AND_INFRASTRUCTURE.md`, `PHASE2_PRIORITY_BUGS.md`, `PHASE3_EXECUTION_PLAN.md` e `SAVE_MIGRATION_DESIGN.md` num único passo a passo, do bloqueio atual (tiles) até o jogo reconstruído. As regras de segurança do `PHASE3_EXECUTION_PLAN.md` §1 continuam obrigatórias; aqui elas só são referenciadas.
+
+**Objetivo final:** um projeto GameMaker editável que reproduza o NYKRA: Before original (183 níveis, 7 planetas, saves funcionando) com os bugs conhecidos corrigidos. **Estratégia:** marcos pequenos, cada um com um critério de aceite objetivo e validação do usuário antes do próximo.
+
+---
+
+## 0. Onde estamos
+
+| Fase | Estado | Evidência |
+|---|---|---|
+| 1 — Formatos e núcleo nativo | ✅ concluída (análise estática) | 16 funções decompiladas/anotadas; `validate_formats.py` cobre 183 níveis, 6 templates, 27 saves, 29 DATA |
+| 2 — Bugs prioritários | ✅ relatório entregue | `PHASE2_PRIORITY_BUGS.md` (P1 load_game, P1 arrays omitidos, P2 int64) |
+| 3.0 — Ambiente | ✅ | IDE 2024.14.4.222, runtime 2024.14.4.268, Igor compila VM |
+| 3.1 — Projeto + sprite | ✅ parcial | árvore `sMal_Tree_1`/`sMal_Tree_1l` vista pelo usuário |
+| 3.2 — Renderizar nível | ⛔ **bloqueado → causa encontrada (§1)** | `TILES` compilado sem textura |
+| 3.3 — Player/objetos/portas | ⬜ | — |
+| 3.4 — Save V1 | ⬜ | só codec Python de referência |
+| 4 — Resto do jogo | ⬜ | 2.720 funções YYC; 16 reconstruídas |
+
+---
+
+## 1. Bloqueio atual: por que os tiles não aparecem
+
+### 1.1 Sintoma (registrado em 13/11)
+`tileset_get_info(TILES)` está correto (16×16, 78 colunas, 6144 tiles). `tilemap_set` e `tilemap_get` concordam e as layers estão visíveis. Mesmo assim, **nada** aparece: nem nas 6 layers, nem num tilemap manual, nem com `draw_tile` ou `draw_tilemap`. O sprite-fonte desenhado com `draw_sprite_part_ext` aparece. `tileset_get_uvs` retorna `(0,0)→(1,1)`.
+
+### 1.2 Linha de raciocínio e evidências (17/11)
+
+**Passo 1 — os dados do nível estão certos?** Sim. Um script Python cruzou os 6 tile layers de `rmMal_Origin.rmlvl` com as imagens:
+- 80 IDs distintos (2 a 526), 954 tiles no total; todos usam só ≤10 bits (sem flags de flip/rotação).
+- **0 de 80** IDs caem numa célula transparente de `Textures/Backgrounds/TILES/TILES_0.png` (grade de 78 colunas, passo 20 px, offset 2).
+- O tile *i* de `sTiles_0.png` (grade de 64 colunas, passo 16) é **idêntico pixel a pixel** ao tile *i* da textura de runtime nos 80 IDs.
+- Conclusão: índices, ordem x-major e mapeamento estão corretos. Se a textura existisse, os tiles certos apareceriam. **Hipótese "dados errados" descartada.**
+
+**Passo 2 — o que o compilador gerou?** Rodei o `Tools/DumpTilesetTexture.csx` (UTMT CLI 0.9.2.0) nos `data.win` das builds de teste em `%TEMP%\opencode\gm-nykra-*` (`handoff`, `padded`, `tiles-retry`, `tiles-export`, `tile-diag`):
+
+```
+[slice] TILES tw=16 th=16 obx=0 oby=0 cols=78 items=1 count=6144 ... ids=6144
+[slice] TILES texture NULL          ← nenhuma texture page item
+[slice] sprite sTileset_TILES 1560x1580 tpag=src=(2,2,1560,1575) page=1
+```
+
+**Todas as 5 builds** (as duas variantes de importação) têm `TILES.Texture == NULL`. As texture pages também confirmam: só existem uma de 64×64 e uma de 2048×2048, e esta última já está ocupada pelo sprite. Não há espaço onde o tileset pudesse estar. O compilador de assets **não gerou a textura do tileset**. Isso explica todos os sintomas: metadados e tilemaps funcionam, mas não existe imagem para desenhar, e UV `(0,0,1,1)` é o padrão de textura ausente.
+
+**Passo 3 — como era no original?** Mesmo script no `RuntimeBaseline/data.win` (GMS 2.3.6):
+
+```
+[original] TILES tw=16 th=16 obx=2 oby=2 cols=78 count=6144
+[original] TPAG src=(4,4,1560,1580) tgt=(0,0,1560,1580) page=10      ← textura existe
+[original] sprite sTiles 1024x1536 tpag=src=(2,1590,1024,1533) page=10
+[original] room rmMAIN tilelayer tFRONT_over depth=-30 bg=TILES 128x64
+[original] room rmMAIN tilelayer tFRONT      depth=-20 bg=TILES 128x64
+[original] room rmMAIN tilelayer tFRONT_bg   depth=-10 bg=TILES 128x64
+[original] room rmMAIN tilelayer tBACK_over  depth=10  bg=TILES 128x64
+[original] room rmMAIN tilelayer tBACK       depth=20  bg=TILES 128x64
+[original] room rmMAIN tilelayer tBACK_bg    depth=30  bg=TILES 128x64
+           (rmDEMO_START e rmDEMO_END têm as mesmas 6 layers)
+```
+
+Três diferenças em relação à vertical slice:
+
+| Item | Original | Vertical slice | Impacto |
+|---|---|---|---|
+| Referência estática ao `TILES` | 6 tile layers em 3 rooms | **nenhuma** (o probe cria as layers em runtime) | o compilador pode considerar o tileset "não usado" |
+| `option_remove_unused_assets` | não existia em 2.3.6 | **`True`** (padrão 2024; ver `cache/MainOptions.json` da build) | o compilador descarta o que julga não usado |
+| Sprite-fonte | `sTiles` 1024×1536 (64×96 = 6144 tiles, offset 0, sep 0, borda de saída 2) | `sTileset_TILES` = textura *já compilada* reimportada | não é fiel; e a textura de saída é gerada a partir disso |
+
+O `GMAssetCompiler` 2024.14 tem um sistema de dependências (strings `DependencyAssets`, `used_assets`, `m_option_remove_unused_assets` em `CoreResources.dll`). O texto da IDE é *"Automatically remove unused assets when compiling"*. O manual online não pôde ser consultado (HTTP 403).
+
+### 1.3 Causa raiz (hipótese principal, com forte evidência)
+> **O compilador de assets do GameMaker 2024 não gera a textura do tileset `TILES`, porque nenhuma room o referencia e "Remove unused assets" está ligado.** A referência só por código (`layer_tilemap_create(..., TILES, ...)`) mantém os metadados, mas não a textura.
+
+Ainda não foi provado qual das duas condições (sem layer em room × opção ligada) é a decisiva. As tentativas T1/T2 abaixo isolam isso. A correção fiel resolve as duas de uma vez: é exatamente o que o projeto original tinha (layers no `rmMAIN`). O `map_load` reconstruído também **depende** dessas layers pré-existentes: ele usa `layer_tilemap_get_id(layer_get_id(_layer[i]))` e `tilemap_clear`, e não cria tilemaps.
+
+Problema secundário observado: `option_windows_interpolate_pixels = True`. Em pixel art isso borra e faz tiles "sangrarem". Confirmar o valor original (flag `InterpolatePixels` no GEN8 do `data.win` original) e alinhar.
+
+### 1.4 Tentativas, em ordem (parar na primeira que passar no aceite)
+
+Antes de cada build: `git status` limpo ou commit do estado anterior; build numa pasta nova `%TEMP%\opencode\gm-nykra-<nome>-<data>` (fora do repo); hash dos fixtures antes e depois.
+
+**T1 — Correção fiel (recomendada)**
+1. Exportar `sTiles` do `data.win` original **com canvas restaurado** (UTMT `TextureWorker.ExportAsPNG(tpag, path, null, true)`, o mesmo usado para as árvores). Resultado esperado: 1024×1536. O crop está no rodapé (`target_y = 0`), como prova o Passo 1, em que o tile *i* do PNG de 1533 px bate com a linha `i div 64` contada do topo. Se exportar manualmente, completar com 3 linhas transparentes **embaixo**.
+2. Criar o sprite `sTiles` no projeto: 1024×1536, origem (0,0), 1 frame, textura `Default`. Conferir as origens no `sprites-metadata.json`.
+3. Reescrever `tilesets/TILES/TILES.yy` com `spriteId = sTiles`, `tileWidth/Height = 16`, `tilexoff/yoff = 0`, `tilehsep/vsep = 0`, `out_tilehborder/vborder = 2`, `out_columns = 78` e `tile_count = 6144`. Remover `sTileset_TILES` do `.yyp` (ou deixá-lo marcado como provisório, sem uso).
+4. Em `rooms/rmMAIN/rmMAIN.yy`, adicionar 6 `GMRTileLayer` com os nomes e profundidades exatos (`tFRONT_over` -30, `tFRONT` -20, `tFRONT_bg` -10, `tBACK_over` 10, `tBACK` 20, `tBACK_bg` 30), `tilesetId = TILES` e `SerialiseWidth = 128`, `SerialiseHeight = 64`, todos os tiles 0. **Não escrever o JSON de cabeça**: criar uma tile layer pela IDE 2024.14 numa room de teste, salvar e copiar o formato exato (`tiles.TileDataFormat`, `TileCompressedData` etc.).
+5. Ajustar `oLevelProbe/Create_0.gml`: em vez de `layer_create` + `layer_tilemap_create`, usar `layer_tilemap_get_id(layer_get_id(nome))`, como o `map_load` original. Manter o tilemap manual em `Instances` apenas como diagnóstico.
+6. Build VM. **Aceite automático (sem depender de olhar a tela):**
+   ```powershell
+   $env:TILEDIAG_OUT = "$env:TEMP\claude-tilediag"; $env:TILEDIAG_TAG = "t1"
+   & "$env:TEMP\opencode\utmt-cli-0.9.2.0\UndertaleModCli.exe" load "<build>\out\data.win" --scripts "rea\NYKRA_Reconstructed\Tools\DumpTilesetTexture.csx"
+   ```
+   Esperado: `TILES texture` **não** NULL; TPAG 1560×1580 (78 × 20 px por 79 × 20 px); `room rmMAIN tilelayer ... bg=TILES` ×6. Comparar `t1_TILES.png` com `RecoveredAssets/Textures/Backgrounds/TILES/TILES_0.png` (SHA-256 `FB7DBBF0…`). Pixel-igual é o ideal; diferenças só na borda de 2 px são aceitáveis e devem ser registradas.
+7. Rodar o jogo; o usuário confirma visualmente os tiles das 6 camadas nas posições do nível.
+
+**T2 — Isolar a opção (se T1 ainda der `texture NULL`)**
+1. Criar `options/main/options_main.yy` copiado de um projeto vazio gerado pela IDE 2024.14 e mudar só `option_remove_unused_assets` para `false`. Registrar no `.yyp` se a IDE exigir.
+2. Rebuild e rodar o mesmo dump. Se a textura aparecer, a causa é a opção. Decidir com o usuário se ela fica desligada para sempre (simples, recomendado durante a reconstrução, porque muitos assets serão referenciados só por `asset_get_index` vindo dos `.rmlvl`) ou se cada asset ganha uma referência estática.
+   > ⚠️ Esse ponto é **crítico para o projeto todo**: os `.rmlvl` referenciam sprites (`aFRONT/aBACK`) e objetos **por nome**, via `asset_get_index`. Com "remove unused assets" ligado, o compilador pode remover sprites/objetos usados só pelos níveis. **Recomendação: desligar a opção no projeto reconstruído**, independentemente do resultado de T1.
+
+**T3 — Tileset mínimo de referência pela IDE (se T1 e T2 falharem)**
+1. Na IDE: sprite 32×32 com 4 cores sólidas, tileset 16×16 sobre ele, uma tile layer numa room com 4 tiles pintados. Build.
+2. Se renderizar: comparar campo a campo (`diff`) o `.yy` da IDE com o nosso `TILES.yy`/`rmMAIN.yy` e transplantar as diferenças uma de cada vez.
+3. Se **não** renderizar: o problema é do runtime/driver (DX11, GPU corporativa). Testar `draw_tile` com esse tileset em outra máquina ou no alvo GX.games/HTML5, e registrar.
+
+**T4 — Fallback de visualização (somente se T1–T3 falharem; marcar como provisório)**
+Renderer de diagnóstico com `draw_sprite_part_ext(sTiles, 0, (id mod 64)*16, (id div 64)*16, 16, 16, x*16, y*16, ...)` por layer, com surfaces por camada. Prova o nível visualmente, mas **não** é o tilemap original. Não usar para colisão nem fechar o marco 3.2 com ele.
+
+**Regra:** duas tentativas de reparo sem sucesso → parar e informar o bloqueio (PHASE3 §1).
+
+### 1.5 Checklist do marco 3.2
+- [ ] T1.1 `sTiles` exportado com canvas 1024×1536; hash registrado
+- [ ] T1.2 sprite `sTiles` no projeto, origem conferida com `sprites-metadata.json`
+- [ ] T1.3 `TILES.yy` aponta para `sTiles` com offset 0 / sep 0 / borda 2 / 78 colunas
+- [ ] T1.4 6 tile layers no `rmMAIN.yy` (formato copiado da IDE), 128×64, `TILES`
+- [ ] T1.5 probe usa as layers da room (`layer_tilemap_get_id`)
+- [ ] `option_remove_unused_assets = false` (T2, recomendado mesmo se T1 passar)
+- [ ] `interpolate_pixels` igual ao original
+- [ ] Dump UTMT: `TILES texture` não NULL, 1560×1580, PNG comparado com `TILES_0.png`
+- [ ] Usuário viu os tiles das 6 camadas na posição certa
+- [ ] Referências `<undefined>` (4 em `rmMal_Origin`) reportadas sem crash (política: pular + log, nunca `layer_sprite_create` com -1)
+- [ ] Sprites `aBACK` reais importados (ex.: `sMal_Tree_1`) e posicionados pelos registros do nível
+- [ ] Hashes de `rmMal_Origin.rmlvl` (`4dcb0788…`) e `rmMal_1.rmlvl` (`07a2b082…`) inalterados
+- [ ] Atualizar `PHASE3_EXECUTION_PLAN.md` §5 3.2, `RECOVERY_NOTES.md` e este plano; um commit por mudança lógica
+
+---
+
+## 2. Fase 3 restante — do nível visível ao recorte jogável
+
+### 3.2b — Carregar o nível com o `map_load` reconstruído (em vez do probe)
+Objetivo: trocar o probe por `ReconstructedGML/phase1_core/map_load.gml` real, num modo controlado.
+1. Converter `map_load`, `clear_objects`, `goto_map`, `_SET_SCENE` e `reset_files` de scripts `argument0..n` (pré-2.3) para `function nome(...)` 2.3+, **sem mudar a lógica**. Um script por arquivo `scripts/<nome>/<nome>.gml` + `.yy` (copiar o formato de um script criado pela IDE).
+2. Resolver as dependências listadas em `PHASE3_EXECUTION_PLAN.md` §4: `load_game`, `obj_setpos`, `inv_add_obj`, `real_string`, `instance_create_one`, `parEntity`, `parLootable`, `parDoor_out`, `parDoor_Flat`, `parNote`, `oBook`, `parWire`, `oSAVE_WIRE`, `oCamera`. Para cada uma: (a) existe GML original na raiz? usar; (b) está nas 16 decompiladas? reconstruir; (c) senão, decompilar agora (§3.2). **Proibido no-op silencioso**: um stub precisa de `show_debug_message("STUB <nome>")` e precisa constar na lista de provisórios.
+3. Bootstrap de teste: objeto `oDebugBoot` (provisório, nome explícito) que inicializa o mínimo de `oControl` (`map_id`, `obj_list`, `_layer[]`, `asset_list[]`) e chama `map_load("rmMal_Origin")`. Alternativa preferível, se der: importar `oControl` original da raiz e desligar só o que ainda não existe.
+4. **`load_game` e escrita de save desligados** nesta etapa (`START_GAME = 0`), porque o código ainda grava em `PROFILES/`.
+5. Aceite: o nível aparece igual ao probe; os 79 objetos são criados ou reportados; nenhum crash; hashes dos fixtures intactos.
+
+### 3.3 — Player, objetos do nível e transição real
+**Objetos que `rmMal_Origin` instancia** (17 tipos, 79 instâncias; 27 tipos contando os pais):
+
+| Qtde | Objeto | Herança | Eventos YYC disponíveis |
+|---:|---|---|---|
+| 23 | `oGrass` | `parGrass` | Create, Alarm_0, PreCreate |
+| 13 | `oMal_bg_leaves_bg_fg` | — | Create, Step, Draw |
+| 9 | `oMal_bg_leaves_bg` | — | Create, Step, Draw |
+| 8 | `oMal_bg_leaves_fg` | — | Create, Step, Draw |
+| 7 | `oGrass3` | `parGrass` | Create, Alarm_0 |
+| 3 | `oWire` | `parWire` | Create, Step_1, Draw, Draw_77 |
+| 2 | `oMal_Door_Flat` | `parDoor_Flat > parSAVE` | Draw (resto herdado de `parDoor_Flat`) |
+| 2 | `oVIEW_CONSTRICT` | — | Create, Alarm_0, Step_2, Draw |
+| 2 | `oInput_pp` | — | Create, Step_1, Draw |
+| 2 | `oNote` | `parNote` (GML original existe) | — |
+| 2 | `oWire_DIODE_D` | `oWire > parWire` | Create, Step_1, Draw |
+| 1 | `oDoor_Origin` | — | Draw |
+| 1 | `oCamera_Point` | — | Draw |
+| 1 | `oOrigin` | — | Create, Alarm_0..3, Step_1, Draw, Draw_73 |
+| 1 | `oMal_Tree1` | `parLeaves` | (herdado) |
+| 1 | `oDoor_chunky` | `parWirePhysics > parPhysics > parEntity > parObject` | Create, Step_1, Draw, Draw_73, Destroy |
+| 1 | `oWire_TIMER` | `oWire > parWire` | Create, Step_1, Draw, Draw_77 |
+
+Os nomes de eventos vêm de `yyc-function-table.json` (prefixo `gml_Object_<obj>_`). Conferir com `objects-metadata.json`, porque nomes com prefixo comum, como `oWire` e `oWire_TIMER`, se misturam numa busca por prefixo.
+
+Ordem sugerida (do mais simples ao mais acoplado):
+1. **Decorativos sem lógica de jogo:** `oMal_Tree1`/`parLeaves`, `oMal_bg_leaves_*`, `oGrass`/`parGrass`. Validam o pipeline decompilar → GML → `.yy` → sprite.
+2. **Câmera:** `oCamera` (GML original na raiz) + `set_game_screen` (original) + `oCamera_Point` + `oVIEW_CONSTRICT`.
+3. **Player:** `oPlayer` (GML original, 21 eventos) + cadeia `parEntity > parObject` + scripts de colisão já decompilados (`COLLIDE`, `ARRAY_COLLIDE`, `col_move`, `col_move_yeah`) + sprites/sons que ele referencia (contagem léxica: 62 sprites, 62 sons, 27 objetos e 48 scripts; levantar a lista real antes de importar). `sBnd_player` com máscara Precise (8×24, origem 4,12).
+4. **Spawn:** `oOrigin` (como cria/posiciona o player; investigar Alarm_0..3) e `oPlace_Player` (célula 3 não existe em `rmMal_Origin`).
+5. **Fios/energia:** `parWire`, `oWire`, `oWire_DIODE_D`, `oWire_TIMER`, `oSAVE_WIRE` (ordem: `oSAVE_WIRE` primeiro no `obj_list`), `oDoor_chunky`.
+6. **Portas e transição:** `parDoor_Flat`, `oMal_Door_Flat` (n=7 → `rmMal_1`, n=8 → `rmMal_o1`), `PATH`, `goto_map`. Adicionar `rmMal_1.rmlvl`/`rmMal_o1.rmlvl` como Included Files (cópias).
+7. **UI no nível:** `oInput_pp`, `oNote`/`parNote` (original), `oDoor_Origin`.
+
+Aceite 3.3: o player anda, colide e atravessa ida e volta `rmMal_Origin ↔ rmMal_1` sem crash, entrando no PATH certo. Comparar coordenadas com a evidência nativa. Lista de tudo que foi simulado.
+
+### 3.4 — Save V1
+Seguir `SAVE_MIGRATION_DESIGN.md` integralmente (root `PROFILES_V1`, header `NYKRASV\0`, tags tipadas, snapshots, ativação por ponteiro). Passos:
+1. Especificar os payloads concretos de `GENERAL`, `CONTROL`, `CHARACTER` e `ROOM` (ainda não definidos).
+2. Portar `save_v1_format.py` para GML; gerar vetores de teste no Python e verificar no GML byte a byte.
+3. Verificar no runtime: `buffer_sha1`/SHA-256 disponível? Atomicidade de `file_copy`/rename? Não afirmar sem prova.
+4. Localizar o ponto original de persistência global (`save_CHARACTER`/`save_CONTROL` não são chamados nos trechos atuais); está em eventos ainda não reconstruídos.
+5. Aceite: perfil novo → mudar de sala → salvar → fechar → reabrir com estado idêntico; gravação interrompida preserva o snapshot anterior; hashes dos originais iguais.
+
+---
+
+## 3. Fase 4 — Reconstruir o jogo inteiro
+
+### 3.1 Tamanho do trabalho
+| Tipo | Total no `NYKRA.exe` | Feito |
+|---|---:|---:|
+| Eventos de objeto (`gml_Object_*`) | 2.281 | ~7 objetos com GML original na raiz |
+| Scripts (`gml_Script_*`) | 226 | 16 decompilados/anotados (+3 originais) |
+| Global scripts (`gml_GlobalScript_*`) | 208 | 0 |
+| Room/RoomCC | 5 | 0 |
+| Objetos / sprites / sons / shaders | 699 / 490 / 708 / 25 | 3 / 3 / 0 / 0 |
+| Níveis `.rmlvl` | 183 | 1 copiado |
+
+Níveis por planeta (prefixo do nome): Mex 43, Mal 33, Prae 17, EO 16, Irn 13, Art 12, Quo 10, Sep 9, Iie/Iinenea 6, Oosasma 2, testes ~8. Só **Maldis** usa 108 tipos de objeto (131 com pais).
+
+### 3.2 Pipeline por objeto/script (repetível, automatizar aos poucos)
+1. **Inventário:** do `objects-metadata.json`, pegar parent, sprite, mask, depth, flags e lista de eventos; do `yyc-function-table.json`, os endereços.
+2. **Decompilar:** estender `NativeAnalysis/scripts/DecompilePhase1Functions.java` para aceitar uma lista de nomes/endereços (lote por planeta). Saída em `NativeAnalysis/decompiled/<lote>/`, sem sobrescrever `phase1*`.
+3. **Anotar:** `NativeAnalysis/scripts/annotate_yyc_c.py` com `Tools/yyc_Call_and_Var_Tables.json` (built-ins + 1.983 variáveis).
+4. **Escrever o GML** em `ReconstructedGML/<lote>/` com comentário de origem (`// from gml_Object_X_Create_0 @0x…`). Um evento por arquivo, nomes de evento iguais aos do `.yy`.
+5. **Gerar o `.yy`** (objeto/sprite/som) com um gerador Python a partir dos metadados. O gerador **deve** usar como molde `.yy` salvos pela IDE 2024.14, não o formato 2.3. Sprites: frames com offset/crop por TPAG (2.340 de 2.938 frames têm tamanho diferente do canvas), sufixos ordenados numericamente.
+6. **Testar** no recorte do planeta: nível carrega, objeto aparece, comportamento comparado com a build original (rodada isolada, sem perfis valiosos).
+7. **Registrar** em uma tabela de progresso (sugestão: `Tools/reconstruction_progress.tsv` gerado: função, estado `todo/decompiled/gml/tested`, notas).
+
+### 3.3 Ordem de ataque
+1. **Base global:** `oControl` completo (25 eventos originais) + global scripts usados no boot; rooms `INIT → rmMM → rmMAIN`; menu `oMainMenu`, `oFade_in`, `oIs_Inside`.
+2. **Capítulo/planeta Maldis** (33 níveis): todos os objetos `oMal_*` e genéricos que ele usa. Fecha o primeiro capítulo jogável do início ao fim.
+3. **Diálogo:** `parDialogue` (original) + 147 objetos `oDlg_*` + `dlg_eng.lang`.
+4. **Eo:** `oEo` (original) e níveis `EO*`.
+5. Demais planetas em ordem de capítulo (confirmar com os templates `CHAPTER_TEMPLATES` 1–6): Mexulta, Arthek, Irnem, Septeon, Quornem, Iiedakama, Prae/Nen/Oosasma.
+6. **Cenas 3D/estação:** buffers `DATA/*` (meshes zlib, 24 bytes/vértice) + 25 shaders.
+7. **Bugs:** aplicar os aprovados da Fase 2 e os novos achados, cada um com teste de regressão antes da correção.
+
+### 3.4 Aceite final
+Jogo completo jogável do menu ao fim: 183 níveis carregam, transições funcionam e o save V1 é confiável. Tudo que foi simulado ou reconstruído por inferência fica listado; os fixtures originais continuam com hash inalterado.
+
+---
+
+## 4. Regras que valem em todas as etapas (resumo; texto completo em `PHASE3_EXECUTION_PLAN.md` §1)
+- Nunca alterar `rea/NYKRA.zip`, `RuntimeBaseline/`, `RecoveredAssets/Included Files/` ou as saídas de `NativeAnalysis/`. Usar cópias e conferir hashes.
+- Não rodar código de save reconstruído nem o binário original contra perfis reais; o projeto de teste tem nome próprio; sandbox ligado.
+- Sem fallback ou import de perfis legados; nunca adivinhar valores ambíguos; nunca no-op silencioso; nunca pular bytes de payload desconhecido.
+- Só os assets necessários a cada marco; placeholders marcados como provisórios.
+- Um marco por vez, validação do usuário entre eles; duas tentativas falhas → reportar o bloqueio. Um commit por mudança lógica.
+
+## 5. Ferramentas e comandos
+```powershell
+# testes Python (fixtures/estrutura; não certificam GML)
+python -B -m unittest rea.NYKRA_Reconstructed.Tools.test_save_load_compat rea.NYKRA_Reconstructed.Tools.test_save_v1_format rea.NYKRA_Reconstructed.Tools.test_phase3_level_probe rea.NYKRA_Reconstructed.Tools.test_phase3_tileset -v
+# validador (reescreve Tools/phase1_validation_report.json → revisar git diff)
+python -B rea/NYKRA_Reconstructed/Tools/validate_formats.py
+# inspecionar o que o compilador gerou (tileset/texture pages/tile layers) — somente leitura
+$env:TILEDIAG_OUT="$env:TEMP\claude-tilediag"; $env:TILEDIAG_TAG="<rótulo>"
+& "$env:TEMP\opencode\utmt-cli-0.9.2.0\UndertaleModCli.exe" load "<pasta-build>\out\data.win" --scripts "rea\NYKRA_Reconstructed\Tools\DumpTilesetTexture.csx"
+```
+- UTMT CLI: `UndertaleModCli.exe load <data.win> --scripts <script.csx>`. Rodar com stdin redirecionado, porque `--help` travou no Git Bash.
+- Builds anteriores ficam em `%TEMP%\opencode\gm-nykra-*\out\data.win` e as opções usadas em `...\cache\MainOptions.json`/`PlatformOptions.json`.
+- **O comando Igor exato das builds de 12–13/11 não foi registrado.** Na próxima build, gravar o comando completo (sem credenciais) na §2 do `PHASE3_EXECUTION_PLAN.md`.
+
+## 6. Próximo passo imediato
+Executar **T1** (§1.4) **sem** mexer na opção, para descobrir qual condição é a decisiva. Rodar o dump UTMT como critério objetivo. Em seguida, desligar `option_remove_unused_assets` (T2) de qualquer forma, por causa dos assets referenciados só pelos `.rmlvl`, e repetir o dump. Só então pedir a confirmação visual. Isso fecha o marco 3.2 e libera o 3.2b.
