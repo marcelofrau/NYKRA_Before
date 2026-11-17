@@ -6,3 +6,8 @@ rea/NYKRA_Reconstructed/RuntimeBaseline/data.win
 rea/NYKRA_Reconstructed/NativeAnalysis/ghidra-projects/
 rea/NYKRA_Reconstructed/NativeAnalysis/ghidra-projects-retry/
 rea/NYKRA_Reconstructed/NativeAnalysis/ghidra-headless.log
+
+# graphify: regenerable cache and machine-local interpreter/root paths
+graphify-out/cache/
+graphify-out/.graphify_python
+graphify-out/.graphify_root
