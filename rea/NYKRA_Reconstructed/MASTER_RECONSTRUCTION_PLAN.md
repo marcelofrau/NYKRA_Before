@@ -76,6 +76,13 @@ Ainda não foi provado qual das duas condições (sem layer em room × opção l
 
 Problema secundário observado: `option_windows_interpolate_pixels = True`. Em pixel art isso borra e faz tiles "sangrarem". Confirmar o valor original (flag `InterpolatePixels` no GEN8 do `data.win` original) e alinhar.
 
+### 1.3b Resultado de T1 e T2 (18/11/2026): bloqueio continua
+- **T1 aplicada** (sprite `sTiles` 1024×1536 com 3 linhas transparentes embaixo, `TILES.yy` com offset 0/sep 0/borda 2, 6 tile layers 128×64 no `rmMAIN`, probe usando `layer_tilemap_get_id`). Build `%TEMP%\opencode\gm-nykra-t1-20261118`: as 6 layers aparecem no `data.win` com `bg=TILES`, mas **`TILES texture NULL`**. O usuário abriu o jogo: a árvore e o `sTiles` desenhado direto aparecem; tilemaps, `draw_tile` e `draw_tilemap` não; `tileset_get_uvs` = `(0,0,1,1)`. Isso confirma que o UTMT lê certo e a textura realmente não existe.
+- **T2 aplicada** (`options/main/options_main.yy` com `option_remove_unused_assets:false`). A 1ª e 2ª versões do arquivo falharam ao carregar porque a tag era `"$GMMainOptions":"v1"`; o projeto da IDE (`C:\Users\fraumar\GameMakerProjects\BLANK GAME`) usa **`"v5"`**. Com `v5`, o build `gm-nykra-t2c-20261118` respeita a opção (`remove_unused_assets in build = false`), mas **`TILES texture NULL`** de novo.
+- **Descartado:** dados do nível, sprite-fonte, falta de referência na room e "remove unused assets".
+- **Hipótese restante:** algo no formato do `TILES.yy` (escrito à mão, nunca salvo pela IDE 2024) faz o compilador pular a textura em silêncio. Duas tentativas falharam, então paramos conforme a regra. **Próximo: T3 com o usuário na IDE** (abrir o projeto, conferir o editor do `TILES` e criar um tileset de referência `TILES_ide_ref` a partir do `sTiles`, 16×16), depois comparar os `.yy`.
+- **Lição:** as tags `"$GM<Tipo>":"vN"` escolhem o esquema do leitor. Sempre copiar de um arquivo salvo pela IDE 2024.14, nunca supor a versão.
+
 ### 1.4 Tentativas, em ordem (parar na primeira que passar no aceite)
 
 Antes de cada build: `git status` limpo ou commit do estado anterior; build numa pasta nova `%TEMP%\opencode\gm-nykra-<nome>-<data>` (fora do repo); hash dos fixtures antes e depois.
@@ -110,14 +117,15 @@ Renderer de diagnóstico com `draw_sprite_part_ext(sTiles, 0, (id mod 64)*16, (i
 **Regra:** duas tentativas de reparo sem sucesso → parar e informar o bloqueio (PHASE3 §1).
 
 ### 1.5 Checklist do marco 3.2
-- [ ] T1.1 `sTiles` exportado com canvas 1024×1536; hash registrado
-- [ ] T1.2 sprite `sTiles` no projeto, origem conferida com `sprites-metadata.json`
-- [ ] T1.3 `TILES.yy` aponta para `sTiles` com offset 0 / sep 0 / borda 2 / 78 colunas
-- [ ] T1.4 6 tile layers no `rmMAIN.yy` (formato copiado da IDE), 128×64, `TILES`
-- [ ] T1.5 probe usa as layers da room (`layer_tilemap_get_id`)
-- [ ] `option_remove_unused_assets = false` (T2, recomendado mesmo se T1 passar)
+- [x] T1.1 `sTiles` com canvas 1024×1536 (SHA-256 `0ADD1858…3D1F0C`; 1533 linhas originais + 3 transparentes)
+- [x] T1.2 sprite `sTiles` no projeto, origem (0,0) conforme `sprites-metadata.json`
+- [x] T1.3 `TILES.yy` aponta para `sTiles` com offset 0 / sep 0 / borda 2 / 78 colunas
+- [x] T1.4 6 tile layers no `rmMAIN.yy`, 128×64, `TILES` (formato escrito à mão; a IDE ainda precisa confirmar)
+- [x] T1.5 probe usa as layers da room (`layer_tilemap_get_id`)
+- [x] `option_remove_unused_assets = false` (T2, `"$GMMainOptions":"v5"`)
+- [ ] T3: `TILES.yy` conferido ou recriado pela IDE 2024.14
 - [ ] `interpolate_pixels` igual ao original
-- [ ] Dump UTMT: `TILES texture` não NULL, 1560×1580, PNG comparado com `TILES_0.png`
+- [ ] Dump UTMT: `TILES texture` não NULL, 1560×1580, PNG comparado com `TILES_0.png` (**falhou em T1 e T2**)
 - [ ] Usuário viu os tiles das 6 camadas na posição certa
 - [ ] Referências `<undefined>` (4 em `rmMal_Origin`) reportadas sem crash (política: pular + log, nunca `layer_sprite_create` com -1)
 - [ ] Sprites `aBACK` reais importados (ex.: `sMal_Tree_1`) e posicionados pelos registros do nível
@@ -238,7 +246,18 @@ $env:TILEDIAG_OUT="$env:TEMP\claude-tilediag"; $env:TILEDIAG_TAG="<rótulo>"
 ```
 - UTMT CLI: `UndertaleModCli.exe load <data.win> --scripts <script.csx>`. Rodar com stdin redirecionado, porque `--help` travou no Git Bash.
 - Builds anteriores ficam em `%TEMP%\opencode\gm-nykra-*\out\data.win` e as opções usadas em `...\cache\MainOptions.json`/`PlatformOptions.json`.
-- **O comando Igor exato das builds de 12–13/11 não foi registrado.** Na próxima build, gravar o comando completo (sem credenciais) na §2 do `PHASE3_EXECUTION_PLAN.md`.
+- **Comando Igor que funcionou em 18/11** (compilar uma *cópia* do projeto numa pasta nova em `%TEMP%`; não abre o jogo). O `data.win` sai em `out\`. O exit code 1 vem só do empacotamento do zip (`File.Move` com destino vazio) e não afeta o `data.win`:
+  ```powershell
+  $dst = "$env:TEMP\opencode\gm-nykra-<nome>-<data>"   # pasta nova; copiar GameMakerProject para $dst\proj
+  & "C:\ProgramData\GameMakerStudio2\Cache\runtimes\runtime-2024.14.4.268\bin\igor\windows\x64\Igor.exe" `
+    "--project=$dst\proj\NYKRA_VerticalSlice.yyp" "--user=$env:APPDATA\GameMakerStudio2\<pasta-do-usuário>" `
+    "--runtimePath=C:\ProgramData\GameMakerStudio2\Cache\runtimes\runtime-2024.14.4.268" `
+    "--cache=$dst\cache" "--temp=$dst\tmp" "--of=$dst\out\NYKRA_VerticalSlice.zip" -r=VM -j=4 -- windows PackageZip
+  ```
+- Modelo de formato 2024.14 salvo pela IDE: `C:\Users\fraumar\GameMakerProjects\BLANK GAME` (projeto, room, opções main/windows; não tem tileset).
+- O título da janela aparece como `${project_name}` porque falta `options/windows/options_windows.yy`; copiar do BLANK GAME quando for preciso.
 
 ## 6. Próximo passo imediato
+**Atualizado em 18/11:** T1 e T2 foram feitas e falharam (§1.3b). O próximo passo é a **T3 com o usuário na IDE**. O texto abaixo é o plano original de 17/11.
+
 Executar **T1** (§1.4) **sem** mexer na opção, para descobrir qual condição é a decisiva. Rodar o dump UTMT como critério objetivo. Em seguida, desligar `option_remove_unused_assets` (T2) de qualquer forma, por causa dos assets referenciados só pelos `.rmlvl`, e repetir o dump. Só então pedir a confirmação visual. Isso fecha o marco 3.2 e libera o 3.2b.
