@@ -136,29 +136,27 @@ var _tile_layer_names = [
     "tFRONT_over", "tFRONT", "tFRONT_bg",
     "tBACK_over", "tBACK", "tBACK_bg"
 ];
-var _tile_layer_depths = [-30, -20, -10, 10, 20, 30];
 
+// The six tile layers are declared in rmMAIN (like the original room), so the
+// compiler keeps the TILES texture. Use them instead of creating layers here.
 for (var _layer = 0; _layer < 6; _layer++) {
-    var _layer_id = layer_create(_tile_layer_depths[_layer], _tile_layer_names[_layer]);
-    if (_layer_id < 0) {
+    var _layer_id = layer_get_id(_tile_layer_names[_layer]);
+    if (_layer_id == -1) {
         level_probe_ok = false;
-        level_probe_error = "Could not create tile layer: " + _tile_layer_names[_layer];
+        level_probe_error = "Tile layer missing from room: " + _tile_layer_names[_layer];
         exit;
     }
     level_probe_layer_visible_before[_layer] = layer_get_visible(_layer_id);
     level_probe_layer_depths[_layer] = layer_get_depth(_layer_id);
     layer_set_visible(_layer_id, true);
 
-    var _tilemap = layer_tilemap_create(
-        _layer_id, 0, 0, TILES, level_probe_width, level_probe_height
-    );
-    if (_tilemap < 0) {
+    var _tilemap = layer_tilemap_get_id(_layer_id);
+    if (_tilemap == -1) {
         level_probe_ok = false;
-        level_probe_error = "Could not create tilemap: " + _tile_layer_names[_layer];
+        level_probe_error = "Tile layer has no tilemap: " + _tile_layer_names[_layer];
         exit;
     }
     level_probe_tilemaps[_layer] = _tilemap;
-    tilemap_tileset(_tilemap, TILES);
     if (_layer == 0) level_probe_tilemap_uses_tileset = tilemap_get_tileset(_tilemap) == TILES;
     level_probe_layer_tilemap_exists[_layer] = layer_tilemap_get_id(_layer_id) != -1;
 

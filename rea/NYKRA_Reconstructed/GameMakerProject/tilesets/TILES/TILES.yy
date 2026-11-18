@@ -9,8 +9,8 @@
   },
   "name": "TILES",
   "out_columns": 78,
-  "out_tilehborder": 0,
-  "out_tilevborder": 0,
+  "out_tilehborder": 2,
+  "out_tilevborder": 2,
   "parent": {
     "name": "Tilesets",
     "path": "folders/Tilesets.yy"
@@ -18,8 +18,8 @@
   "resourceType": "GMTileSet",
   "resourceVersion": "2.0",
   "spriteId": {
-    "name": "sTileset_TILES",
-    "path": "sprites/sTileset_TILES/sTileset_TILES.yy"
+    "name": "sTiles",
+    "path": "sprites/sTiles/sTiles.yy"
   },
   "spriteNoExport": false,
   "textureGroupId": {
@@ -29,10 +29,10 @@
   "tileAnimationFrames": [],
   "tileAnimationSpeed": 15.0,
   "tileHeight": 16,
-  "tilehsep": 4,
-  "tilevsep": 4,
-  "tilexoff": 2,
-  "tileyoff": 2,
+  "tilehsep": 0,
+  "tilevsep": 0,
+  "tilexoff": 0,
+  "tileyoff": 0,
   "tileWidth": 16,
   "tile_count": 6144
 }

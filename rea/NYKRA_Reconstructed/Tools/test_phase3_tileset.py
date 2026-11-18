@@ -1,5 +1,5 @@
 import json
-import hashlib
+import re
 import struct
 import unittest
 from pathlib import Path
@@ -38,12 +38,38 @@ class Phase3TilesetTests(unittest.TestCase):
         self.assertEqual((source_import["tile_separation_x"], source_import["tile_separation_y"]), (4, 4))
         self.assertEqual((source_import["output_border_x"], source_import["output_border_y"]), (0, 0))
         self.assertEqual((tileset["source_sprite_width"], tileset["source_sprite_height"]), (1560, 1580))
-        sprite = next((PROJECT / "sprites" / "sTileset_TILES").glob("*.png"))
-        self.assertEqual(png_dimensions(sprite), (1560, 1580))
-        self.assertEqual(
-            hashlib.sha256(sprite.read_bytes()).hexdigest().upper(),
-            metadata["sha256"]["runtime_texture_png"],
-        )
+
+    def test_source_sprite_sTiles_matches_original_canvas(self):
+        # Original source sprite: 1024x1536 = 64x96 tiles = 6144 (sprites-metadata.json).
+        sprite = next((PROJECT / "sprites" / "sTiles").glob("*.png"))
+        self.assertEqual(png_dimensions(sprite), (1024, 1536))
+        text = (PROJECT / "sprites" / "sTiles" / "sTiles.yy").read_text(encoding="utf-8")
+        yy = json.loads(re.sub(r",(\s*[}\]])", r"\1", text))  # GameMaker .yy allows trailing commas
+        self.assertEqual((yy["width"], yy["height"]), (1024, 1536))
+        self.assertEqual(yy["origin"], 0)
+
+    def test_rmMAIN_declares_six_tile_layers_for_TILES(self):
+        # The original rmMAIN references TILES through these layers; without them the
+        # compiler emitted TILES with a NULL texture (MASTER_RECONSTRUCTION_PLAN.md §1).
+        room = json.loads((PROJECT / "rooms" / "rmMAIN" / "rmMAIN.yy").read_text(encoding="utf-8"))
+        tile_layers = {
+            layer["name"]: layer for layer in room["layers"] if layer["resourceType"] == "GMRTileLayer"
+        }
+        expected = {
+            "tFRONT_over": -30, "tFRONT": -20, "tFRONT_bg": -10,
+            "tBACK_over": 10, "tBACK": 20, "tBACK_bg": 30,
+        }
+        self.assertEqual({n: l["depth"] for n, l in tile_layers.items()}, expected)
+        for layer in tile_layers.values():
+            self.assertEqual(layer["tilesetId"]["name"], "TILES")
+            tiles = layer["tiles"]
+            self.assertEqual((tiles["SerialiseWidth"], tiles["SerialiseHeight"]), (128, 64))
+            data, total, i = tiles["TileCompressedData"], 0, 0
+            while i < len(data):  # RLE: n < 0 repeats the next value, n > 0 is n literals
+                n = data[i]
+                total += -n if n < 0 else n
+                i += 2 if n < 0 else 1 + n
+            self.assertEqual((total, i), (128 * 64, len(data)))
 
     def test_rmMal_origin_tile_values_fit_original_tileset(self):
         data = LEVEL.read_bytes()
@@ -63,20 +89,21 @@ class Phase3TilesetTests(unittest.TestCase):
         self.assertEqual(max(value for layer in tile_layers for value in layer), 526)
         self.assertTrue(all(value < 6144 for layer in tile_layers for value in layer))
 
-    def test_gamemaker_tileset_uses_equivalent_padded_import_settings(self):
+    def test_gamemaker_tileset_uses_original_import_settings(self):
         tileset = json.loads(TILESET_FILE.read_text(encoding="utf-8"))
         self.assertEqual(tileset["resourceType"], "GMTileSet")
         self.assertEqual(tileset["name"], "TILES")
         self.assertEqual((tileset["tileWidth"], tileset["tileHeight"]), (16, 16))
         self.assertEqual((tileset["out_columns"], tileset["tile_count"]), (78, 6144))
-        self.assertEqual((tileset["out_tilehborder"], tileset["out_tilevborder"]), (0, 0))
-        self.assertEqual((tileset["tilexoff"], tileset["tileyoff"]), (2, 2))
-        self.assertEqual((tileset["tilehsep"], tileset["tilevsep"]), (4, 4))
+        self.assertEqual((tileset["out_tilehborder"], tileset["out_tilevborder"]), (2, 2))
+        self.assertEqual((tileset["tilexoff"], tileset["tileyoff"]), (0, 0))
+        self.assertEqual((tileset["tilehsep"], tileset["tilevsep"]), (0, 0))
         self.assertFalse(tileset["spriteNoExport"])
-        self.assertEqual(tileset["spriteId"]["path"], "sprites/sTileset_TILES/sTileset_TILES.yy")
+        self.assertEqual(tileset["spriteId"]["path"], "sprites/sTiles/sTiles.yy")
+        self.assertNotIn("sTileset_TILES", PROJECT_FILE.read_text(encoding="utf-8"))
         self.assertIn('"name":"TILES"', PROJECT_FILE.read_text(encoding="utf-8"))
 
-    def test_probe_creates_the_six_maps_from_serialized_cells_without_spawning_objects(self):
+    def test_probe_fills_the_six_room_tilemaps_from_serialized_cells_without_spawning_objects(self):
         create = PROBE_CREATE.read_text(encoding="utf-8")
         for name in (
             "tFRONT_over",
@@ -87,7 +114,8 @@ class Phase3TilesetTests(unittest.TestCase):
             "tBACK_bg",
         ):
             self.assertIn(name, create)
-        self.assertIn("layer_tilemap_create(", create)
+        self.assertIn("layer_tilemap_get_id(_layer_id)", create)
+        self.assertNotIn("layer_create(_tile_layer_depths", create)  # layers come from rmMAIN
         self.assertIn("tilemap_set(", create)
         self.assertIn("var _x = floor(_i / level_probe_height);", create)
         self.assertIn("var _y = _i mod level_probe_height;", create)
@@ -99,6 +127,7 @@ class Phase3TilesetTests(unittest.TestCase):
         self.assertIn("tileset_get_info(TILES)", create)
         self.assertIn("tileset_get_uvs(TILES)", create)
         self.assertIn("tilemap_get_tileset(_tilemap) == TILES", create)
+        self.assertIn("layer_get_id(_tile_layer_names[_layer])", create)
         self.assertIn("tilemap_get(", create)
         self.assertIn("level_probe_tile_set_successes", create)
         self.assertIn("layer_get_visible(", create)
@@ -107,7 +136,7 @@ class Phase3TilesetTests(unittest.TestCase):
         self.assertIn("tile_set_index(0, level_probe_first_tile_index)", create)
         self.assertIn('layer_get_id("Instances")', create)
         self.assertIn("layer_tilemap_create(_instance_layer_id", create)
-        self.assertIn("draw_sprite_part_ext(sTileset_TILES", draw)
+        self.assertIn("draw_sprite_part_ext(sTiles", draw)
         self.assertIn("draw_tile(TILES, level_probe_first_tiledata, 0, _x0, 660)", draw)
         self.assertIn("draw_tilemap(level_probe_tilemaps[1], 0, 500)", draw)
         self.assertIn("level_probe_uvs[0]", draw)

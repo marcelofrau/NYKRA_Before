@@ -1,10 +1,10 @@
 {
   "$GMSprite": "",
-  "%Name": "sTileset_TILES",
+  "%Name": "sTiles",
   "bboxMode": 0,
-  "bbox_bottom": 1579,
+  "bbox_bottom": 1535,
   "bbox_left": 0,
-  "bbox_right": 1559,
+  "bbox_right": 1023,
   "bbox_top": 0,
   "collisionKind": 1,
   "collisionTolerance": 0,
@@ -12,16 +12,16 @@
   "edgeFiltering": false,
   "For3D": false,
   "frames": [
-    {"$GMSpriteFrame":"","%Name":"bb3a878c-1ef6-4ab6-9c07-6e8ffe8c6034","name":"bb3a878c-1ef6-4ab6-9c07-6e8ffe8c6034","resourceType":"GMSpriteFrame","resourceVersion":"2.0",}
+    {"$GMSpriteFrame":"","%Name":"e4b7c2a1-5d3f-4e8a-9b61-2f0c8d7a3e15","name":"e4b7c2a1-5d3f-4e8a-9b61-2f0c8d7a3e15","resourceType":"GMSpriteFrame","resourceVersion":"2.0",}
   ],
   "gridX": 0,
   "gridY": 0,
-  "height": 1580,
+  "height": 1536,
   "HTile": false,
   "layers": [
-    {"$GMImageLayer":"","%Name":"1ac759e9-11dd-493b-8b67-3616f4961e97","blendMode":0,"displayName":"default","isLocked":false,"name":"1ac759e9-11dd-493b-8b67-3616f4961e97","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,}
+    {"$GMImageLayer":"","%Name":"7a9d1c3e-6b24-4f58-a0d7-93e5c1b8f246","blendMode":0,"displayName":"default","isLocked":false,"name":"7a9d1c3e-6b24-4f58-a0d7-93e5c1b8f246","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,}
   ],
-  "name": "sTileset_TILES",
+  "name": "sTiles",
   "nineSlice": null,
   "origin": 0,
   "parent": {"name":"Sprites","path":"folders/Sprites.yy",},
@@ -30,7 +30,7 @@
   "resourceVersion": "2.0",
   "sequence": {
     "$GMSequence": "",
-    "%Name": "sTileset_TILES",
+    "%Name": "sTiles",
     "autoRecord": true,
     "backdropHeight": 768,
     "backdropImageOpacity": 0.5,
@@ -44,7 +44,7 @@
     "length": 1.0,
     "lockOrigin": false,
     "moments": {"$KeyframeStore<MomentsEventKeyframe>":"","Keyframes":[],"resourceType":"KeyframeStore<MomentsEventKeyframe>","resourceVersion":"2.0",},
-    "name": "sTileset_TILES",
+    "name": "sTiles",
     "playback": 1,
     "playbackSpeed": 15.0,
     "playbackSpeedType": 0,
@@ -54,7 +54,7 @@
     "showBackdropImage": false,
     "timeUnits": 1,
     "tracks": [
-      {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[{"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"bb3a878c-1ef6-4ab6-9c07-6e8ffe8c6034","path":"sprites/sTileset_TILES/sTileset_TILES.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",}},"Disabled":false,"id":"a7e331c3-39c3-4f4e-b809-851ac1cb20c8","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,}],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,}
+      {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[{"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"e4b7c2a1-5d3f-4e8a-9b61-2f0c8d7a3e15","path":"sprites/sTiles/sTiles.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",}},"Disabled":false,"id":"3c8e5f12-a7d4-4b69-8e03-d1f6a2c94b78","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,}],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,}
     ],
     "visibleRange": null,
     "volume": 1.0,
@@ -66,5 +66,5 @@
   "textureGroupId": {"name":"Default","path":"texturegroups/Default",},
   "type": 0,
   "VTile": false,
-  "width": 1560
+  "width": 1024
 }

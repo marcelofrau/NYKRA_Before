@@ -30,7 +30,7 @@
     {"id":{"name":"oSpriteProbe","path":"objects/oSpriteProbe/oSpriteProbe.yy",},},
     {"id":{"name":"sMal_Tree_1","path":"sprites/sMal_Tree_1/sMal_Tree_1.yy",},},
     {"id":{"name":"sMal_Tree_1l","path":"sprites/sMal_Tree_1l/sMal_Tree_1l.yy",},},
-    {"id":{"name":"sTileset_TILES","path":"sprites/sTileset_TILES/sTileset_TILES.yy",},},
+    {"id":{"name":"sTiles","path":"sprites/sTiles/sTiles.yy",},},
     {"id":{"name":"TILES","path":"tilesets/TILES/TILES.yy",},},
   ],
   "resourceType": "GMProject",

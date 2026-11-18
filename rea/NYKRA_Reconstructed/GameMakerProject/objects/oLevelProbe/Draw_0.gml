@@ -59,7 +59,7 @@ draw_text(_x0, 316, "tileset UV valid: " + string(level_probe_uvs_valid)
 draw_text(_x0, 336, "trim/pct: " + string(level_probe_uvs[4]) + "," + string(level_probe_uvs[5])
     + " / " + string(level_probe_uvs[6]) + "," + string(level_probe_uvs[7]));
 draw_text(_x0, 356, "tilemap uses TILES: " + string(level_probe_tilemap_uses_tileset));
-draw_sprite_part_ext(sTileset_TILES, 0, 0, 0, 64, 64, _x0, 380, 4, 4, c_white, 1);
+draw_sprite_part_ext(sTiles, 0, 0, 0, 64, 64, _x0, 380, 4, 4, c_white, 1);
 draw_text(_x0, 640, "draw_tile raw/index left/right:");
 draw_tile(TILES, level_probe_first_tiledata, 0, _x0, 660);
 draw_tile(TILES, tile_set_index(0, level_probe_first_tile_index), 0, _x0 + 16, 660);
