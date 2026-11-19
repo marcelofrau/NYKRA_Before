@@ -18,6 +18,11 @@ O usuário está em ambiente de trabalho. **Antes de executar qualquer coisa** (
 - O `oSpriteProbe` foi removido; o tronco vem do nível.
 - Os 30 testes Python passam.
 
+## Marcos 3.2b e 3.2c aceitos (19/11)
+- **3.2b:** o usuário confirmou no F5 a copa, os 79 objetos e o log sem erros.
+- **3.2c:** 15 sprites importados (61 quadros) com o canvas restaurado, **não ligados** aos objetos (P3). O usuário conferiu o `sMal_Door_Flat` no editor da IDE e o jogo não mudou. 43 testes Python passam.
+- **Próximo: marco 3.3** (`MASTER_RECONSTRUCTION_PLAN.md` §2): decompilar os eventos dos objetos do nível (96 eventos, P2), do mais simples ao mais acoplado: folhas e grama, câmera, jogador, spawn, fios, portas. Cada objeto ganha seu sprite junto com seus eventos (P3). Pedir ao usuário antes de começar.
+
 ## Estado do 3.2b (19/11, fim do dia)
 - **Funciona:** pela IDE (F5), o `map_load` reconstruído carrega o `rmMal_Origin` e cria os **79 objetos** (contagens iguais ao levantamento), pulando os 4 sprites `<undefined>` com log. Log limpo, sem erro de runtime.
 - **Pendente de confirmação visual do usuário:** a copa da árvore agora vem do `oMal_Tree1` com um `Create_0` provisório (P10). Antes dessa correção a copa não aparecia, porque o `clear_objects` original destrói o `oLeavesProbe`. Pedir um novo F5.

@@ -16,7 +16,7 @@
 | 3.1 — Projeto + sprite | ✅ parcial | árvore `sMal_Tree_1`/`sMal_Tree_1l` vista pelo usuário |
 | 3.2 — Renderizar nível | ✅ **aceito pelo usuário em 19/11** (§1.3c, §1.5) | 6 camadas + sprite `aBACK` do nível, build da IDE LTS 2026 |
 | 3.2b — `map_load` reconstruído | ✅ **aceito pelo usuário em 19/11** | pela IDE (F5): 79 objetos criados, contagens corretas, 4 `<undefined>` pulados, copa visível, log sem erros (commits `71d2dbb`, `a83f8cf`) |
-| 3.2c — sprites dos 27 objetos (P3) | ⬜ próximo | ver "3.2c" em §2 |
+| 3.2c — sprites dos objetos (P3) | ✅ **aceito pelo usuário em 19/11** | 15 sprites / 61 quadros importados com canvas restaurado; `sMal_Door_Flat` conferido no editor da IDE (30×35, origem 15,34, 8 quadros); jogo inalterado |
 | 3.3 — Player/objetos/portas | ⬜ | — |
 | 3.4 — Save V1 | ⬜ | só codec Python de referência |
 | 4 — Resto do jogo | ⬜ | 2.720 funções YYC; 16 reconstruídas |
@@ -300,7 +300,7 @@ Todo atalho tomado de propósito fica listado aqui, com o marco que o remove e o
 |---|---|---|---|---|
 | P1 | `oControl` **mínimo** (só as variáveis do `map_load`; sem editor, UI, saves, música) | 3.2b | Fase 4, passo 1 "Base global" (§3.3) | `oControl` original importado e funcionando (eventos, Draw_73 etc.), com todos os assets que ele referencia (23 objetos, 36 sprites, 7 sons, 18 scripts, 1 shader, 2 outros) |
 | P2 | **Objetos-casca** dos 27 objetos de `rmMal_Origin` (hierarquia, sprite e flags; **sem eventos**) | 3.2b | 3.3 (eventos) | cada objeto com seus eventos reconstruídos a partir de `gml_Object_*` (96 eventos no nível) |
-| P3 | Objetos **sem sprite** (ou com sprite de teste) nas cascas | 3.2b | passo seguinte ao 3.2b | os 16 sprites / 62 quadros importados com recorte por quadro lido do `data.win` e conferidos contra o original |
+| P3 | Cascas **sem sprite**: os 15 sprites estão importados (3.2c, `Tools/ExportSpritesRestored.csx` + `generate_object_sprites.py`) mas **não ligados** aos objetos, porque um objeto com sprite e sem eventos anima sozinho | 3.2c (importação, feita) / 3.3 (vínculo) | 3.3 | cada sprite ligado ao seu objeto junto com os eventos reconstruídos (Create/PreCreate que definem `image_speed`/`image_index`) |
 | P4 | ~~`oLevelProbe` e `oLeavesProbe`~~ **removidos no 3.2b**: o `map_load` os substitui, e o `clear_objects` original destruiria o `oLeavesProbe` (não persistente) | 3.1 / 3.2 | 3.2b | feito: o nível carrega só pelo `map_load` |
 | P10 | `oMal_Tree1` com sprite `sMal_Tree_1l` e `Create_0` **provisório** (`image_speed = 0`, `image_index = 0`) para a copa aparecer parada | 3.2b | 3.3 | `PreCreate` original do `oMal_Tree1` reconstruído (`gml_Object_oMal_Tree1_PreCreate_0`) e o `Create_0` provisório apagado |
 | P5 | **Stubs visíveis** (`scripts/provisional_stubs`): `obj_setpos`, `instance_create_one`, `real_string`, `inv_add_obj` (cada um registra `STUB <nome>` no log) | 3.2b | 3.3 | função decompilada e reconstruída; o stub deixa de existir |
