@@ -44,6 +44,7 @@
     {"id":{"name":"draw_rectangle_view","path":"scripts/draw_rectangle_view/draw_rectangle_view.yy",},},
     {"id":{"name":"draw_sprite_skew","path":"scripts/draw_sprite_skew/draw_sprite_skew.yy",},},
     {"id":{"name":"draw_ui_arrow","path":"scripts/draw_ui_arrow/draw_ui_arrow.yy",},},
+    {"id":{"name":"easing","path":"scripts/easing/easing.yy",},},
     {"id":{"name":"goto_map","path":"scripts/goto_map/goto_map.yy",},},
     {"id":{"name":"hrnd","path":"scripts/hrnd/hrnd.yy",},},
     {"id":{"name":"ini_language","path":"scripts/ini_language/ini_language.yy",},},

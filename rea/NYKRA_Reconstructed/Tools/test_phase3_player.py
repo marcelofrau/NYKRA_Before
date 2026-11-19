@@ -131,6 +131,7 @@ class PlayerObjectTests(unittest.TestCase):
         self.assertIn("keyboard_check_pressed(global.kku)", code("player_interact"))
         self.assertIn("point_distance(_x, _y, oPlayer.x, oPlayer.y) < _radius", code("player_distance"))
         self.assertIn("-45", code("interact_arrow"))
+        self.assertIn("-_c / 2 * (cos(pi * _t / _d) - 1) + _b", code("easing"))  # type 14, read from the exe
         self.assertIn("draw_rectangle(CX - 1, CY - 1, CX + CW + 1, CY + CH + 1, false)", code("draw_rectangle_view"))
         create = code_of("objects/oControl/Create_0.gml")
         for font in ("sFont4", "sFont7", "sFont1", "sFontBig"):

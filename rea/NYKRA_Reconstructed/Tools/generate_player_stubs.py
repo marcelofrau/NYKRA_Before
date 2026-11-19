@@ -29,7 +29,6 @@ STUBS = {
     "create_spark": ("noone", "effect (stage 2)"),
     "draw_polygon": ("0", "effect (stage 2)"),
     "draw_sprite_glitch": ("0", "effect (stage 2)"),
-    "easing": ("argument1", "jump curve: returns the time unchanged, i.e. a linear curve (P25)"),
     "inv_delete": ("0", "inventory (stage 3)"),
     "mask_draw": ("0", "effect (stage 2)"),
     "mask_reset": ("0", "effect (stage 2)"),

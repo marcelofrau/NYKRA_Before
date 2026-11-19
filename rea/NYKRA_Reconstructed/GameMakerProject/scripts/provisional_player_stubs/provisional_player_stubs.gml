@@ -53,12 +53,6 @@ function draw_sprite_glitch(_a0 = undefined, _a1 = undefined, _a2 = undefined, _
     return 0;
 }
 
-/// @description easing(...): STUB, jump curve: returns the time unchanged, i.e. a linear curve (P25)
-function easing(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = undefined, _a4 = undefined) {
-    stub_log("easing", "jump curve: returns the time unchanged, i.e. a linear curve (P25)");
-    return _a1;
-}
-
 /// @description inv_delete(...): STUB, inventory (stage 3)
 function inv_delete(_a0 = undefined, _a1 = undefined, _a2 = undefined) {
     stub_log("inv_delete", "inventory (stage 3)");

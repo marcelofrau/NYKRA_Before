@@ -31,7 +31,7 @@ HAND_SCRIPTS = ["reach_tween", "set_game_screen", "set_controls", "config_get", 
                 "playerhascontrol", "reach", "obj_setpos", "instance_create_one", "sleep", "hrnd",
                 "box_inside_bound", "real_string", "ini_language",
                 "player_distance", "player_interact", "interact_arrow", "draw_ui_arrow", "draw_rectangle_view",
-                "create_fx", "play_sound", "play_sound_pos", "snd_step_grass", "snd_step_dirt", "snd_step_stone", "snd_step_wood"]
+                "easing", "create_fx", "play_sound", "play_sound_pos", "snd_step_grass", "snd_step_dirt", "snd_step_stone", "snd_step_wood"]
 
 GET_2D = re.compile(r"array_get_2D\((\w+),\s*(\w+),\s*(\w+)\)")
 LENGTH_1D = re.compile(r"array_length_1d\(([^()]+)\)")
