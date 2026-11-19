@@ -24,6 +24,8 @@ level_probe_uvs = array_create(8, 0);
 level_probe_uvs_valid = false;
 level_probe_asset_counts = array_create(2, 0);
 level_probe_undefined_sprites = 0;
+level_probe_asset_records = [];   // [layer 0=aFRONT/1=aBACK, x, y, sprite name] from the level file
+level_probe_asset_created = 0;
 level_probe_missing_sprites = 0;
 level_probe_object_count = 0;
 level_probe_file_size = 0;
@@ -101,14 +103,10 @@ for (var _asset_layer = 0; _asset_layer < 2; _asset_layer++) {
             buffer_delete(_b);
             exit;
         }
-        buffer_read(_b, buffer_u16);
-        buffer_read(_b, buffer_u16);
+        var _sx = buffer_read(_b, buffer_u16);
+        var _sy = buffer_read(_b, buffer_u16);
         var _sprite_name = buffer_read(_b, buffer_string);
-        if (_sprite_name == "<undefined>") {
-            level_probe_undefined_sprites++;
-        } else if (asset_get_index(_sprite_name) == -1) {
-            level_probe_missing_sprites++;
-        }
+        array_push(level_probe_asset_records, [_asset_layer, _sx, _sy, _sprite_name]);
     }
 }
 
@@ -181,9 +179,36 @@ for (var _layer = 0; _layer < 6; _layer++) {
     }
 }
 
-// Match rmMAIN's empty sprite layers; only the 79 level objects remain unspawned.
-layer_create(-15, "aFRONT");
-layer_create(25, "aBACK");
+// Decorative sprite layers, as in map_load: one layer_sprite_create per level record.
+// Policy for bad records (map_load does not check): "<undefined>" was written by the
+// original level editor for a sprite index of -1, and names missing from this project
+// are not imported yet. Both are skipped and logged, never created with sprite -1.
+var _asset_layer_names = ["aFRONT", "aBACK"];
+var _asset_layer_depths = [-15, 25];
+var _asset_layer_ids = [-1, -1];
+for (var _al = 0; _al < 2; _al++) {
+    _asset_layer_ids[_al] = layer_get_id(_asset_layer_names[_al]);
+    if (_asset_layer_ids[_al] == -1) {
+        _asset_layer_ids[_al] = layer_create(_asset_layer_depths[_al], _asset_layer_names[_al]);
+    }
+}
+for (var _i = 0; _i < array_length(level_probe_asset_records); _i++) {
+    var _rec = level_probe_asset_records[_i];
+    var _where = _asset_layer_names[_rec[0]] + " (" + string(_rec[1]) + "," + string(_rec[2]) + ")";
+    if (_rec[3] == "<undefined>") {
+        level_probe_undefined_sprites++;
+        show_debug_message("oLevelProbe: skipped <undefined> sprite at " + _where);
+        continue;
+    }
+    var _spr = asset_get_index(_rec[3]);
+    if (_spr == -1 || asset_get_type(_rec[3]) != asset_sprite) {
+        level_probe_missing_sprites++;
+        show_debug_message("oLevelProbe: sprite not in project: " + _rec[3] + " at " + _where);
+        continue;
+    }
+    layer_sprite_create(_asset_layer_ids[_rec[0]], _rec[1], _rec[2], _spr);
+    level_probe_asset_created++;
+}
 
 var _instance_layer_id = layer_get_id("Instances");
 level_probe_manual_tilemap = layer_tilemap_create(_instance_layer_id, 900, 705, TILES, 2, 1);

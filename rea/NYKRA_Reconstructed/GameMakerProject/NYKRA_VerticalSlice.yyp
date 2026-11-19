@@ -27,7 +27,6 @@
   "resources":[
     {"id":{"name":"oLeavesProbe","path":"objects/oLeavesProbe/oLeavesProbe.yy",},},
     {"id":{"name":"oLevelProbe","path":"objects/oLevelProbe/oLevelProbe.yy",},},
-    {"id":{"name":"oSpriteProbe","path":"objects/oSpriteProbe/oSpriteProbe.yy",},},
     {"id":{"name":"rmMAIN","path":"rooms/rmMAIN/rmMAIN.yy",},},
     {"id":{"name":"sMal_Tree_1","path":"sprites/sMal_Tree_1/sMal_Tree_1.yy",},},
     {"id":{"name":"sMal_Tree_1l","path":"sprites/sMal_Tree_1l/sMal_Tree_1l.yy",},},

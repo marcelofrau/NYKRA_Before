@@ -19,7 +19,9 @@ draw_text(_x0, 56, "tile nonzero by layer: "
     + string(level_probe_tile_counts[4]) + ", "
     + string(level_probe_tile_counts[5]));
 draw_text(_x0, 76, "aFRONT/aBACK: " + string(level_probe_asset_counts[0]) + "/" + string(level_probe_asset_counts[1])
-    + " (undefined: " + string(level_probe_undefined_sprites) + ")");
+    + " created: " + string(level_probe_asset_created)
+    + " undefined: " + string(level_probe_undefined_sprites)
+    + " missing: " + string(level_probe_missing_sprites));
 draw_text(_x0, 96, "declared objects: " + string(level_probe_object_count) + " (not spawned)");
 draw_text(_x0, 116, "tilemaps created: " + string(array_length(level_probe_tilemaps)));
 draw_text(_x0, 136, "tileset: TILES / 16x16 / 78 columns");

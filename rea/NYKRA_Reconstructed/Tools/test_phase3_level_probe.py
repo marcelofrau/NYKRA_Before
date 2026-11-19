@@ -80,6 +80,27 @@ class Phase3LevelProbeTests(unittest.TestCase):
         self.assertNotRegex(create, re.compile(r"\b(instance_create|map_load|map_save)\s*\("))
         self.assertIn("(not spawned)", draw)
 
+    def test_probe_places_level_sprite_records_and_skips_bad_ones_with_a_log(self):
+        create = PROBE_CREATE.read_text(encoding="utf-8")
+        # Records come from the file, not from a hand-placed room instance.
+        self.assertIn("array_push(level_probe_asset_records, [_asset_layer, _sx, _sy, _sprite_name]);", create)
+        self.assertIn("layer_sprite_create(_asset_layer_ids[_rec[0]], _rec[1], _rec[2], _spr);", create)
+        # "<undefined>" and sprites missing from the project are skipped with a debug log,
+        # never passed to layer_sprite_create as -1.
+        skip_undefined = create.index('if (_rec[3] == "<undefined>")')
+        skip_missing = create.index("if (_spr == -1 || asset_get_type(_rec[3]) != asset_sprite)")
+        create_call = create.index("layer_sprite_create(_asset_layer_ids")
+        self.assertLess(skip_undefined, create_call)
+        self.assertLess(skip_missing, create_call)
+        self.assertEqual(create.count("show_debug_message("), 2)
+        room = (PROJECT / "rooms" / "rmMAIN" / "rmMAIN.yy").read_text(encoding="utf-8")
+        self.assertNotIn("inst_tree_probe", room)
+        self.assertNotIn("oSpriteProbe", (PROJECT / "NYKRA_VerticalSlice.yyp").read_text(encoding="utf-8"))
+
+    def test_pixel_art_is_not_interpolated(self):
+        options = (PROJECT / "options" / "windows" / "options_windows.yy").read_text(encoding="utf-8")
+        self.assertIn('"option_windows_interpolate_pixels":false', options)
+
 
 if __name__ == "__main__":
     unittest.main()
