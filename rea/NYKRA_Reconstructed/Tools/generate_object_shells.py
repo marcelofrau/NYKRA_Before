@@ -24,13 +24,16 @@ from yyp_edit import update_yyp  # noqa: E402
 
 REA = TOOLS.parent
 PROJECT = REA / "GameMakerProject"
-HAND_WRITTEN = {"oControl", "oCamera", "oMal_Tree1"}
+# Objects whose .yy is maintained by hand: provisional ones (oControl, oCamera) and the ones
+# with reconstructed events or a sprite (parLeaves, oMal_Tree1).
+HAND_WRITTEN = {"oControl", "oCamera", "oMal_Tree1", "parLeaves"}
 # Objects named by map_load, clear_objects and _SET_SCENE that are evaluated on the path
 # even when the level does not contain them (a missing asset is a runtime error).
 EXTRA = [
     "oPlayer", "oEo", "PATH", "oFade_in", "oSAVE_WIRE", "oAenox_bound", "parLootable",
     "parDoor_out", "oBook", "oRoof_angle", "oIs_Inside", "oPlace_Player",
     "oSun_Mal", "oSun_Mex", "oSun_Irn", "oSun_Sep", "oSun_Quo", "oSun_Iie",
+    "oTemp_Back_Leaves",  # created by parLeaves Create_0; its only event (PreCreate) is empty
 ]
 FOLDER = ("Shells", "folders/Objects/Shells.yy")
 

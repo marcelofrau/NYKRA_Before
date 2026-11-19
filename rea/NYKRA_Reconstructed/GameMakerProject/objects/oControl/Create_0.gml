@@ -20,6 +20,13 @@ globalvar GRV_SPD;
 GRV_SPD = 0.218;
 globalvar CURRENTROOM;
 CURRENTROOM = "";
+
+// Global clock in seconds, used by the leaves and the grass (see Step_1.gml).
+globalvar tick;
+globalvar tick360;
+tick = random(1000.0000);
+tick_n = random(1000);
+tick360 = irandom(360);
 globalvar map;
 globalvar obj_list;
 globalvar map_id;

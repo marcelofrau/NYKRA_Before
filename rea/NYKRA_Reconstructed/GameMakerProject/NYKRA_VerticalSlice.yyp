@@ -61,6 +61,7 @@
     {"id":{"name":"oSun_Mex","path":"objects/oSun_Mex/oSun_Mex.yy",},},
     {"id":{"name":"oSun_Quo","path":"objects/oSun_Quo/oSun_Quo.yy",},},
     {"id":{"name":"oSun_Sep","path":"objects/oSun_Sep/oSun_Sep.yy",},},
+    {"id":{"name":"oTemp_Back_Leaves","path":"objects/oTemp_Back_Leaves/oTemp_Back_Leaves.yy",},},
     {"id":{"name":"oVIEW_CONSTRICT","path":"objects/oVIEW_CONSTRICT/oVIEW_CONSTRICT.yy",},},
     {"id":{"name":"oWire","path":"objects/oWire/oWire.yy",},},
     {"id":{"name":"oWire_DIODE_D","path":"objects/oWire_DIODE_D/oWire_DIODE_D.yy",},},

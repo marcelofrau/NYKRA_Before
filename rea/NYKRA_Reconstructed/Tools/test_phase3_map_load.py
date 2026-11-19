@@ -113,14 +113,31 @@ class ProvisionalControllerTests(unittest.TestCase):
             self.assertNotIn(probe, resources)
             self.assertFalse((PROJECT / "objects" / probe).exists(), probe)
 
-    def test_oMal_Tree1_shows_a_fixed_frame_of_the_leaves(self):
-        # Provisional (plan P10): without it the sprite animates between its two frames.
-        yy = load_yy(PROJECT / "objects" / "oMal_Tree1" / "oMal_Tree1.yy")
-        self.assertEqual(yy["spriteId"]["name"], "sMal_Tree_1l")
-        self.assertEqual(yy["parentObjectId"]["name"], "parLeaves")
-        create = code(PROJECT / "objects" / "oMal_Tree1" / "Create_0.gml")
-        self.assertIn("image_speed = 0;", create)
-        self.assertIn("image_index = 0;", create)
+    def test_leaves_use_the_reconstructed_parent_events_and_no_provisional_create(self):
+        # oMal_Tree1 has no code of its own (its PreCreate is empty); the crown behaviour is parLeaves.
+        tree = load_yy(PROJECT / "objects" / "oMal_Tree1" / "oMal_Tree1.yy")
+        self.assertEqual(tree["spriteId"]["name"], "sMal_Tree_1l")
+        self.assertEqual(tree["parentObjectId"]["name"], "parLeaves")
+        self.assertEqual(tree["eventList"], [])
+        self.assertFalse((PROJECT / "objects" / "oMal_Tree1" / "Create_0.gml").exists())
+        parent = load_yy(PROJECT / "objects" / "parLeaves" / "parLeaves.yy")
+        self.assertEqual(sorted((e["eventType"], e["eventNum"]) for e in parent["eventList"]),
+                         [(0, 0), (1, 0), (3, 1), (8, 0)])  # Create, Destroy, Step_1, Draw
+
+    def test_parLeaves_events_keep_the_constants_read_from_the_executable(self):
+        create = code(PROJECT / "objects" / "parLeaves" / "Create_0.gml")
+        self.assertIn("instance_create_depth(x, y, 27, oTemp_Back_Leaves)", create)
+        self.assertIn("r = random(360);", create)
+        step = code(PROJECT / "objects" / "parLeaves" / "Step_1.gml")
+        self.assertIn("(tick * 4 + r + xstart + ystart) * 1.2", step)
+        self.assertIn("otbl.y = ystart + 2;", step)
+        draw = code(PROJECT / "objects" / "parLeaves" / "Draw_0.gml")
+        self.assertEqual(draw.count("lengthdir_x(0.8,"), 4)
+        for phase in ("_a - 40", "_a - 80", "_a - 120"):
+            self.assertIn(phase, draw)
+        self.assertIn("instance_destroy(otbl);", code(PROJECT / "objects" / "parLeaves" / "Destroy_0.gml"))
+        control = code(PROJECT / "objects" / "oControl" / "Step_1.gml")
+        self.assertIn("tick = tick_n+(get_timer()/1000000);", control)
 
     def test_pixel_art_is_not_interpolated(self):
         options = read(PROJECT / "options" / "windows" / "options_windows.yy")
@@ -171,7 +188,8 @@ class ShellObjectTests(unittest.TestCase):
     def test_hand_written_objects_are_not_shells(self):
         for name in sorted(shells.HAND_WRITTEN):
             yy = load_yy(PROJECT / "objects" / name / f"{name}.yy")
-            self.assertTrue(yy["eventList"], f"{name} has hand-written events")
+            if name != "oMal_Tree1":  # a plain child with a sprite and no events of its own
+                self.assertTrue(yy["eventList"], f"{name} has hand-written events")
             self.assertEqual(yy["parent"]["name"], "Objects")
 
 
