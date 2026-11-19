@@ -38,17 +38,9 @@ STUBS = {
     "mask_reset": ("0", "effect (stage 2)"),
     "mask_set": ("0", "effect (stage 2)"),
     "open_book": ("0", "UI (stage 3)"),
-    "play_sound": ("-1", "sounds are not imported (stage 2, P8)"),
-    # the original (scripts/play_sound_pos at the repository root) is real GML; it is stubbed only because
-    # every sound it would receive is the -1 placeholder. Replace by the original when the sounds are imported.
-    "play_sound_pos": ("-1", "sounds are not imported (stage 2, P8)"),
     "string_n": ("\"\"", "text (stage 3)"),
     "string_n_glitch": ("\"\"", "text (stage 3)"),
     "string_wordbreak": ("\"\"", "text (stage 3)"),
-    "snd_step_dirt": ("-1", "sound index choice (stage 2, P8)"),
-    "snd_step_grass": ("-1", "sound index choice (stage 2, P8)"),
-    "snd_step_stone": ("-1", "sound index choice (stage 2, P8)"),
-    "snd_step_wood": ("-1", "sound index choice (stage 2, P8)"),
 }
 SOURCES = ["oPlayer", "oEo", "parNote", "oControl", "oCamera"]
 
@@ -191,6 +183,8 @@ def main():
     # per file: an unterminated /* comment in one event must not swallow the next file
     used = sorted({i for f in (REPO / "oPlayer").glob("*.gml")
                    for i in sd.identifiers(f.read_text(encoding="utf-8", errors="replace")) if i in sound_names})
+    # a sound that Tools/generate_sounds.py has imported is a real asset: no placeholder
+    used = [n for n in used if not (PROJECT / "sounds" / n / f"{n}.yy").exists()]
     resources = [write_script(NAME, render(texts)), write_script(SOUNDS, render_sounds(used)), write_shader()]
     update_yyp(PROJECT / "NYKRA_VerticalSlice.yyp", add_resources=resources,
                add_folders=[("Shaders", "folders/Shaders.yy")])

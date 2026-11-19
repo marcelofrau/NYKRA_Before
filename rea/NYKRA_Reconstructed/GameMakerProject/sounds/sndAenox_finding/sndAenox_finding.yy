@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"sndAenox_finding",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":3.208685,
+  "name":"sndAenox_finding",
+  "parent":{
+    "name":"Sounds",
+    "path":"folders/Sounds.yy",
+  },
+  "preload":true,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"sndAenox_finding.wav",
+  "type":1,
+  "volume":1.0,
+}

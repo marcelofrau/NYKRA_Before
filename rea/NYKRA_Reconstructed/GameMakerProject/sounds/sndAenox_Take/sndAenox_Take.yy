@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"sndAenox_Take",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":2.444603,
+  "name":"sndAenox_Take",
+  "parent":{
+    "name":"Sounds",
+    "path":"folders/Sounds.yy",
+  },
+  "preload":true,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"sndAenox_Take.wav",
+  "type":0,
+  "volume":1.0,
+}

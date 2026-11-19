@@ -107,18 +107,6 @@ function open_book(_a0 = undefined, _a1 = undefined) {
     return 0;
 }
 
-/// @description play_sound(...): STUB, sounds are not imported (stage 2, P8)
-function play_sound(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = undefined, _a4 = undefined, _a5 = undefined) {
-    stub_log("play_sound", "sounds are not imported (stage 2, P8)");
-    return -1;
-}
-
-/// @description play_sound_pos(...): STUB, sounds are not imported (stage 2, P8)
-function play_sound_pos(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = undefined, _a4 = undefined, _a5 = undefined, _a6 = undefined, _a7 = undefined) {
-    stub_log("play_sound_pos", "sounds are not imported (stage 2, P8)");
-    return -1;
-}
-
 /// @description string_n(...): STUB, text (stage 3)
 function string_n(_a0 = undefined, _a1 = undefined) {
     stub_log("string_n", "text (stage 3)");
@@ -135,28 +123,4 @@ function string_n_glitch(_a0 = undefined, _a1 = undefined) {
 function string_wordbreak(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = undefined) {
     stub_log("string_wordbreak", "text (stage 3)");
     return "";
-}
-
-/// @description snd_step_dirt(...): STUB, sound index choice (stage 2, P8)
-function snd_step_dirt(_a0 = undefined) {
-    stub_log("snd_step_dirt", "sound index choice (stage 2, P8)");
-    return -1;
-}
-
-/// @description snd_step_grass(...): STUB, sound index choice (stage 2, P8)
-function snd_step_grass(_a0 = undefined) {
-    stub_log("snd_step_grass", "sound index choice (stage 2, P8)");
-    return -1;
-}
-
-/// @description snd_step_stone(...): STUB, sound index choice (stage 2, P8)
-function snd_step_stone(_a0 = undefined) {
-    stub_log("snd_step_stone", "sound index choice (stage 2, P8)");
-    return -1;
-}
-
-/// @description snd_step_wood(...): STUB, sound index choice (stage 2, P8)
-function snd_step_wood(_a0 = undefined) {
-    stub_log("snd_step_wood", "sound index choice (stage 2, P8)");
-    return -1;
 }

@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"sndBackpack_05",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":1.356916,
+  "name":"sndBackpack_05",
+  "parent":{
+    "name":"Sounds",
+    "path":"folders/Sounds.yy",
+  },
+  "preload":true,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"sndBackpack_05.wav",
+  "type":0,
+  "volume":1.0,
+}

@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"sndStep_stone7",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":0.491973,
+  "name":"sndStep_stone7",
+  "parent":{
+    "name":"Sounds",
+    "path":"folders/Sounds.yy",
+  },
+  "preload":true,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"sndStep_stone7.wav",
+  "type":0,
+  "volume":1.0,
+}

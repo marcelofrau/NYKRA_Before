@@ -78,10 +78,27 @@ class PlayerObjectTests(unittest.TestCase):
         for p in (REA.parents[1] / "oPlayer").glob("*.gml"):
             text = re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", p.read_text(encoding="utf-8"), flags=re.S))
             for name in re.findall(r"\bsnd[A-Z]\w+", text):
-                self.assertIn(f"globalvar {name};", sounds, f"{p.name}: {name}")
+                imported = (PROJECT / "sounds" / name / f"{name}.yy").exists()
+                self.assertTrue(imported or f"globalvar {name};" in sounds, f"{p.name}: {name}")
+                self.assertFalse(imported and f"globalvar {name};" in sounds, f"{name} is both imported and a placeholder")
         stubs = code("provisional_player_stubs")
         self.assertIn("function create_fx(_a0 = undefined, _a1 = undefined,", stubs)  # GM1020: all optional
         self.assertEqual(stubs.count("stub_log(\""), len(re.findall(r"^function (?!stub_log)\w+", stubs, re.M)))
+
+    def test_sound_scripts_use_the_imported_sounds(self):
+        original = (REA.parents[1] / "scripts" / "play_sound_pos" / "play_sound_pos.gml").read_text(encoding="utf-8")
+        ours = (PROJECT / "scripts" / "play_sound_pos" / "play_sound_pos.gml").read_text(encoding="utf-8")
+        self.assertTrue(ours.endswith(original))
+        yyp = (PROJECT / "NYKRA_VerticalSlice.yyp").read_text(encoding="utf-8").replace(" ", "")
+        for kind, n in (("grass", 8), ("dirt", 8), ("stone", 8), ("wood", 8)):
+            text = code(f"snd_step_{kind}")
+            for i in range(1, n + 1):
+                self.assertIn(f"sndStep_{kind}{i}", text)
+                self.assertIn(f'"name":"sndStep_{kind}{i}"', yyp)
+        self.assertIn("audio_sound_gain(_snd, _gain, _gain_time);", code("play_sound"))
+        for name in ("sndHit_Gnar1", "sndDeath", "sndAenox_boom7"):
+            self.assertTrue((PROJECT / "sounds" / name / f"{name}.yy").exists(), name)
+            self.assertTrue(list((PROJECT / "sounds" / name).glob(f"{name}.*")), name)
 
     def test_player_sprites_are_registered(self):
         yyp = (PROJECT / "NYKRA_VerticalSlice.yyp").read_text(encoding="utf-8")
