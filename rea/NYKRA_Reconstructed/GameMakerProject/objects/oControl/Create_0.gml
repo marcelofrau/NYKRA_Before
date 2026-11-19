@@ -21,6 +21,20 @@ GRV_SPD = 0.218;
 globalvar CURRENTROOM;
 CURRENTROOM = "";
 
+// Camera view and its centre, refreshed by Draw_0.gml (original oControl/Create_0.gml lines 85-113).
+globalvar CX;
+globalvar CY;
+globalvar CW;
+globalvar CH;
+globalvar CMX;
+globalvar CMY;
+CX = 0;
+CY = 0;
+CW = 0;
+CH = 0;
+CMX = 0;
+CMY = 0;
+
 // Global clock in seconds, used by the leaves and the grass (see Step_1.gml).
 globalvar tick;
 globalvar tick360;
@@ -31,7 +45,9 @@ globalvar map;
 globalvar obj_list;
 globalvar map_id;
 
-// Camera object read by map_load (the original set_game_screen builds the real one).
+// Camera read by map_load and by the background leaves. In the original it is a GLOBAL variable
+// (the decompiled leaves read it from the global scope); set_game_screen builds the real one.
+globalvar cam;
 cam = camera_create_view(0, 0, 1366, 768);
 
 collision_list = [];

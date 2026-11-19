@@ -49,8 +49,17 @@ def short(name):
 
 
 def const(token, kind="d"):
+    """Numeric value of a DAT constant. kind 'a' (auto) picks float when the double reading is absurd."""
     m = re.fullmatch(r"_?DAT_([0-9a-f]+)", token)
-    return fmt_num(read_const(int(m.group(1), 16), kind)) if m else short(token)
+    if not m:
+        return short(token)
+    va = int(m.group(1), 16)
+    if kind == "a":
+        d, f = read_const(va, "d"), read_const(va, "f")
+        if d is not None and (d == 0 or 1e-30 < abs(d) < 1e30):
+            return fmt_num(d)
+        return fmt_num(f)
+    return fmt_num(read_const(va, kind))
 
 
 # ---- preprocessing: remove bookkeeping -----------------------------------------------------
@@ -58,6 +67,9 @@ FREE = re.compile(r"[ \t]*if \(\(0x46U >> \([^\n]*? & 0x1f\) & 1\) != 0\) \{\n[ 
 COPY = re.compile(
     r"(?:[ \t]*\w+ = (?:\*\(\w+ \*\)\(\(longlong\)\w+ \+ 0xc\)|\*\(\w+ \*\)\(\w+ \+ 1\)|\w+);\n){0,2}"
     r"[ \t]*if \(\(0x46U >> \(\w+ & 0x1f\) & 1\) == 0\) \{\n[ \t]*[^\n]*;\n[ \t]*\}\s*else \{\n[ \t]*FUN_\w+\((&?\w+),(&?\w+)\);\n[ \t]*\}\n")
+NEG = re.compile(
+    r"[ \t]*(\w+) = \(double\)CONCAT44\(\(uint\)\(\(ulonglong\)(\w+) >> 0x20\) \^ DAT_141982e90\._4_4_,\s*"
+    r"\(uint\)\w+ \^ \(uint\)DAT_141982e90\);\n")
 TOREAL1 = re.compile(r"[ \t]*if \(\(\w+ & 0xffffff\) != 0\) \{\n[ \t]*\w+ = \(double\)FUN_1416940c0\(&?\w+\);\n[ \t]*\}\n")
 TOREAL2 = re.compile(
     r"[ \t]*if \(\(\*\(uint \*\)\(\(longlong\)(\w+) \+ 0xc\) & 0xffffff\) == 0\) \{\n[ \t]*(\w+) = \*\w+;\n[ \t]*\}\s*else \{\n"
@@ -68,6 +80,7 @@ def preprocess(text):
     text = text.replace("\r\n", "\n")
     text = FREE.sub("", text)
     text = COPY.sub(lambda m: f"@COPY {m.group(1)} {m.group(2)};\n", text)
+    text = NEG.sub(lambda m: f"@NEG {m.group(1)} {m.group(2)};\n", text)
     text = TOREAL1.sub("", text)
     text = TOREAL2.sub(lambda m: f"@REALP {m.group(2)} {m.group(1)};\n", text)
     return text
@@ -79,7 +92,7 @@ READ_SELF = re.compile(r"FUN_1416cea80\(param_1,DAT_\w+/\*(\w+)\*/,0x80000000,&(
 WRITE_SELF = re.compile(r"FUN_1416cfae0\(param_1,DAT_\w+/\*(\w+)\*/,0x80000000,&(\w+)\);")
 WRITE_OTHER = re.compile(r"FUN_1416cf7b0\((\w+),DAT_\w+/\*(\w+)\*/,0x80000000,&(\w+)\);")
 READ_OTHER = re.compile(r"FUN_1416cfeb0\((&?\w+),DAT_\w+/\*(\w+)\*/,0x80000000,&(\w+)")
-CALL = re.compile(r"(?:(\w+) = )?FUN_1416ab210\(param_1,param_2,&(\w+),(\d+),DAT_\w+/\*(\w+)\*/,(&?\w+)\);")
+CALL = re.compile(r"(?:(\w+) = )?(?:\([^)]*\))?FUN_1416ab210\(param_1,\w+,&(\w+),(\d+),DAT_\w+/\*(\w+)\*/,(&?\w+)\);")
 SLOT = re.compile(r"(local_[0-9a-f]+) = &(local_[0-9a-f]+);")
 SLOT_AL = re.compile(r"(\w+) = &(local_[0-9a-f]+);")
 CONST_DBL = re.compile(r"(local_[0-9a-f]+) = (0x[0-9a-f]{16})(?:/\*[^*]*\*/)?;")
@@ -91,7 +104,9 @@ ADD_INT = re.compile(r"FUN_140001c50\((&?\w+),(0x[0-9a-f]+|\d+)\);")
 ADD_DBL = re.compile(r"FUN_140003f30\((&?\w+),(\w+)\);")
 MUL_DBL = re.compile(r"FUN_140009980\((&?\w+),(&?\w+),(_?DAT_[0-9a-f]+)(?:/\*[^*]*\*/)?\);")
 DIV_DBL = re.compile(r"FUN_140004520\((&?\w+),(&?\w+),(_?DAT_[0-9a-f]+)(?:/\*[^*]*\*/)?\);")
-LENGTHDIR = re.compile(r"(\w+) = \(float\)FUN_1416cd8(00|80)\((_?DAT_[0-9a-f]+|[\w.]+),(?:CONCAT44\(\w+,)?\(float\)(\w+)\)?\);")
+LENGTHDIR = re.compile(r"(\w+) = \(float\)FUN_1416cd8(00|80)\((_?DAT_[0-9a-f]+|[\w.]+),(?:CONCAT44\(\w+,\(float\)(\w+)\)|(\w+))\);")
+CONCAT_F = re.compile(r"(\w+) = CONCAT44\(\w+,\(float\)(\w+)\);")
+RANDOM_RANGE = re.compile(r"(\w+) = (?:\(double\))?FUN_1416cdc60\((_?DAT_[0-9a-f]+),(_?DAT_[0-9a-f]+)\);")
 RANDOM = re.compile(r"(\w+) = FUN_1416cdc30\((_?DAT_[0-9a-f]+|\w+)\);")
 EXISTS = re.compile(r"(\w+) = FUN_1416f8280\(param_1,param_2,\(longlong\)(\w+)\);")
 DESTROY = re.compile(r"FUN_1416f8210\(param_1,param_2,(\d+),&(local_[0-9a-f]+)\);")
@@ -108,7 +123,7 @@ BOILER = re.compile(
 
 def expr_value(rhs, real_of):
     rhs = rhs.replace("(double)", "").replace("(float)", "")
-    rhs = re.sub(r"_?DAT_[0-9a-f]+(?:/\*[^*]*\*/)?", lambda m: const(m.group(0).split("/*")[0]), rhs)
+    rhs = re.sub(r"_?DAT_[0-9a-f]+(?:/\*[^*]*\*/)?", lambda m: const(m.group(0).split("/*")[0], "a"), rhs)
     rhs = re.sub(r"local_[0-9a-f]+", lambda m: short(m.group(0)), rhs)
     return rhs.strip()
 
@@ -118,14 +133,23 @@ def lift_function(text):
     refs, slots, ret_alias, real_of, out = {}, {}, {}, {}, []
 
     def emit(statement):
-        # pointer aliases (uVar2 -> tick) are resolved as of this statement
-        out.append(re.sub(r"\b(uVar\d+|puVar\d+|pdVar\d+)\b", lambda m: refs.get(m.group(1), m.group(1)), statement))
+        # pointer aliases (uVar2 -> tick) are resolved as of this statement; a statement that
+        # assigns to an alias name reuses it as a plain value (uVar1 = random(360)), so drop the alias
+        m = re.match(r"(uVar\d+|puVar\d+|pdVar\d+) = (.*)", statement)
+        if m and not re.search(r"\b(?:" + m.group(1) + r")\b", m.group(2)):
+            out.append(f"{m.group(1)} = " + re.sub(r"\b(uVar\d+|puVar\d+|pdVar\d+)\b", lambda k: refs.get(k.group(1), k.group(1)), m.group(2)))
+            refs.pop(m.group(1), None)
+            return
+        out.append(re.sub(r"\b(uVar\d+|puVar\d+|pdVar\d+)\b", lambda k: refs.get(k.group(1), k.group(1)), statement))
 
     lines = [l.rstrip() for l in text.split("\n")]
     for line in lines:
         m = SLOT.fullmatch(line.strip())
         if m:
             slots[int(m.group(1)[6:], 16)] = short(m.group(2))
+        m = re.fullmatch(r"(local_[0-9a-f]+)\[(\d+)\] = &(local_[0-9a-f]+);", line.strip())
+        if m:  # element i of a pointer array sits 8*i bytes above its base: a smaller local_ number
+            slots[int(m.group(1)[6:], 16) - 8 * int(m.group(2))] = short(m.group(3))
     # The compiler stores the current source line in one local ("trace"), set to 0 right after the
     # function-name string. Its first non-zero assignment marks the start of the real body.
     m = re.search(r'\w+ = "gml_\w+";\n\s*(\w+) = 0;', text)
@@ -142,7 +166,9 @@ def lift_function(text):
             refs[m.group(1)] = m.group(4)
             continue
         if not body_started:
-            if trace and re.fullmatch(rf"{trace} = (?:[1-9]\d*|0x[0-9a-f]+);", line):
+            # the body starts at "DAT_142182d90 = param_1;" (the current-instance marker); the line
+            # counter alone is not enough because the first statement runs before it is incremented
+            if line.startswith("DAT_142182d90 = "):
                 body_started = True
             continue
         if trace and re.fullmatch(rf"{trace} = \w+;", line):
@@ -153,7 +179,7 @@ def lift_function(text):
             continue
         if BOILER.match(line):
             continue
-        if SLOT.fullmatch(line):
+        if SLOT.fullmatch(line) or re.fullmatch(r"local_[0-9a-f]+\[\d+\] = &local_[0-9a-f]+;", line):
             continue
         m = SLOT_AL.fullmatch(line)
         if m and m.group(1).startswith("pp"):
@@ -240,10 +266,27 @@ def lift_function(text):
         if m:
             real_of[m.group(1)] = short(m.group(2))
             continue
+        m = re.fullmatch(r"(dVar\w+) = (?:\(double\))?(fVar\w+);", line)
+        if m:
+            real_of[m.group(1)] = m.group(2)
+            continue
+        m = CONCAT_F.fullmatch(line)
+        if m:
+            real_of[m.group(1)] = real_of.get(m.group(2), m.group(2))
+            continue
+        m = re.fullmatch(r"@NEG (\w+) (\w+);", line)
+        if m:
+            emit(f"{short(m.group(1))} = -{real_of.get(m.group(2), m.group(2))};")
+            continue
         m = LENGTHDIR.fullmatch(line)
         if m:
             fn = "lengthdir_x" if m.group(2) == "00" else "lengthdir_y"
-            emit(f"{m.group(1)} = {fn}({const(m.group(3), 'f')}, {real_of.get(m.group(4), m.group(4))});")
+            angle = m.group(4) or m.group(5)
+            emit(f"{m.group(1)} = {fn}({const(m.group(3), 'f')}, {real_of.get(angle, angle)});")
+            continue
+        m = RANDOM_RANGE.fullmatch(line)
+        if m:
+            emit(f"{m.group(1)} = random_range({const(m.group(2))}, {const(m.group(3))});")
             continue
         m = RANDOM.fullmatch(line)
         if m:
@@ -275,10 +318,12 @@ def lift_function(text):
     for i, line in enumerate(out):
         m = re.fullmatch(r"(v[0-9a-f]+) = 0;  // zero-init, dropped if unused", line)
         if m:
-            later = "\n".join(out[i + 1:])
-            if not re.search(rf"(?<![\w.]){m.group(1)}\b(?! = )", later):
+            var = m.group(1)
+            nxt = next((l for l in out[i + 1:] if re.search(rf"(?<![\w.]){var}\b", l)), None)
+            # dead when nothing reads it, or when the next mention overwrites it without reading it
+            if nxt is None or re.match(rf"{var} = (?!.*(?<![\w.]){var}\b)", nxt):
                 continue
-            line = f"{m.group(1)} = 0;"
+            line = f"{var} = 0;"
         kept.append(line)
     return kept
 

@@ -1,4 +1,5 @@
 // lifted from gml_Object_parGrass_Create_0.c
+tshake = 0;
 shake = 0;
 uVar5 = random(100);
 // ?? local_b8 = uVar5;

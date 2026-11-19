@@ -1,18 +1,7 @@
 // lifted from gml_Object_oGrass3_Alarm_0.c
 // ?? void gml_Object_oGrass3_Alarm_0(longlong *param_1,undefined8 param_2)
 v240 = ?;
-v108 = 0;
-vf8 = 0;
-ve8 = 0;
-vd8 = 0;
-vc8 = 0;
-vb8 = 0;
-v68 = 0;
-va8 = 0;
-v88 = 0;
 // ?? local_70 = CONCAT44(0xffffff,(undefined4)local_70);
-v78 = 0;
-v98 = 0;
 // ?? uVar5 = in_stack_fffffffffffffd80 & 0xffffffffffffff00;
 v68 = x;
 va8 = y;
@@ -27,7 +16,6 @@ v58 = -4;
 // ?? iVar1 = FUN_1416d9df0(v98,&local_58,DAT_1420f6b08,0);
 if (iVar1 == 0) {
     LAB_140a783b1:
-    v98 = 0;
     // ?? uVar5 = (ulonglong)ppuVar6 & 0xffffffffffffff00;
     v68 = x;
     va8 = y;
@@ -40,7 +28,6 @@ if (iVar1 == 0) {
     v58 = -4;
     // ?? iVar1 = FUN_1416d9df0(v98,&local_58,DAT_1420f6b08,0);
     if (iVar1 != 0) goto LAB_140a787c4;
-    v78 = 0;
     // ?? uVar5 = (ulonglong)ppuVar7 & 0xffffffffffffff00;
     v68 = x;
     va8 = y;
@@ -57,7 +44,6 @@ if (iVar1 == 0) {
     v88 = 3;
     image_index = v88;
     else {
-        v78 = 0;
         // ?? uVar5 = (ulonglong)ppuVar6 & 0xffffffffffffff00;
         v68 = x;
         va8 = y;

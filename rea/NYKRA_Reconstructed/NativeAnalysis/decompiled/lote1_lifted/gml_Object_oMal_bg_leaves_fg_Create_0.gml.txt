@@ -1,5 +1,7 @@
 // lifted from gml_Object_oMal_bg_leaves_fg_Create_0.c
-// ?? dVar4 = (double)FUN_1416cdc60(DAT_141985630,_DAT_141984518);
+uVar3 = random_range(-3, 3);
+xx = uVar3;
+dVar4 = random_range(-3, 3);
 dVar4 = dVar4 + 8;
 yy = dVar4;
 _x = 0;

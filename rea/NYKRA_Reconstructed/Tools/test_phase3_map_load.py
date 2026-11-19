@@ -85,6 +85,13 @@ class ProvisionalControllerTests(unittest.TestCase):
             for name in functions:
                 self.assertNotRegex(text, rf"^function {name}\(", path)
 
+    def test_globals_read_by_other_objects_are_global_not_instance_variables(self):
+        # The leaves read these from the global scope (DAT_14218ecf8 in the decompilation), so an
+        # instance variable of oControl is invisible to them ("not set before reading it").
+        create = code(PROJECT / "objects" / "oControl" / "Create_0.gml")
+        for name in ("cam", "tick", "CMX", "CMY", "CX", "CY", "CW", "CH"):
+            self.assertRegex(create, rf"globalvar {name};", name)
+
     def test_boot_loads_rmMal_origin_through_map_load_only(self):
         boot = code(PROJECT / "objects" / "oControl" / "Other_4.gml")
         self.assertIn('var _room_name = "rmMal_Origin";', boot)
@@ -112,6 +119,27 @@ class ProvisionalControllerTests(unittest.TestCase):
             self.assertNotIn(probe, instances)
             self.assertNotIn(probe, resources)
             self.assertFalse((PROJECT / "objects" / probe).exists(), probe)
+
+    def test_background_leaves_keep_the_constants_read_from_the_executable(self):
+        expected = {  # object -> (sprite, depth, one distinctive Step constant)
+            "oMal_bg_leaves_bg": ("sMal_bg_leaves_1", "depth = 50;", "/ 2.5 + 32"),
+            "oMal_bg_leaves_bg_fg": ("sMal_bg_leaves_11", "depth = -70;", "(1.8 * rr)"),
+            "oMal_bg_leaves_fg": ("sMal_bg_leaves", "depth = 48;", "/ 3.2 + lengthdir_x(2, _a)"),
+        }
+        for name, (sprite, depth, step_part) in expected.items():
+            yy = load_yy(PROJECT / "objects" / name / f"{name}.yy")
+            self.assertEqual(yy["spriteId"]["name"], sprite, name)
+            self.assertEqual(sorted((e["eventType"], e["eventNum"]) for e in yy["eventList"]), [(0, 0), (3, 0), (8, 0)], name)
+            create = code(PROJECT / "objects" / name / "Create_0.gml")
+            self.assertIn(depth, create, name)
+            # Step_0 reads xx and yy, so Create_0 must set both (the first version forgot xx)
+            self.assertRegex(create, r"(?m)^xx = ")
+            self.assertRegex(create, r"(?m)^yy = ")
+            self.assertIn(step_part, code(PROJECT / "objects" / name / "Step_0.gml"), name)
+            self.assertIn("draw_sprite_ext(sprite_index, image_index, _x, _y,", code(PROJECT / "objects" / name / "Draw_0.gml"), name)
+        self.assertIn("rr = mean(1, sqr(random_range(0.9, 1.45)));", code(PROJECT / "objects" / "oMal_bg_leaves_bg_fg" / "Create_0.gml"))
+        control = code(PROJECT / "objects" / "oControl" / "Draw_0.gml")
+        self.assertIn("CMX = CX+(CW/2);", control)
 
     def test_leaves_use_the_reconstructed_parent_events_and_no_provisional_create(self):
         # oMal_Tree1 has no code of its own (its PreCreate is empty); the crown behaviour is parLeaves.

@@ -26,7 +26,10 @@ REA = TOOLS.parent
 PROJECT = REA / "GameMakerProject"
 # Objects whose .yy is maintained by hand: provisional ones (oControl, oCamera) and the ones
 # with reconstructed events or a sprite (parLeaves, oMal_Tree1).
-HAND_WRITTEN = {"oControl", "oCamera", "oMal_Tree1", "parLeaves"}
+HAND_WRITTEN = {
+    "oControl", "oCamera", "oMal_Tree1", "parLeaves",
+    "oMal_bg_leaves_bg", "oMal_bg_leaves_bg_fg", "oMal_bg_leaves_fg",
+}
 # Objects named by map_load, clear_objects and _SET_SCENE that are evaluated on the path
 # even when the level does not contain them (a missing asset is a runtime error).
 EXTRA = [

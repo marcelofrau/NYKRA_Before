@@ -1,4 +1,12 @@
 // lifted from gml_Object_parLeaves_Create_0.c
+vd8 = x;
+vc8 = y;
+v118 = vd8;
+v108 = vc8;
+vf8 = 27;
+ve8 = 94;
+v128 = instance_create_depth(v118, v108, vf8, ve8);
+otbl = v128;
 v80 = 1;
 otbl.image_index = v80;
 vb8 = sprite_index;
@@ -10,8 +18,8 @@ v60 = 0;
 image_index = v60;
 v50 = 0;
 image_speed = v50;
-otbl = random(360);
-r = otbl;
+uVar1 = random(360);
+r = uVar1;
 xx = 0;
 yy = 0;
 xxx = 0;

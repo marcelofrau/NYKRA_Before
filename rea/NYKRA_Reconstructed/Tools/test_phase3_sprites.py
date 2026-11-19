@@ -58,7 +58,9 @@ class ObjectSpriteTests(unittest.TestCase):
             self.assertIn(name, registered)
         for yy_path in (PROJECT / "objects").glob("*/*.yy"):
             obj = load_yy(yy_path)
-            if obj["name"] == "oMal_Tree1":  # plan P10: provisional Create_0 fixes its frame
+            # Objects whose events are reconstructed set image_speed/image_index themselves, so the
+            # sprite can be linked (plan P3); a shell with a sprite would animate on its own.
+            if obj["name"] in ("oMal_Tree1", "oMal_bg_leaves_bg", "oMal_bg_leaves_bg_fg", "oMal_bg_leaves_fg"):
                 continue
             self.assertIsNone(obj["spriteId"], f"{obj['name']} would animate by itself")
 
