@@ -18,6 +18,12 @@ O usuário está em ambiente de trabalho. **Antes de executar qualquer coisa** (
 - O `oSpriteProbe` foi removido; o tronco vem do nível.
 - Os 30 testes Python passam.
 
+## Estado do 3.2b (19/11, fim do dia)
+- **Funciona:** pela IDE (F5), o `map_load` reconstruído carrega o `rmMal_Origin` e cria os **79 objetos** (contagens iguais ao levantamento), pulando os 4 sprites `<undefined>` com log. Log limpo, sem erro de runtime.
+- **Pendente de confirmação visual do usuário:** a copa da árvore agora vem do `oMal_Tree1` com um `Create_0` provisório (P10). Antes dessa correção a copa não aparecia, porque o `clear_objects` original destrói o `oLeavesProbe`. Pedir um novo F5.
+- Gerados: scripts portados (`Tools/generate_project_scripts.py`), 46 cascas (`Tools/generate_object_shells.py`), `oControl` mínimo, `oCamera` só com `Create_0`, `provisional_stubs`. Os stubs precisam declarar parâmetros (erro GM1019).
+- 40 testes Python passam. Faltam: aceite do 3.2b pelo usuário (copa visível), depois o passo dos sprites dos 27 objetos (P3) e o marco 3.3.
+
 ## Levantamento do 3.2b feito e decisões tomadas (19/11)
 Resumo em `MASTER_RECONSTRUCTION_PLAN.md` §2 ("Levantamento do 3.2b") e relatório em `SURVEY_3_2b_rmMal_Origin.md`. O usuário aprovou: `oControl` mínimo provisório e objetos-casca sem eventos, "devagar, provar e depois importar o original". Pediu explicitamente que **a importação do `oControl` original e dos sprites/eventos não seja esquecida**: ela está no **registro de provisórios (§7 do plano, P1 a P8)**. Revisar essa tabela ao fechar cada marco. Nada de código do 3.2b foi escrito ainda.
 

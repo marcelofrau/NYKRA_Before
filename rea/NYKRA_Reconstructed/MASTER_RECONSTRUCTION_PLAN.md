@@ -293,11 +293,13 @@ Todo atalho tomado de propósito fica listado aqui, com o marco que o remove e o
 | P1 | `oControl` **mínimo** (só as variáveis do `map_load`; sem editor, UI, saves, música) | 3.2b | Fase 4, passo 1 "Base global" (§3.3) | `oControl` original importado e funcionando (eventos, Draw_73 etc.), com todos os assets que ele referencia (23 objetos, 36 sprites, 7 sons, 18 scripts, 1 shader, 2 outros) |
 | P2 | **Objetos-casca** dos 27 objetos de `rmMal_Origin` (hierarquia, sprite e flags; **sem eventos**) | 3.2b | 3.3 (eventos) | cada objeto com seus eventos reconstruídos a partir de `gml_Object_*` (96 eventos no nível) |
 | P3 | Objetos **sem sprite** (ou com sprite de teste) nas cascas | 3.2b | passo seguinte ao 3.2b | os 16 sprites / 62 quadros importados com recorte por quadro lido do `data.win` e conferidos contra o original |
-| P4 | `oLeavesProbe` (folhas da árvore desenhadas por objeto de teste) e `oLevelProbe` (probe de diagnóstico) | 3.1 / 3.2 | 3.2b (`oLevelProbe`), 3.3 (`oLeavesProbe` → `oMal_Tree1`) | o nível carrega só pelo `map_load` e a árvore vem do objeto `oMal_Tree1` |
-| P5 | **Stubs visíveis** de `obj_setpos`, `instance_create_one`, `real_string`, `inv_add_obj` (se algum for necessário antes de decompilar) | 3.2b | 3.3 | função decompilada e reconstruída; o stub deixa de existir |
-| P6 | `load_game`/`save_game` e qualquer escrita **desligados** (`START_GAME = 0`) | 3.2b | 3.4 (Save V1) | save V1 implementado e testado (`SAVE_MIGRATION_DESIGN.md`) |
+| P4 | ~~`oLevelProbe` e `oLeavesProbe`~~ **removidos no 3.2b**: o `map_load` os substitui, e o `clear_objects` original destruiria o `oLeavesProbe` (não persistente) | 3.1 / 3.2 | 3.2b | feito: o nível carrega só pelo `map_load` |
+| P10 | `oMal_Tree1` com sprite `sMal_Tree_1l` e `Create_0` **provisório** (`image_speed = 0`, `image_index = 0`) para a copa aparecer parada | 3.2b | 3.3 | `PreCreate` original do `oMal_Tree1` reconstruído (`gml_Object_oMal_Tree1_PreCreate_0`) e o `Create_0` provisório apagado |
+| P5 | **Stubs visíveis** (`scripts/provisional_stubs`): `obj_setpos`, `instance_create_one`, `real_string`, `inv_add_obj` (cada um registra `STUB <nome>` no log) | 3.2b | 3.3 | função decompilada e reconstruída; o stub deixa de existir |
+| P6 | `load_game`/`save_game` (stubs) e qualquer escrita **desligados** (`START_GAME = 0`) | 3.2b | 3.4 (Save V1) | save V1 implementado e testado (`SAVE_MIGRATION_DESIGN.md`) |
 | P7 | `interpolate_pixels = false` (escolha do usuário) | 3.2 | quando o usuário notar diferença | decisão do usuário; valor original não lido do GEN8 |
-| P8 | Sem som, sem música, sem sombras/iluminação (`LIGHTING`), sem shaders | 3.2b | Fase 4 | assets e scripts correspondentes importados e testados |
+| P8 | Sem som, sem música, sem sombras/iluminação (`LIGHTING`), sem shaders. O `oControl` provisório define 18 variáveis `snd... = -1` para o `_SET_SCENE` não quebrar | 3.2b | Fase 4 | sons importados **e as variáveis `snd... = -1` removidas** (senão sombreiam os assets); `LIGHTING` e shaders importados e testados |
+| P9 | `oCamera` só com o `Create_0` original; os outros 5 eventos (Alarm_0, Alarm_1, Step_1, Step_2, Draw_75) não foram importados, então a câmera não segue o jogador | 3.2b | 3.3 | os 5 eventos importados (precisam de `reach` etc.) |
 
 Regra de manutenção: ao criar um provisório novo, acrescentar uma linha aqui **no mesmo commit**; ao removê-lo, riscar a linha e anotar o commit.
 
