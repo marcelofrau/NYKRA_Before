@@ -18,6 +18,9 @@ O usuário está em ambiente de trabalho. **Antes de executar qualquer coisa** (
 - O `oSpriteProbe` foi removido; o tronco vem do nível.
 - Os 30 testes Python passam.
 
+## Levantamento do 3.2b feito e decisões tomadas (19/11)
+Resumo em `MASTER_RECONSTRUCTION_PLAN.md` §2 ("Levantamento do 3.2b") e relatório em `SURVEY_3_2b_rmMal_Origin.md`. O usuário aprovou: `oControl` mínimo provisório e objetos-casca sem eventos, "devagar, provar e depois importar o original". Pediu explicitamente que **a importação do `oControl` original e dos sprites/eventos não seja esquecida**: ela está no **registro de provisórios (§7 do plano, P1 a P8)**. Revisar essa tabela ao fechar cada marco. Nada de código do 3.2b foi escrito ainda.
+
 ## Próximo passo: 3.2b (pedir ao usuário antes de começar)
 Trocar o probe pelo `map_load` reconstruído. O detalhamento está em `MASTER_RECONSTRUCTION_PLAN.md` §2, "3.2b":
 - converter os scripts `argument`-style para funções 2.3+;

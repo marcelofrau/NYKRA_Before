@@ -158,6 +158,19 @@ Objetivo: trocar o probe por `ReconstructedGML/phase1_core/map_load.gml` real, n
 4. **`load_game` e escrita de save desligados** nesta etapa (`START_GAME = 0`), porque o código ainda grava em `PROFILES/`.
 5. Aceite: o nível aparece igual ao probe; os 79 objetos são criados ou reportados; nenhum crash; hashes dos fixtures intactos.
 
+#### Levantamento do 3.2b (19/11/2026; `SURVEY_3_2b_rmMal_Origin.md`, gerado por `Tools/survey_dependencies.py`)
+- **`map_load` na LTS 2026:** `array_get_2D(a,i,j)` → `a[i,j]` e `array_length_1d(a)` → `array_length(a)` (as duas funções não existem mais; eram do runtime 2.3.6). Nenhuma outra mudança de lógica.
+- **Contexto:** `map_load` e os scripts irmãos referenciam `oControl` pelo nome e usam variáveis dele (`map`, `obj_list`, `_layer`, `asset_layer`, `asset_list`, `map_id`, `file`, `cam`, `CURRENTROOM`, `MUSIC`, `GRV_SPD`, `FADE_COLOUR`, `START_GAME`). O objeto de controle precisa se chamar `oControl`.
+- **`oControl` original:** 3.039 linhas de eventos; referencia 23 objetos, 36 sprites, 7 sons, 18 scripts, 1 shader e 2 outros assets (editor, UI, partículas). Importá-lo inteiro no 3.2b arrasta tudo isso.
+- **Nível `rmMal_Origin`:** 17 tipos de objeto, 27 com os pais, **96 eventos** (todos com função YYC), **16 sprites / 62 quadros**. Só `oMal_Door_Flat` (payload `locked, n, rm`) e `oNote` (`text, page`) têm payload: precisam existir com a cadeia de pais (`parDoor_Flat > parSAVE`, `parNote`), senão a leitura desalinha em silêncio.
+- **Grade de colisão:** só a célula 3 (`oPlace_Player`) cria objeto; `rmMal_Origin` não tem essa célula.
+- **Scripts que o `map_load` chama:** reconstruídos `clear_objects`, `reset_files`, `_SET_SCENE`; decompilado `load_game` (fica desligado); **a fazer** `obj_setpos`, `inv_add_obj`, `real_string`, `instance_create_one` (`obj_setpos` e `instance_create_one` são exigidos pelo caminho do nível; `inv_add_obj` só com loot).
+- **Proposta de estratégia (aguardando decisão do usuário):**
+  1. `oControl` **mínimo e provisório** (mesmo nome, só as variáveis do `map_load`, `START_GAME = 0`, sem editor/UI/saves), substituído pelo original na fase "Base global" da Fase 4.
+  2. **Objetos-casca** gerados dos metadados (nome, pai, sprite, profundidade, flags, **sem eventos**) para os 27 objetos do nível: mantém a hierarquia e o payload alinhado. Identificados como provisórios.
+  3. Eventos decompilados em lotes depois, do mais simples ao mais acoplado (§3.3).
+  4. Sprites dos 27 objetos (16 sprites / 62 quadros) com os recortes por quadro lidos do `data.win`, após a casca.
+
 ### 3.3 — Player, objetos do nível e transição real
 **Objetos que `rmMal_Origin` instancia** (17 tipos, 79 instâncias; 27 tipos contando os pais):
 
@@ -272,7 +285,23 @@ $env:TILEDIAG_OUT="$env:TEMP\claude-tilediag"; $env:TILEDIAG_TAG="<rótulo>"
 - Modelo de formato 2024.14 salvo pela IDE: `C:\Users\fraumar\GameMakerProjects\BLANK GAME` (projeto, room, opções main/windows; não tem tileset).
 - O título da janela aparece como `${project_name}` porque falta `options/windows/options_windows.yy`; copiar do BLANK GAME quando for preciso.
 
+## 7. Registro de provisórios (nada daqui pode ser esquecido)
+Todo atalho tomado de propósito fica listado aqui, com o marco que o remove e o critério de saída. **Ao fechar um marco, revisar esta tabela.** Nenhum provisório conta como jogo fiel (PHASE3 §1).
+
+| # | Provisório | Criado em | Sai em | Critério de saída |
+|---|---|---|---|---|
+| P1 | `oControl` **mínimo** (só as variáveis do `map_load`; sem editor, UI, saves, música) | 3.2b | Fase 4, passo 1 "Base global" (§3.3) | `oControl` original importado e funcionando (eventos, Draw_73 etc.), com todos os assets que ele referencia (23 objetos, 36 sprites, 7 sons, 18 scripts, 1 shader, 2 outros) |
+| P2 | **Objetos-casca** dos 27 objetos de `rmMal_Origin` (hierarquia, sprite e flags; **sem eventos**) | 3.2b | 3.3 (eventos) | cada objeto com seus eventos reconstruídos a partir de `gml_Object_*` (96 eventos no nível) |
+| P3 | Objetos **sem sprite** (ou com sprite de teste) nas cascas | 3.2b | passo seguinte ao 3.2b | os 16 sprites / 62 quadros importados com recorte por quadro lido do `data.win` e conferidos contra o original |
+| P4 | `oLeavesProbe` (folhas da árvore desenhadas por objeto de teste) e `oLevelProbe` (probe de diagnóstico) | 3.1 / 3.2 | 3.2b (`oLevelProbe`), 3.3 (`oLeavesProbe` → `oMal_Tree1`) | o nível carrega só pelo `map_load` e a árvore vem do objeto `oMal_Tree1` |
+| P5 | **Stubs visíveis** de `obj_setpos`, `instance_create_one`, `real_string`, `inv_add_obj` (se algum for necessário antes de decompilar) | 3.2b | 3.3 | função decompilada e reconstruída; o stub deixa de existir |
+| P6 | `load_game`/`save_game` e qualquer escrita **desligados** (`START_GAME = 0`) | 3.2b | 3.4 (Save V1) | save V1 implementado e testado (`SAVE_MIGRATION_DESIGN.md`) |
+| P7 | `interpolate_pixels = false` (escolha do usuário) | 3.2 | quando o usuário notar diferença | decisão do usuário; valor original não lido do GEN8 |
+| P8 | Sem som, sem música, sem sombras/iluminação (`LIGHTING`), sem shaders | 3.2b | Fase 4 | assets e scripts correspondentes importados e testados |
+
+Regra de manutenção: ao criar um provisório novo, acrescentar uma linha aqui **no mesmo commit**; ao removê-lo, riscar a linha e anotar o commit.
+
 ## 6. Próximo passo imediato
-**Atualizado em 19/11:** marco 3.2 aceito (§1.3c). Próximo: **3.2b** (§2), que troca o probe pelo `map_load` reconstruído, com o usuário aprovando o início. O texto abaixo é o plano original de 17/11.
+**Atualizado em 19/11:** marco 3.2 aceito (§1.3c). Levantamento do 3.2b feito (§2) e decisões do usuário tomadas: `oControl` mínimo provisório (P1) e objetos-casca sem eventos (P2), com a importação do `oControl` original e dos sprites/eventos **registrados em §7** para as fases seguintes. Próximo: escrever os scripts convertidos, o `oControl` mínimo e o gerador de cascas. O texto abaixo é o plano original de 17/11.
 
 Executar **T1** (§1.4) **sem** mexer na opção, para descobrir qual condição é a decisiva. Rodar o dump UTMT como critério objetivo. Em seguida, desligar `option_remove_unused_assets` (T2) de qualquer forma, por causa dos assets referenciados só pelos `.rmlvl`, e repetir o dump. Só então pedir a confirmação visual. Isso fecha o marco 3.2 e libera o 3.2b.
