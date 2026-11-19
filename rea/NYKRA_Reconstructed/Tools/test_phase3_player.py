@@ -82,7 +82,7 @@ class PlayerObjectTests(unittest.TestCase):
                 self.assertTrue(imported or f"globalvar {name};" in sounds, f"{p.name}: {name}")
                 self.assertFalse(imported and f"globalvar {name};" in sounds, f"{name} is both imported and a placeholder")
         stubs = code("provisional_player_stubs")
-        self.assertIn("function create_fx(_a0 = undefined, _a1 = undefined,", stubs)  # GM1020: all optional
+        self.assertIn("function create_spark(_a0 = undefined, _a1 = undefined,", stubs)  # GM1020: all optional
         self.assertEqual(stubs.count("stub_log(\""), len(re.findall(r"^function (?!stub_log)\w+", stubs, re.M)))
 
     def test_sound_scripts_use_the_imported_sounds(self):
@@ -99,6 +99,23 @@ class PlayerObjectTests(unittest.TestCase):
         for name in ("sndHit_Gnar1", "sndDeath", "sndAenox_boom7"):
             self.assertTrue((PROJECT / "sounds" / name / f"{name}.yy").exists(), name)
             self.assertTrue(list((PROJECT / "sounds" / name).glob(f"{name}.*")), name)
+
+    def test_oFx_particle_matches_the_decompilation(self):
+        yy = load_yy(PROJECT / "objects" / "oFx" / "oFx.yy")
+        self.assertEqual(yy["parentObjectId"]["name"], "parDust")
+        self.assertEqual(sorted((e["eventType"], e["eventNum"]) for e in yy["eventList"]),
+                         [(0, 0), (2, 0), (3, 2), (7, 7), (8, 0), (8, 73)])
+        create = code_of("objects/oFx/Create_0.gml")
+        for fragment in ("random_range(0.75, 1.0123) * 1.5", "choose(0, 90, 180, 270)", "alph = 1;", "animate = 1;"):
+            self.assertIn(fragment, create)
+        step = code_of("objects/oFx/Step_2.gml")
+        for fragment in ("alph *= 0.99 * fade;", "alph *= 0.9;", "alph - 0.01 <= 0", "sCloud_Puff", "CX - 40"):
+            self.assertIn(fragment, step)
+        fx = code("create_fx")
+        for fragment in ("instance_create_depth(_a[0], _a[1], _a[2], oFx)", "_fx.sprite_index = _a[11];",
+                         "_fx.animate_loop = _a[16];", "argument_count > 17", "argument_count > 19"):
+            self.assertIn(fragment, fx)
+        self.assertTrue((PROJECT / "sprites" / "sCloud_Puff" / "sCloud_Puff.yy").exists())
 
     def test_player_sprites_are_registered(self):
         yyp = (PROJECT / "NYKRA_VerticalSlice.yyp").read_text(encoding="utf-8")

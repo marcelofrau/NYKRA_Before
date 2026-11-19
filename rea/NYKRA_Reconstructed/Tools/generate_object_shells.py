@@ -32,6 +32,7 @@ HAND_WRITTEN = {
     "parGrass", "oGrass", "oGrass3",
     "parEntity",  # player stage 1: Create, Destroy, Step_1, Step_2 (provisional), Draw_77
     "oPlayer",  # player stage 1: the 21 original events (Tools/generate_player_object.py)
+    "oFx",  # player stage 2: the particle create_fx spawns (reconstructed events)
 }
 # Objects named by map_load, clear_objects and _SET_SCENE that are evaluated on the path
 # even when the level does not contain them (a missing asset is a runtime error).
@@ -45,6 +46,7 @@ EXTRA = [
     "oAenox_Cell", "oAenox_Cell_Off", "oBolt_Colour", "oBolt_iiem", "oDlg_Aenox_1", "oDlg_Pod7",
     "oFx_OBSERVER", "oHeavybox_s", "oPod7_KS", "parAENOX", "parBreakable", "parDust", "parMob",
     "parGnarcier",
+    "oFx",  # parent parDust is created by the closure
 ]
 FOLDER = ("Shells", "folders/Objects/Shells.yy")
 

@@ -1,0 +1,72 @@
+// lifted from gml_Object_oFx_Draw_0.c
+// ?? local_60 = CONCAT44(0xffffff,(undefined4)local_60);
+// ?? local_90 = CONCAT44(0xffffff,(undefined4)local_90);
+v58 = 6;
+if (CURRENT_PLANET == v58) {
+    v78 = 2228343;
+    image_blend = v78;
+}
+v58 = 0;
+if (draw_end != v58) goto LAB_1413048a6;
+// ?? ppuVar3 = (undefined8 **)(in_stack_fffffffffffffce0 & 0xffffffffffffff00);
+v78 = image_blend;
+v58 = 8421504;
+if (v78 != v58) {
+    v58 = 1;
+    if (glow != v58) {
+        v58 = 1;
+        if (add != v58) goto LAB_1413051d4;
+    }
+    v1a8 = 1;
+    v68 = gpu_set_blendmode(v1a8);
+    v58 = 1;
+    if (glow == v58) {
+        // ?? uVar4 = (ulonglong)ppuVar3 & 0xffffffffffffff00;
+        vf8 = x;
+        // ?? uVar4 = uVar4 & 0xffffffffffffff00;
+        ve8 = y;
+        // ?? uVar4 = uVar4 & 0xffffffffffffff00;
+        vd8 = sprite_width;
+        // ?? uVar4 = uVar4 & 0xffffffffffffff00;
+        v78 = image_blend;
+        // ?? uVar4 = uVar4 & 0xffffffffffffff00;
+        va8 = image_index;
+        vc8 = image_number;
+        v1a8 = ?;
+        v198 = v78;
+        // ?? local_7c = local_9c;
+        // ?? local_80 = local_a0;
+        v88 = va8;
+        v88 /= vc8;
+        vb8 = 1;
+        vb8 -= v88;
+        v58 = vb8 / 3;
+        v188 = v58;
+        v58 = vf8 - 1;
+        v178 = v58;
+        v58 = ve8 - 1;
+        v168 = v58;
+        v58 = vd8 * 1.25;
+        v158 = v58;
+        v98 = merge_colour(v1a8, v198, v188);
+        v148 = v98;
+        v138 = ?;
+        v128 = ?;
+        v68 = draw_circle_color(v178, v168, v158, v148, v138, v128);
+    }
+}
+LAB_1413051d4:
+// ?? FUN_1416b8390(param_1);
+v78 = image_blend;
+v58 = 8421504;
+if (v78 != v58) {
+    v58 = 1;
+    if (glow != v58) {
+        v58 = 1;
+        if (add != v58) goto LAB_1413048a6;
+    }
+    v1a8 = ?;
+    v68 = gpu_set_blendmode(v1a8);
+}
+LAB_1413048a6:
+}

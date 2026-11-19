@@ -23,12 +23,6 @@ function create_flashline(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3
     return noone;
 }
 
-/// @description create_fx(...): STUB, effect (stage 2)
-function create_fx(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = undefined, _a4 = undefined, _a5 = undefined, _a6 = undefined, _a7 = undefined, _a8 = undefined, _a9 = undefined, _a10 = undefined, _a11 = undefined, _a12 = undefined, _a13 = undefined, _a14 = undefined, _a15 = undefined, _a16 = undefined, _a17 = undefined) {
-    stub_log("create_fx", "effect (stage 2)");
-    return noone;
-}
-
 /// @description create_lighting_flash(...): STUB, effect (stage 2)
 function create_lighting_flash(_a0 = undefined, _a1 = undefined) {
     stub_log("create_lighting_flash", "effect (stage 2)");

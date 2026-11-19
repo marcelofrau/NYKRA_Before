@@ -1,0 +1,9 @@
+// lifted from gml_Object_oFx_Other_7.c
+v170 = 0;
+if (animate_loop == v170) {
+    v170 = 0;
+    if (animate != v170) {
+        // ?? FUN_1416f8210(param_1,param_2,0,0);
+    }
+}
+}

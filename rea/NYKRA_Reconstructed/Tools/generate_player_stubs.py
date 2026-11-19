@@ -24,7 +24,6 @@ NAME = "provisional_player_stubs"
 STUBS = {
     "create_flash": ("noone", "effect (stage 2)"),
     "create_flashline": ("noone", "effect (stage 2)"),
-    "create_fx": ("noone", "effect (stage 2)"),
     "create_lighting_flash": ("noone", "effect (stage 2)"),
     "create_poly": ("noone", "effect (stage 2)"),
     "create_spark": ("noone", "effect (stage 2)"),

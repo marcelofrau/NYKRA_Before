@@ -1,0 +1,29 @@
+// lifted from gml_Object_oFx_Create_0.c
+dVar3 = random_range(0.75, 1.0123);
+v98 = dVar3 * 1.5;
+image_speed = v98;
+v88 = 0;
+image_index = v88;
+ve8 = ?;
+vd8 = 90;
+vc8 = 180;
+vb8 = 270;
+uVar1 = choose(ve8, vd8, vc8, vb8);
+va8 = uVar1;
+image_angle = va8;
+v78 = 1;
+image_alpha = v78;
+glow = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+player = 0;
+fric = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+add = 0;
+draw_end = 0;
+fade = 0;
+alph = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+animate = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+animate_loop = 0;
+add_grv = 0;
+grv = 0;
+fade_out = 0;
+phys = 0;
+}

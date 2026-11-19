@@ -1,0 +1,162 @@
+// lifted from gml_Object_oFx_Step_2.c
+// ?? local_d8 = CONCAT44(0xffffff,(undefined4)local_d8);
+// ?? local_c8 = CONCAT44(0xffffff,(undefined4)local_c8);
+// ?? local_b8 = CONCAT44(0xffffff,(undefined4)local_b8);
+// ?? local_a8 = CONCAT44(0xffffff,(undefined4)local_a8);
+// ?? local_120 = CONCAT44(0xffffff,(undefined4)local_120);
+// ?? local_110 = CONCAT44(0xffffff,(undefined4)local_110);
+v80 = 0;
+if (grv != v80) {
+    v80 = grv;
+    v80 *= GRV_SPD;
+    add_grv += v80;
+    // ?? (undefined8 **)((ulonglong)in_stack_fffffffffffffca8 & 0xffffffffffffff00);
+    v90 = y;
+    v90 += add_grv;
+    y = v90;
+    // ?? cVar1 = FUN_1416927d0(phys);
+    if (cVar1 != '\0') {
+        // ?? (**(code **)(*param_1 + 0x10))(param_1,0x186e2/*var:add_grv*/);
+        vf0 = x;
+        v80 = vf0 / 16;
+        v1e8 = v80;
+        // ?? uVar16 = uVar16 & 0xffffffffffffff00;
+        v228 = yprevious;
+        // ?? uVar15 = (undefined4)(uVar16 >> 0x20);
+        v80 = v228 / 16;
+        v1d8 = v80;
+        uVar5 = CONCAT44(uVar15,0);
+        // ?? phys = FUN_1416ab210(param_1,param_2,&local_d0,1,uVar5,&local_268);
+        v1c8 = phys;
+        // ?? phys = FUN_1416ab210(param_1,param_2,&local_c0,1,CONCAT44(uVar15,DAT_1420da4b0/*floor*/),
+        v1b8 = phys;
+        // ?? phys = FUN_14012cc90(param_1,param_2,&local_e0,2,in_stack_fffffffffffffca8);
+        v80 = 0;
+        if (phys <= v80) {
+            vf0 = x;
+            v80 = vf0 / 16;
+            v1a8 = v80;
+            // ?? uVar16 = uVar16 & 0xffffffffffffff00;
+            v90 = y;
+            // ?? ;
+            // ?? uVar15 = (undefined4)(uVar16 >> 0x20);
+            va0 = v90;
+            va0 += add_grv;
+            v80 = va0 / 16;
+            v198 = v80;
+            uVar5 = CONCAT44(uVar15,0);
+            // ?? add_grv = FUN_1416ab210(param_1,param_2,&local_128,1,uVar5,&local_248);
+            v188 = add_grv;
+            // ?? add_grv = FUN_1416ab210(param_1,param_2,&local_118,1,CONCAT44(uVar15,DAT_1420da4b0/*floor*/),
+            v178 = add_grv;
+            // ?? add_grv = FUN_14012cc90(param_1,param_2,&local_b0,2,in_stack_fffffffffffffca8);
+            v80 = 0;
+            if (add_grv != v80) {
+                add_grv = 0;
+                grv = 0;
+                animate = 0;
+            }
+        }
+    }
+}
+v80 = 1;
+if (player != v80) goto LAB_141301b62;
+v168 = direction;
+// ?? uVar17 = uVar17 & 0xffffffffffffff00;
+// ?? uVar16 = uVar16 & 0xffffffffffffff00;
+vf0 = x;
+// ?? uVar17 = uVar17 & 0xffffffffffffff00;
+// ?? uVar16 = uVar16 & 0xffffffffffffff00;
+v90 = y;
+// ?? FUN_1416ab670(0x40,DAT_1420d58e8/*x*/,0x80000000,&local_158);
+// ?? FUN_1416ab670(0x40,DAT_1420d58f8/*y*/,0x80000000,&local_148);
+v1e8 = v168;
+if ((local_13c & 0xffffff) == 0) {
+    // ?? uVar7 = (undefined4)local_148;
+    if ((local_14c & 0xffffff) == 0) goto LAB_141301833;
+    LAB_1413017da:
+    // ?? add_grv = FUN_1416940c0(&local_158);
+    // ?? uVar8 = (undefined4)add_grv;
+    if ((local_84 & 0xffffff) != 0) goto LAB_1413017f5;
+    LAB_141301847:
+    // ?? uVar9 = (undefined4)local_90;
+}
+else {
+    // ?? add_grv = FUN_1416940c0(&local_148);
+    // ?? uVar7 = (undefined4)add_grv;
+    if ((local_14c & 0xffffff) != 0) goto LAB_1413017da;
+    LAB_141301833:
+    // ?? uVar8 = (undefined4)local_158;
+    if ((local_84 & 0xffffff) == 0) goto LAB_141301847;
+    LAB_1413017f5:
+    // ?? add_grv = FUN_1416940c0(&local_90);
+    // ?? uVar9 = (undefined4)add_grv;
+}
+// ?? local_f0 = dVar11;
+// ?? fVar10 = (float)FUN_1416cdb80((float)dVar11,(float)(double)CONCAT44(uVar14,uVar9),
+// ?? CONCAT44(uVar15,(float)(double)CONCAT44(uVar13,uVar8)),
+// ?? (float)(double)CONCAT44(uVar12,uVar7));
+v1d8 = fVar10;
+// ?? uVar16 = uVar16 & 0xffffffffffffff00;
+v138 = speed;
+// ?? uVar15 = (undefined4)(uVar16 >> 0x20);
+v80 = 2;
+v80 *= v138;
+v1c8 = v80;
+uVar5 = CONCAT44(uVar15,0);
+// ?? add_grv = FUN_1416ab210(param_1,param_2,&local_b0,1,uVar5,&local_258);
+v80 = 4;
+v80 += add_grv;
+v1b8 = v80;
+uVar5 = CONCAT44(uVar15,0);
+// ?? add_grv = FUN_1416ab210(param_1,param_2,&local_c0,1,uVar5,&local_250);
+v80 = add_grv / 4;
+v1a8 = v80;
+v198 = 1;
+uVar5 = CONCAT44(uVar15,0);
+// ?? add_grv = FUN_1416ab210(param_1,param_2,&local_d0,2,uVar5,&local_248);
+// ?? ;
+// ?? animate = (undefined8 *)
+// ?? FUN_1416ab210(param_1,param_2,&local_e0,2,in_stack_fffffffffffffca8,
+v80 = animate;
+v80 /= add_grv;
+v168 -= v80;
+direction = v168;
+LAB_141301b62:
+v138 = speed;
+v138 *= fric;
+speed = v138;
+v218 = alph;
+image_alpha = v218;
+v80 = 0;
+if (fade > v80) {
+    v80 = 0.99;
+    v80 *= fade;
+    alph *= v80;
+}
+// ?? cVar1 = FUN_1416927d0(fade_out);
+if (cVar1 != '\0') {
+    v80 = 0.9;
+    alph *= v80;
+}
+// ?? FUN_140003ba0(&local_a0,alph,_DAT_141985af0);
+v80 = 0;
+if (va0 <= v80) {
+    // ?? (**(code **)(*param_1 + 0x10))(param_1,0x18706/*var:alph*/);
+    // ?? FUN_1416f8210(param_1,param_2,0,0);
+}
+v208 = animate;
+image_speed = v208;
+// ?? uVar17 = uVar17 & 0xffffffffffffff00;
+// ?? uVar16 = uVar16 & 0xffffffffffffff00;
+v1f8 = sprite_index;
+v80 = 392;
+if (v1f8 == v80) {
+    vf0 = x;
+    // ?? uVar17 & 0xffffffffffffff00);
+    v80 = CX - 40;
+    if (vf0 < v80) {
+        // ?? FUN_1416f8210(param_1,param_2,0,0);
+    }
+}
+}
