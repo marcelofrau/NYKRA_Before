@@ -17,7 +17,7 @@
 | 3.2 — Renderizar nível | ✅ **aceito pelo usuário em 19/11** (§1.3c, §1.5) | 6 camadas + sprite `aBACK` do nível, build da IDE LTS 2026 |
 | 3.2b — `map_load` reconstruído | ✅ **aceito pelo usuário em 19/11** | pela IDE (F5): 79 objetos criados, contagens corretas, 4 `<undefined>` pulados, copa visível, log sem erros (commits `71d2dbb`, `a83f8cf`) |
 | 3.2c — sprites dos objetos (P3) | ✅ **aceito pelo usuário em 19/11** | 15 sprites / 61 quadros importados com canvas restaurado; `sMal_Door_Flat` conferido no editor da IDE (30×35, origem 15,34, 8 quadros); jogo inalterado |
-| 3.3 — Player/objetos/portas | ⬜ | — |
+| 3.3 — Player/objetos/portas | 🟨 em andamento | **Etapa 1 (jogador que anda, em silêncio e sem efeitos) aceita pelo usuário em 19/11**: anda, pula com espaço, colisões com paredes, degraus e chão corretas, animação fluida (F5 na IDE). Origem: `ARRAY_COLLIDE` reconstruído do binário + 21 eventos originais do `oPlayer` + `parEntity`. Pendências registradas em §7 (P21-P28). Faltam a etapa 2 (sons e efeitos) e a 3 (portas, notas, fios, grama P19, `oEo`, `COLLIDE` P24) |
 | 3.4 — Save V1 | ⬜ | só codec Python de referência |
 | 4 — Resto do jogo | ⬜ | 2.720 funções YYC; 16 reconstruídas |
 
