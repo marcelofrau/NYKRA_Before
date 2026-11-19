@@ -47,7 +47,7 @@ def read_cstring(buf, pos):
     return buf[pos:end].decode("utf-8", errors="replace"), end + 1
 
 
-def parse_rmlvl(path, obj_by_name, sprite_names):
+def parse_rmlvl(path, obj_by_name, sprite_names, with_details=False):
     with open(path, "rb") as f:
         buf = f.read()
     pos = 0
@@ -153,7 +153,7 @@ def parse_rmlvl(path, obj_by_name, sprite_names):
             f"{path.name}: {len(remainder)} non-zero leftover bytes at offset {pos}/{len(buf)}"
         )
 
-    return {
+    result = {
         "file": path.name,
         "size": len(buf),
         "parsed_bytes": pos,
@@ -170,6 +170,10 @@ def parse_rmlvl(path, obj_by_name, sprite_names):
         "has_save_wire": has_save_wire,
         "truncated_slot": truncated_at_eof,
     }
+    if with_details:  # opt-in so the validation report keeps its current shape
+        result["objects"] = parsed_objs
+        result["assets"] = assets
+    return result
 
 
 def read_saved_type(buf, pos):
