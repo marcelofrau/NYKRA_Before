@@ -2,10 +2,11 @@
 v98 = ?;
 v88 = 1;
 v78 = 2;
-// ?? uVar1 = FUN_1416cd660(&local_30,3,&local_1f8);
+uVar1 = choose(v98, v88, v78);
 v60 = uVar1;
 image_index = v60;
 v50 = 0;
 image_speed = v50;
 v40 = 1;
 // ?? FUN_1416cfae0(param_1,DAT_1420d5a48/*alarm*/,0,&local_40);
+}

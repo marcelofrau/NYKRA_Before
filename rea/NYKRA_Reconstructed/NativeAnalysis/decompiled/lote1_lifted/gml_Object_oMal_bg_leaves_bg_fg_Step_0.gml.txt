@@ -97,3 +97,4 @@ v80 += v100;
 fVar8 = lengthdir_y(0.025, v80);
 v160 = (fVar8 + 1);
 image_yscale = v160;
+}

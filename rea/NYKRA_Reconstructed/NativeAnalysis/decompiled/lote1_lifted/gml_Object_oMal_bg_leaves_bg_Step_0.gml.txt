@@ -62,3 +62,4 @@ v70 += vb0;
 fVar6 = lengthdir_y(0.025, v70);
 v100 = (fVar6 + 1);
 image_yscale = v100;
+}

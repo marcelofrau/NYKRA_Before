@@ -167,6 +167,31 @@ class ProvisionalControllerTests(unittest.TestCase):
         control = code(PROJECT / "objects" / "oControl" / "Draw_0.gml")
         self.assertIn("CMX = CX+(CW/2);", control)
 
+    def test_grass_events_keep_the_constants_read_from_the_executable(self):
+        import json
+        indexes = {o["Index"]: o["Name"] for o in json.loads(
+            (REA / "RecoveredAssets" / "Metadata" / "objects-metadata.json").read_text(encoding="utf-8")) if o}
+        # the lifted code looks for object 202 in oGrass and 204 in oGrass3
+        self.assertEqual((indexes[202], indexes[204], indexes[64]), ("oGrass", "oGrass3", "oPlayer"))
+        create = code(PROJECT / "objects" / "parGrass" / "Create_0.gml")
+        for fragment in ("col1 = 5754965;", "col2 = 4560164;", "col1 = 10909932;", "col2 = 8597134;",
+                         "col1 = 15783214;", "col2 = 11429384;", "case 4:", "alarm[2] = 1;", "y2 = y + 0.5;"):
+            self.assertIn(fragment, create)
+        draw = code(PROJECT / "objects" / "parGrass" / "Draw_0.gml")
+        self.assertIn("lengthdir_x(2.75, tick * 77 + xstart * 3 + ystart * 3)", draw)
+        skew = code(PROJECT / "scripts" / "draw_sprite_skew" / "draw_sprite_skew.gml")
+        for fragment in ("_skew / 1.25", "abs(_s * 0.3333)", "draw_sprite_pos(_sprite, _image,"):
+            self.assertIn(fragment, skew)
+        self.assertIn("oGrass) != noone", code(PROJECT / "objects" / "oGrass" / "Alarm_0.gml"))
+        grass3 = code(PROJECT / "objects" / "oGrass3" / "Alarm_0.gml")
+        self.assertIn("oGrass3) != noone", grass3)
+        self.assertIn("flp = 1;", grass3)
+        for name, sprite in (("oGrass", "sMal_Grass"), ("oGrass3", "sMal_Grass3")):
+            yy = load_yy(PROJECT / "objects" / name / f"{name}.yy")
+            self.assertEqual(yy["spriteId"]["name"], sprite)
+            self.assertEqual(yy["parentObjectId"]["name"], "parGrass")
+            self.assertIn("event_inherited();", code(PROJECT / "objects" / name / "Create_0.gml"))  # plan P18
+
     def test_leaves_use_the_reconstructed_parent_events_and_no_provisional_create(self):
         # oMal_Tree1 has no code of its own (its PreCreate is empty); the crown behaviour is parLeaves.
         tree = load_yy(PROJECT / "objects" / "oMal_Tree1" / "oMal_Tree1.yy")

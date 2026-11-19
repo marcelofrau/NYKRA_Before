@@ -1,15 +1,21 @@
 {
   "$GMObject": "",
   "%Name": "oGrass",
-  "eventList": [],
+  "eventList": [
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":2,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+  ],
   "managed": true,
   "name": "oGrass",
   "overriddenProperties": [],
   "parent": {
-    "name": "Shells",
-    "path": "folders/Objects/Shells.yy",
+    "name": "Objects",
+    "path": "folders/Objects.yy",
   },
-  "parentObjectId": {"name":"parGrass","path":"objects/parGrass/parGrass.yy",},
+  "parentObjectId": {
+    "name": "parGrass",
+    "path": "objects/parGrass/parGrass.yy",
+  },
   "persistent": false,
   "physicsAngularDamping": 0.1,
   "physicsDensity": 0.5,
@@ -27,7 +33,10 @@
   "resourceType": "GMObject",
   "resourceVersion": "2.0",
   "solid": false,
-  "spriteId": null,
+  "spriteId": {
+    "name": "sMal_Grass",
+    "path": "sprites/sMal_Grass/sMal_Grass.yy",
+  },
   "spriteMaskId": null,
   "visible": true,
 }

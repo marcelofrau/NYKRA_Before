@@ -31,6 +31,7 @@
     {"id":{"name":"_SET_SCENE","path":"scripts/_SET_SCENE/_SET_SCENE.yy",},},
     {"id":{"name":"clear_objects","path":"scripts/clear_objects/clear_objects.yy",},},
     {"id":{"name":"config_get","path":"scripts/config_get/config_get.yy",},},
+    {"id":{"name":"draw_sprite_skew","path":"scripts/draw_sprite_skew/draw_sprite_skew.yy",},},
     {"id":{"name":"goto_map","path":"scripts/goto_map/goto_map.yy",},},
     {"id":{"name":"map_load","path":"scripts/map_load/map_load.yy",},},
     {"id":{"name":"oAenox_bound","path":"objects/oAenox_bound/oAenox_bound.yy",},},

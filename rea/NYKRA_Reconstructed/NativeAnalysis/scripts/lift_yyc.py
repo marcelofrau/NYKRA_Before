@@ -106,6 +106,18 @@ MUL_DBL = re.compile(r"FUN_140009980\((&?\w+),(&?\w+),(_?DAT_[0-9a-f]+)(?:/\*[^*
 DIV_DBL = re.compile(r"FUN_140004520\((&?\w+),(&?\w+),(_?DAT_[0-9a-f]+)(?:/\*[^*]*\*/)?\);")
 LENGTHDIR = re.compile(r"(\w+) = \(float\)FUN_1416cd8(00|80)\((_?DAT_[0-9a-f]+|[\w.]+),(?:CONCAT44\(\w+,\(float\)(\w+)\)|(\w+))\);")
 CONCAT_F = re.compile(r"(\w+) = CONCAT44\(\w+,\(float\)(\w+)\);")
+CMP = re.compile(r"(\w+) = (?:\(\w+\))?FUN_1416d9df0\(([^,()]+),([^,()]+),([^,()]+),(\d)\);")
+CHOOSE = re.compile(r"(\w+) = FUN_1416cd660\(&\w+,(\d+),&(local_[0-9a-f]+)\);")
+INST_NUM = re.compile(r"(\w+) = (?:\(\w+\))?FUN_1416f82f0\(param_1,param_2,(0x[0-9a-f]+|-?\d+)\);")
+
+
+def object_names():
+    import json
+    objs = json.loads((ROOT / "RecoveredAssets" / "Metadata" / "objects-metadata.json").read_text(encoding="utf-8"))
+    return {o["Index"]: o["Name"] for o in objs if o}
+
+
+OBJECTS = object_names()
 RANDOM_RANGE = re.compile(r"(\w+) = (?:\(double\))?FUN_1416cdc60\((_?DAT_[0-9a-f]+),(_?DAT_[0-9a-f]+)\);")
 RANDOM = re.compile(r"(\w+) = FUN_1416cdc30\((_?DAT_[0-9a-f]+|\w+)\);")
 EXISTS = re.compile(r"(\w+) = FUN_1416f8280\(param_1,param_2,\(longlong\)(\w+)\);")
@@ -114,7 +126,7 @@ DEREF_SET = re.compile(r"\*(\w+) = (.+);")
 DEREF_KIND = re.compile(r"\*\(undefined4 \*\)\(\(longlong\)(\w+) \+ 0xc\) = 0;")
 EXPR = re.compile(r"(\w+) = (.*(?:fVar\d+|DAT_[0-9a-f]+).*);")
 BOILER = re.compile(
-    r"^(DAT_142182d78 =|DAT_142182d90 =|FUN_141706ee0\(\);|FUN_1416a8cb0\(|FUN_1416a8c00\(|return;|\}$|\{$|local_[0-9a-f]+ = (?:\"gml_Object|0xfffffffffffffffe)|"
+    r"^(DAT_142182d78 =|DAT_142182d90 =|FUN_141706ee0\(\);|FUN_1416a8cb0\(|FUN_1416a8c00\(|return;|local_[0-9a-f]+ = (?:\"gml_Object|0xfffffffffffffffe)|"
     r"(?:undefined[0-9]*|uint|char|ulonglong|longlong|double|int|float|code|byte|bool|local_\w+)[ \*]+\w+(?:\[[0-9a-z]+\])?;$|"
     r"local_[0-9a-f]+ = 0x[0-9a-f]{1,9};|local_[0-9a-f]+ = (?:0|0\.0);|\w+ = \w+ & 0xffffff;|uVar\w+ = \w+ & 0xffffff00;|"
     r"in_stack_\w+|\w+ = \(undefined4\)\(\(ulonglong\)|local_[0-9a-f]+ = [0-9]+;|\(ulonglong\)|\w+ = DAT_\w+/\*[^*]*\*/;|uVar\w+ = (?:uVar|DAT_)\w+;)"
@@ -130,7 +142,7 @@ def expr_value(rhs, real_of):
 
 def lift_function(text):
     text = preprocess(text)
-    refs, slots, ret_alias, real_of, out = {}, {}, {}, {}, []
+    refs, slots, ret_alias, real_of, out, cmp_of = {}, {}, {}, {}, [], {}
 
     def emit(statement):
         # pointer aliases (uVar2 -> tick) are resolved as of this statement; a statement that
@@ -246,6 +258,10 @@ def lift_function(text):
         if m:
             emit(f"{short(m.group(1))} = {short(m.group(2))} * {int(m.group(3), 0)};")
             continue
+        m = re.search(r"FUN_140017bd0\((&?\w+),(&?\w+),(0x[0-9a-f]+|\d+)\);", line)
+        if m:  # d = s - n
+            emit(f"{short(m.group(1))} = {short(m.group(2))} - {int(m.group(3), 0)};")
+            continue
         m = ADD_INT.search(line)
         if m:
             emit(f"{short(m.group(1))} += {int(m.group(2), 0)};")
@@ -283,6 +299,33 @@ def lift_function(text):
             fn = "lengthdir_x" if m.group(2) == "00" else "lengthdir_y"
             angle = m.group(4) or m.group(5)
             emit(f"{m.group(1)} = {fn}({const(m.group(3), 'f')}, {real_of.get(angle, angle)});")
+            continue
+        m = CMP.fullmatch(line)
+        if m:
+            def operand(tok):
+                tok = tok.strip()
+                bare = tok.lstrip("&")
+                if re.fullmatch(r"_?DAT_[0-9a-f]+", bare):
+                    return const(bare)
+                return real_of.get(bare, refs.get(bare, short(tok)))
+            cmp_of[m.group(1)] = (operand(m.group(2)), operand(m.group(3)), m.group(5))
+            continue
+        m = CHOOSE.fullmatch(line)
+        if m:
+            base_hex = int(m.group(3)[6:], 16)
+            args = [slots.get(base_hex - 8 * i, f"?arg{i}") for i in range(int(m.group(2)))]
+            emit(f"{m.group(1)} = choose({', '.join(args)});")
+            continue
+        m = INST_NUM.fullmatch(line)
+        if m:
+            idx = int(m.group(2), 0)
+            emit(f"{m.group(1)} = instance_number({OBJECTS.get(idx, 'object#' + str(idx))});")
+            continue
+        m = re.fullmatch(r"(?:\w+ )?(if|else if) \((\w+) (==|!=) 0\) (\{|goto \w+;)", line)
+        if m and m.group(2) in cmp_of:
+            a, b, mode = cmp_of[m.group(2)]
+            op = "==" if m.group(3) == "==" else "!="
+            emit(f"{m.group(1)} ({a} {op} {b}) {m.group(4)}")  # mode 0: 0 means equal
             continue
         m = RANDOM_RANGE.fullmatch(line)
         if m:

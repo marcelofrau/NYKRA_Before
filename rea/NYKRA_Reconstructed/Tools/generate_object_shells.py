@@ -29,6 +29,7 @@ PROJECT = REA / "GameMakerProject"
 HAND_WRITTEN = {
     "oControl", "oCamera", "oMal_Tree1", "parLeaves",
     "oMal_bg_leaves_bg", "oMal_bg_leaves_bg_fg", "oMal_bg_leaves_fg",
+    "parGrass", "oGrass", "oGrass3",
 }
 # Objects named by map_load, clear_objects and _SET_SCENE that are evaluated on the path
 # even when the level does not contain them (a missing asset is a runtime error).

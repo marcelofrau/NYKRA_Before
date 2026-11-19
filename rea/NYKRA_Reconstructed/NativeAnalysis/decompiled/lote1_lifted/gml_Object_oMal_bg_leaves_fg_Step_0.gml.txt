@@ -111,3 +111,4 @@ v70 += ve0;
 fVar7 = lengthdir_x(0.025, v70);
 v168 = (fVar7 + 1);
 image_yscale = v168;
+}

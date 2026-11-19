@@ -2,8 +2,9 @@
 v88 = ?;
 v78 = 1;
 v68 = 2;
-// ?? uVar1 = FUN_1416cd660(&local_30,3,&local_1e8);
+uVar1 = choose(v88, v78, v68);
 v50 = uVar1;
 image_index = v50;
 v40 = 1;
 // ?? FUN_1416cfae0(param_1,DAT_1420d5a48/*alarm*/,0,&local_40);
+}

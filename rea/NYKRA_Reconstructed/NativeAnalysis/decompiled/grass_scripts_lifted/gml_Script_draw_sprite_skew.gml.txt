@@ -1,0 +1,93 @@
+// lifted from gml_Script_draw_sprite_skew.c
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0;
+// ?? FUN_1416ab750(DAT_1420dcc00/*gml_Script_draw_sprite_skew*/);
+if (param_4 < 3) {
+    puVar1 = &0;
+}
+else {
+    // ?? puVar1 = (undefined8 *)param_5[2];
+}
+va0 = puVar1;
+if (param_4 < 4) {
+    puVar1 = &0;
+}
+else {
+    // ?? puVar1 = (undefined8 *)param_5[3];
+}
+v60 = puVar1 - 8;
+v90 = v60;
+if (param_4 < 5) {
+    puVar1 = &0;
+}
+else {
+    // ?? puVar1 = (undefined8 *)param_5[4];
+}
+v60 = puVar1 / 1.25;
+vc0 = v60;
+if (param_4 < 1) {
+    puVar1 = &0;
+}
+else {
+    // ?? puVar1 = (undefined8 *)*param_5;
+}
+v178 = puVar1;
+if (param_4 < 2) {
+    puVar1 = &0;
+}
+else {
+    // ?? puVar1 = (undefined8 *)param_5[1];
+}
+v168 = puVar1;
+v70 = va0 - 8;
+v60 = v70;
+v60 += vc0;
+v158 = v60;
+v70 = vc0 * 0.3333;
+// ?? uVar3 = local_70;
+if ((local_64 & 0xffffff) != 0) {
+    // ?? uVar3 = FUN_1416940c0(&local_70);
+}
+// ?? uVar2 = FUN_1416cd450(uVar3);
+v80 = v90 - 8;
+v60 = v80;
+v60 += uVar2;
+v148 = v60;
+// ?? local_64 = local_94;
+// ?? local_68 = local_98;
+v70 = va0;
+v70 += 8;
+v60 = v70;
+v60 += vc0;
+v138 = v60;
+v70 = vc0 * 0.3333;
+// ?? uVar3 = local_70;
+if ((local_64 & 0xffffff) != 0) {
+    // ?? uVar3 = FUN_1416940c0(&local_70);
+}
+// ?? uVar2 = FUN_1416cd450(uVar3);
+v80 = v90 - 8;
+v60 = v80;
+v60 += uVar2;
+v128 = v60;
+// ?? local_54 = local_94;
+// ?? local_58 = local_98;
+v60 = va0;
+v60 += 8;
+v118 = v60;
+// ?? local_54 = local_84;
+// ?? local_58 = local_88;
+v60 = v90;
+v60 += 8;
+v108 = v60;
+v60 = va0 - 8;
+vf8 = v60;
+// ?? local_54 = local_84;
+// ?? local_58 = local_88;
+v60 = v90;
+v60 += 8;
+ve8 = v60;
+vd8 = 1;
+// ?? FUN_1416ab210(param_1,param_2,&local_b0,0xb,DAT_1420da5d0/*draw_sprite_pos*/,&local_1e8);
+// ?? return param_3;
+}
