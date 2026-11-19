@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"bb_setmiddle",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"bb_setmiddle",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

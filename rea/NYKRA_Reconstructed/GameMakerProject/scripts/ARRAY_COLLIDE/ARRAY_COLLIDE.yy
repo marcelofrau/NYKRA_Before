@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"ARRAY_COLLIDE",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"ARRAY_COLLIDE",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

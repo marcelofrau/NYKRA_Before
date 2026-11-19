@@ -73,7 +73,7 @@ class ProvisionalControllerTests(unittest.TestCase):
         self.assertIn("function inv_add_obj(_item, _count, _instance)", stubs)
         self.assertEqual(
             sorted(functions),
-            ["instance_create_one", "inv_add_obj", "load_game", "obj_setpos", "reach", "real_string", "save_game"],
+            ["hurt_player", "instance_create_one", "inv_add_obj", "load_game", "obj_setpos", "reach", "real_string", "save_game"],
         )
         self.assertEqual(stubs.count('show_debug_message("STUB '), len(functions))
         # No project code other than the stubs may define these names or write PROFILES.

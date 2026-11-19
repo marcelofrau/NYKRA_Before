@@ -29,6 +29,11 @@
   "name":"NYKRA_VerticalSlice",
   "resources":[
     {"id":{"name":"_SET_SCENE","path":"scripts/_SET_SCENE/_SET_SCENE.yy",},},
+    {"id":{"name":"ARRAY_COLLIDE","path":"scripts/ARRAY_COLLIDE/ARRAY_COLLIDE.yy",},},
+    {"id":{"name":"bb_setmiddle","path":"scripts/bb_setmiddle/bb_setmiddle.yy",},},
+    {"id":{"name":"check_array","path":"scripts/check_array/check_array.yy",},},
+    {"id":{"name":"check_array_cell","path":"scripts/check_array_cell/check_array_cell.yy",},},
+    {"id":{"name":"check_block","path":"scripts/check_block/check_block.yy",},},
     {"id":{"name":"clear_objects","path":"scripts/clear_objects/clear_objects.yy",},},
     {"id":{"name":"config_get","path":"scripts/config_get/config_get.yy",},},
     {"id":{"name":"draw_sprite_skew","path":"scripts/draw_sprite_skew/draw_sprite_skew.yy",},},

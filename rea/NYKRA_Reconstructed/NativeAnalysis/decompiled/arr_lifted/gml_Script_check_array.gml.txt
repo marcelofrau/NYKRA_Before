@@ -1,0 +1,46 @@
+// lifted from gml_Script_check_array.c
+// ?? local_a0 = (ulonglong)(uint)local_a0;
+// ?? local_90 = (ulonglong)(uint)local_90;
+// ?? local_80 = (ulonglong)(uint)local_80;
+// ?? local_70 = (ulonglong)(uint)local_70;
+// ?? local_60 = (ulonglong)(uint)local_60;
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0;
+// ?? FUN_1416ab750(DAT_1420dd350/*gml_Script_check_array*/);
+v1b8 = 0;
+v1a8 = 0;
+if (param_4 < 1) {
+    puVar2 = &0;
+}
+else {
+    // ?? puVar2 = (undefined8 *)*param_5;
+}
+v58 = puVar2 / 16;
+v158 = v58;
+// ?? FUN_1416d0010(0x4f,0x18b09/*var:mw*/,0x80000000,&local_1b8,in_stack_fffffffffffffdc8 & 0xffffff00,
+v88 = floor(v158);
+v148 = v88;
+v138 = ?;
+v128 = v1b8;
+if (param_4 < 2) {
+    puVar2 = &0;
+}
+else {
+    // ?? puVar2 = (undefined8 *)param_5[1];
+}
+v58 = puVar2 / 16;
+v118 = v58;
+// ?? FUN_1416d0010(0x4f,0x18abd/*var:mh*/,0x80000000,&local_1a8,uVar3 & 0xffffff00,
+v68 = floor(v118);
+v108 = v68;
+vf8 = ?;
+ve8 = v1a8;
+vd8 = map;
+v98 = clamp(v148, v138, v128);
+vc8 = v98;
+v78 = clamp(v108, vf8, ve8);
+vb8 = v78;
+va8 = array_get_2D(vd8, vc8, vb8);
+param_3 = va8;
+// ?? return param_3;
+}

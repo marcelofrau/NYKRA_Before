@@ -1,0 +1,38 @@
+// lifted from gml_Script_check_array_cell.c
+// ?? local_70 = (ulonglong)(uint)local_70;
+// ?? local_60 = (ulonglong)(uint)local_60;
+// ?? local_50 = (ulonglong)(uint)local_50;
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0;
+// ?? FUN_1416ab750(DAT_1420dd450/*gml_Script_check_array_cell*/);
+v168 = 0;
+v158 = 0;
+// ?? FUN_1416d0010(0x4f,0x18b09/*var:mw*/,0x80000000,&local_168,in_stack_fffffffffffffe28,
+if (param_4 < 1) {
+    puVar2 = &0;
+}
+else {
+    // ?? puVar2 = (undefined8 *)*param_5;
+}
+v108 = puVar2;
+vf8 = ?;
+ve8 = v168;
+// ?? FUN_1416d0010(0x4f,0x18abd/*var:mh*/,0x80000000,&local_158,in_stack_fffffffffffffe28 & 0xffffff00,
+if (param_4 < 2) {
+    puVar2 = &0;
+}
+else {
+    // ?? puVar2 = (undefined8 *)param_5[1];
+}
+vd8 = puVar2;
+vc8 = ?;
+vb8 = v158;
+va8 = map;
+v68 = clamp(v108, vf8, ve8);
+v98 = v68;
+v58 = clamp(vd8, vc8, vb8);
+v88 = v58;
+v78 = array_get_2D(va8, v98, v88);
+param_3 = v78;
+// ?? return param_3;
+}
