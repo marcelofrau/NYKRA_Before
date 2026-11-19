@@ -23,6 +23,11 @@ def png_dimensions(path):
     return struct.unpack(">II", header[16:24])
 
 
+def load_yy(path):
+    # GameMaker .yy files allow trailing commas, which json rejects.
+    return json.loads(re.sub(r",(\s*[}\]])", r"\1", path.read_text(encoding="utf-8")))
+
+
 class Phase3TilesetTests(unittest.TestCase):
     def test_tileset_reconstruction_metadata_and_image_dimensions(self):
         metadata = json.loads(METADATA.read_text(encoding="utf-8"))
@@ -43,15 +48,19 @@ class Phase3TilesetTests(unittest.TestCase):
         # Original source sprite: 1024x1536 = 64x96 tiles = 6144 (sprites-metadata.json).
         sprite = next((PROJECT / "sprites" / "sTiles").glob("*.png"))
         self.assertEqual(png_dimensions(sprite), (1024, 1536))
-        text = (PROJECT / "sprites" / "sTiles" / "sTiles.yy").read_text(encoding="utf-8")
-        yy = json.loads(re.sub(r",(\s*[}\]])", r"\1", text))  # GameMaker .yy allows trailing commas
+        yy = load_yy(PROJECT / "sprites" / "sTiles" / "sTiles.yy")
         self.assertEqual((yy["width"], yy["height"]), (1024, 1536))
         self.assertEqual(yy["origin"], 0)
 
+    def test_ide_generated_output_tileset_is_present(self):
+        # The IDE writes this padded output image when it saves the tileset; a hand-written
+        # TILES.yy without it compiled with a NULL texture (MASTER_RECONSTRUCTION_PLAN.md §1.3c).
+        output = PROJECT / "tilesets" / "TILES" / "output_tileset.png"
+        self.assertEqual(png_dimensions(output), png_dimensions(SOURCE_IMAGE))  # 78x79 tiles of 20 px
+
     def test_rmMAIN_declares_six_tile_layers_for_TILES(self):
-        # The original rmMAIN references TILES through these layers; without them the
-        # compiler emitted TILES with a NULL texture (MASTER_RECONSTRUCTION_PLAN.md §1).
-        room = json.loads((PROJECT / "rooms" / "rmMAIN" / "rmMAIN.yy").read_text(encoding="utf-8"))
+        # The original rmMAIN references TILES through these six layers.
+        room = load_yy(PROJECT / "rooms" / "rmMAIN" / "rmMAIN.yy")
         tile_layers = {
             layer["name"]: layer for layer in room["layers"] if layer["resourceType"] == "GMRTileLayer"
         }
@@ -90,7 +99,7 @@ class Phase3TilesetTests(unittest.TestCase):
         self.assertTrue(all(value < 6144 for layer in tile_layers for value in layer))
 
     def test_gamemaker_tileset_uses_original_import_settings(self):
-        tileset = json.loads(TILESET_FILE.read_text(encoding="utf-8"))
+        tileset = load_yy(TILESET_FILE)
         self.assertEqual(tileset["resourceType"], "GMTileSet")
         self.assertEqual(tileset["name"], "TILES")
         self.assertEqual((tileset["tileWidth"], tileset["tileHeight"]), (16, 16))
@@ -101,7 +110,9 @@ class Phase3TilesetTests(unittest.TestCase):
         self.assertFalse(tileset["spriteNoExport"])
         self.assertEqual(tileset["spriteId"]["path"], "sprites/sTiles/sTiles.yy")
         self.assertNotIn("sTileset_TILES", PROJECT_FILE.read_text(encoding="utf-8"))
-        self.assertIn('"name":"TILES"', PROJECT_FILE.read_text(encoding="utf-8"))
+        resources = [r["id"]["name"] for r in load_yy(PROJECT_FILE)["resources"]]
+        self.assertIn("TILES", resources)
+        self.assertIn("sTiles", resources)
 
     def test_probe_fills_the_six_room_tilemaps_from_serialized_cells_without_spawning_objects(self):
         create = PROBE_CREATE.read_text(encoding="utf-8")
