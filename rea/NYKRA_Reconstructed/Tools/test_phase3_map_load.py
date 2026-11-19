@@ -58,7 +58,7 @@ class PortedScriptsTests(unittest.TestCase):
 
     def test_project_scripts_registered_in_the_yyp(self):
         names = {r["id"]["name"] for r in load_yy(PROJECT / "NYKRA_VerticalSlice.yyp")["resources"]}
-        for name in ported.SCRIPTS + ["provisional_stubs"]:
+        for name in ported.SCRIPTS + ported.HAND_SCRIPTS + ["provisional_stubs"]:
             self.assertIn(name, names)
 
 
@@ -73,7 +73,7 @@ class ProvisionalControllerTests(unittest.TestCase):
         self.assertIn("function inv_add_obj(_item, _count, _instance)", stubs)
         self.assertEqual(
             sorted(functions),
-            ["instance_create_one", "inv_add_obj", "load_game", "obj_setpos", "real_string", "save_game"],
+            ["instance_create_one", "inv_add_obj", "load_game", "obj_setpos", "reach", "real_string", "save_game"],
         )
         self.assertEqual(stubs.count('show_debug_message("STUB '), len(functions))
         # No project code other than the stubs may define these names or write PROFILES.
@@ -84,6 +84,32 @@ class ProvisionalControllerTests(unittest.TestCase):
             self.assertNotIn("PROFILES", text, path)
             for name in functions:
                 self.assertNotRegex(text, rf"^function {name}\(", path)
+
+    def test_camera_events_are_the_original_ones_and_the_room_uses_its_view(self):
+        events = {(3, 2): "Step_2", (2, 0): "Alarm_0", (2, 1): "Alarm_1", (8, 75): "Draw_75", (0, 0): "Create_0"}
+        yy = load_yy(PROJECT / "objects" / "oCamera" / "oCamera.yy")
+        self.assertEqual({(e["eventType"], e["eventNum"]) for e in yy["eventList"]}, set(events))
+        for name in events.values():
+            original = (REA.parents[1] / "oCamera" / f"{name}.gml").read_text(encoding="utf-8")
+            ours = read(PROJECT / "objects" / "oCamera" / f"{name}.gml")
+            self.assertTrue(ours.endswith(original), f"{name}: code must be the original, only a header comment added")
+        room = load_yy(PROJECT / "rooms" / "rmMAIN" / "rmMAIN.yy")
+        self.assertTrue(room["viewSettings"]["enableViews"])
+        self.assertFalse(room["viewSettings"]["clearDisplayBuffer"])  # DoNotClearDisplayBuffer in the original room
+        self.assertTrue(room["views"][0]["visible"])
+        self.assertIn("set_game_screen();", code(PROJECT / "objects" / "oControl" / "Other_4.gml"))
+        # set_game_screen is the original script, and config comes from the original file
+        original_screen = (REA.parents[1] / "scripts" / "set_game_screen" / "set_game_screen.gml").read_text(encoding="utf-8")
+        self.assertTrue(read(PROJECT / "scripts" / "set_game_screen" / "set_game_screen.gml").endswith(original_screen))
+        source_config = REA / "RecoveredAssets" / "Included Files" / "config"
+        self.assertEqual((PROJECT / "datafiles" / "config").read_bytes(), source_config.read_bytes())
+        self.assertIn('global.SHAKE = (config_get("Settings","Shake",1)/100);', code(PROJECT / "objects" / "oControl" / "Create_0.gml"))
+
+    def test_set_controls_tables_match_the_decompilation(self):
+        text = code(PROJECT / "scripts" / "set_controls" / "set_controls.gml")
+        for fragment in ("global.kkl = 65;", "global.kkr = 68;", "global.kku = 87;", "global.kkd = 83;",
+                         "global.key_aenox = 74;", "global.kkl = 37;", "global.kkr = 39;", "global.key_inv = 69;"):
+            self.assertIn(fragment, text)
 
     def test_globals_read_by_other_objects_are_global_not_instance_variables(self):
         # The leaves read these from the global scope (DAT_14218ecf8 in the decompilation), so an

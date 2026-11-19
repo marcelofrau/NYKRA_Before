@@ -1,6 +1,4 @@
-// Create_0 copied unchanged from the original oCamera/Create_0.gml (plan section 7, P2).
-// The other five oCamera events (Alarm_0, Alarm_1, Step_1, Step_2, Draw_75) are not imported
-// yet because they need the unrecovered scripts reach and others, so the camera does not follow.
+// Copied unchanged from the original oCamera/Create_0.gml (plan section 7, P9 closed for this event).
 follow = noone;
 if instance_number(oPlayer)>=1 follow = oPlayer;
 

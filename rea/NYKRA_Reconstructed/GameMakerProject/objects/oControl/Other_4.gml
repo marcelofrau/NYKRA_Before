@@ -4,7 +4,10 @@
 if (boot_done) exit;
 boot_done = true;
 
-if (!instance_exists(oCamera)) instance_create_depth(0, 0, -1000, oCamera);
+// The original calls set_game_screen at Game Start (oControl/Other_2.gml). It builds the camera, sets
+// the window and creates oCamera when there is no player yet. With START_GAME = 0 the original keeps
+// mode = 0, so oCamera runs its free-camera branch: W A S D scroll the view.
+set_game_screen();
 
 var _room_name = "rmMal_Origin";
 var _path = working_directory + "level_data/" + _room_name + ".rmlvl";

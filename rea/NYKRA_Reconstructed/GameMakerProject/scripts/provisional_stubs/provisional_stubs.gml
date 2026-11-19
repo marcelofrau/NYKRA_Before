@@ -29,6 +29,14 @@ function inv_add_obj(_item, _count, _instance) {
     show_debug_message("STUB inv_add_obj: item not added");
 }
 
+/// @description reach(value, goal, amount): STUB, returns the value unchanged. Only the oCamera
+/// branch that follows Eo's UI uses it, which does not run yet. Its decompilation (gml_Script_reach
+/// @ 0x14003b450) still needs reading.
+function reach(_value, _goal, _amount) {
+    show_debug_message("STUB reach: value returned unchanged");
+    return _value;
+}
+
 /// @description load_game(): STUB, saves are disabled until Save V1 (3.4)
 function load_game() {
     show_debug_message("STUB load_game: saves are disabled (P6)");

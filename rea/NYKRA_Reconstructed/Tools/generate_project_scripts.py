@@ -24,6 +24,9 @@ REA = TOOLS.parent
 SOURCE = REA / "ReconstructedGML" / "phase1_core"
 PROJECT = REA / "GameMakerProject"
 SCRIPTS = ["map_load", "clear_objects", "reset_files", "_SET_SCENE", "goto_map"]
+# Scripts whose .gml is written by hand: copied from the original repository root (reach_tween,
+# set_game_screen) or reconstructed from the decompilation (set_controls, config_get).
+HAND_SCRIPTS = ["reach_tween", "set_game_screen", "set_controls", "config_get"]
 
 GET_2D = re.compile(r"array_get_2D\((\w+),\s*(\w+),\s*(\w+)\)")
 LENGTH_1D = re.compile(r"array_length_1d\(([^()]+)\)")
@@ -115,7 +118,11 @@ def main():
         (out_dir / f"{name}.gml").write_text(text, encoding="utf-8", newline="\n")
         (out_dir / f"{name}.yy").write_text(script_yy(name), encoding="utf-8", newline="\n")
         print(f"wrote scripts/{name}")
-    resources = [(n, f"scripts/{n}/{n}.yy") for n in SCRIPTS + ["provisional_stubs"]]
+    for name in HAND_SCRIPTS:  # their .gml is maintained by hand; only the .yy is written here
+        yy = PROJECT / "scripts" / name / f"{name}.yy"
+        if not yy.exists():
+            yy.write_text(script_yy(name), encoding="utf-8", newline="\n")
+    resources = [(n, f"scripts/{n}/{n}.yy") for n in SCRIPTS + HAND_SCRIPTS + ["provisional_stubs"]]
     update_yyp(PROJECT / "NYKRA_VerticalSlice.yyp", add_resources=resources,
                add_folders=[("Scripts", "folders/Scripts.yy")])
     print("updated .yyp")

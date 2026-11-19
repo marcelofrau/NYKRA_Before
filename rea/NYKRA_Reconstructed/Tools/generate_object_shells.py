@@ -37,6 +37,7 @@ EXTRA = [
     "parDoor_out", "oBook", "oRoof_angle", "oIs_Inside", "oPlace_Player",
     "oSun_Mal", "oSun_Mex", "oSun_Irn", "oSun_Sep", "oSun_Quo", "oSun_Iie",
     "oTemp_Back_Leaves",  # created by parLeaves Create_0; its only event (PreCreate) is empty
+    "oCamera_high", "oCamera_Point_Weak",  # named by the oCamera Step_2 follow branch
 ]
 FOLDER = ("Shells", "folders/Objects/Shells.yy")
 
