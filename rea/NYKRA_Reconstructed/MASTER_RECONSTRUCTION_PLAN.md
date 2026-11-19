@@ -15,6 +15,8 @@
 | 3.0 — Ambiente | ✅ | IDE 2024.14.4.222, runtime 2024.14.4.268, Igor compila VM |
 | 3.1 — Projeto + sprite | ✅ parcial | árvore `sMal_Tree_1`/`sMal_Tree_1l` vista pelo usuário |
 | 3.2 — Renderizar nível | ✅ **aceito pelo usuário em 19/11** (§1.3c, §1.5) | 6 camadas + sprite `aBACK` do nível, build da IDE LTS 2026 |
+| 3.2b — `map_load` reconstruído | ✅ **aceito pelo usuário em 19/11** | pela IDE (F5): 79 objetos criados, contagens corretas, 4 `<undefined>` pulados, copa visível, log sem erros (commits `71d2dbb`, `a83f8cf`) |
+| 3.2c — sprites dos 27 objetos (P3) | ⬜ próximo | ver "3.2c" em §2 |
 | 3.3 — Player/objetos/portas | ⬜ | — |
 | 3.4 — Save V1 | ⬜ | só codec Python de referência |
 | 4 — Resto do jogo | ⬜ | 2.720 funções YYC; 16 reconstruídas |
@@ -157,6 +159,12 @@ Objetivo: trocar o probe por `ReconstructedGML/phase1_core/map_load.gml` real, n
 3. Bootstrap de teste: objeto `oDebugBoot` (provisório, nome explícito) que inicializa o mínimo de `oControl` (`map_id`, `obj_list`, `_layer[]`, `asset_list[]`) e chama `map_load("rmMal_Origin")`. Alternativa preferível, se der: importar `oControl` original da raiz e desligar só o que ainda não existe.
 4. **`load_game` e escrita de save desligados** nesta etapa (`START_GAME = 0`), porque o código ainda grava em `PROFILES/`.
 5. Aceite: o nível aparece igual ao probe; os 79 objetos são criados ou reportados; nenhum crash; hashes dos fixtures intactos.
+
+### 3.2c — Sprites dos objetos do nível (P3)
+Importar para o projeto os **15 sprites novos** dos objetos de `rmMal_Origin` (o 16º, `sMal_Tree_1l`, já existe), com **canvas, origem, quadros, velocidade e máscara** do original. **Sem ligá-los aos objetos ainda**: uma casca com sprite e sem eventos anima sozinha (visto com o `oMal_Tree1`), então cada vínculo entra junto com os eventos do objeto (3.3).
+- Sprites e quadros (de `sprites-metadata.json`): `sMal_Grass` (6), `sMal_Grass3` (6), `sMal_bg_leaves` (1), `sMal_bg_leaves_1` (1), `sMal_bg_leaves_11` (1), `sWire` (2), `sWire_DIODE` (8), `sWire_TIMER` (4), `sMal_Door_Flat` (8), `sMal_Door1` (3, 10 fps), `sVIEW_CONSTRICT` (1), `sInput_pp` (2), `sNote_Small` (?), `sOrigin` (1), `sDoor_chunky` (4). Total do conjunto: 62 quadros.
+- Método: script UTMT (`Tools/ExportSpritesRestored.csx`) exporta cada quadro com o canvas restaurado (`includePadding`), mais um JSON com recortes e origens; um gerador cria `.yy` e PNGs no formato da LTS 2026 (copiar as tags dos `.yy` de sprite que a IDE já regravou). Conferir cada sprite no editor da IDE contra `sprites-metadata.json` (tamanho, origem, quadros).
+- Aceite: os 15 sprites aparecem no Asset Browser com os tamanhos e origens do metadata; o usuário confere 3 ou 4 no editor (grama, porta, fio); nenhum objeto muda de aparência no jogo.
 
 #### Levantamento do 3.2b (19/11/2026; `SURVEY_3_2b_rmMal_Origin.md`, gerado por `Tools/survey_dependencies.py`)
 - **`map_load` na LTS 2026:** `array_get_2D(a,i,j)` → `a[i,j]` e `array_length_1d(a)` → `array_length(a)` (as duas funções não existem mais; eram do runtime 2.3.6). Nenhuma outra mudança de lógica.
