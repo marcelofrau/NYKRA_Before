@@ -140,6 +140,13 @@ class PlayerObjectTests(unittest.TestCase):
             kind = "sounds" if name.startswith("snd") else "sprites"
             self.assertTrue((PROJECT / kind / name / f"{name}.yy").exists(), name)
 
+    def test_grass_reacts_to_the_player_with_the_spring_of_the_decompilation(self):
+        draw = code_of("objects/parGrass/Draw_0.gml")
+        for fragment in ("tshake += -shake / 9;", "shake += tshake / 9;", "shake *= 0.975;", "tshake *= 0.975;",
+                         "x + 2 > oPlayer.x1", "x - 2 < oPlayer.x2", "y - 8 < oPlayer.y2", "y - 8 > oPlayer.y1",
+                         "shake += oPlayer.hsp;", "instance_number(oPlayer) > 0"):
+            self.assertIn(fragment, draw)
+
     def test_player_sprites_are_registered(self):
         yyp = (PROJECT / "NYKRA_VerticalSlice.yyp").read_text(encoding="utf-8")
         for name in ("sBnd_player", "sPlayer_idle", "sPlayer_run", "sPlayer_jump", "sPlayer_walk", "sFx_3"):
