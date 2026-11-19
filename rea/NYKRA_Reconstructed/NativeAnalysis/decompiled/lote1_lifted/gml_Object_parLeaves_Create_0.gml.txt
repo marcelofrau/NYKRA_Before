@@ -1,0 +1,18 @@
+// lifted from gml_Object_parLeaves_Create_0.c
+v80 = 1;
+otbl.image_index = v80;
+vb8 = sprite_index;
+va8 = vb8;
+otbl.sprite_index = va8;
+v70 = 0;
+otbl.image_speed = v70;
+v60 = 0;
+image_index = v60;
+v50 = 0;
+image_speed = v50;
+otbl = random(360);
+r = otbl;
+xx = 0;
+yy = 0;
+xxx = 0;
+yyy = 0;

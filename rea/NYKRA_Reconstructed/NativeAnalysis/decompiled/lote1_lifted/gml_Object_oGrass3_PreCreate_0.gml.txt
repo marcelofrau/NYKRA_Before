@@ -1,0 +1,2 @@
+// lifted from gml_Object_oGrass3_PreCreate_0.c
+

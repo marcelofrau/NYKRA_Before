@@ -1,0 +1,3 @@
+// lifted from gml_Object_oMal_bg_leaves_bg_fg_PreCreate_0.c
+// ?? void gml_Object_oMal_bg_leaves_bg_fg_PreCreate_0(undefined8 param_1)
+v170 = ?;

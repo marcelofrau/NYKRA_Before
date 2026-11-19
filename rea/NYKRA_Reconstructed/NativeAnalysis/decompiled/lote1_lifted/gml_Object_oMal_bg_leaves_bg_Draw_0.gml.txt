@@ -1,0 +1,47 @@
+// lifted from gml_Object_oMal_bg_leaves_bg_Draw_0.c
+// ?? void gml_Object_oMal_bg_leaves_bg_Draw_0(longlong *param_1)
+v238 = ?;
+ve0 = sprite_index;
+vd0 = image_index;
+vc0 = image_xscale;
+vb0 = image_yscale;
+va0 = image_angle;
+if ((local_94 & 0xffffff) == 0) {
+    // ?? uVar4 = (undefined4)local_a0;
+    else {
+        // ?? uVar10 = FUN_1416940c0(&local_a0);
+        // ?? uVar4 = (undefined4)uVar10;
+        if ((local_a4 & 0xffffff) == 0) {
+            // ?? uVar5 = (undefined4)local_b0;
+            else {
+                // ?? uVar10 = FUN_1416940c0(&local_b0);
+                // ?? uVar5 = (undefined4)uVar10;
+                if ((local_b4 & 0xffffff) == 0) {
+                    // ?? uVar6 = (undefined4)local_c0;
+                    // ?? uVar1 = *(uint *)((longlong)_y + 0xc);
+                    else {
+                        // ?? uVar10 = FUN_1416940c0(&local_c0);
+                        // ?? uVar6 = (undefined4)uVar10;
+                        // ?? uVar1 = *(uint *)((longlong)_y + 0xc);
+                        if ((uVar1 & 0xffffff) == 0) {
+                            // ?? uVar7 = (undefined4)*_y;
+                            // ?? uVar1 = *(uint *)((longlong)_x + 0xc);
+                            else {
+                                // ?? uVar10 = FUN_1416940c0(_y);
+                                // ?? uVar7 = (undefined4)uVar10;
+                                // ?? uVar1 = *(uint *)((longlong)_x + 0xc);
+                                if ((uVar1 & 0xffffff) == 0) {
+                                    // ?? uVar8 = (undefined4)*_x;
+                                    else {
+                                        // ?? uVar10 = FUN_1416940c0(_x);
+                                        // ?? uVar8 = (undefined4)uVar10;
+                                        if ((local_c4 & 0xffffff) == 0) {
+                                            // ?? uVar9 = (undefined4)local_d0;
+                                            else {
+                                                // ?? uVar10 = FUN_1416940c0(&local_d0);
+                                                // ?? uVar9 = (undefined4)uVar10;
+                                                // ?? local_e0 = dVar11;
+                                                // ?? FUN_1416b84f0(param_1,(longlong)dVar11,(longlong)(double)CONCAT44(uVar17,uVar9),
+                                                // ?? (float)(double)CONCAT44(uVar16,uVar8),(float)(double)CONCAT44(uVar15,uVar7),
+                                                // ?? (float)(double)CONCAT44(uVar14,uVar6),(float)(double)CONCAT44(uVar13,uVar5),
+                                                // ?? (float)(double)CONCAT44(uVar12,uVar4),0xffffff,0x3f800000);

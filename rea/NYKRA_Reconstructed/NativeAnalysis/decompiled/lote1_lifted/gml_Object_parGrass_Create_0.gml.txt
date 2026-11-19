@@ -1,0 +1,63 @@
+// lifted from gml_Object_parGrass_Create_0.c
+shake = 0;
+uVar5 = random(100);
+// ?? local_b8 = uVar5;
+image_index = vb8;
+va8 = 0;
+image_speed = va8;
+// ?? iVar1 = FUN_1416f82f0(param_1,param_2,0x60);
+uVar5 = 1;
+if (iVar1 < 1) {
+    // ?? uVar5 = 0;
+    wave = uVar5;
+    v88 = x;
+    // ?? FUN_140017bd0(&local_50,&local_88,8);
+    x1 = v50;
+    v88 = x;
+    v50 = v88;
+    v50 += 8;
+    x2 = v50;
+    v78 = y;
+    // ?? FUN_140017bd0(&local_50,&local_78,0x10);
+    y1 = v50;
+    v78 = y;
+    v50 = v78;
+    v50 += _DAT_141981ea8;
+    y2 = v50;
+    v98 = 1;
+    // ?? FUN_1416cfae0(param_1,DAT_1420d5a48/*alarm*/,2,&local_98);
+    v50 = CURRENT_PLANET;
+    if ((*(int *)(*(longlong *)((longlong)ThreadLocalStoragePointer + (ulonglong)_tls_index * 8) + 4)
+    // ?? < DAT_142180ffc) && (_Init_thread_header(&DAT_142180ffc), DAT_142180ffc == -1)) {
+        // ?? _DAT_142180fcc = 0;
+        // ?? _DAT_142180fc0 = 0;
+        // ?? _DAT_142180fe0 = 0x100000000;
+        // ?? _DAT_142180fd4 = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+        // ?? _DAT_142180ff4 = 0x200000000;
+        // ?? _DAT_142180fe8 = 0x4010000000000000/*4 (obj:oKS_Iiedakama)*/;
+        // ?? atexit(FUN_140a69230);
+        // ?? _Init_thread_footer(&DAT_142180ffc);
+        uVar6 = (undefined4)1e-05;
+        // ?? lVar4 = 0;
+        // ?? iVar1 = FUN_1416d9df0(&DAT_142180fc0,&local_50,uVar6,0);
+        if (iVar1 == 0) {
+            LAB_140a682a8:
+            iVar1 = (&?)[lVar4 * 5];
+            else {
+                // ?? iVar1 = FUN_1416d9df0(&DAT_142180fd4,&local_50,uVar6,0);
+                if (iVar1 != 0) {
+                    // ?? iVar1 = FUN_1416d9df0(&DAT_142180fe8,&local_50,uVar6,0);
+                    if (iVar1 != 0) goto joined_r0x000140a68728;
+                    // ?? lVar4 = 2;
+                    goto LAB_140a682a8;
+                    iVar1 = ?;
+                    if (iVar1 == 2) {
+                        col1 = 0x416e1aa5c0000000/*1.57832e+07*/;
+                        col2 = 0x4165ccc100000000/*1.14294e+07*/;
+                        else if (iVar1 == 1) {
+                            col1 = 0x4164cf1d80000000/*1.09099e+07*/;
+                            col2 = 0x416065d1c0000000/*8.59713e+06*/;
+                            else if (iVar1 == 0) {
+                                col1 = 0x4155f41540000000/*5.75496e+06*/;
+                                col2 = 0x4151654900000000/*4.56016e+06*/;
+                                // ?? joined_r0x000140a68728:

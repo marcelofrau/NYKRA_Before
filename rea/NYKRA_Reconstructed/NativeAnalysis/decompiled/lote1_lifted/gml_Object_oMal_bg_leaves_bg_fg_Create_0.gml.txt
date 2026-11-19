@@ -1,0 +1,17 @@
+// lifted from gml_Object_oMal_bg_leaves_bg_fg_Create_0.c
+// ?? dVar4 = (double)FUN_1416cdc60(DAT_141983d70,DAT_141982e78);
+dVar4 = dVar4 + 16;
+yy = dVar4;
+_x = 0;
+_y = 0;
+v60 = 0;
+v50 = 0;
+// ?? uVar5 = FUN_1416cdc60(DAT_141983968,DAT_141987cc0);
+// ?? local_a8 = uVar5;
+v98 = 1;
+v50 = sqr(va8);
+v88 = v50;
+v60 = mean(v98, v88);
+rr = v60;
+v70 = -70;
+depth = v70;
