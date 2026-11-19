@@ -3,7 +3,9 @@ import pathlib
 import re
 import struct
 
-ROOT = pathlib.Path(r"C:\Users\fraumar\workspace\_non_work_\NYKRA_Before\rea\NYKRA_Reconstructed")
+import sys
+
+ROOT = pathlib.Path(__file__).resolve().parents[2]  # rea/NYKRA_Reconstructed
 META = ROOT / "RecoveredAssets" / "Metadata"
 EXE_BYTES = (ROOT / "RuntimeBaseline" / "NYKRA.exe").read_bytes()
 
@@ -79,8 +81,11 @@ def resolve_hex_double(match):
     return hx
 
 
-in_dir = ROOT / "NativeAnalysis" / "decompiled" / "phase1"
-out_dir = ROOT / "NativeAnalysis" / "decompiled" / "phase1_annotated"
+# Usage: annotate_yyc_c.py [input dir under decompiled/ [output dir under decompiled/]]
+# Defaults keep the original phase 1 behaviour.
+decompiled = ROOT / "NativeAnalysis" / "decompiled"
+in_dir = decompiled / (sys.argv[1] if len(sys.argv) > 1 else "phase1")
+out_dir = decompiled / (sys.argv[2] if len(sys.argv) > 2 else "phase1_annotated")
 out_dir.mkdir(parents=True, exist_ok=True)
 
 for cfile in sorted(in_dir.glob("*.c")):
