@@ -62,7 +62,7 @@ class ObjectSpriteTests(unittest.TestCase):
             # sprite can be linked (plan P3); a shell with a sprite would animate on its own.
             if obj["name"] in ("oMal_Tree1", "oMal_bg_leaves_bg", "oMal_bg_leaves_bg_fg", "oMal_bg_leaves_fg",
                                "oGrass", "oGrass3", "oPlayer", "parNote", "oNote", "oFx",
-                               "oInput_pp", "oVIEW_CONSTRICT", "oDoor_Origin"):  # their events drive the sprite
+                               "oInput_pp", "oVIEW_CONSTRICT", "oDoor_Origin", "oMal_Door_Flat"):  # their events drive the sprite
                 continue
             self.assertIsNone(obj["spriteId"], f"{obj['name']} would animate by itself")
 

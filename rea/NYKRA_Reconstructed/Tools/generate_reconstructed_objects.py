@@ -21,6 +21,8 @@ OBJECTS = {
     "oInput_pp": (None, "sInput_pp", False, None),
     "oVIEW_CONSTRICT": (None, "sVIEW_CONSTRICT", False, None),
     "oDoor_Origin": (None, "sMal_Door1", False, None),
+    "parDoor_Flat": ("parSAVE", None, False, None),
+    "oMal_Door_Flat": ("parDoor_Flat", "sMal_Door_Flat", False, None),
     # The wires keep no sprite until their Draw_0 is reconstructed (plan P34): it would draw the raw sprite.
     # They do take it as the collision mask, so instance_place (the pressure plate's) still finds them.
     "oWire": ("parWire", None, False, "sWire"),

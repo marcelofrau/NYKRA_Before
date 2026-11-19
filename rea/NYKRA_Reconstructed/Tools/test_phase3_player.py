@@ -166,6 +166,28 @@ class PlayerObjectTests(unittest.TestCase):
             self.assertIn("rand = random_range(0, 0.4);", create)
             self.assertIn("d[_i] = 0;", create)
 
+    def test_doors_match_the_decompilation(self):
+        yy = load_yy(PROJECT / "objects" / "parDoor_Flat" / "parDoor_Flat.yy")
+        self.assertEqual(yy["parentObjectId"]["name"], "parSAVE")
+        self.assertEqual(sorted((e["eventType"], e["eventNum"]) for e in yy["eventList"]),
+                         [(0, 0), (2, 0), (3, 1), (8, 73), (8, 77)])
+        door = load_yy(PROJECT / "objects" / "oMal_Door_Flat" / "oMal_Door_Flat.yy")
+        self.assertEqual((door["parentObjectId"]["name"], door["spriteId"]["name"]), ("parDoor_Flat", "sMal_Door_Flat"))
+        step = code_of("objects/parDoor_Flat/Step_1.gml")
+        for fragment in ("_d < 15", "locked != 1", "oPlayer.kpu", "anim <= 0", "fade = 300;", "fade *= 0.8;"):
+            self.assertIn(fragment, step)
+        draw = code_of("objects/oMal_Door_Flat/Draw_0.gml")
+        for fragment in ("anim = reach_tween(anim, 1, 20);", "anim = reach_tween(anim, 0, 30);", "_h - hrnd(anim * 15)",
+                         "_h - hrnd(anim * 18)", "_lit ? 6 : 2", "_lit ? 7 : 3", "_lit ? 5 : 0", "x - _w / 2",
+                         "draw_circle_color(x, y - 16, 24", "oPlayer.kpu", "in = 1;"):
+            self.assertIn(fragment, draw)
+        arrival = (REA.parents[1] / "oPlayer" / "Step_1.gml").read_text(encoding="utf-8")  # the original player places itself at the door
+        self.assertIn("with(parDoor_Flat)", arrival)
+        for level in ("rmMal_1", "rmMal_o1", "rmMal_Origin"):
+            self.assertTrue((PROJECT / "datafiles" / "level_data" / f"{level}.rmlvl").exists(), level)
+        for sound in ("sndMystic_ping", "sndStone_open"):
+            self.assertTrue((PROJECT / "sounds" / sound / f"{sound}.yy").exists(), sound)
+
     def test_player_sprites_are_registered(self):
         yyp = (PROJECT / "NYKRA_VerticalSlice.yyp").read_text(encoding="utf-8")
         for name in ("sBnd_player", "sPlayer_idle", "sPlayer_run", "sPlayer_jump", "sPlayer_walk", "sFx_3"):

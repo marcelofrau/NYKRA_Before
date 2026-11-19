@@ -1,13 +1,15 @@
 {
   "$GMObject": "",
   "%Name": "oMal_Door_Flat",
-  "eventList": [],
+  "eventList": [
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+  ],
   "managed": true,
   "name": "oMal_Door_Flat",
   "overriddenProperties": [],
   "parent": {
-    "name": "Shells",
-    "path": "folders/Objects/Shells.yy",
+    "name": "Objects",
+    "path": "folders/Objects.yy",
   },
   "parentObjectId": {"name":"parDoor_Flat","path":"objects/parDoor_Flat/parDoor_Flat.yy",},
   "persistent": false,
@@ -27,7 +29,7 @@
   "resourceType": "GMObject",
   "resourceVersion": "2.0",
   "solid": false,
-  "spriteId": null,
+  "spriteId": {"name":"sMal_Door_Flat","path":"sprites/sMal_Door_Flat/sMal_Door_Flat.yy",},
   "spriteMaskId": null,
   "visible": true,
 }

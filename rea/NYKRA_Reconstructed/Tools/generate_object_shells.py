@@ -36,6 +36,7 @@ HAND_WRITTEN = {
     "parNote", "oNote",  # stage 3: parNote's 4 original events; oNote only links the sprite (generate_player_object.py)
     # stage 3: reconstructed from the decompilation (Tools/generate_reconstructed_objects.py)
     "oInput_pp", "oVIEW_CONSTRICT", "oDoor_Origin", "oWire", "oWire_DIODE_D", "oWire_TIMER",
+    "parDoor_Flat", "oMal_Door_Flat",
 }
 # Objects named by map_load, clear_objects and _SET_SCENE that are evaluated on the path
 # even when the level does not contain them (a missing asset is a runtime error).
