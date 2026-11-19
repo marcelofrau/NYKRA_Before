@@ -33,13 +33,15 @@ STUBS = {
     "draw_sprite_glitch": ("0", "effect (stage 2)"),
     "draw_ui_arrow": ("0", "UI (stage 3)"),
     "easing": ("argument1", "jump curve: returns the time unchanged, i.e. a linear curve (P25)"),
-    "ini_language": ("0", "language file (later)"),
     "inv_delete": ("0", "inventory (stage 3)"),
     "mask_draw": ("0", "effect (stage 2)"),
     "mask_reset": ("0", "effect (stage 2)"),
     "mask_set": ("0", "effect (stage 2)"),
     "open_book": ("0", "UI (stage 3)"),
     "play_sound": ("-1", "sounds are not imported (stage 2, P8)"),
+    # the original (scripts/play_sound_pos at the repository root) is real GML; it is stubbed only because
+    # every sound it would receive is the -1 placeholder. Replace by the original when the sounds are imported.
+    "play_sound_pos": ("-1", "sounds are not imported (stage 2, P8)"),
     "string_n": ("\"\"", "text (stage 3)"),
     "string_n_glitch": ("\"\"", "text (stage 3)"),
     "string_wordbreak": ("\"\"", "text (stage 3)"),
@@ -95,9 +97,11 @@ def render(texts):
     ]
     for name, (result, why) in STUBS.items():
         count = max(max_args(name, texts), 1)
-        params = ", ".join(f"_a{i}" for i in range(count))
+        # optional parameters: GameMaker (GM1020) rejects calls with fewer arguments than declared, and the
+        # original calls differ in length (create_fx is called with 17 and 18 arguments)
+        params = ", ".join(f"_a{i} = undefined" for i in range(count))
         ret = result.replace("argument1", "_a1")
-        lines += [f"/// @description {name}({params}): STUB, {why}",
+        lines += [f"/// @description {name}(...): STUB, {why}",
                   f"function {name}({params}) {{",
                   f"    stub_log(\"{name}\", \"{why}\");",
                   f"    return {ret};",

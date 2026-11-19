@@ -11,152 +11,152 @@ function stub_log(_name, _why) {
     }
 }
 
-/// @description create_flash(_a0, _a1): STUB, effect (stage 2)
-function create_flash(_a0, _a1) {
+/// @description create_flash(...): STUB, effect (stage 2)
+function create_flash(_a0 = undefined, _a1 = undefined) {
     stub_log("create_flash", "effect (stage 2)");
     return noone;
 }
 
-/// @description create_flashline(_a0, _a1, _a2, _a3, _a4, _a5, _a6): STUB, effect (stage 2)
-function create_flashline(_a0, _a1, _a2, _a3, _a4, _a5, _a6) {
+/// @description create_flashline(...): STUB, effect (stage 2)
+function create_flashline(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = undefined, _a4 = undefined, _a5 = undefined, _a6 = undefined) {
     stub_log("create_flashline", "effect (stage 2)");
     return noone;
 }
 
-/// @description create_fx(_a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11, _a12, _a13, _a14, _a15, _a16, _a17): STUB, effect (stage 2)
-function create_fx(_a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11, _a12, _a13, _a14, _a15, _a16, _a17) {
+/// @description create_fx(...): STUB, effect (stage 2)
+function create_fx(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = undefined, _a4 = undefined, _a5 = undefined, _a6 = undefined, _a7 = undefined, _a8 = undefined, _a9 = undefined, _a10 = undefined, _a11 = undefined, _a12 = undefined, _a13 = undefined, _a14 = undefined, _a15 = undefined, _a16 = undefined, _a17 = undefined) {
     stub_log("create_fx", "effect (stage 2)");
     return noone;
 }
 
-/// @description create_lighting_flash(_a0, _a1): STUB, effect (stage 2)
-function create_lighting_flash(_a0, _a1) {
+/// @description create_lighting_flash(...): STUB, effect (stage 2)
+function create_lighting_flash(_a0 = undefined, _a1 = undefined) {
     stub_log("create_lighting_flash", "effect (stage 2)");
     return noone;
 }
 
-/// @description create_poly(_a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11, _a12): STUB, effect (stage 2)
-function create_poly(_a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, _a11, _a12) {
+/// @description create_poly(...): STUB, effect (stage 2)
+function create_poly(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = undefined, _a4 = undefined, _a5 = undefined, _a6 = undefined, _a7 = undefined, _a8 = undefined, _a9 = undefined, _a10 = undefined, _a11 = undefined, _a12 = undefined) {
     stub_log("create_poly", "effect (stage 2)");
     return noone;
 }
 
-/// @description create_spark(_a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9): STUB, effect (stage 2)
-function create_spark(_a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9) {
+/// @description create_spark(...): STUB, effect (stage 2)
+function create_spark(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = undefined, _a4 = undefined, _a5 = undefined, _a6 = undefined, _a7 = undefined, _a8 = undefined, _a9 = undefined) {
     stub_log("create_spark", "effect (stage 2)");
     return noone;
 }
 
-/// @description draw_polygon(_a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9): STUB, effect (stage 2)
-function draw_polygon(_a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9) {
+/// @description draw_polygon(...): STUB, effect (stage 2)
+function draw_polygon(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = undefined, _a4 = undefined, _a5 = undefined, _a6 = undefined, _a7 = undefined, _a8 = undefined, _a9 = undefined) {
     stub_log("draw_polygon", "effect (stage 2)");
     return 0;
 }
 
-/// @description draw_rectangle_view(_a0, _a1): STUB, UI (stage 3)
-function draw_rectangle_view(_a0, _a1) {
+/// @description draw_rectangle_view(...): STUB, UI (stage 3)
+function draw_rectangle_view(_a0 = undefined, _a1 = undefined) {
     stub_log("draw_rectangle_view", "UI (stage 3)");
     return 0;
 }
 
-/// @description draw_sprite_glitch(_a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9): STUB, effect (stage 2)
-function draw_sprite_glitch(_a0, _a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9) {
+/// @description draw_sprite_glitch(...): STUB, effect (stage 2)
+function draw_sprite_glitch(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = undefined, _a4 = undefined, _a5 = undefined, _a6 = undefined, _a7 = undefined, _a8 = undefined, _a9 = undefined) {
     stub_log("draw_sprite_glitch", "effect (stage 2)");
     return 0;
 }
 
-/// @description draw_ui_arrow(_a0, _a1, _a2, _a3, _a4): STUB, UI (stage 3)
-function draw_ui_arrow(_a0, _a1, _a2, _a3, _a4) {
+/// @description draw_ui_arrow(...): STUB, UI (stage 3)
+function draw_ui_arrow(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = undefined, _a4 = undefined) {
     stub_log("draw_ui_arrow", "UI (stage 3)");
     return 0;
 }
 
-/// @description easing(_a0, _a1, _a2, _a3, _a4): STUB, jump curve: returns the time unchanged, i.e. a linear curve (P25)
-function easing(_a0, _a1, _a2, _a3, _a4) {
+/// @description easing(...): STUB, jump curve: returns the time unchanged, i.e. a linear curve (P25)
+function easing(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = undefined, _a4 = undefined) {
     stub_log("easing", "jump curve: returns the time unchanged, i.e. a linear curve (P25)");
     return _a1;
 }
 
-/// @description ini_language(_a0): STUB, language file (later)
-function ini_language(_a0) {
-    stub_log("ini_language", "language file (later)");
-    return 0;
-}
-
-/// @description inv_delete(_a0, _a1, _a2): STUB, inventory (stage 3)
-function inv_delete(_a0, _a1, _a2) {
+/// @description inv_delete(...): STUB, inventory (stage 3)
+function inv_delete(_a0 = undefined, _a1 = undefined, _a2 = undefined) {
     stub_log("inv_delete", "inventory (stage 3)");
     return 0;
 }
 
-/// @description mask_draw(_a0): STUB, effect (stage 2)
-function mask_draw(_a0) {
+/// @description mask_draw(...): STUB, effect (stage 2)
+function mask_draw(_a0 = undefined) {
     stub_log("mask_draw", "effect (stage 2)");
     return 0;
 }
 
-/// @description mask_reset(_a0): STUB, effect (stage 2)
-function mask_reset(_a0) {
+/// @description mask_reset(...): STUB, effect (stage 2)
+function mask_reset(_a0 = undefined) {
     stub_log("mask_reset", "effect (stage 2)");
     return 0;
 }
 
-/// @description mask_set(_a0, _a1, _a2, _a3): STUB, effect (stage 2)
-function mask_set(_a0, _a1, _a2, _a3) {
+/// @description mask_set(...): STUB, effect (stage 2)
+function mask_set(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = undefined) {
     stub_log("mask_set", "effect (stage 2)");
     return 0;
 }
 
-/// @description open_book(_a0, _a1): STUB, UI (stage 3)
-function open_book(_a0, _a1) {
+/// @description open_book(...): STUB, UI (stage 3)
+function open_book(_a0 = undefined, _a1 = undefined) {
     stub_log("open_book", "UI (stage 3)");
     return 0;
 }
 
-/// @description play_sound(_a0, _a1, _a2, _a3, _a4, _a5): STUB, sounds are not imported (stage 2, P8)
-function play_sound(_a0, _a1, _a2, _a3, _a4, _a5) {
+/// @description play_sound(...): STUB, sounds are not imported (stage 2, P8)
+function play_sound(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = undefined, _a4 = undefined, _a5 = undefined) {
     stub_log("play_sound", "sounds are not imported (stage 2, P8)");
     return -1;
 }
 
-/// @description string_n(_a0, _a1): STUB, text (stage 3)
-function string_n(_a0, _a1) {
+/// @description play_sound_pos(...): STUB, sounds are not imported (stage 2, P8)
+function play_sound_pos(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = undefined, _a4 = undefined, _a5 = undefined, _a6 = undefined, _a7 = undefined) {
+    stub_log("play_sound_pos", "sounds are not imported (stage 2, P8)");
+    return -1;
+}
+
+/// @description string_n(...): STUB, text (stage 3)
+function string_n(_a0 = undefined, _a1 = undefined) {
     stub_log("string_n", "text (stage 3)");
     return "";
 }
 
-/// @description string_n_glitch(_a0, _a1): STUB, text (stage 3)
-function string_n_glitch(_a0, _a1) {
+/// @description string_n_glitch(...): STUB, text (stage 3)
+function string_n_glitch(_a0 = undefined, _a1 = undefined) {
     stub_log("string_n_glitch", "text (stage 3)");
     return "";
 }
 
-/// @description string_wordbreak(_a0, _a1, _a2, _a3): STUB, text (stage 3)
-function string_wordbreak(_a0, _a1, _a2, _a3) {
+/// @description string_wordbreak(...): STUB, text (stage 3)
+function string_wordbreak(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = undefined) {
     stub_log("string_wordbreak", "text (stage 3)");
     return "";
 }
 
-/// @description snd_step_dirt(_a0): STUB, sound index choice (stage 2, P8)
-function snd_step_dirt(_a0) {
+/// @description snd_step_dirt(...): STUB, sound index choice (stage 2, P8)
+function snd_step_dirt(_a0 = undefined) {
     stub_log("snd_step_dirt", "sound index choice (stage 2, P8)");
     return -1;
 }
 
-/// @description snd_step_grass(_a0): STUB, sound index choice (stage 2, P8)
-function snd_step_grass(_a0) {
+/// @description snd_step_grass(...): STUB, sound index choice (stage 2, P8)
+function snd_step_grass(_a0 = undefined) {
     stub_log("snd_step_grass", "sound index choice (stage 2, P8)");
     return -1;
 }
 
-/// @description snd_step_stone(_a0): STUB, sound index choice (stage 2, P8)
-function snd_step_stone(_a0) {
+/// @description snd_step_stone(...): STUB, sound index choice (stage 2, P8)
+function snd_step_stone(_a0 = undefined) {
     stub_log("snd_step_stone", "sound index choice (stage 2, P8)");
     return -1;
 }
 
-/// @description snd_step_wood(_a0): STUB, sound index choice (stage 2, P8)
-function snd_step_wood(_a0) {
+/// @description snd_step_wood(...): STUB, sound index choice (stage 2, P8)
+function snd_step_wood(_a0 = undefined) {
     stub_log("snd_step_wood", "sound index choice (stage 2, P8)");
     return -1;
 }

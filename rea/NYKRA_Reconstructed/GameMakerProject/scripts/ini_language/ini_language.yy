@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"ini_language",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"ini_language",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

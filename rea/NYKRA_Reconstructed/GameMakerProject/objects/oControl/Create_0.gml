@@ -11,9 +11,52 @@ planet = 0;
 horizon = 0;
 map_n = 0;
 mode = 0;
+globalvar DIALOGUE_OPEN;   // global in the original oControl (the player's events read it)
 DIALOGUE_OPEN = 0;
 FADE_COLOUR = c_black;
-// Read by the original oPlayer events (player stage 1), copied from oControl/Create_0.gml.
+// Globals the original oPlayer events read (player stage 1), copied from oControl/Create_0.gml.
+global.D_NUMBER = round(mean(7777, irandom_range(1001, 7000)));
+globalvar CHYP;
+CHYP = 0;
+globalvar DIALOGUE_X;
+globalvar DIALOGUE_Y;
+globalvar DIALOGUE_ID;
+DIALOGUE_X = 0;
+DIALOGUE_Y = 0;
+DIALOGUE_ID = noone;
+globalvar LETTERBOX;
+LETTERBOX = 0;
+globalvar GLITCH;
+GLITCH = 0;
+globalvar c_iiem;
+c_iiem = $4400ff;
+globalvar c_ink;
+c_ink = make_colour_rgb(16, 8, 32);
+globalvar c_edgb;
+globalvar c_edgbb;
+globalvar c_edgbbb;
+c_edgb = $ff7700;
+c_edgbb = merge_colour(c_blue, c_edgb, 0.5);
+c_edgbbb = merge_colour(c_blue, c_edgbb, 0.5);
+globalvar ITEM;
+ITEM = 0;
+ITEM[0,0] = 0;
+// PROVISIONAL (plan P28): the original builds these fonts from sprites that are not imported yet
+// (font_add_sprite_ext(sFont4, ...)); -1 is GameMaker's default font, so the text draws, in the wrong face.
+globalvar fnt1, fnt2, fnt3, fnt4, fnt7, fntPTA1, fntIIEM, fntTHICC, fntBIG, FONT_MAIN, FONT_MAIN_SMALL;
+fnt1 = -1;
+fnt2 = -1;
+fnt3 = -1;
+fnt4 = -1;
+fnt7 = -1;
+fntPTA1 = -1;
+fntIIEM = -1;
+fntTHICC = -1;
+fntBIG = -1;
+FONT_MAIN = fnt7;
+FONT_MAIN_SMALL = fnt1;
+globalvar LANGUAGE_FILE;
+LANGUAGE_FILE = "dlg_eng.lang";
 anim1 = 0;
 game_dialogue = START_GAME;
 EO_SPAWN = 0;

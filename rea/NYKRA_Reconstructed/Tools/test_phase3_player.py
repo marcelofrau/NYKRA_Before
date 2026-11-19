@@ -80,7 +80,7 @@ class PlayerObjectTests(unittest.TestCase):
             for name in re.findall(r"\bsnd[A-Z]\w+", text):
                 self.assertIn(f"globalvar {name};", sounds, f"{p.name}: {name}")
         stubs = code("provisional_player_stubs")
-        self.assertIn("function create_fx(_a0, _a1,", stubs)
+        self.assertIn("function create_fx(_a0 = undefined, _a1 = undefined,", stubs)  # GM1020: all optional
         self.assertEqual(stubs.count("stub_log(\""), len(re.findall(r"^function (?!stub_log)\w+", stubs, re.M)))
 
     def test_player_sprites_are_registered(self):

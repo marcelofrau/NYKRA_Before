@@ -29,7 +29,7 @@ SCRIPTS = ["map_load", "clear_objects", "reset_files", "_SET_SCENE", "goto_map"]
 HAND_SCRIPTS = ["reach_tween", "set_game_screen", "set_controls", "config_get", "draw_sprite_skew",
                 "check_array_cell", "check_array", "check_block", "bb_setmiddle", "ARRAY_COLLIDE",
                 "playerhascontrol", "reach", "obj_setpos", "instance_create_one", "sleep", "hrnd",
-                "box_inside_bound", "real_string"]
+                "box_inside_bound", "real_string", "ini_language"]
 
 GET_2D = re.compile(r"array_get_2D\((\w+),\s*(\w+),\s*(\w+)\)")
 LENGTH_1D = re.compile(r"array_length_1d\(([^()]+)\)")
