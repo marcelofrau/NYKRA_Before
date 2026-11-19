@@ -33,6 +33,7 @@ HAND_WRITTEN = {
     "parEntity",  # player stage 1: Create, Destroy, Step_1, Step_2 (provisional), Draw_77
     "oPlayer",  # player stage 1: the 21 original events (Tools/generate_player_object.py)
     "oFx",  # player stage 2: the particle create_fx spawns (reconstructed events)
+    "parNote", "oNote",  # stage 3: parNote's 4 original events; oNote only links the sprite (generate_player_object.py)
 }
 # Objects named by map_load, clear_objects and _SET_SCENE that are evaluated on the path
 # even when the level does not contain them (a missing asset is a runtime error).

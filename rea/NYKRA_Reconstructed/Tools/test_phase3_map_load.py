@@ -263,7 +263,7 @@ class ShellObjectTests(unittest.TestCase):
     def test_hand_written_objects_are_not_shells(self):
         for name in sorted(shells.HAND_WRITTEN):
             yy = load_yy(PROJECT / "objects" / name / f"{name}.yy")
-            if name != "oMal_Tree1":  # a plain child with a sprite and no events of its own
+            if name not in ("oMal_Tree1", "oNote"):  # plain children with a sprite and no events of their own
                 self.assertTrue(yy["eventList"], f"{name} has hand-written events")
             self.assertEqual(yy["parent"]["name"], "Objects")
 

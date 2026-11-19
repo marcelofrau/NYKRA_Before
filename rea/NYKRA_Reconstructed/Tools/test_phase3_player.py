@@ -117,6 +117,28 @@ class PlayerObjectTests(unittest.TestCase):
             self.assertIn(fragment, fx)
         self.assertTrue((PROJECT / "sprites" / "sCloud_Puff" / "sCloud_Puff.yy").exists())
 
+    def test_notes_use_the_original_events_and_the_reconstructed_interaction_scripts(self):
+        original = REA.parents[1] / "parNote"
+        yy = load_yy(PROJECT / "objects" / "parNote" / "parNote.yy")
+        self.assertEqual(sorted((e["eventType"], e["eventNum"]) for e in yy["eventList"]),
+                         [(0, 0), (2, 0), (8, 0), (8, 73)])
+        for f in original.glob("*.gml"):
+            ours = (PROJECT / "objects" / "parNote" / f.name).read_text(encoding="utf-8")
+            self.assertTrue(ours.endswith(f.read_text(encoding="utf-8")), f.name)
+        note = load_yy(PROJECT / "objects" / "oNote" / "oNote.yy")
+        self.assertEqual((note["parentObjectId"]["name"], note["spriteId"]["name"], note["eventList"]),
+                         ("parNote", "sNote_Small", []))
+        self.assertIn("keyboard_check_pressed(global.kku)", code("player_interact"))
+        self.assertIn("point_distance(_x, _y, oPlayer.x, oPlayer.y) < _radius", code("player_distance"))
+        self.assertIn("-45", code("interact_arrow"))
+        self.assertIn("draw_rectangle(CX - 1, CY - 1, CX + CW + 1, CY + CH + 1, false)", code("draw_rectangle_view"))
+        create = code_of("objects/oControl/Create_0.gml")
+        for font in ("sFont4", "sFont7", "sFont1", "sFontBig"):
+            self.assertIn(f"font_add_sprite_ext({font},", create)
+        for name in ("sNote", "sArrow", "sFont7", "sndPaper_01", "sndPaper_05"):
+            kind = "sounds" if name.startswith("snd") else "sprites"
+            self.assertTrue((PROJECT / kind / name / f"{name}.yy").exists(), name)
+
     def test_player_sprites_are_registered(self):
         yyp = (PROJECT / "NYKRA_VerticalSlice.yyp").read_text(encoding="utf-8")
         for name in ("sBnd_player", "sPlayer_idle", "sPlayer_run", "sPlayer_jump", "sPlayer_walk", "sFx_3"):

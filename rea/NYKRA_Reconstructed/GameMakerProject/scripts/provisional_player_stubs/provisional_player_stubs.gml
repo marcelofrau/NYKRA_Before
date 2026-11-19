@@ -47,21 +47,9 @@ function draw_polygon(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = u
     return 0;
 }
 
-/// @description draw_rectangle_view(...): STUB, UI (stage 3)
-function draw_rectangle_view(_a0 = undefined, _a1 = undefined) {
-    stub_log("draw_rectangle_view", "UI (stage 3)");
-    return 0;
-}
-
 /// @description draw_sprite_glitch(...): STUB, effect (stage 2)
 function draw_sprite_glitch(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = undefined, _a4 = undefined, _a5 = undefined, _a6 = undefined, _a7 = undefined, _a8 = undefined, _a9 = undefined) {
     stub_log("draw_sprite_glitch", "effect (stage 2)");
-    return 0;
-}
-
-/// @description draw_ui_arrow(...): STUB, UI (stage 3)
-function draw_ui_arrow(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = undefined, _a4 = undefined) {
-    stub_log("draw_ui_arrow", "UI (stage 3)");
     return 0;
 }
 

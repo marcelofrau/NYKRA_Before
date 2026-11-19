@@ -1,13 +1,15 @@
 {
   "$GMObject": "",
   "%Name": "oNote",
-  "eventList": [],
+  "eventList": [
+
+  ],
   "managed": true,
   "name": "oNote",
   "overriddenProperties": [],
   "parent": {
-    "name": "Shells",
-    "path": "folders/Objects/Shells.yy",
+    "name": "Objects",
+    "path": "folders/Objects.yy",
   },
   "parentObjectId": {"name":"parNote","path":"objects/parNote/parNote.yy",},
   "persistent": false,
@@ -27,7 +29,7 @@
   "resourceType": "GMObject",
   "resourceVersion": "2.0",
   "solid": false,
-  "spriteId": null,
+  "spriteId": {"name":"sNote_Small","path":"sprites/sNote_Small/sNote_Small.yy",},
   "spriteMaskId": null,
   "visible": true,
 }

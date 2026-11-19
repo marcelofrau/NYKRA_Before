@@ -32,6 +32,10 @@ globalvar c_iiem;
 c_iiem = $4400ff;
 globalvar c_ink;
 c_ink = make_colour_rgb(16, 8, 32);
+globalvar c_light;
+c_light = make_colour_rgb(56, 38, 33);
+globalvar c_blackink;
+c_blackink = merge_colour(c_ink, c_black, 0.5);
 globalvar c_edgb;
 globalvar c_edgbb;
 globalvar c_edgbbb;
@@ -41,19 +45,38 @@ c_edgbbb = merge_colour(c_blue, c_edgbb, 0.5);
 globalvar ITEM;
 ITEM = 0;
 ITEM[0,0] = 0;
-// PROVISIONAL (plan P28): the original builds these fonts from sprites that are not imported yet
-// (font_add_sprite_ext(sFont4, ...)); -1 is GameMaker's default font, so the text draws, in the wrong face.
-globalvar fnt1, fnt2, fnt3, fnt4, fnt7, fntPTA1, fntIIEM, fntTHICC, fntBIG, FONT_MAIN, FONT_MAIN_SMALL;
-fnt1 = -1;
-fnt2 = -1;
-fnt3 = -1;
-fnt4 = -1;
-fnt7 = -1;
-fntPTA1 = -1;
-fntIIEM = -1;
-fntTHICC = -1;
-fntBIG = -1;
+// Fonts, copied unchanged from the original oControl/Create_0.gml (lines 198-229): sprite fonts (plan P28 resolved).
+globalvar fnt4;
+fnt4 = font_add_sprite_ext(sFont4,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!?.\\:,/_-+=><[]",1,1);
+
+globalvar fnt2;
+fnt2 = font_add_sprite_ext(sFont2,"abcdefghijklmnopqrstuvwxyz",1,1);
+
+globalvar fnt3;
+fnt3 = font_add_sprite_ext(sFont3,chr(700)+chr(701)+chr(702)+chr(703)+chr(704)+chr(705)+chr(706)+chr(707)+"abcdefghijklmnopqrstuvwxyz0123456789!?;{}+-=:>\\_[]'*(),."+chr(708)+chr(709)+chr(710)+chr(711),0,0);
+
+globalvar fntPTA1;
+fntPTA1 = font_add_sprite_ext(sFontPtaloth1,"0123456789abcdefAB",1,0);
+
+globalvar fnt1;
+fnt1 = font_add_sprite_ext(sFont1," ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!?/`.,_>-+*[]():|~=#$'ū@"+chr(700)+chr(701)+chr(702)+chr(703)+"%",1,1);
+
+globalvar fntIIEM;
+fntIIEM = font_add_sprite_ext(sFont_iiem,"abcdefghijklmnopqrstuvwxyz",1,1);
+
+globalvar fntTHICC;
+fntTHICC = font_add_sprite_ext(sFontThicc,"ABCDEFGHIJKLMNOPQRSTUVWXYZ",1,1);
+
+globalvar fntBIG;
+fntBIG = font_add_sprite_ext(sFontBig,"ABCDEFGHIJKLMNOPQRSTUVWXYZ",1,2 );
+
+globalvar fnt7;
+fnt7 = font_add_sprite_ext(sFont7," ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`1234567890-=[]\\;',./~!@#$%^&*()_+{}|:\"<>?ū",1,1);
+
+globalvar FONT_MAIN;
 FONT_MAIN = fnt7;
+
+globalvar FONT_MAIN_SMALL;
 FONT_MAIN_SMALL = fnt1;
 globalvar LANGUAGE_FILE;
 LANGUAGE_FILE = "dlg_eng.lang";
