@@ -11,3 +11,6 @@ rea/NYKRA_Reconstructed/NativeAnalysis/ghidra-headless.log
 graphify-out/cache/
 graphify-out/.graphify_python
 graphify-out/.graphify_root
+
+# Python bytecode
+__pycache__/
