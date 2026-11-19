@@ -14,7 +14,7 @@
 | 2 — Bugs prioritários | ✅ relatório entregue | `PHASE2_PRIORITY_BUGS.md` (P1 load_game, P1 arrays omitidos, P2 int64) |
 | 3.0 — Ambiente | ✅ | IDE 2024.14.4.222, runtime 2024.14.4.268, Igor compila VM |
 | 3.1 — Projeto + sprite | ✅ parcial | árvore `sMal_Tree_1`/`sMal_Tree_1l` vista pelo usuário |
-| 3.2 — Renderizar nível | ⛔ **bloqueado → causa encontrada (§1)** | `TILES` compilado sem textura |
+| 3.2 — Renderizar nível | 🟡 **tiles renderizam (19/11, §1.3c)**; faltam itens do checklist e o aceite | build da IDE LTS 2026 |
 | 3.3 — Player/objetos/portas | ⬜ | — |
 | 3.4 — Save V1 | ⬜ | só codec Python de referência |
 | 4 — Resto do jogo | ⬜ | 2.720 funções YYC; 16 reconstruídas |
@@ -83,6 +83,13 @@ Problema secundário observado: `option_windows_interpolate_pixels = True`. Em p
 - **Hipótese restante:** algo no formato do `TILES.yy` (escrito à mão, nunca salvo pela IDE 2024) faz o compilador pular a textura em silêncio. Duas tentativas falharam, então paramos conforme a regra. **Próximo: T3 com o usuário na IDE** (abrir o projeto, conferir o editor do `TILES` e criar um tileset de referência `TILES_ide_ref` a partir do `sTiles`, 16×16), depois comparar os `.yy`.
 - **Lição:** as tags `"$GM<Tipo>":"vN"` escolhem o esquema do leitor. Sempre copiar de um arquivo salvo pela IDE 2024.14, nunca supor a versão.
 
+### 1.3c Resolvido (19/11/2026): tiles renderizam
+- O usuário instalou a **GameMaker LTS 2026** (IDE `2026.1.0.27`, runtime `2026.1.0.28`, ao lado da 2024.14). Abriu o projeto, a IDE regravou os `.yy` no formato dela (tags `"$GMSprite":"v2"`, `"$GMRInstance":"v4"`, `"$GMProject":"v1"`, mais `options/windows|operagx|reddit`) e o editor do `TILES` mostrou o `sTiles` com grade e os valores originais (16×16, offset 0, sep 0, borda 2), sem erros. Ao rodar pela IDE (F5), **as 6 camadas do `rmMal_Origin` renderizam**, `draw_tilemap` e `draw_tile` funcionam, e `tileset_get_uvs` = `(0,0) → (0.76,0.77)`, isto é, 1560×1580 numa página 2048, o mesmo tamanho do `TILES` original.
+- **Causa mais provável:** ao salvar o tileset, a IDE gera `tilesets/TILES/output_tileset.png` (1560×1580, a textura de saída com borda), e o compilador só empacota esse arquivo. O nosso `TILES.yy` sempre foi escrito à mão e nunca tinha esse PNG; o compilador gerava o tileset sem textura e sem erro. Como o compilador também mudou (2024.14 → 2026.1), não foi isolado qual das duas mudanças decidiu. Não vale isolar, porque o projeto segue na LTS.
+- **Regra nova:** todo tileset criado ou alterado fora da IDE precisa ser aberto e salvo pela IDE (para gerar o `output_tileset.png`) antes do build. Arquivos `.yy` escritos por script devem copiar as tags de versão de arquivos salvos pela LTS 2026.
+- Hashes de `rmMal_Origin.rmlvl` (`4dcb0788…`) e `rmMal_1.rmlvl` (`07a2b082…`) conferidos e intactos (originais e cópia no projeto).
+- Pendente do 3.2: comparar pixel a pixel `output_tileset.png` com `TILES_0.png` (os hashes diferem, o tamanho é igual), decidir `interpolate_pixels` (hoje `true`, o padrão; valor original ainda não lido do GEN8), política para as 4 referências `<undefined>` e desenhar os sprites `aBACK` do nível.
+
 ### 1.4 Tentativas, em ordem (parar na primeira que passar no aceite)
 
 Antes de cada build: `git status` limpo ou commit do estado anterior; build numa pasta nova `%TEMP%\opencode\gm-nykra-<nome>-<data>` (fora do repo); hash dos fixtures antes e depois.
@@ -123,13 +130,14 @@ Renderer de diagnóstico com `draw_sprite_part_ext(sTiles, 0, (id mod 64)*16, (i
 - [x] T1.4 6 tile layers no `rmMAIN.yy`, 128×64, `TILES` (formato escrito à mão; a IDE ainda precisa confirmar)
 - [x] T1.5 probe usa as layers da room (`layer_tilemap_get_id`)
 - [x] `option_remove_unused_assets = false` (T2, `"$GMMainOptions":"v5"`)
-- [ ] T3: `TILES.yy` conferido ou recriado pela IDE 2024.14
+- [x] T3: `TILES.yy` conferido e regravado pela IDE (LTS 2026.1), que gerou o `output_tileset.png` 1560×1580
 - [ ] `interpolate_pixels` igual ao original
-- [ ] Dump UTMT: `TILES texture` não NULL, 1560×1580, PNG comparado com `TILES_0.png` (**falhou em T1 e T2**)
-- [ ] Usuário viu os tiles das 6 camadas na posição certa
+- [x] Textura existe em runtime: UV `(0,0)→(0.76,0.77)` = 1560×1580 (o dump UTMT 0.9.2 pode não ler o formato 2026; o critério foi o runtime)
+- [ ] `output_tileset.png` comparado pixel a pixel com `TILES_0.png`
+- [x] Usuário viu os tiles das 6 camadas na posição certa (19/11, build da IDE LTS 2026)
 - [ ] Referências `<undefined>` (4 em `rmMal_Origin`) reportadas sem crash (política: pular + log, nunca `layer_sprite_create` com -1)
 - [ ] Sprites `aBACK` reais importados (ex.: `sMal_Tree_1`) e posicionados pelos registros do nível
-- [ ] Hashes de `rmMal_Origin.rmlvl` (`4dcb0788…`) e `rmMal_1.rmlvl` (`07a2b082…`) inalterados
+- [x] Hashes de `rmMal_Origin.rmlvl` (`4dcb0788…`) e `rmMal_1.rmlvl` (`07a2b082…`) inalterados (19/11)
 - [ ] Atualizar `PHASE3_EXECUTION_PLAN.md` §5 3.2, `RECOVERY_NOTES.md` e este plano; um commit por mudança lógica
 
 ---
@@ -246,7 +254,8 @@ $env:TILEDIAG_OUT="$env:TEMP\claude-tilediag"; $env:TILEDIAG_TAG="<rótulo>"
 ```
 - UTMT CLI: `UndertaleModCli.exe load <data.win> --scripts <script.csx>`. Rodar com stdin redirecionado, porque `--help` travou no Git Bash.
 - Builds anteriores ficam em `%TEMP%\opencode\gm-nykra-*\out\data.win` e as opções usadas em `...\cache\MainOptions.json`/`PlatformOptions.json`.
-- **Comando Igor que funcionou em 18/11** (compilar uma *cópia* do projeto numa pasta nova em `%TEMP%`; não abre o jogo). O `data.win` sai em `out\`. O exit code 1 vem só do empacotamento do zip (`File.Move` com destino vazio) e não afeta o `data.win`:
+- **Versão atual do projeto: GameMaker LTS 2026** (IDE em `C:\Program Files\GameMaker-LTS2026`, runtime em `C:\ProgramData\GameMakerStudio2-LTS2026\Cache\runtimes\runtime-2026.1.0.28`, pasta do usuário em `%APPDATA%\GameMakerStudio2-LTS2026\`). A forma mais simples de testar é o usuário rodar pela IDE (F5). Para builds por linha de comando, adaptar o comando abaixo trocando o runtime e a pasta do usuário pelos da LTS. Ainda não testado com a LTS.
+- **Comando Igor que funcionou em 18/11 com a 2024.14** (compilar uma *cópia* do projeto numa pasta nova em `%TEMP%`; não abre o jogo). O `data.win` sai em `out\`. O exit code 1 vem só do empacotamento do zip (`File.Move` com destino vazio) e não afeta o `data.win`:
   ```powershell
   $dst = "$env:TEMP\opencode\gm-nykra-<nome>-<data>"   # pasta nova; copiar GameMakerProject para $dst\proj
   & "C:\ProgramData\GameMakerStudio2\Cache\runtimes\runtime-2024.14.4.268\bin\igor\windows\x64\Igor.exe" `
@@ -258,6 +267,6 @@ $env:TILEDIAG_OUT="$env:TEMP\claude-tilediag"; $env:TILEDIAG_TAG="<rótulo>"
 - O título da janela aparece como `${project_name}` porque falta `options/windows/options_windows.yy`; copiar do BLANK GAME quando for preciso.
 
 ## 6. Próximo passo imediato
-**Atualizado em 18/11:** T1 e T2 foram feitas e falharam (§1.3b). O próximo passo é a **T3 com o usuário na IDE**. O texto abaixo é o plano original de 17/11.
+**Atualizado em 19/11:** os tiles renderizam (§1.3c). Próximo: fechar os pendentes do 3.2 (comparação pixel a pixel, `interpolate_pixels`, `<undefined>`, sprites `aBACK`), pedir o aceite do usuário para o marco 3.2 e então seguir para o 3.2b (trocar o probe pelo `map_load` reconstruído). O texto abaixo é o plano original de 17/11.
 
 Executar **T1** (§1.4) **sem** mexer na opção, para descobrir qual condição é a decisiva. Rodar o dump UTMT como critério objetivo. Em seguida, desligar `option_remove_unused_assets` (T2) de qualquer forma, por causa dos assets referenciados só pelos `.rmlvl`, e repetir o dump. Só então pedir a confirmação visual. Isso fecha o marco 3.2 e libera o 3.2b.
