@@ -1,0 +1,4 @@
+// lifted from gml_Object_oOrigin_Alarm_2.c
+anim = 0x4010000000000000/*4 (obj:oKS_Iiedakama)*/;
+cam_shake = 0x4000000000000000/*2 (obj:oDlg_Iie_GatnaGone)*/;
+}

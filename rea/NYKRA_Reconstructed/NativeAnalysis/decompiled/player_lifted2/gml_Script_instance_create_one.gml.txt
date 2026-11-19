@@ -1,0 +1,49 @@
+// lifted from gml_Script_instance_create_one.c
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0;
+// ?? FUN_1416ab750(DAT_1420dd090/*gml_Script_instance_create_one*/);
+pdVar3 = (double *)&0;
+if (3 < param_4) {
+    // ?? pdVar3 = (double *)param_5[3];
+}
+if ((*(uint *)((longlong)pdVar3 + 0xc) & 0xffffff) == 0) {
+    // ?? dVar5 = *pdVar3;
+}
+else {
+    // ?? dVar5 = (double)FUN_1416940c0();
+}
+// ?? iVar1 = FUN_1416f82f0(param_1,param_2,(longlong)dVar5);
+if (iVar1 < 1) {
+    if (param_4 < 1) {
+        puVar4 = &0;
+    }
+    else {
+        // ?? puVar4 = (undefined8 *)*param_5;
+    }
+    v98 = puVar4;
+    if (param_4 < 2) {
+        puVar4 = &0;
+    }
+    else {
+        // ?? puVar4 = (undefined8 *)param_5[1];
+    }
+    v88 = puVar4;
+    if (param_4 < 3) {
+        puVar4 = &0;
+    }
+    else {
+        // ?? puVar4 = (undefined8 *)param_5[2];
+    }
+    v78 = puVar4;
+    if (param_4 < 4) {
+        puVar4 = &0;
+    }
+    else {
+        // ?? puVar4 = (undefined8 *)param_5[3];
+    }
+    v68 = puVar4;
+    v50 = instance_create_depth(v98, v88, v78, v68);
+    param_3 = v50;
+}
+// ?? return param_3;
+}

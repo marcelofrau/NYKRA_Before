@@ -1,0 +1,16 @@
+// lifted from gml_Script_snd_step_grass.c
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0;
+// ?? FUN_1416ab750(DAT_1420dcd90/*gml_Script_snd_step_grass*/);
+vb8 = 5;
+va8 = 6;
+v98 = 7;
+v88 = 8;
+v78 = 9;
+v68 = 10;
+v58 = 11;
+v48 = 12;
+uVar1 = choose(vb8, va8, v98, v88, v78, v68, v58, v48);
+param_3 = uVar1;
+// ?? return param_3;
+}

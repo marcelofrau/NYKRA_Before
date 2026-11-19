@@ -1,0 +1,7 @@
+// lifted from gml_Object_oOrigin_Alarm_3.c
+// ?? void gml_Object_oOrigin_Alarm_3(longlong *param_1)
+{
+    v178 = ?;
+    fade_out = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+    anim = 0x4014000000000000/*5 (obj:oEvokreathe)*/;
+}

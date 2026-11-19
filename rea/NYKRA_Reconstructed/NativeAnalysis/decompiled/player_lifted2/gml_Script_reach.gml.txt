@@ -1,0 +1,98 @@
+// lifted from gml_Script_reach.c
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0;
+// ?? FUN_1416ab750(DAT_1420dc7b0/*gml_Script_reach*/);
+if (param_4 < 2) {
+    puVar5 = &0;
+    if (param_4 != 1) {
+        // ?? bVar1 = false;
+        puVar4 = &0;
+        goto LAB_14003b54e;
+    }
+}
+else {
+    // ?? puVar5 = (undefined8 *)param_5[1];
+}
+// ?? puVar4 = (undefined8 *)*param_5;
+// ?? bVar1 = true;
+LAB_14003b54e:
+uVar6 = (undefined4)1e-05;
+if (puVar4 == puVar5) {
+    if (param_4 < 2) {
+        puVar5 = &0;
+    }
+    else {
+        // ?? puVar5 = (undefined8 *)param_5[1];
+    }
+    param_3 = puVar5;
+}
+else {
+    puVar4 = &0;
+    puVar5 = &0;
+    if (1 < param_4) {
+        // ?? puVar5 = (undefined8 *)param_5[1];
+    }
+    if (bVar1) {
+        // ?? puVar4 = (undefined8 *)*param_5;
+    }
+    if (puVar4 >= puVar5) {
+        puVar4 = &0;
+        puVar5 = &0;
+        if (2 < param_4) {
+            // ?? puVar5 = (undefined8 *)param_5[2];
+        }
+        if (bVar1) {
+            // ?? puVar4 = (undefined8 *)*param_5;
+        }
+        // ?? local_54 = *(uint *)((longlong)puVar4 + 0xc);
+        // ?? local_58 = *(undefined4 *)(puVar4 + 1);
+        if ((0x46U >> (local_54 & 0x1f) & 1) == 0) {
+            // ?? local_60 = *puVar4;
+        }
+        else {
+            // ?? FUN_14003bc60(&local_60);
+        }
+        v60 -= puVar5;
+        vd8 = v60;
+        if (param_4 < 2) {
+            puVar5 = &0;
+        }
+        else {
+            // ?? puVar5 = (undefined8 *)param_5[1];
+        }
+        vc8 = puVar5;
+        // ?? uVar3 = FUN_1416cd900(&local_70,2,&local_108);
+        param_3 = uVar3;
+    }
+    else {
+        puVar4 = &0;
+        puVar5 = &0;
+        if (2 < param_4) {
+            // ?? puVar5 = (undefined8 *)param_5[2];
+        }
+        if (bVar1) {
+            // ?? puVar4 = (undefined8 *)*param_5;
+        }
+        // ?? local_54 = *(uint *)((longlong)puVar4 + 0xc);
+        // ?? local_58 = *(undefined4 *)(puVar4 + 1);
+        if ((0x46U >> (local_54 & 0x1f) & 1) == 0) {
+            // ?? local_60 = *puVar4;
+        }
+        else {
+            // ?? FUN_14003bc60(&local_60);
+        }
+        v60 += puVar5;
+        va8 = v60;
+        if (param_4 < 2) {
+            puVar5 = &0;
+        }
+        else {
+            // ?? puVar5 = (undefined8 *)param_5[1];
+        }
+        v98 = puVar5;
+        // ?? uVar3 = FUN_1416cda40(&local_70,2,&local_f0);
+        param_3 = uVar3;
+    }
+}
+// ?? return param_3;
+}

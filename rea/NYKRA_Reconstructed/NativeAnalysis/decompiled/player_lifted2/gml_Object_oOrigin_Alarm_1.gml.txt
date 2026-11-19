@@ -1,0 +1,6 @@
+// lifted from gml_Object_oOrigin_Alarm_1.c
+anim = 0x4008000000000000/*3 (obj:oKS_Reality)*/;
+cam_shake = 0x3fe0000000000000/*0.5*/;
+v40 = 120;
+// ?? FUN_1416cfae0(param_1,DAT_1420d5a48/*alarm*/,2,&local_40);
+}

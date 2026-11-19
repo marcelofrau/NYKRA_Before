@@ -1,0 +1,74 @@
+// lifted from gml_Script_box_inside_bound.c
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0;
+// ?? FUN_1416ab750(DAT_1420dcf90/*gml_Script_box_inside_bound*/);
+if (param_4 < 5) {
+    puVar3 = &0;
+}
+else {
+    // ?? puVar3 = (undefined8 *)param_5[4];
+}
+// ?? FUN_1416cfeb0(puVar3,0x18e3b/*var:x1*/,0x80000000,&local_80,0,0);
+if (param_4 < 3) {
+    puVar3 = &0;
+}
+else {
+    // ?? puVar3 = (undefined8 *)param_5[2];
+}
+if (v80 < puVar3) {
+    if (param_4 < 5) {
+        puVar3 = &0;
+    }
+    else {
+        // ?? puVar3 = (undefined8 *)param_5[4];
+    }
+    // ?? FUN_1416cfeb0(puVar3,0x18e3d/*var:x2*/,0x80000000,&local_70,0,0);
+    if (param_4 < 1) {
+        puVar3 = &0;
+    }
+    else {
+        // ?? puVar3 = (undefined8 *)*param_5;
+    }
+    if (v70 > puVar3) {
+        if (param_4 < 5) {
+            puVar3 = &0;
+        }
+        else {
+            // ?? puVar3 = (undefined8 *)param_5[4];
+        }
+        // ?? FUN_1416cfeb0(puVar3,0x18e4b/*var:y1*/,0x80000000,&local_60,0,0);
+        if (param_4 < 4) {
+            puVar3 = &0;
+        }
+        else {
+            // ?? puVar3 = (undefined8 *)param_5[3];
+        }
+        if (v60 < puVar3) {
+            if (param_4 < 5) {
+                puVar3 = &0;
+            }
+            else {
+                // ?? puVar3 = (undefined8 *)param_5[4];
+            }
+            // ?? FUN_1416cfeb0(puVar3,0x18e4d/*var:y2*/,0x80000000,&local_50,0,0);
+            if (param_4 < 2) {
+                puVar3 = &0;
+            }
+            else {
+                // ?? puVar3 = (undefined8 *)param_5[1];
+            }
+            if (v50 > puVar3) {
+                uVar4 = (undefined4)1;
+                // ?? uVar1 = *(uint *)((longlong)param_3 + 0xc);
+                goto joined_r0x0001400dfdc4;
+            }
+        }
+    }
+}
+// ?? uVar5 = 0;
+// ?? uVar4 = 0;
+// ?? uVar1 = *(uint *)((longlong)param_3 + 0xc);
+// ?? joined_r0x0001400dfdc4:
+// ?? *param_3 = CONCAT44(uVar5,uVar4);
+// ?? return param_3;
+}

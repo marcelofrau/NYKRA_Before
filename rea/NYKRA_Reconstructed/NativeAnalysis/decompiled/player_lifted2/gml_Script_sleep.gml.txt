@@ -1,0 +1,20 @@
+// lifted from gml_Script_sleep.c
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0;
+// ?? FUN_1416ab750(DAT_1420dca20/*gml_Script_sleep*/);
+// ?? FUN_1416ce870(param_1,DAT_1420d59a8/*current_time*/,0x80000000,&local_50);
+if (param_4 < 1) {
+    param_5 = &0;
+}
+else {
+    // ?? param_5 = (undefined8 *)*param_5;
+}
+v40 = v50;
+v40 += param_5;
+v60 = v40;
+do {
+    // ?? FUN_1416ce870(param_1,DAT_1420d59a8/*current_time*/,0x80000000,&local_50);
+    if (iVar1 == -2) break;
+    // ?? } while (iVar1 < 1);
+    // ?? return param_3;
+}

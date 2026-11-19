@@ -1,0 +1,7 @@
+// lifted from gml_Object_parEntity_Destroy_0.c
+// ?? void gml_Object_parEntity_Destroy_0(void)
+{
+    v100 = ?;
+    v28 = 1;
+    // ?? FUN_1416cf840(0x4f,DAT_1420d5a48/*alarm*/,1,&local_28);
+}

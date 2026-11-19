@@ -76,9 +76,20 @@ TOREAL2 = re.compile(
     r"[ \t]*\w+ = (?:\(double\))?FUN_1416940c0\(\w+\);\n[ \t]*\}\n")
 
 
+# Value copies: "if (needs-refcount) FUN_(&dst,&src) else dst = src" is just dst = src.
+COPY_PTR = re.compile(
+    r"[ \t]*uStack_\w+ = (\w+)\[1\];\n[ \t]*if \(\(0x46U >> \(\*\(uint \*\)\(\(longlong\)\1 \+ 0xc\) & 0x1f\) & 1\) == 0\) \{\n"
+    r"[ \t]*(\w+) = \*\1;\n[ \t]*\}\n[ \t]*else \{\n[ \t]*FUN_\w+\(&\2,\1\);\n[ \t]*\}\n")
+COPY_LOCAL = re.compile(
+    r"[ \t]*if \(\(0x46U >> \(\w+\._4_4_ & 0x1f\) & 1\) == 0\) \{\n[ \t]*(\w+) = (\w+);\n[ \t]*\}\n"
+    r"[ \t]*else \{\n[ \t]*FUN_\w+\(&\1,&\2\);\n[ \t]*\}\n")
+
+
 def preprocess(text):
     text = text.replace("\r\n", "\n")
     text = FREE.sub("", text)
+    text = COPY_PTR.sub(lambda m: f"@COPY &{m.group(2)} {m.group(1)};\n", text)
+    text = COPY_LOCAL.sub(lambda m: f"@COPY &{m.group(1)} &{m.group(2)};\n", text)
     text = COPY.sub(lambda m: f"@COPY {m.group(1)} {m.group(2)};\n", text)
     text = NEG.sub(lambda m: f"@NEG {m.group(1)} {m.group(2)};\n", text)
     text = TOREAL1.sub("", text)
@@ -129,7 +140,7 @@ BOILER = re.compile(
     r"^(DAT_142182d78 =|DAT_142182d90 =|FUN_141706ee0\(\);|FUN_1416a8cb0\(|FUN_1416a8c00\(|return;|local_[0-9a-f]+ = (?:\"gml_Object|0xfffffffffffffffe)|"
     r"(?:undefined[0-9]*|uint|char|ulonglong|longlong|double|int|float|code|byte|bool|local_\w+)[ \*]+\w+(?:\[[0-9a-z]+\])?;$|"
     r"local_[0-9a-f]+ = 0x[0-9a-f]{1,9};|local_[0-9a-f]+ = (?:0|0\.0);|\w+ = \w+ & 0xffffff;|uVar\w+ = \w+ & 0xffffff00;|"
-    r"in_stack_\w+|\w+ = \(undefined4\)\(\(ulonglong\)|local_[0-9a-f]+ = [0-9]+;|\(ulonglong\)|\w+ = DAT_\w+/\*[^*]*\*/;|uVar\w+ = (?:uVar|DAT_)\w+;)"
+    r"in_stack_\w+|uStack_\w+ = |\(double \*\*\)|\w+ = \(double \*\*\)|\w+ = \(\w+\)in_stack_|\w+ = \(undefined4\)\(\(ulonglong\)|local_[0-9a-f]+ = [0-9]+;|\(ulonglong\)|\w+ = DAT_\w+/\*[^*]*\*/;|uVar\w+ = (?:uVar|DAT_)\w+;)"
 )
 
 
@@ -140,9 +151,30 @@ def expr_value(rhs, real_of):
     return rhs.strip()
 
 
+COND_LINE = re.compile(r"(\} )?(if|else if|while) \((.*)\) (\{|goto \w+;)")
+WITH_BEGIN = re.compile(r"(\w+) = FUN_1416ab810\(&\w+,&param_1,&param_2,&?(\w+)\);")
+SELF_ALIAS = re.compile(r"param_[12] = \w+;")
+
+
+def comparison(cond):
+    """Ghidra prints the sign of FUN_1416d9df0(a, b) as `-1 < v`, `v != -2 && v < 1`, ...; -2 is unordered.
+    Returns (variable, operator) with the operator applied to (a, b), or None."""
+    c = re.sub(r"\w+ != -2 && ", "", re.sub(r"\w+ == -2 \|\| ", "", cond.replace("(", "").replace(")", ""))).strip()
+    for pattern, op in ((r"-1 < (\w+)", ">="), (r"(\w+) < 1", "<="), (r"(\w+) < 0", "<"), (r"0 < (\w+)", ">")):
+        m = re.fullmatch(pattern, c)
+        if m:
+            return m.group(1), op
+    return None
+
+
 def lift_function(text):
     text = preprocess(text)
-    refs, slots, ret_alias, real_of, out, cmp_of = {}, {}, {}, {}, [], {}
+    # A `with` loop passes the aliases of self/other by address and rewrites them in place; the
+    # first argument always means "the current self" and the second "the current other".
+    for s, o in re.findall(r"FUN_1416ab810\(&\w+,&(\w+),&(\w+),", text):
+        text = re.sub(rf"\b{s}\b", "param_1", text)
+        text = re.sub(rf"\b{o}\b", "param_2", text)
+    refs, slots, ret_alias, real_of, out, cmp_of, consts = {}, {}, {}, {}, [], {}, {}
 
     def emit(statement):
         # pointer aliases (uVar2 -> tick) are resolved as of this statement; a statement that
@@ -175,7 +207,7 @@ def lift_function(text):
             continue
         m = REF.fullmatch(line)
         if m:
-            refs[m.group(1)] = m.group(4)
+            refs[m.group(1)] = ("other." if m.group(2) == "param_2" else "") + m.group(4)
             continue
         if not body_started:
             # the body starts at "DAT_142182d90 = param_1;" (the current-instance marker); the line
@@ -197,9 +229,23 @@ def lift_function(text):
         if m and m.group(1).startswith("pp"):
             ret_alias[m.group(1)] = int(m.group(2)[6:], 16)
             continue
+        if SELF_ALIAS.fullmatch(line):
+            continue
+        m = WITH_BEGIN.fullmatch(line)
+        if m:
+            cmp_of.pop(m.group(1), None)
+            obj = consts.get(short(m.group(2)), m.group(2))
+            if isinstance(obj, float) and obj == int(obj):
+                obj = OBJECTS.get(int(obj), obj)
+            emit(f"{m.group(1)} = with_begin({obj});  // the loop below runs with self = each instance, other = this one")
+            continue
         m = READ_SELF.search(line)
         if m:
             emit(f"{short(m.group(2))} = {m.group(1)};")
+            continue
+        m = re.search(r"FUN_1416cea80\(param_2,DAT_\w+/\*(\w+)\*/,0x80000000,&(\w+)", line)
+        if m:
+            emit(f"{short(m.group(2))} = other.{m.group(1)};")
             continue
         m = WRITE_SELF.search(line)
         if m:
@@ -248,7 +294,9 @@ def lift_function(text):
             continue
         m = CONST_DBL.fullmatch(line)
         if m:
-            emit(f"{short(m.group(1))} = {fmt_num(struct.unpack('<d', struct.pack('<Q', int(m.group(2), 16)))[0])};")
+            value = struct.unpack('<d', struct.pack('<Q', int(m.group(2), 16)))[0]
+            consts[short(m.group(1))] = value
+            emit(f"{short(m.group(1))} = {fmt_num(value)};")
             continue
         m = ARITH2_RE.search(line)
         if m:
@@ -319,8 +367,16 @@ def lift_function(text):
         m = INST_NUM.fullmatch(line)
         if m:
             idx = int(m.group(2), 0)
+            cmp_of.pop(m.group(1), None)
             emit(f"{m.group(1)} = instance_number({OBJECTS.get(idx, 'object#' + str(idx))});")
             continue
+        m = COND_LINE.fullmatch(line)
+        if m:
+            parsed = comparison(m.group(3))
+            if parsed and parsed[0] in cmp_of:
+                a, b, _ = cmp_of[parsed[0]]
+                emit(f"{m.group(1) or ''}{m.group(2)} ({a} {parsed[1]} {b}) {m.group(4)}")
+                continue
         m = re.fullmatch(r"(?:\w+ )?(if|else if) \((\w+) (==|!=) 0\) (\{|goto \w+;)", line)
         if m and m.group(2) in cmp_of:
             a, b, mode = cmp_of[m.group(2)]
