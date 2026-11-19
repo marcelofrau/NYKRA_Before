@@ -1,13 +1,16 @@
 {
   "$GMObject": "",
   "%Name": "oWire",
-  "eventList": [],
+  "eventList": [
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":1,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+  ],
   "managed": true,
   "name": "oWire",
   "overriddenProperties": [],
   "parent": {
-    "name": "Shells",
-    "path": "folders/Objects/Shells.yy",
+    "name": "Objects",
+    "path": "folders/Objects.yy",
   },
   "parentObjectId": {"name":"parWire","path":"objects/parWire/parWire.yy",},
   "persistent": false,
@@ -26,8 +29,8 @@
   "properties": [],
   "resourceType": "GMObject",
   "resourceVersion": "2.0",
-  "solid": true,
+  "solid": false,
   "spriteId": null,
-  "spriteMaskId": null,
+  "spriteMaskId": {"name":"sWire","path":"sprites/sWire/sWire.yy",},
   "visible": true,
 }

@@ -1,0 +1,6 @@
+// lifted from gml_Object_oVIEW_CONSTRICT_Alarm_0.c
+// ?? void gml_Object_oVIEW_CONSTRICT_Alarm_0(longlong *param_1)
+{
+    v168 = ?;
+    go = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+}

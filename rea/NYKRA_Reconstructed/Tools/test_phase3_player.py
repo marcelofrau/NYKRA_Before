@@ -147,6 +147,25 @@ class PlayerObjectTests(unittest.TestCase):
                          "shake += oPlayer.hsp;", "instance_number(oPlayer) > 0"):
             self.assertIn(fragment, draw)
 
+    def test_level_mechanics_match_the_decompilation(self):
+        plate = code_of("objects/oInput_pp/Draw_0.gml")
+        for fragment in ("collision_rectangle(bbox_left, bbox_top, bbox_right, bbox_bottom, parEntity, true, true)",
+                         "instance_place(x, y, oWire)", "_wire.d[2] = on;", "xstart - 1, ystart"):
+            self.assertIn(fragment, plate)
+        constrict = code_of("objects/oVIEW_CONSTRICT/Step_2.gml")
+        for fragment in ("oControl.mode == 3", "mean(_nx, _vx, _vx, _vx, _vx)", "min(x - _vw, _vx)", "max(x, _vx)"):
+            self.assertIn(fragment, constrict)
+        self.assertIn("ceil(mean(real(fps) / 10, 6)) + 3", code_of("objects/oVIEW_CONSTRICT/Create_0.gml"))
+        doorway = code_of("objects/oDoor_Origin/Draw_0.gml")
+        self.assertEqual([m for m in re.findall(r"draw_sprite\(sprite_index, (\d),", doorway)], ["2", "1", "0"])
+        for name, mask in (("oWire", "sWire"), ("oWire_DIODE_D", "sWire_DIODE"), ("oWire_TIMER", "sWire_TIMER")):
+            yy = load_yy(PROJECT / "objects" / name / f"{name}.yy")
+            self.assertIsNone(yy["spriteId"], name)  # no raw sprite until Draw_0 exists (P34)
+            self.assertEqual(yy["spriteMaskId"]["name"], mask, name)
+            create = code_of(f"objects/{name}/Create_0.gml")
+            self.assertIn("rand = random_range(0, 0.4);", create)
+            self.assertIn("d[_i] = 0;", create)
+
     def test_player_sprites_are_registered(self):
         yyp = (PROJECT / "NYKRA_VerticalSlice.yyp").read_text(encoding="utf-8")
         for name in ("sBnd_player", "sPlayer_idle", "sPlayer_run", "sPlayer_jump", "sPlayer_walk", "sFx_3"):

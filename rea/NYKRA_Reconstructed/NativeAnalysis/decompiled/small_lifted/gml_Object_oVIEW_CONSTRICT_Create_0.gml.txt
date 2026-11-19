@@ -1,0 +1,18 @@
+// lifted from gml_Object_oVIEW_CONSTRICT_Create_0.c
+go = 0;
+v80 = -10000;
+depth = v80;
+// ?? FUN_1416ce870(param_1,DAT_1420d5cb8/*fps*/,0x80000000,&local_a0);
+ve8 = va0;
+v50 = real(ve8);
+v40 = v50 / 10;
+vd8 = v40;
+vc8 = 6;
+v60 = mean(vd8, vc8);
+vb8 = v60;
+v70 = ceil();
+v40 = v70;
+v40 += 3;
+v90 = v40;
+// ?? FUN_1416cfae0(param_1,DAT_1420d5a48/*alarm*/,0,&local_90);
+}

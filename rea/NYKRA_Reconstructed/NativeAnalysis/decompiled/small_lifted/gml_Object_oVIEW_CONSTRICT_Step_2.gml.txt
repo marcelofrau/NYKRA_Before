@@ -1,0 +1,130 @@
+// lifted from gml_Object_oVIEW_CONSTRICT_Step_2.c
+va8 = 0;
+v140 = 0;
+// ?? local_60._4_4_ = 0xffffff;
+// ?? local_70 = CONCAT44(0xffffff,(undefined4)local_70);
+// ?? local_f8 = CONCAT44(0xffffff,(undefined4)local_f8);
+v3a8 = 0;
+// ?? FUN_1416d0010(0x4f,0x18ad9/*var:mode*/,0x80000000,&local_3a8,in_stack_fffffffffffffc48 & 0xffffff00,
+v58 = 3;
+if (v3a8 == v58) {
+    v58 = 1;
+    if (go == v58) {
+        v228 = cam;
+        v68 = camera_get_view_x(v140);
+        vb8 = v68;
+        v218 = cam;
+        v78 = camera_get_view_y(va8);
+        va8 = v78;
+        v228 = cam;
+        v68 = camera_get_view_width(v140);
+        v120 = v68;
+        v218 = cam;
+        v78 = camera_get_view_height(va8);
+        v150 = v78;
+        v140 = vb8;
+        v130 = va8;
+        // ?? uVar8 = (ulonglong)ppuVar7 & 0xffffffffffffff00;
+        v98 = x;
+        vf0 = v120 / 2;
+        v58 = vb8;
+        v58 += vf0;
+        // ?? uVar9 = (uint7)(uVar8 >> 8);
+        // ?? uVar6 = (uint3)(uVar5 >> 8);
+        if (v58 <= v98) {
+            // ?? uVar8 = (ulonglong)uVar9 << 8;
+            // ?? uVar5 = (uint)uVar6 << 8;
+            v98 = x;
+            if (vb8 < v98) {
+                // ?? uVar8 = uVar8 & 0xffffffffffffff00;
+                v98 = x;
+                v58 = vb8;
+                v58 += v120;
+                if (v58 >= v98) {
+                    // ?? uVar8 = uVar8 & 0xffffffffffffff00;
+                    v98 = x;
+                    v58 = v98;
+                    v58 -= v120;
+                    v228 = v58;
+                    // ?? v78 = FUN_1416cda40(&local_68,2,&local_398);
+                    v140 = v78;
+                }
+            }
+        }
+        else {
+            // ?? uVar8 = (ulonglong)uVar9 << 8;
+            // ?? uVar5 = (uint)uVar6 << 8;
+            v98 = x;
+            if (vb8 <= v98) {
+                // ?? uVar8 = uVar8 & 0xffffffffffffff00;
+                v98 = x;
+                v228 = v98;
+                // ?? v78 = FUN_1416cd900(&local_68,2,&local_398);
+                v140 = v78;
+            }
+        }
+        // ?? uVar8 = uVar8 & 0xffffffffffffff00;
+        v88 = y;
+        vf0 = v150 / 2;
+        v58 = va8;
+        v58 += vf0;
+        // ?? uVar9 = (uint7)(uVar8 >> 8);
+        // ?? uVar6 = (uint3)(uVar5 >> 8);
+        if (v58 <= v88) {
+            // ?? uVar8 = (ulonglong)uVar9 << 8;
+            // ?? uVar5 = (uint)uVar6 << 8;
+            v88 = y;
+            if (va8 < v88) {
+                // ?? uVar8 = uVar8 & 0xffffffffffffff00;
+                v88 = y;
+                v58 = va8;
+                v58 += v120;
+                if (v58 >= v88) {
+                    v88 = y;
+                    // ?? uVar8 & 0xffffffffffffff00);
+                    v58 = v88;
+                    v58 -= v150;
+                    v228 = v58;
+                    // ?? v78 = FUN_1416cda40(&local_68,2,&local_398);
+                    v130 = v78;
+                }
+            }
+        }
+        else {
+            // ?? uVar8 = (ulonglong)uVar9 << 8;
+            // ?? uVar5 = (uint)uVar6 << 8;
+            v88 = y;
+            if (va8 <= v88) {
+                v88 = y;
+                // ?? uVar8 & 0xffffffffffffff00);
+                v228 = v88;
+                // ?? v78 = FUN_1416cd900(&local_68,2,&local_398);
+                v130 = v78;
+            }
+        }
+        // ?? local_60._0_4_ = 0;
+        // ?? local_60._4_4_ = 5;
+        // ?? local_390 = local_398;
+        // ?? local_388 = local_398;
+        // ?? local_380 = local_398;
+        // ?? local_368 = local_370;
+        // ?? local_360 = local_370;
+        // ?? local_358 = local_370;
+        v188 = cam;
+        v78 = mean(v140, va8, ?arg2, ?arg3, vb8);
+        v178 = v78;
+        v100 = mean(v130, ?arg1, ?arg2, ?arg3, va8);
+        v168 = v100;
+        v68 = camera_set_view_pos(v188, v178, v168);
+    }
+    ve0 = 0;
+    visible = ve0;
+}
+else {
+    go = 0;
+    v110 = 6;
+    // ?? FUN_1416cfae0(param_1,DAT_1420d5a48/*alarm*/,0,&local_110);
+    ve0 = 1;
+    visible = ve0;
+}
+}

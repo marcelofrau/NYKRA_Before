@@ -1,0 +1,23 @@
+// lifted from gml_Object_parDoor_Flat_Create_0.c
+open = 0;
+anim = 0;
+anim1 = 0;
+anim2 = 0;
+anim3 = 0;
+anim4 = 0;
+anim5 = 0;
+rm = &?;
+locked = 0;
+topen = 0;
+in = 0;
+n = 0;
+snd = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+tp = 0;
+fade = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+fade_in = 0;
+v50 = 18;
+depth = v50;
+Clicked = 0;
+// ?? iVar1 = FUN_1416b86b0(0xff,0x40,1);
+arrow_colour = iVar1;
+}

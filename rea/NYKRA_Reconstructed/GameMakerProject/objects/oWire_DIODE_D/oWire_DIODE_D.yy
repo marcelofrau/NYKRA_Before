@@ -1,13 +1,16 @@
 {
   "$GMObject": "",
   "%Name": "oWire_DIODE_D",
-  "eventList": [],
+  "eventList": [
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":1,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+  ],
   "managed": true,
   "name": "oWire_DIODE_D",
   "overriddenProperties": [],
   "parent": {
-    "name": "Shells",
-    "path": "folders/Objects/Shells.yy",
+    "name": "Objects",
+    "path": "folders/Objects.yy",
   },
   "parentObjectId": {"name":"oWire","path":"objects/oWire/oWire.yy",},
   "persistent": false,
@@ -28,6 +31,6 @@
   "resourceVersion": "2.0",
   "solid": false,
   "spriteId": null,
-  "spriteMaskId": null,
+  "spriteMaskId": {"name":"sWire_DIODE","path":"sprites/sWire_DIODE/sWire_DIODE.yy",},
   "visible": true,
 }

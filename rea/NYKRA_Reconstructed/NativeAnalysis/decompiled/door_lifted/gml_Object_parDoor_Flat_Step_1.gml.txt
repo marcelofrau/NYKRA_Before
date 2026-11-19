@@ -1,0 +1,96 @@
+// lifted from gml_Object_parDoor_Flat_Step_1.c
+// ?? void gml_Object_parDoor_Flat_Step_1(longlong *param_1,undefined8 param_2)
+{
+    va8 = ?;
+    vc8 = 0;
+    vb8 = 0;
+    // ?? local_78._4_4_ = 0xffffff;
+    // ?? local_88 = CONCAT44(0xffffff,(undefined4)local_88);
+    topen = open;
+    // ?? uVar9 = 0;
+    // ?? open = FUN_140120860(param_1,param_2,&local_80,0,0);
+    // ?? cVar1 = FUN_1416927d0(open);
+    if ((cVar1 != '\0') && (iVar2 = FUN_1416f82f0(param_1,param_2,0x40), 0 < iVar2)) {
+        // ?? uVar9 = uVar9 & 0xffffffffffffff00;
+        ve8 = x;
+        // ?? uVar9 = uVar9 & 0xffffffffffffff00;
+        vd8 = y;
+        // ?? uVar7 = (undefined4)(uVar9 >> 0x20);
+        // ?? FUN_1416ab670(0x40,DAT_1420d58e8/*x*/,0x80000000,&local_c8);
+        // ?? FUN_1416ab670(0x40,DAT_1420d58f8/*y*/,0x80000000,&local_b8);
+        v148 = ve8;
+        v70 = vd8 - 8;
+        v138 = v70;
+        v128 = vc8;
+        v118 = vb8;
+        uVar9 = CONCAT44(uVar7,0);
+        // ?? open = FUN_1416ab210(param_1,param_2,&local_90,4,uVar9,&local_228);
+        v70 = 15;
+        if (open < v70) {
+            v70 = 1;
+            if (locked != v70) {
+                // ?? uVar11 = (ulonglong)ppuVar10 & 0xffffffffffffff00;
+                // ?? uVar9 = uVar9 & 0xffffffffffffff00;
+                // ?? FUN_1416d0010(0x40,0x18836/*var:control*/,0x80000000,&local_258,uVar9,uVar11);
+                // ?? cVar1 = FUN_1416927d0(&local_258);
+                if (cVar1 != '\0') {
+                    // ?? uVar11 = uVar11 & 0xffffffffffffff00;
+                    // ?? uVar9 = uVar9 & 0xffffffffffffff00;
+                    // ?? FUN_1416d0010(0x40,0x18a56/*var:kpu*/,0x80000000,&local_248,uVar9,uVar11);
+                    // ?? cVar1 = FUN_1416927d0(&local_248);
+                    if (cVar1 != '\0') {
+                        v70 = 0;
+                        if (open == v70) {
+                            v238 = 0;
+                            // ?? FUN_1416d0010(0x40,0x18df5/*var:UI_OPEN*/,0x80000000,&local_238,uVar9 & 0xffffffffffffff00,
+                            // ?? uVar11 & 0xffffffffffffff00);
+                            v70 = 0;
+                            if (v238 == v70) {
+                                v70 = 0;
+                                if (anim <= v70) {
+                                    if ((0x46U >> (*(uint *)((longlong)open + 0xc) & 0x1f) & 1) != 0) {
+                                        // ?? local_1f0 = open;
+                                        // ?? FUN_140001b50(open);
+                                        // ?? open = local_1f0;
+                                    }
+                                    open = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+                                    // ?? cVar1 = FUN_1416927d0(snd);
+                                    if (cVar1 != '\0') {
+                                        v148 = 81;
+                                        v138 = 7;
+                                        v128 = ?;
+                                        v118 = 1;
+                                        v108 = 0.666667;
+                                        vf8 = ?;
+                                        // ?? FUN_1400d2410(param_1,param_2,&local_80,6,&local_228);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    v70 = 2;
+    uVar7 = (undefined4)1e-05;
+    if (fade_in == v70) {
+        v70 = 0.8;
+        fade *= v70;
+        v70 = 0.01;
+        uVar7 = (undefined4)1e-05;
+        if (fade < v70) {
+            // ?? (**(code **)(*param_1 + 0x10))(param_1,0x1890a/*var:fade*/);
+            fade_in = 0;
+            fade = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+            uVar7 = (undefined4)1e-05;
+        }
+    }
+    v70 = 1;
+    // ?? iVar2 = FUN_1416d9df0(fade_in,&local_70,CONCAT44(uVar8,uVar7),0);
+    if (fade == v70) {
+        // ?? (**(code **)(*param_1 + 0x10))(param_1,0x18910/*var:fade_in*/);
+        fade = 0x4072c00000000000/*300 (obj:oArt_daipen_door)*/;
+        fade_in = 0x4000000000000000/*2 (obj:oDlg_Iie_GatnaGone)*/;
+    }
+}

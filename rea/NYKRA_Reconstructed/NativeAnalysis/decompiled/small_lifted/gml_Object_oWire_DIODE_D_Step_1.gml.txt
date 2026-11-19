@@ -1,0 +1,6 @@
+// lifted from gml_Object_oWire_DIODE_D_Step_1.c
+// ?? void gml_Object_oWire_DIODE_D_Step_1(longlong *param_1)
+{
+    v180 = ?;
+    p_on = on;
+}

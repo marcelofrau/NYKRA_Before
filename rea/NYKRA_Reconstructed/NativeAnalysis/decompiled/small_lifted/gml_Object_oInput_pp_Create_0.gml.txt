@@ -1,0 +1,4 @@
+// lifted from gml_Object_oInput_pp_Create_0.c
+on = 0;
+_on = 0;
+}

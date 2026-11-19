@@ -1,0 +1,44 @@
+// lifted from gml_Object_parDoor_Flat_Draw_77.c
+vc8 = 1;
+if (in == vc8) {
+    // ?? FUN_1416d0790(0x40,0x18836/*var:control*/,0x80000000,&local_218);
+    v1e8 = 1;
+    // ?? FUN_1416d0790(0x40,0x18df5/*var:UI_OPEN*/,0x80000000,&local_1e8);
+    vc8 = 0.8;
+    fade *= vc8;
+    vc8 = 0.01;
+    if (fade < vc8) {
+        // ?? (**(code **)(*param_1 + 0x10))(param_1,0x1890a/*var:fade*/);
+        // ?? uVar4 = FUN_1416cfcc0(0x40);
+        v1f8 = n;
+        // ?? FUN_1416d0790(0x40,0x188ae/*var:door_n*/,0x80000000,&local_1f8);
+        in = 0;
+        // ?? FUN_1400be4a0(param_1,param_2,&local_70,0,0);
+        v60 = 79;
+        iVar2 = with_begin(oControl);  // the loop below runs with self = each instance, other = this one
+        if (0 < iVar2) {
+            do {
+                // ?? FUN_1416ce870(param_1,DAT_1420d59d8/*working_directory*/,0x80000000,&local_a8);
+                // ?? FUN_1416ac010(local_1d8,s__rmlvl_1420b5654);
+                // ?? FUN_1416ac010(local_1c8,s_level_data__1420b5648);
+                v88 = va8;
+                v88 += v1c8;
+                v98 = v88;
+                v98 += other.rm;
+                v60 = v98;
+                v60 += v1d8;
+                v108 = v60;
+                vf8 = other.rm;
+                // ?? FUN_14004bac0(param_1,param_2,&local_70,2,&local_208);
+                // ?? cVar1 = FUN_1416abe60(&local_c8,&param_1,&param_2);
+                // ?? } while (cVar1 != '\0');
+            }
+            // ?? FUN_1416ab620(&local_c8,&param_1,&param_2);
+            fade = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+            // ?? bVar6 = local_b8 != 0;
+            if (bVar6) {
+                // ?? thunk_FUN_1416c46f0();
+            }
+        }
+    }
+}

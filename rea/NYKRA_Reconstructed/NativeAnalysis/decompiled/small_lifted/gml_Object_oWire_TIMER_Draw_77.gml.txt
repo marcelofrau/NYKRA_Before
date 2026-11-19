@@ -1,0 +1,4 @@
+// lifted from gml_Object_oWire_TIMER_Draw_77.c
+// ?? void gml_Object_oWire_TIMER_Draw_77(undefined8 param_1)
+{
+}

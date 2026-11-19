@@ -1,0 +1,52 @@
+// lifted from gml_Object_oWire_Draw_77.c
+// ?? void gml_Object_oWire_Draw_77(longlong *param_1,undefined8 param_2)
+{
+    v120 = ?;
+    v50 = 1;
+    if (on == v50) {
+        v50 = 0.6;
+        if (anim >= v50) {
+            v50 = 0;
+            if (sfx == v50) {
+                v80 = x;
+                v70 = y;
+                v108 = 473;
+                vf8 = 10;
+                ve8 = ?;
+                dVar4 = random_range(-0.05, 0.05);
+                vd8 = dVar4 + 1;
+                vc8 = 0.333333;
+                // ?? sfx = FUN_1416cd770(0x32);
+                // ?? local_b8 = sfx;
+                va8 = v80;
+                v98 = v70;
+                // ?? FUN_1400d4470(param_1,param_2,&local_60,8,&local_298);
+                sfx = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+                goto joined_r0x00014112994c;
+            }
+        }
+    }
+    v50 = 0;
+    if (on == v50) {
+        v50 = 0.4;
+        if (anim <= v50) {
+            v50 = 1;
+            if (sfx == v50) {
+                v80 = x;
+                v70 = y;
+                v108 = 473;
+                vf8 = 10;
+                ve8 = ?;
+                vd8 = 0.666667;
+                vc8 = 0.333333;
+                // ?? sfx = FUN_1416cd770(0x32);
+                // ?? local_b8 = sfx;
+                va8 = v80;
+                v98 = v70;
+                // ?? FUN_1400d4470(param_1,param_2,&local_60,8,&local_298);
+                sfx = 0;
+            }
+        }
+    }
+    // ?? joined_r0x00014112994c:
+}

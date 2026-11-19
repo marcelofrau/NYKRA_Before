@@ -34,6 +34,8 @@ HAND_WRITTEN = {
     "oPlayer",  # player stage 1: the 21 original events (Tools/generate_player_object.py)
     "oFx",  # player stage 2: the particle create_fx spawns (reconstructed events)
     "parNote", "oNote",  # stage 3: parNote's 4 original events; oNote only links the sprite (generate_player_object.py)
+    # stage 3: reconstructed from the decompilation (Tools/generate_reconstructed_objects.py)
+    "oInput_pp", "oVIEW_CONSTRICT", "oDoor_Origin", "oWire", "oWire_DIODE_D", "oWire_TIMER",
 }
 # Objects named by map_load, clear_objects and _SET_SCENE that are evaluated on the path
 # even when the level does not contain them (a missing asset is a runtime error).

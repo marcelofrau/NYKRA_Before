@@ -1,0 +1,64 @@
+// lifted from gml_Object_oDoor_Origin_Draw_0.c
+v70 = sprite_index;
+v60 = x;
+v50 = y;
+if ((local_44 & 0xffffff) == 0) {
+    // ?? uVar1 = (undefined4)local_50;
+}
+else {
+    // ?? uVar3 = FUN_1416940c0(&local_50);
+    // ?? uVar1 = (undefined4)uVar3;
+}
+if ((local_54 & 0xffffff) == 0) {
+    // ?? uVar2 = (undefined4)local_60;
+}
+else {
+    // ?? uVar3 = FUN_1416940c0(&local_60);
+    // ?? uVar2 = (undefined4)uVar3;
+}
+// ?? local_70 = dVar4;
+// ?? fVar7 = (float)(double)CONCAT44(uVar5,uVar1);
+// ?? FUN_1416b8480(param_1,(longlong)dVar4,2,(float)(double)CONCAT44(uVar6,uVar2),fVar7);
+uVar8 = (uint)fVar7 & 0xffffff00;
+v70 = sprite_index;
+v60 = x;
+v50 = y;
+if ((local_44 & 0xffffff) == 0) {
+    // ?? uVar1 = (undefined4)local_50;
+}
+else {
+    // ?? uVar3 = FUN_1416940c0(&local_50);
+    // ?? uVar1 = (undefined4)uVar3;
+}
+if ((local_54 & 0xffffff) == 0) {
+    // ?? uVar2 = (undefined4)local_60;
+}
+else {
+    // ?? uVar3 = FUN_1416940c0(&local_60);
+    // ?? uVar2 = (undefined4)uVar3;
+}
+// ?? local_70 = dVar4;
+// ?? fVar7 = (float)(double)CONCAT44(uVar5,uVar1);
+// ?? FUN_1416b8480(param_1,(longlong)dVar4,1,(float)(double)CONCAT44(uVar6,uVar2),fVar7);
+uVar8 = (uint)fVar7 & 0xffffff00;
+v70 = sprite_index;
+v60 = x;
+v50 = y;
+if ((local_44 & 0xffffff) == 0) {
+    // ?? uVar1 = (undefined4)local_50;
+}
+else {
+    // ?? uVar3 = FUN_1416940c0(&local_50);
+    // ?? uVar1 = (undefined4)uVar3;
+}
+if ((local_54 & 0xffffff) == 0) {
+    // ?? uVar2 = (undefined4)local_60;
+}
+else {
+    // ?? uVar3 = FUN_1416940c0(&local_60);
+    // ?? uVar2 = (undefined4)uVar3;
+}
+// ?? local_70 = dVar4;
+// ?? FUN_1416b8480(param_1,(longlong)dVar4,0,(float)(double)CONCAT44(uVar6,uVar2),
+// ?? (float)(double)CONCAT44(uVar5,uVar1));
+}

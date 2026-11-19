@@ -1,0 +1,33 @@
+// lifted from gml_Object_oVIEW_CONSTRICT_Draw_0.c
+// ?? local_70 = param_2;
+// ?? local_60._4_4_ = 0xffffff;
+// ?? local_50 = CONCAT44(0xffffff,(undefined4)local_50);
+// ?? local_98 = CONCAT44(0xffffff,(undefined4)local_98);
+// ?? FUN_1416f15a0(0xff);
+// ?? FUN_1416f1550(_DAT_1419835ec);
+v90 = x;
+vb0 = y;
+v118 = cam;
+v108 = v90;
+vf8 = vb0;
+ve8 = v90;
+v58 = camera_get_view_y(v118);
+vd8 = v58;
+v68 = draw_line(v108, vf8, ve8, vd8);
+// ?? uVar5 = (ulonglong)ppuVar4 & 0xffffffffffffff00;
+v90 = x;
+vb0 = y;
+// ?? uVar5 & 0xffffffffffffff00);
+v118 = cam;
+v108 = cam;
+vf8 = v90;
+ve8 = vb0;
+vd8 = v90;
+va0 = camera_get_view_height(v108);
+v58 = camera_get_view_y(v118);
+v80 = v58;
+v80 += va0;
+vc8 = v80;
+v68 = draw_line(vf8, ve8, vd8, vc8);
+// ?? FUN_1416b8390(param_1);
+}

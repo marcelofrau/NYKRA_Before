@@ -1,0 +1,40 @@
+// lifted from gml_Object_oCamera_Point_Draw_0.c
+// ?? local_50._4_4_ = 0xffffff;
+v228 = 0;
+// ?? FUN_1416d0010(0x4f,0x18ad9/*var:mode*/,0x80000000,&local_228,in_stack_fffffffffffffdb8,
+v238 = 3;
+if (v228 != v238) {
+    // ?? FUN_1416f15a0(0xff);
+    // ?? FUN_1416f1550(_DAT_141981f80);
+    v78 = x;
+    v68 = y;
+    vd8 = v78;
+    vc8 = v68;
+    vb8 = 2;
+    va8 = 1;
+    v58 = draw_circle(vd8, vc8, vb8, va8);
+    // ?? FUN_1416f15a0((longlong)dVar3);
+    // ?? FUN_1416f1550(_DAT_141981f80);
+    // ?? uVar6 = (ulonglong)ppuVar5 & 0xffffffffffffff00;
+    v78 = x;
+    v68 = y;
+    // ?? uVar6 & 0xffffffffffffff00);
+    vd8 = v78;
+    vc8 = v68;
+    vb8 = 71;
+    va8 = 1;
+    v58 = draw_circle(vd8, vc8, vb8, va8);
+    // ?? FUN_1416f15a0(0xff);
+    // ?? local_50._0_4_ = 0;
+    // ?? local_50._4_4_ = 5;
+    // ?? uVar6 = (ulonglong)ppuVar5 & 0xffffffffffffff00;
+    v78 = x;
+    v68 = y;
+    // ?? uVar6 & 0xffffffffffffff00);
+    vd8 = v78;
+    vc8 = v68;
+    vb8 = 101;
+    va8 = 1;
+    v58 = draw_circle(vd8, vc8, vb8, va8);
+}
+}

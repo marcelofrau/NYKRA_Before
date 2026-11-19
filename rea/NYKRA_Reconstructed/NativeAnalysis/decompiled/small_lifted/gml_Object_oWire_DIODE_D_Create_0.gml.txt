@@ -1,0 +1,25 @@
+// lifted from gml_Object_oWire_DIODE_D_Create_0.c
+on = 0;
+p_on = on;
+anim = 0;
+send = 0;
+sfx = 0;
+// ?? p_on = FUN_1416cdc60(0,DAT_1419821b8);
+rand = p_on;
+// ?? puVar3 = (undefined8 *)FUN_1416924a0(d,0);
+// ?? *puVar3 = 0;
+// ?? puVar3 = (undefined8 *)FUN_1416924a0(d,1);
+// ?? *puVar3 = 0;
+// ?? puVar3 = (undefined8 *)FUN_1416924a0(d,2);
+// ?? *puVar3 = 0;
+// ?? puVar3 = (undefined8 *)FUN_1416924a0(d,3);
+// ?? *puVar3 = 0;
+// ?? puVar3 = (undefined8 *)FUN_1416924a0(an,0);
+// ?? *puVar3 = 0;
+// ?? puVar3 = (undefined8 *)FUN_1416924a0(an,1);
+// ?? *puVar3 = 0;
+// ?? puVar3 = (undefined8 *)FUN_1416924a0(an,2);
+// ?? *puVar3 = 0;
+// ?? puVar3 = (undefined8 *)FUN_1416924a0(an,3);
+// ?? *puVar3 = 0;
+}

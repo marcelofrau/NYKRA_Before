@@ -1,0 +1,6 @@
+// lifted from gml_Object_parDoor_Flat_Alarm_0.c
+// ?? void gml_Object_parDoor_Flat_Alarm_0(longlong *param_1)
+{
+    vf8 = ?;
+    anim = 0;
+}

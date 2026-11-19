@@ -1,0 +1,83 @@
+// lifted from gml_Object_oInput_pp_Draw_0.c
+// ?? void gml_Object_oInput_pp_Draw_0(longlong *param_1,undefined8 param_2)
+{
+    ve8 = ?;
+    // ?? uVar14 = in_stack_fffffffffffffc90 & 0xffffffffffffff00;
+    v188 = bbox_left;
+    // ?? uVar14 = uVar14 & 0xffffffffffffff00;
+    v178 = bbox_top;
+    // ?? uVar14 = uVar14 & 0xffffffffffffff00;
+    v168 = bbox_right;
+    v158 = bbox_bottom;
+    // ?? uVar14 & 0xffffffffffffff00);
+    v1f8 = v188;
+    v1e8 = v178;
+    v1d8 = v168;
+    v1c8 = v158;
+    v1b8 = 45;
+    v1a8 = 1;
+    v198 = 1;
+    v90 = collision_rectangle(v1f8, v1e8, v1d8, v1c8, v1b8, v1a8, v198);
+    v148 = v90;
+    va0 = -4;
+    if (v148 == va0) {
+        // ?? uVar11 = 0;
+        // ?? uVar12 = 0;
+    }
+    else {
+        uVar11 = (undefined4)1;
+    }
+    on = CONCAT44(uVar12,uVar11);
+    if (_on != on) {
+        // ?? uVar14 = (ulonglong)ppuVar15 & 0xffffffffffffff00;
+        v138 = x;
+        v128 = y;
+        // ?? uVar14 & 0xffffffffffffff00);
+        v1f8 = v138;
+        v1e8 = v128;
+        v1d8 = 518;
+        v90 = instance_place(v1f8, v1e8, v1d8);
+        vf8 = v90;
+        va0 = -4;
+        if (vf8 != va0) {
+            v118 = on;
+            // ?? FUN_1416d0720(&local_f8,0x18860/*var:d*/,2,&local_118);
+        }
+    }
+    _on = on;
+    vb0 = on;
+    image_index = vb0;
+    // ?? uVar14 = (ulonglong)ppuVar15 & 0xffffffffffffff00;
+    vd0 = sprite_index;
+    // ?? uVar14 = uVar14 & 0xffffffffffffff00;
+    vb0 = image_index;
+    // ?? uVar14 = uVar14 & 0xffffffffffffff00;
+    v108 = xstart;
+    vc0 = ystart;
+    // ?? uVar14 & 0xffffffffffffff00);
+    if ((local_b4 & 0xffffff) == 0) {
+        // ?? uVar11 = (undefined4)local_c0;
+    }
+    else {
+        // ?? _on = FUN_1416940c0(&local_c0);
+        // ?? uVar11 = (undefined4)_on;
+    }
+    va0 = v108 - 1;
+    if ((local_94 & 0xffffff) == 0) {
+        // ?? uVar6 = (undefined4)local_a0;
+    }
+    else {
+        // ?? _on = FUN_1416940c0(&local_a0);
+        // ?? uVar6 = (undefined4)_on;
+    }
+    if ((local_a4 & 0xffffff) == 0) {
+        // ?? uVar7 = (undefined4)local_b0;
+    }
+    else {
+        // ?? _on = FUN_1416940c0(&local_b0);
+        // ?? uVar7 = (undefined4)_on;
+    }
+    // ?? local_d0 = dVar8;
+    // ?? FUN_1416b8480(param_1,(longlong)dVar8,(longlong)(double)CONCAT44(uVar10,uVar7),
+    // ?? (float)(double)CONCAT44(uVar9,uVar6),(float)(double)CONCAT44(uVar12,uVar11));
+}

@@ -1,0 +1,4 @@
+// lifted from gml_Object_oInput_pp_Step_1.c
+// ?? void gml_Object_oInput_pp_Step_1(undefined8 param_1)
+{
+}
