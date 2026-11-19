@@ -12,7 +12,6 @@ METADATA = ROOT / "RecoveredAssets" / "Metadata" / "tileset-TILES.json"
 PROJECT = ROOT / "GameMakerProject"
 PROJECT_FILE = PROJECT / "NYKRA_VerticalSlice.yyp"
 TILESET_FILE = PROJECT / "tilesets" / "TILES" / "TILES.yy"
-PROBE_CREATE = PROJECT / "objects" / "oLevelProbe" / "Create_0.gml"
 
 
 def png_dimensions(path):
@@ -114,43 +113,6 @@ class Phase3TilesetTests(unittest.TestCase):
         self.assertIn("TILES", resources)
         self.assertIn("sTiles", resources)
 
-    def test_probe_fills_the_six_room_tilemaps_from_serialized_cells_without_spawning_objects(self):
-        create = PROBE_CREATE.read_text(encoding="utf-8")
-        for name in (
-            "tFRONT_over",
-            "tFRONT",
-            "tFRONT_bg",
-            "tBACK_over",
-            "tBACK",
-            "tBACK_bg",
-        ):
-            self.assertIn(name, create)
-        self.assertIn("layer_tilemap_get_id(_layer_id)", create)
-        self.assertNotIn("layer_create(_tile_layer_depths", create)  # layers come from rmMAIN
-        self.assertIn("tilemap_set(", create)
-        self.assertIn("var _x = floor(_i / level_probe_height);", create)
-        self.assertIn("var _y = _i mod level_probe_height;", create)
-        self.assertNotRegex(create, r"\b(instance_create|map_load|map_save)\s*\(")
-
-    def test_probe_exposes_runtime_tileset_and_map_write_diagnostics(self):
-        create = PROBE_CREATE.read_text(encoding="utf-8")
-        draw = (PROJECT / "objects" / "oLevelProbe" / "Draw_0.gml").read_text(encoding="utf-8")
-        self.assertIn("tileset_get_info(TILES)", create)
-        self.assertIn("tileset_get_uvs(TILES)", create)
-        self.assertIn("tilemap_get_tileset(_tilemap) == TILES", create)
-        self.assertIn("layer_get_id(_tile_layer_names[_layer])", create)
-        self.assertIn("tilemap_get(", create)
-        self.assertIn("level_probe_tile_set_successes", create)
-        self.assertIn("layer_get_visible(", create)
-        self.assertIn("layer_set_visible(", create)
-        self.assertIn("layer_tilemap_get_id(", create)
-        self.assertIn("tile_set_index(0, level_probe_first_tile_index)", create)
-        self.assertIn('layer_get_id("Instances")', create)
-        self.assertIn("layer_tilemap_create(_instance_layer_id", create)
-        self.assertIn("draw_sprite_part_ext(sTiles", draw)
-        self.assertIn("draw_tile(TILES, level_probe_first_tiledata, 0, _x0, 660)", draw)
-        self.assertIn("draw_tilemap(level_probe_tilemaps[1], 0, 500)", draw)
-        self.assertIn("level_probe_uvs[0]", draw)
 
 
 if __name__ == "__main__":

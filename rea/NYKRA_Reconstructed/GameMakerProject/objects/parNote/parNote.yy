@@ -1,15 +1,13 @@
 {
   "$GMObject": "",
-  "%Name": "oLeavesProbe",
-  "eventList": [
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-  ],
+  "%Name": "parNote",
+  "eventList": [],
   "managed": true,
-  "name": "oLeavesProbe",
+  "name": "parNote",
   "overriddenProperties": [],
   "parent": {
-    "name": "Objects",
-    "path": "folders/Objects.yy",
+    "name": "Shells",
+    "path": "folders/Objects/Shells.yy",
   },
   "parentObjectId": null,
   "persistent": false,
@@ -29,10 +27,7 @@
   "resourceType": "GMObject",
   "resourceVersion": "2.0",
   "solid": false,
-  "spriteId": {
-    "name": "sMal_Tree_1l",
-    "path": "sprites/sMal_Tree_1l/sMal_Tree_1l.yy",
-  },
+  "spriteId": null,
   "spriteMaskId": null,
   "visible": true,
 }

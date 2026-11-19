@@ -1,16 +1,13 @@
 {
   "$GMObject": "",
-  "%Name": "oLevelProbe",
-  "eventList": [
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-  ],
+  "%Name": "oRoof_angle",
+  "eventList": [],
   "managed": true,
-  "name": "oLevelProbe",
+  "name": "oRoof_angle",
   "overriddenProperties": [],
   "parent": {
-    "name": "Objects",
-    "path": "folders/Objects.yy",
+    "name": "Shells",
+    "path": "folders/Objects/Shells.yy",
   },
   "parentObjectId": null,
   "persistent": false,
