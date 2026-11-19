@@ -166,6 +166,19 @@ Importar para o projeto os **15 sprites novos** dos objetos de `rmMal_Origin` (o
 - Método: script UTMT (`Tools/ExportSpritesRestored.csx`) exporta cada quadro com o canvas restaurado (`includePadding`), mais um JSON com recortes e origens; um gerador cria `.yy` e PNGs no formato da LTS 2026 (copiar as tags dos `.yy` de sprite que a IDE já regravou). Conferir cada sprite no editor da IDE contra `sprites-metadata.json` (tamanho, origem, quadros).
 - Aceite: os 15 sprites aparecem no Asset Browser com os tamanhos e origens do metadata; o usuário confere 3 ou 4 no editor (grama, porta, fio); nenhum objeto muda de aparência no jogo.
 
+
+#### Levantamento do jogador (19/11/2026; `SURVEY_3_3_player.md`, gerado por `Tools/survey_object_dependencies.py`)
+- **`oPlayer`: os 21 eventos têm GML original na raiz** (só o `PreCreate_0`, vazio, não tem). O trabalho dele é reunir dependências, não decifrar código: **40 scripts** (34 a fazer, 2 decompilados, 2 reconstruídos, 2 com GML original), 20 objetos, 41 sprites, 56 sons e 1 shader.
+- **`oOrigin`** (cria o jogador no `rmMal_Origin`): 9 eventos, **nenhum** com GML original; precisam ser elevados do `.exe` (Alarm_0..3, Create_0, Draw_0, Draw_73, Step_1).
+- `oEo`: 7 de 8 eventos com GML original e 22 scripts (muitos em comum com o `oPlayer`). `parNote`: 4 de 5 com GML original e 9 scripts.
+- **Scripts do `oPlayer` por função:**
+  - movimento e colisão (núcleo): `ARRAY_COLLIDE` (decompilado), `bb_setmiddle`, `box_inside_bound`, `playerhascontrol`, `obj_setpos`, `instance_create_one`, `reach`;
+  - som: `play_sound`, `snd_step_dirt/grass/stone/wood` (+ `play_sound_pos`, que já existe);
+  - efeitos visuais: `create_flash`, `create_flashline`, `create_fx`, `create_lighting_flash`, `create_poly`, `create_spark`, `mask_set/mask_draw/mask_reset`, `draw_polygon`, `draw_rectangle_view`, `draw_sprite_glitch`;
+  - texto e interface: `draw_ui_arrow`, `string_n`, `string_n_glitch`, `string_wordbreak`, `ini_language`, `open_book`, `inv_delete`, `real_string`;
+  - utilidades: `sleep`, `hrnd`, `easing`, `save_game`.
+- **Proposta de ordem para o 3.3 (a confirmar com o usuário):** (1) **jogador que anda**, em silêncio e sem efeitos: scripts de movimento/colisão + `oOrigin` + `oPlayer` + só os sprites que ele usa para andar, com sons e efeitos como stubs visíveis; (2) **sons e efeitos** (importar sons; scripts `create_*`/`mask_*`); (3) **interações**: portas (`oMal_Door_Flat`), notas, fios, o ramo da grama que reage ao jogador (P19), `oEo`.
+
 #### Levantamento do 3.2b (19/11/2026; `SURVEY_3_2b_rmMal_Origin.md`, gerado por `Tools/survey_dependencies.py`)
 - **`map_load` na LTS 2026:** `array_get_2D(a,i,j)` → `a[i,j]` e `array_length_1d(a)` → `array_length(a)` (as duas funções não existem mais; eram do runtime 2.3.6). Nenhuma outra mudança de lógica.
 - **Contexto:** `map_load` e os scripts irmãos referenciam `oControl` pelo nome e usam variáveis dele (`map`, `obj_list`, `_layer`, `asset_layer`, `asset_list`, `map_id`, `file`, `cam`, `CURRENTROOM`, `MUSIC`, `GRV_SPD`, `FADE_COLOUR`, `START_GAME`). O objeto de controle precisa se chamar `oControl`.
