@@ -1,0 +1,57 @@
+// lifted from gml_Script_play_sound.c
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0;
+// ?? local_120 = param_3;
+// ?? FUN_1416ab750(DAT_1420dcd50/*gml_Script_play_sound*/);
+if (param_4 < 1) {
+    puVar2 = &0;
+}
+else {
+    // ?? puVar2 = (undefined8 *)*param_5;
+}
+vb8 = puVar2;
+if (param_4 < 2) {
+    puVar2 = &0;
+}
+else {
+    // ?? puVar2 = (undefined8 *)param_5[1];
+}
+va8 = puVar2;
+if (param_4 < 3) {
+    puVar2 = &0;
+}
+else {
+    // ?? puVar2 = (undefined8 *)param_5[2];
+}
+v98 = puVar2;
+v58 = audio_play_sound(vb8, va8, v98);
+v68 = v58;
+if (param_4 < 4) {
+    puVar2 = &0;
+}
+else {
+    // ?? puVar2 = (undefined8 *)param_5[3];
+}
+v108 = puVar2;
+v58 = audio_sound_pitch(v68, v108);
+v108 = ?;
+vf8 = ?;
+v58 = audio_sound_gain(v68, v108, vf8);
+if (param_4 < 5) {
+    puVar2 = &0;
+}
+else {
+    // ?? puVar2 = (undefined8 *)param_5[4];
+}
+v108 = puVar2;
+if (param_4 < 6) {
+    puVar2 = &0;
+}
+else {
+    // ?? puVar2 = (undefined8 *)param_5[5];
+}
+vf8 = puVar2;
+v58 = audio_sound_gain(v68, v108, vf8);
+v120 = v68;
+// ?? return local_120;
+}

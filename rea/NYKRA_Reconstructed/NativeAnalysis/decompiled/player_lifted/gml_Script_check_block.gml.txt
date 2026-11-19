@@ -1,0 +1,30 @@
+// lifted from gml_Script_check_block.c
+// ?? local_60 = (ulonglong)(uint)local_60;
+// ?? local_50 = (ulonglong)(uint)local_50;
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0;
+// ?? local_e0 = param_3;
+// ?? FUN_1416ab750(DAT_1420dd370/*gml_Script_check_block*/);
+if (param_4 < 1) {
+    puVar2 = &0;
+}
+else {
+    // ?? puVar2 = (undefined8 *)*param_5;
+}
+vb8 = puVar2;
+if (param_4 < 2) {
+    puVar2 = &0;
+}
+else {
+    // ?? puVar2 = (undefined8 *)param_5[1];
+}
+va8 = puVar2;
+v98 = map_id;
+// ?? map_id = FUN_1401363e0(param_1,param_2,&local_58,2,ppuVar3);
+v88 = map_id;
+v78 = 1;
+// ?? map_id = FUN_1416ab210(param_1,param_2,&local_68,3,CONCAT44(uVar4,DAT_1420da240/*array_get_2D*/),&local_118);
+ve0 = map_id;
+// ?? puVar2 = local_e0;
+// ?? return puVar2;
+}

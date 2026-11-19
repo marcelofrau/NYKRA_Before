@@ -1,0 +1,93 @@
+// lifted from gml_Script_draw_ui_arrow.c
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0;
+// ?? FUN_1416ab750(DAT_1420dce70/*gml_Script_draw_ui_arrow*/);
+// ?? uVar18 = 0;
+vb0 = draw_get_alpha();
+if ((*(uint *)((longlong)vb0 + 0xc) & 0xffffff) == 0) {
+    // ?? uVar6 = (undefined4)*vb0;
+}
+else {
+    // ?? uVar11 = FUN_1416940c0(vb0);
+    // ?? uVar6 = (undefined4)uVar11;
+}
+puVar4 = &0;
+if (4 < param_4) {
+    // ?? puVar4 = (undefined8 *)param_5[4];
+}
+if ((*(uint *)((longlong)puVar4 + 0xc) & 0xffffff) == 0) {
+    // ?? uVar7 = (undefined4)*puVar4;
+}
+else {
+    // ?? uVar11 = FUN_1416940c0();
+    // ?? uVar7 = (undefined4)uVar11;
+}
+if (param_4 < 4) {
+    puVar4 = &0;
+}
+else {
+    // ?? puVar4 = (undefined8 *)param_5[3];
+}
+vc0 = 90;
+vc0 *= puVar4;
+if (param_4 < 1) {
+    puVar4 = &0;
+}
+else {
+    // ?? puVar4 = (undefined8 *)*param_5;
+}
+va0 = 0;
+// ?? iVar3 = -0x2d;
+if (puVar4 != va0) {
+    // ?? iVar3 = 0;
+}
+// ?? local_a0 = (double)iVar3;
+va0 -= vc0;
+if ((local_94 & 0xffffff) == 0) {
+    // ?? uVar8 = SUB84(local_a0,0);
+}
+else {
+    // ?? uVar11 = FUN_1416940c0(&local_a0);
+    // ?? uVar8 = (undefined4)uVar11;
+}
+puVar4 = &0;
+if (2 < param_4) {
+    // ?? puVar4 = (undefined8 *)param_5[2];
+}
+if ((*(uint *)((longlong)puVar4 + 0xc) & 0xffffff) == 0) {
+    // ?? uVar9 = (undefined4)*puVar4;
+}
+else {
+    // ?? uVar11 = FUN_1416940c0();
+    // ?? uVar9 = (undefined4)uVar11;
+}
+puVar4 = &0;
+if (1 < param_4) {
+    // ?? puVar4 = (undefined8 *)param_5[1];
+}
+if ((*(uint *)((longlong)puVar4 + 0xc) & 0xffffff) == 0) {
+    // ?? uVar10 = (undefined4)*puVar4;
+}
+else {
+    // ?? uVar11 = FUN_1416940c0();
+    // ?? uVar10 = (undefined4)uVar11;
+}
+if (param_4 < 1) {
+    pdVar5 = (double *)&0;
+}
+else {
+    // ?? pdVar5 = (double *)*param_5;
+    // ?? uVar1 = *(uint *)((longlong)pdVar5 + 0xc);
+}
+if ((uVar1 & 0xffffff) == 0) {
+    // ?? dVar12 = *pdVar5;
+}
+else {
+    // ?? dVar12 = (double)FUN_1416940c0();
+}
+// ?? FUN_1416b84f0(param_1,0xd2,(longlong)dVar12,(float)(double)CONCAT44(uVar17,uVar10),
+// ?? (float)(double)CONCAT44(uVar16,uVar9),CONCAT44(uVar18,0x3f800000),0x3f800000,
+// ?? (float)(double)CONCAT44(uVar15,uVar8),(int)(longlong)(double)CONCAT44(uVar14,uVar7),
+// ?? (float)(double)CONCAT44(uVar13,uVar6));
+// ?? return param_3;
+}

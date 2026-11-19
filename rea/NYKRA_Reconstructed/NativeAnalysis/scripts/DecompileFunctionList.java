@@ -25,9 +25,10 @@ public class DecompileFunctionList extends GhidraScript {
     @Override
     public void run() throws Exception {
         String[] args = getScriptArgs();
-        if (args.length != 2) {
-            throw new IllegalArgumentException("Expected: <output dir> <list file>");
+        if (args.length < 2 || args.length > 3) {
+            throw new IllegalArgumentException("Expected: <output dir> <list file> [timeout seconds, default 120]");
         }
+        int timeoutSeconds = args.length == 3 ? Integer.parseInt(args[2]) : 120;
         File outDir = new File(args[0]);
         if (!outDir.isDirectory() && !outDir.mkdirs()) {
             throw new IllegalStateException("Could not create output directory: " + outDir);
@@ -67,7 +68,7 @@ public class DecompileFunctionList extends GhidraScript {
                     failed++;
                     continue;
                 }
-                DecompileResults res = decomp.decompileFunction(fn, 120, monitor);
+                DecompileResults res = decomp.decompileFunction(fn, timeoutSeconds, monitor);
                 if (res != null && res.decompileCompleted() && res.getDecompiledFunction() != null) {
                     writer.println(res.getDecompiledFunction().getC());
                     done++;

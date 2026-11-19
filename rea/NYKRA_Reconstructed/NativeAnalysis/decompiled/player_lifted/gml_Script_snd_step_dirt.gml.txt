@@ -1,0 +1,16 @@
+// lifted from gml_Script_snd_step_dirt.c
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0;
+// ?? FUN_1416ab750(DAT_1420dcdb0/*gml_Script_snd_step_dirt*/);
+vb8 = 13;
+va8 = 14;
+v98 = 15;
+v88 = 16;
+v78 = 17;
+v68 = 18;
+v58 = 19;
+v48 = 20;
+uVar1 = choose(vb8, va8, v98, v88, v78, v68, v58, v48);
+param_3 = uVar1;
+// ?? return param_3;
+}

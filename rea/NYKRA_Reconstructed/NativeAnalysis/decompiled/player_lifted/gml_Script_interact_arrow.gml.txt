@@ -1,0 +1,90 @@
+// lifted from gml_Script_interact_arrow.c
+// ?? local_88 = (ulonglong)(uint)local_88;
+// ?? local_b0 = (ulonglong)(uint)local_b0;
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0;
+// ?? FUN_1416ab750(DAT_1420dce10/*gml_Script_interact_arrow*/);
+v1b8 = 0;
+// ?? uStack_1b0 = 0;
+// ?? FUN_1416d0010(0x40,0x18836/*var:control*/,0x80000000,&local_1b8,in_stack_fffffffffffffdc8,
+// ?? local_80 = 1.0;
+if (v1b8 != v80) goto LAB_1400d747f;
+va8 = 0;
+// ?? uStack_a0 = 0;
+// ?? FUN_1416d0010(0x40,0x18df5/*var:UI_OPEN*/,0x80000000,&local_a8,in_stack_fffffffffffffdc8 & 0xffffff00,
+v80 = 0;
+if (va8 != v80) goto LAB_1400d747f;
+// ?? FUN_1416ab670(0x40,DAT_1420d58e8/*x*/,0x80000000,&local_f8);
+// ?? FUN_1416ab670(0x40,DAT_1420d58f8/*y*/,0x80000000,&local_e8);
+if (param_4 < 1) {
+    puVar5 = &0;
+}
+else {
+    // ?? puVar5 = (undefined8 *)*param_5;
+}
+v148 = puVar5;
+if (param_4 < 2) {
+    puVar5 = &0;
+}
+else {
+    // ?? puVar5 = (undefined8 *)param_5[1];
+}
+v138 = puVar5;
+v128 = vf8;
+v118 = ve8;
+if (param_4 < 3) {
+    puVar5 = &0;
+}
+else {
+    // ?? puVar5 = (undefined8 *)param_5[2];
+}
+v90 = point_distance(v148, v138, v128, v118);
+if ((iVar1 == -2) || (-1 < iVar1)) goto LAB_1400d747f;
+v108 = 1;
+// ?? ppuVar12 = local_1c8;
+vb8 = gpu_set_blendmode();
+// ?? uVar13 = (ulonglong)ppuVar12 & 0xffffffffffffff00;
+vd8 = bbox_top;
+// ?? uVar14 = (undefined4)(uVar13 >> 0x20);
+pdVar4 = (double *)&0;
+if (3 < param_4) {
+    // ?? pdVar4 = (double *)param_5[3];
+}
+if ((*(uint *)((longlong)pdVar4 + 0xc) & 0xffffff) == 0) {
+    // ?? dVar7 = *pdVar4;
+}
+else {
+    // ?? dVar7 = (double)FUN_1416940c0();
+}
+va8 = tick * 777;
+if ((uStack_a0 & 0xffffff00000000) != 0) {
+    // ?? dVar8 = (double)FUN_1416940c0(&local_a8);
+}
+fVar6 = lengthdir_y(0.5, va8);
+vc8 = vd8 - 6;
+v80 = vc8;
+// ?? FUN_140003f30(&local_80,(double)fVar6);
+if ((local_74 & 0xffffff) == 0) {
+    if (0 < param_4) goto LAB_1400d7335;
+    LAB_1400d7356:
+    pdVar4 = (double *)&0;
+    if ((DAT_1420b100c & 0xffffff) != 0) goto LAB_1400d7342;
+    LAB_1400d7366:
+    // ?? dVar9 = *pdVar4;
+}
+else {
+    // ?? dVar8 = (double)FUN_1416940c0(&local_80);
+    if (param_4 < 1) goto LAB_1400d7356;
+    LAB_1400d7335:
+    // ?? pdVar4 = (double *)*param_5;
+    if ((*(uint *)((longlong)pdVar4 + 0xc) & 0xffffff) == 0) goto LAB_1400d7366;
+    LAB_1400d7342:
+    // ?? dVar9 = (double)FUN_1416940c0();
+}
+// ?? FUN_1416b84f0(param_1,0xd2,0,(float)dVar9,(float)dVar8,CONCAT44(uVar14,0x3f800000),0x3f800000,
+// ?? 0xc2340000,(int)(longlong)dVar7,0x3f800000);
+v188 = ?;
+v90 = gpu_set_blendmode();
+LAB_1400d747f:
+// ?? return param_3;
+}

@@ -1,0 +1,16 @@
+// lifted from gml_Script_bb_setmiddle.c
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0;
+// ?? FUN_1416ab750(DAT_1420dc7f0/*gml_Script_bb_setmiddle*/);
+v98 = x1;
+v88 = x2;
+v58 = mean(v98, v88);
+v78 = v58;
+x = v78;
+v98 = y1;
+v88 = y2;
+v58 = mean(v98, v88);
+v68 = v58;
+y = v68;
+// ?? return param_3;
+}

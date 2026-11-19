@@ -1,0 +1,16 @@
+// lifted from gml_Script_snd_step_wood.c
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0;
+// ?? FUN_1416ab750(DAT_1420dcdd0/*gml_Script_snd_step_wood*/);
+vb8 = 30;
+va8 = 31;
+v98 = 32;
+v88 = 33;
+v78 = 34;
+v68 = 35;
+v58 = 36;
+v48 = 37;
+uVar1 = choose(vb8, va8, v98, v88, v78, v68, v58, v48);
+param_3 = uVar1;
+// ?? return param_3;
+}

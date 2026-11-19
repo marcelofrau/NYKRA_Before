@@ -1,0 +1,32 @@
+// lifted from gml_Script_player_distance.c
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0.0;
+// ?? FUN_1416ab750(DAT_1420dce50/*gml_Script_player_distance*/);
+// ?? FUN_1416ab670(0x40,DAT_1420d58e8/*x*/,0x80000000,&local_70);
+// ?? FUN_1416ab670(0x40,DAT_1420d58f8/*y*/,0x80000000,&local_60);
+if (param_4 < 1) {
+    puVar3 = &0;
+}
+else {
+    // ?? puVar3 = (undefined8 *)*param_5;
+}
+vb8 = puVar3;
+if (param_4 < 2) {
+    puVar3 = &0;
+}
+else {
+    // ?? puVar3 = (undefined8 *)param_5[1];
+}
+va8 = puVar3;
+v98 = v70;
+v88 = v60;
+if (param_4 < 3) {
+    puVar3 = &0;
+}
+else {
+    // ?? puVar3 = (undefined8 *)param_5[2];
+}
+v50 = point_distance(vb8, va8, v98, v88);
+// ?? *param_3 = (double)(iVar1 != -2 && iVar1 < 0);
+// ?? return param_3;
+}

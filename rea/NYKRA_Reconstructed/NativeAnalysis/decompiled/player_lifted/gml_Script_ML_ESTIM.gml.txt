@@ -1,0 +1,39 @@
+// lifted from gml_Script_ML_ESTIM.c
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0;
+// ?? FUN_1416ab750(DAT_1420dd4f0/*gml_Script_ML_ESTIM*/);
+v80 = &?;
+dVar1 = 1;
+v70 = 0;
+while( true ) {
+    if ((iVar2 == -2) || (-1 < iVar2)) break;
+    // ?? uVar3 = FUN_141693b30(&local_70);
+    // ?? output_an = FUN_14002e450(output_an,uVar3);
+    if (0 < iVar2) {
+        // ?? uVar3 = FUN_141693b30(&local_70);
+        // ?? output_an = FUN_14002e450(output_an,uVar3);
+        v80 = output_an;
+        v90 = v70;
+    }
+    switch(local_64 & 0xffffff) {
+        case 1:
+        // ?? local_70 = (double)FUN_1416940c0(&local_70);
+        // ?? local_70 = local_70 + dVar1;
+        break;
+        default:
+        // ?? FUN_140001d70(&DAT_141981e6a,&local_70,&local_70);
+        break;
+        case 7:
+        // ?? local_70 = (double)CONCAT44(local_70._4_4_,local_70._0_4_ + 1);
+        break;
+        case 10:
+        // ?? local_70 = (double)((longlong)local_70 + 1);
+        break;
+        case 0xd:
+        case 0:
+        // ?? local_70 = local_70 + dVar1;
+    }
+}
+param_3 = v90;
+// ?? return param_3;
+}

@@ -1,0 +1,16 @@
+// lifted from gml_Script_ini_language.c
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0;
+// ?? FUN_1416ab750(DAT_1420dd210/*gml_Script_ini_language*/);
+// ?? FUN_1416ce870(param_1,DAT_1420d59d8/*working_directory*/,0x80000000,&local_48);
+v38 = v48;
+v38 += LANGUAGE_FILE;
+if (((local_2c & 0xffffff) == 1) && (local_38 != (undefined8 *)0x0)) {
+    // ?? LANGUAGE_FILE = *local_38;
+}
+else {
+    // ?? LANGUAGE_FILE = 0;
+}
+// ?? FUN_141700990(LANGUAGE_FILE);
+// ?? return param_3;
+}

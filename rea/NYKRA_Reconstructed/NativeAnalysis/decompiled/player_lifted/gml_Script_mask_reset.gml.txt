@@ -1,0 +1,10 @@
+// lifted from gml_Script_mask_reset.c
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0;
+// ?? FUN_1416ab750(DAT_1420dd110/*gml_Script_mask_reset*/);
+v68 = 0;
+v50 = gpu_set_alphatestenable(v68);
+v68 = ?;
+v50 = gpu_set_blendmode(v68);
+// ?? return param_3;
+}

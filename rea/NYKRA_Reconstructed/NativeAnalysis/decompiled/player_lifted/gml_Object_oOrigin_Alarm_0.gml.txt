@@ -1,0 +1,14 @@
+// lifted from gml_Object_oOrigin_Alarm_0.c
+// ?? void gml_Object_oOrigin_Alarm_0(longlong *param_1)
+{
+    v30 = ?;
+    // ?? uStack_178 = (ulonglong)(uint)uStack_178;
+    v180 = 6;
+    if (anim == v180) {
+        // ?? uStack_178 = 0;
+        // ?? FUN_1416d0790(0x4f,0x18966/*var:game_start*/,0x80000000,&local_180);
+    }
+    else {
+        anim = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+    }
+}

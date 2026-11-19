@@ -1,0 +1,90 @@
+// lifted from gml_Script_player_interact.c
+// ?? local_98 = (ulonglong)(uint)local_98;
+// ?? local_88 = (ulonglong)(uint)local_88;
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0.0;
+// ?? FUN_1416ab750(DAT_1420dce30/*gml_Script_player_interact*/);
+v1a8 = 0;
+// ?? uStack_1a0 = 0;
+// ?? FUN_1416d0010(0x40,0x18df5/*var:UI_OPEN*/,0x80000000,&local_1a8,in_stack_fffffffffffffdf8,
+v80 = 0;
+uVar7 = (undefined4)1e-05;
+if (v1a8 == v80) {
+    v198 = 0;
+    // ?? uStack_190 = 0;
+    // ?? FUN_1416d0010(0x40,0x18836/*var:control*/,0x80000000,&local_198,in_stack_fffffffffffffdf8 & 0xffffff00,
+    v80 = 1;
+    uVar7 = (undefined4)1e-05;
+    if (v198 != v80) goto LAB_1400d806f;
+}
+else {
+    LAB_1400d806f:
+    if (param_4 < 5) {
+        puVar6 = &0;
+    }
+    else {
+        // ?? puVar6 = (undefined8 *)param_5[4];
+    }
+    v80 = 0;
+    // ?? dVar1 = 0.0;
+    if (puVar6 != v80) goto LAB_1400d8327;
+}
+// ?? FUN_1416ab670(0x40,DAT_1420d58e8/*x*/,0x80000000,&local_c0);
+// ?? FUN_1416ab670(0x40,DAT_1420d58f8/*y*/,0x80000000,&local_b0);
+if (param_4 < 1) {
+    puVar6 = &0;
+}
+else {
+    // ?? puVar6 = (undefined8 *)*param_5;
+}
+v118 = puVar6;
+if (param_4 < 2) {
+    puVar6 = &0;
+}
+else {
+    // ?? puVar6 = (undefined8 *)param_5[1];
+}
+v108 = puVar6;
+vf8 = vc0;
+ve8 = vb0;
+if (param_4 < 3) {
+    puVar6 = &0;
+}
+else {
+    // ?? puVar6 = (undefined8 *)param_5[2];
+}
+va0 = point_distance(v118, v108, vf8, ve8);
+uVar7 = (undefined4)1e-05;
+// ?? dVar1 = 0.0;
+if ((iVar3 != -2) && (dVar1 = 0.0, iVar3 < 0)) {
+    if (param_4 < 4) {
+        puVar6 = &0;
+    }
+    else {
+        // ?? puVar6 = (undefined8 *)param_5[3];
+    }
+    v80 = 0;
+    if (puVar6 == v80) {
+        // ?? bVar2 = 1;
+    }
+    else {
+        if (param_4 < 4) {
+            puVar6 = &0;
+        }
+        else {
+            // ?? puVar6 = (undefined8 *)param_5[3];
+        }
+        v80 = 1;
+        // ?? bVar2 = 0;
+        if (puVar6 == v80) {
+            vd8 = kku;
+            v90 = keyboard_check_pressed(vd8);
+            // ?? bVar2 = FUN_1416927d0(v90);
+        }
+    }
+    // ?? dVar1 = (double)bVar2;
+}
+LAB_1400d8327:
+// ?? *param_3 = dVar1;
+// ?? return param_3;
+}

@@ -1,0 +1,18 @@
+// lifted from gml_Script_mask_draw.c
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0;
+// ?? FUN_1416ab750(DAT_1420dd0f0/*gml_Script_mask_draw*/);
+v98 = 1;
+v58 = gpu_set_blendenable(v98);
+v98 = 1;
+v88 = 1;
+v78 = 1;
+v68 = 1;
+v58 = gpu_set_colorwriteenable(v98, v88, v78, v68);
+v98 = 7;
+v88 = 8;
+v58 = gpu_set_blendmode_ext(v98, v88);
+v98 = 1;
+v58 = gpu_set_alphatestenable(v98);
+// ?? return param_3;
+}

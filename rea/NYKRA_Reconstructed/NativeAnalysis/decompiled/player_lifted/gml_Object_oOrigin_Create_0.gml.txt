@@ -1,0 +1,43 @@
+// lifted from gml_Object_oOrigin_Create_0.c
+_x = 0;
+_y = 0;
+v50 = 26;
+depth = v50;
+getupan = 0;
+anim = 0;
+anim_t = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+anim_t3 = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+anim_t4 = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+anim_t5 = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+anim_end = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+anim_end2 = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+fade = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+fade_out = 0;
+anim_t2 = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+start = 0;
+anim_fall = 0;
+end_hit = 0;
+in_fade = 0;
+dark_fade = 0;
+dark_fade1 = 0;
+dark_fade2 = 0;
+dark_fade3 = 0;
+dfa3_t = 0;
+text_anim = 0;
+text_t = 0;
+snd_spawn = &?;
+dark_fade_anim = 0;
+v1a8 = 0;
+// ?? uStack_1a0 = 0;
+// ?? FUN_1416d0010(0x4f,0x18966/*var:game_start*/,0x80000000,&local_1a8,0,0);
+v1b8 = 1;
+if (v1a8 == v1b8) {
+    in_fade = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+}
+sound_1 = 0;
+sound_2 = 0;
+sound_3 = 0;
+sound_4 = 0;
+sound_choir = 0;
+charge = 0;
+}

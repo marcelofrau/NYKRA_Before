@@ -1,0 +1,31 @@
+// lifted from gml_Script_real_string.c
+// ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+// ?? *param_3 = 0;
+// ?? FUN_1416ab750(DAT_1420dd430/*gml_Script_real_string*/);
+if (param_4 < 1) {
+    puVar3 = &0;
+}
+else {
+    // ?? puVar3 = (undefined8 *)*param_5;
+}
+va8 = puVar3;
+// ?? FUN_1416ac010(local_c8,&DAT_14217f514);
+v78 = string_digits(va8);
+if (v78 == vc8) {
+    // ?? *param_3 = 0;
+}
+else {
+    if (param_4 < 1) {
+        param_5 = &0;
+    }
+    else {
+        // ?? param_5 = (undefined8 *)*param_5;
+    }
+    v98 = param_5;
+    v58 = string_digits(v98);
+    v88 = v58;
+    v68 = real();
+    param_3 = v68;
+}
+// ?? return param_3;
+}
