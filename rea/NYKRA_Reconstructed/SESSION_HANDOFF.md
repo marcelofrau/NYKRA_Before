@@ -1,4 +1,4 @@
-# Handoff de sessão — 19/11/2026
+# Handoff de sessão — 19/11/2026 (atualizado após o aceite do 3.2)
 
 Ponto de parada para retomar. O plano completo está em `MASTER_RECONSTRUCTION_PLAN.md` (ver §1.3c).
 
@@ -11,11 +11,19 @@ O usuário está em ambiente de trabalho. **Antes de executar qualquer coisa** (
 - A IDE regravou os `.yy` no formato dela; essas mudanças fazem parte do commit. Os testes Python foram adaptados ao formato da IDE (vírgulas no fim) e ganharam a verificação do `output_tileset.png`.
 - Os hashes dos níveis originais estão conferidos e intactos.
 
-## Próximo passo: fechar o marco 3.2
-1. Comparar pixel a pixel o `output_tileset.png` com `RecoveredAssets/Textures/Backgrounds/TILES/TILES_0.png`. Precisa de um script Python, então pedir permissão.
-2. Ler o `interpolate_pixels` original (GEN8 do `data.win` original, via UTMT) e alinhar a opção do projeto (hoje `true`). Precisa de execução.
-3. Definir a política para as 4 referências `<undefined>` e desenhar os sprites `aBACK` do nível.
-4. Pedir o aceite do marco 3.2 ao usuário e seguir para o 3.2b (`map_load` reconstruído).
+## Marco 3.2 aceito pelo usuário (19/11)
+- O `output_tileset.png` é idêntico pixel a pixel ao `TILES_0.png` (`Tools/compare_tileset_output.py`).
+- `interpolate_pixels` desligado, por decisão do usuário.
+- O probe cria os sprites `aFRONT`/`aBACK` a partir do nível. `<undefined>` e sprites que não estão no projeto são pulados com log.
+- O `oSpriteProbe` foi removido; o tronco vem do nível.
+- Os 30 testes Python passam.
+
+## Próximo passo: 3.2b (pedir ao usuário antes de começar)
+Trocar o probe pelo `map_load` reconstruído. O detalhamento está em `MASTER_RECONSTRUCTION_PLAN.md` §2, "3.2b":
+- converter os scripts `argument`-style para funções 2.3+;
+- resolver as dependências sem no-ops silenciosos;
+- criar um bootstrap de debug identificado como provisório;
+- manter `load_game` e qualquer save desligados.
 
 ## Ferramentas e armadilhas
 - **Teste mais simples:** o usuário roda pela IDE LTS (F5). Para build por linha de comando, adaptar o comando do Igor de §5 trocando o runtime e a pasta do usuário pelos da LTS; ainda não testado.

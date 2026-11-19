@@ -14,7 +14,7 @@
 | 2 — Bugs prioritários | ✅ relatório entregue | `PHASE2_PRIORITY_BUGS.md` (P1 load_game, P1 arrays omitidos, P2 int64) |
 | 3.0 — Ambiente | ✅ | IDE 2024.14.4.222, runtime 2024.14.4.268, Igor compila VM |
 | 3.1 — Projeto + sprite | ✅ parcial | árvore `sMal_Tree_1`/`sMal_Tree_1l` vista pelo usuário |
-| 3.2 — Renderizar nível | 🟡 **tiles renderizam (19/11, §1.3c)**; faltam itens do checklist e o aceite | build da IDE LTS 2026 |
+| 3.2 — Renderizar nível | ✅ **aceito pelo usuário em 19/11** (§1.3c, §1.5) | 6 camadas + sprite `aBACK` do nível, build da IDE LTS 2026 |
 | 3.3 — Player/objetos/portas | ⬜ | — |
 | 3.4 — Save V1 | ⬜ | só codec Python de referência |
 | 4 — Resto do jogo | ⬜ | 2.720 funções YYC; 16 reconstruídas |
@@ -88,7 +88,13 @@ Problema secundário observado: `option_windows_interpolate_pixels = True`. Em p
 - **Causa mais provável:** ao salvar o tileset, a IDE gera `tilesets/TILES/output_tileset.png` (1560×1580, a textura de saída com borda), e o compilador só empacota esse arquivo. O nosso `TILES.yy` sempre foi escrito à mão e nunca tinha esse PNG; o compilador gerava o tileset sem textura e sem erro. Como o compilador também mudou (2024.14 → 2026.1), não foi isolado qual das duas mudanças decidiu. Não vale isolar, porque o projeto segue na LTS.
 - **Regra nova:** todo tileset criado ou alterado fora da IDE precisa ser aberto e salvo pela IDE (para gerar o `output_tileset.png`) antes do build. Arquivos `.yy` escritos por script devem copiar as tags de versão de arquivos salvos pela LTS 2026.
 - Hashes de `rmMal_Origin.rmlvl` (`4dcb0788…`) e `rmMal_1.rmlvl` (`07a2b082…`) conferidos e intactos (originais e cópia no projeto).
-- Pendente do 3.2: comparar pixel a pixel `output_tileset.png` com `TILES_0.png` (os hashes diferem, o tamanho é igual), decidir `interpolate_pixels` (hoje `true`, o padrão; valor original ainda não lido do GEN8), política para as 4 referências `<undefined>` e desenhar os sprites `aBACK` do nível.
+- Fechamento do 3.2 (19/11):
+  - `Tools/compare_tileset_output.py` mostra que o `output_tileset.png` é **idêntico pixel a pixel** ao `TILES_0.png` original: 6144 tiles, 0 pixels diferentes no interior e na borda. Só a compressão do PNG difere.
+  - `interpolate_pixels` foi desligado por decisão do usuário (pixel art nítida); religar se ele notar diferença em relação ao original.
+  - O probe cria os sprites `aFRONT`/`aBACK` dos registros do nível com `layer_sprite_create`. **Política:** `<undefined>` e sprites que não estão no projeto são pulados com `show_debug_message`, nunca criados com -1. O `map_load` original não faz essa checagem.
+  - A instância de teste `inst_tree_probe` e o objeto `oSpriteProbe` foram removidos; o tronco `sMal_Tree_1` agora vem do nível.
+  - O usuário confirmou: árvore no lugar, `created: 1 undefined: 4 missing: 0`, pixels nítidos. **Marco 3.2 aceito.**
+  - As folhas ainda são desenhadas pelo `oLeavesProbe` provisório; elas pertencem ao objeto de nível `oMal_Tree1`, que entra no 3.3.
 
 ### 1.4 Tentativas, em ordem (parar na primeira que passar no aceite)
 
@@ -131,12 +137,12 @@ Renderer de diagnóstico com `draw_sprite_part_ext(sTiles, 0, (id mod 64)*16, (i
 - [x] T1.5 probe usa as layers da room (`layer_tilemap_get_id`)
 - [x] `option_remove_unused_assets = false` (T2, `"$GMMainOptions":"v5"`)
 - [x] T3: `TILES.yy` conferido e regravado pela IDE (LTS 2026.1), que gerou o `output_tileset.png` 1560×1580
-- [ ] `interpolate_pixels` igual ao original
+- [x] `interpolate_pixels` desligado (decisão do usuário; valor original não lido)
 - [x] Textura existe em runtime: UV `(0,0)→(0.76,0.77)` = 1560×1580 (o dump UTMT 0.9.2 pode não ler o formato 2026; o critério foi o runtime)
-- [ ] `output_tileset.png` comparado pixel a pixel com `TILES_0.png`
+- [x] `output_tileset.png` idêntico pixel a pixel a `TILES_0.png` (`Tools/compare_tileset_output.py`)
 - [x] Usuário viu os tiles das 6 camadas na posição certa (19/11, build da IDE LTS 2026)
-- [ ] Referências `<undefined>` (4 em `rmMal_Origin`) reportadas sem crash (política: pular + log, nunca `layer_sprite_create` com -1)
-- [ ] Sprites `aBACK` reais importados (ex.: `sMal_Tree_1`) e posicionados pelos registros do nível
+- [x] Referências `<undefined>` (4 em `rmMal_Origin`) puladas com log, sem crash
+- [x] Sprite `aBACK` `sMal_Tree_1` posicionado pelo registro do nível (565,287)
 - [x] Hashes de `rmMal_Origin.rmlvl` (`4dcb0788…`) e `rmMal_1.rmlvl` (`07a2b082…`) inalterados (19/11)
 - [ ] Atualizar `PHASE3_EXECUTION_PLAN.md` §5 3.2, `RECOVERY_NOTES.md` e este plano; um commit por mudança lógica
 
@@ -267,6 +273,6 @@ $env:TILEDIAG_OUT="$env:TEMP\claude-tilediag"; $env:TILEDIAG_TAG="<rótulo>"
 - O título da janela aparece como `${project_name}` porque falta `options/windows/options_windows.yy`; copiar do BLANK GAME quando for preciso.
 
 ## 6. Próximo passo imediato
-**Atualizado em 19/11:** os tiles renderizam (§1.3c). Próximo: fechar os pendentes do 3.2 (comparação pixel a pixel, `interpolate_pixels`, `<undefined>`, sprites `aBACK`), pedir o aceite do usuário para o marco 3.2 e então seguir para o 3.2b (trocar o probe pelo `map_load` reconstruído). O texto abaixo é o plano original de 17/11.
+**Atualizado em 19/11:** marco 3.2 aceito (§1.3c). Próximo: **3.2b** (§2), que troca o probe pelo `map_load` reconstruído, com o usuário aprovando o início. O texto abaixo é o plano original de 17/11.
 
 Executar **T1** (§1.4) **sem** mexer na opção, para descobrir qual condição é a decisiva. Rodar o dump UTMT como critério objetivo. Em seguida, desligar `option_remove_unused_assets` (T2) de qualquer forma, por causa dos assets referenciados só pelos `.rmlvl`, e repetir o dump. Só então pedir a confirmação visual. Isso fecha o marco 3.2 e libera o 3.2b.
