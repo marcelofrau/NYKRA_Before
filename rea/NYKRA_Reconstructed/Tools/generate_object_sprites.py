@@ -29,6 +29,8 @@ PROJECT = REA / "GameMakerProject"
 METADATA = REA / "RecoveredAssets" / "Metadata" / "sprites-metadata.json"
 DEFAULT_EXPORT = Path(os.environ.get("TEMP", ".")) / "claude-tilediag" / "sprites"
 SPEED_TYPES = {"FramesPerSecond": 0, "FramesPerGameFrame": 1}
+# the sprite's collision mask: GameMaker's collisionKind 1 is Rectangle, 0 is Precise (sBnd_player)
+COLLISION_KINDS = {"AxisAlignedRect": 1, "Precise": 0}
 
 
 def guid(name, kind, index=0):
@@ -44,7 +46,8 @@ def png_size(path):
 
 def sprite_yy(meta, exported):
     name = meta["Name"]
-    if meta["SepMasks"] != "AxisAlignedRect":
+    collision_kind = COLLISION_KINDS.get(meta["SepMasks"])
+    if collision_kind is None:
         raise ValueError(f"{name}: unsupported SepMasks {meta['SepMasks']}")
     count = meta["FrameCount"]
     if len(exported["frames"]) != count:
@@ -70,7 +73,7 @@ def sprite_yy(meta, exported):
         f'  "bbox_left":{meta["MarginLeft"]},\n'
         f'  "bbox_right":{meta["MarginRight"]},\n'
         f'  "bbox_top":{meta["MarginTop"]},\n'
-        '  "collisionKind":1,\n'
+        f'  "collisionKind":{collision_kind},\n'
         '  "collisionTolerance":0,\n'
         '  "DynamicTexturePage":false,\n'
         '  "edgeFiltering":false,\n'
@@ -166,8 +169,11 @@ def main(argv):
             shutil.copyfile(source, layer_png)
         (out / f"{name}.yy").write_text(sprite_yy(meta, sprite), encoding="utf-8", newline="\n")
         written.append(name)
+    # register every exported sprite whose .yy exists, so a run that stopped half way (and left
+    # written .yy files behind) cannot leave sprites unregistered
+    present = [n for n in exported if (PROJECT / "sprites" / n / f"{n}.yy").exists()]
     update_yyp(PROJECT / "NYKRA_VerticalSlice.yyp",
-               add_resources=[(n, f"sprites/{n}/{n}.yy") for n in written])
+               add_resources=[(n, f"sprites/{n}/{n}.yy") for n in present])
     print(f"wrote {len(written)} sprites: {', '.join(written)}")
 
 

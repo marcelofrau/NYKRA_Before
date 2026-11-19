@@ -13,6 +13,26 @@ map_n = 0;
 mode = 0;
 DIALOGUE_OPEN = 0;
 FADE_COLOUR = c_black;
+// Read by the original oPlayer events (player stage 1), copied from oControl/Create_0.gml.
+anim1 = 0;
+game_dialogue = START_GAME;
+EO_SPAWN = 0;
+GAME_CHAPTER[0,0] = 0;
+GAME_CHAPTER[0,1] = 0;
+GAME_CHAPTER[0,2] = 0;
+GAME_CHAPTER[0,3] = 0;
+GAME_CHAPTER[0,4] = 0;
+GAME_CHAPTER[0,5] = 0;
+GAME_CHAPTER[1,0] = 0;
+GAME_CHAPTER[1,1] = 0;
+GAME_CHAPTER[1,2] = 0;
+GAME_CHAPTER[1,3] = 0;
+GAME_CHAPTER[1,4] = 0;
+GAME_CHAPTER[1,5] = EO_SPAWN;
+GAME_CHAPTER[2,0] = 0;
+GAME_CHAPTER[3,0] = 0;
+GAME_CHAPTER[3,1] = 0;
+GAME_CHAPTER[4,0] = 0;
 
 globalvar CURRENT_PLANET;
 CURRENT_PLANET = 0;

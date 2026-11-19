@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"box_inside_bound",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"box_inside_bound",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

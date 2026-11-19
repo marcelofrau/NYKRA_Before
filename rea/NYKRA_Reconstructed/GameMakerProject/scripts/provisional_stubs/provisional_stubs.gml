@@ -6,35 +6,9 @@
 // Parameters are declared because the compiler rejects extra arguments for a function
 // declared without them (GM1019); the names are placeholders, not recovered names.
 
-/// @description instance_create_one(x, y, depth, object): STUB, creates nothing
-function instance_create_one(_x, _y, _depth, _object) {
-    show_debug_message("STUB instance_create_one(" + string(_x) + ", " + string(_y) + ", "
-        + string(_depth) + ", " + object_get_name(_object) + "): nothing created");
-    return noone;
-}
-
-/// @description obj_setpos(instance, x, y): STUB, does not move anything
-function obj_setpos(_instance, _x, _y) {
-    show_debug_message("STUB obj_setpos: instance not moved");
-}
-
-/// @description real_string(text): STUB, returns the text unchanged
-function real_string(_text) {
-    show_debug_message("STUB real_string: text returned unchanged");
-    return _text;
-}
-
 /// @description inv_add_obj(item, count, instance): STUB, adds no item
 function inv_add_obj(_item, _count, _instance) {
     show_debug_message("STUB inv_add_obj: item not added");
-}
-
-/// @description reach(value, goal, amount): STUB, returns the value unchanged. Only the oCamera
-/// branch that follows Eo's UI uses it, which does not run yet. Its decompilation (gml_Script_reach
-/// @ 0x14003b450) still needs reading.
-function reach(_value, _goal, _amount) {
-    show_debug_message("STUB reach: value returned unchanged");
-    return _value;
 }
 
 /// @description hurt_player(damage, source_x, source_y, flag): STUB, the player takes no damage.

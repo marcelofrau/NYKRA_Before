@@ -69,12 +69,8 @@ class ProvisionalControllerTests(unittest.TestCase):
         stubs = read(PROJECT / "scripts" / "provisional_stubs" / "provisional_stubs.gml")
         functions = re.findall(r"^function (\w+)\([^)]*\)", stubs, re.M)
         # Every stub declares its parameters (GM1019 rejects extra arguments otherwise).
-        self.assertIn("function obj_setpos(_instance, _x, _y)", stubs)
         self.assertIn("function inv_add_obj(_item, _count, _instance)", stubs)
-        self.assertEqual(
-            sorted(functions),
-            ["hurt_player", "instance_create_one", "inv_add_obj", "load_game", "obj_setpos", "reach", "real_string", "save_game"],
-        )
+        self.assertEqual(sorted(functions), ["hurt_player", "inv_add_obj", "load_game", "save_game"])
         self.assertEqual(stubs.count('show_debug_message("STUB '), len(functions))
         # No project code other than the stubs may define these names or write PROFILES.
         for path in PROJECT.glob("**/*.gml"):

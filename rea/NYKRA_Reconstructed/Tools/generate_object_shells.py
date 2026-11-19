@@ -30,6 +30,8 @@ HAND_WRITTEN = {
     "oControl", "oCamera", "oMal_Tree1", "parLeaves",
     "oMal_bg_leaves_bg", "oMal_bg_leaves_bg_fg", "oMal_bg_leaves_fg",
     "parGrass", "oGrass", "oGrass3",
+    "parEntity",  # player stage 1: Create, Destroy, Step_1, Step_2 (provisional), Draw_77
+    "oPlayer",  # player stage 1: the 21 original events (Tools/generate_player_object.py)
 }
 # Objects named by map_load, clear_objects and _SET_SCENE that are evaluated on the path
 # even when the level does not contain them (a missing asset is a runtime error).
@@ -39,6 +41,10 @@ EXTRA = [
     "oSun_Mal", "oSun_Mex", "oSun_Irn", "oSun_Sep", "oSun_Quo", "oSun_Iie",
     "oTemp_Back_Leaves",  # created by parLeaves Create_0; its only event (PreCreate) is empty
     "oCamera_high", "oCamera_Point_Weak",  # named by the oCamera Step_2 follow branch
+    # named by the original oPlayer events (player stage 1)
+    "oAenox_Cell", "oAenox_Cell_Off", "oBolt_Colour", "oBolt_iiem", "oDlg_Aenox_1", "oDlg_Pod7",
+    "oFx_OBSERVER", "oHeavybox_s", "oPod7_KS", "parAENOX", "parBreakable", "parDust", "parMob",
+    "parGnarcier",
 ]
 FOLDER = ("Shells", "folders/Objects/Shells.yy")
 

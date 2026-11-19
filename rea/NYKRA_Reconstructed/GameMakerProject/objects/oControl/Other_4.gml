@@ -40,3 +40,19 @@ while (!is_undefined(_key)) {
 }
 ds_map_destroy(_counts);
 for (var _l = 0; _l < array_length(level_report); _l++) show_debug_message("oControl: " + level_report[_l]);
+
+// PROVISIONAL (plan P21): nothing in the recovered code creates the player in a new game, and oOrigin
+// (the wake-up cutscene) is not reconstructed, so the player starts where the original respawn puts him
+// (oPlayer/Other_11.gml: oOrigin.x, oOrigin.y-32). mode = 3 is what the original sets for a new game;
+// oCamera releases the player's control in any other mode and follows him in mode 3.
+var _origin = instance_find(oOrigin, 0);
+if (_origin != noone && instance_number(oPlayer) < 1) {
+    instance_create_depth(_origin.x, _origin.y - 32, 0, oPlayer);
+    mode = 3;
+    oCamera.x = oPlayer.x;
+    oCamera.y = oPlayer.y;
+    oCamera.xx = oPlayer.x;
+    oCamera.yy = oPlayer.y;
+    camera_set_view_pos(cam, oPlayer.x - camera_get_view_width(cam) / 2, oPlayer.y - camera_get_view_height(cam) / 2);
+    show_debug_message("oControl: PROVISIONAL player created at the oOrigin position (P21)");
+}

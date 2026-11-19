@@ -42,5 +42,65 @@ class TileCollisionTests(unittest.TestCase):
         self.assertIn("x = mean(x1, x2);", code("bb_setmiddle"))
 
 
+def load_yy(path):
+    import json
+    return json.loads(re.sub(r",(\s*[}\]])", r"\1", path.read_text(encoding="utf-8")))
+
+
+class PlayerObjectTests(unittest.TestCase):
+    def test_every_original_event_is_copied_verbatim_and_listed(self):
+        original = REA.parents[1] / "oPlayer"
+        yy = load_yy(PROJECT / "objects" / "oPlayer" / "oPlayer.yy")
+        files = sorted(original.glob("*.gml"))
+        self.assertEqual(len(yy["eventList"]), len(files))
+        self.assertEqual(len(files), 21)
+        for f in files:
+            ours = (PROJECT / "objects" / "oPlayer" / f.name).read_text(encoding="utf-8")
+            self.assertTrue(ours.endswith(f.read_text(encoding="utf-8")), f.name)
+        self.assertEqual((yy["parentObjectId"]["name"], yy["persistent"]), ("parEntity", True))
+        self.assertEqual(yy["spriteMaskId"]["name"], "sBnd_player")
+        collisions = [e["collisionObjectId"]["name"] for e in yy["eventList"] if e["eventType"] == 4]
+        self.assertEqual(collisions, ["parGnarcier"])
+
+    def test_parEntity_events_match_the_decompilation(self):
+        create = code_of("objects/parEntity/Create_0.gml")
+        for fragment in ("thsp = 9999;", "hit_top = -4;", "mass = 10;", "jt_col = 1;", "bw = sprite_width;"):
+            self.assertIn(fragment, create)
+        step = code_of("objects/parEntity/Step_1.gml")
+        for fragment in ("vsp += GRV_SPD * grav;", "oControl.mh * 16 - 1", "oControl.mw * 16 - 1"):
+            self.assertIn(fragment, step)
+        yy = load_yy(PROJECT / "objects" / "parEntity" / "parEntity.yy")
+        self.assertEqual(sorted((e["eventType"], e["eventNum"]) for e in yy["eventList"]),
+                         [(0, 0), (1, 0), (3, 1), (3, 2), (8, 77)])
+
+    def test_every_sound_the_player_names_has_a_placeholder_and_every_stub_a_parameter_list(self):
+        sounds = code("provisional_sounds")
+        for p in (REA.parents[1] / "oPlayer").glob("*.gml"):
+            text = re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", p.read_text(encoding="utf-8"), flags=re.S))
+            for name in re.findall(r"\bsnd[A-Z]\w+", text):
+                self.assertIn(f"globalvar {name};", sounds, f"{p.name}: {name}")
+        stubs = code("provisional_player_stubs")
+        self.assertIn("function create_fx(_a0, _a1,", stubs)
+        self.assertEqual(stubs.count("stub_log(\""), len(re.findall(r"^function (?!stub_log)\w+", stubs, re.M)))
+
+    def test_player_sprites_are_registered(self):
+        yyp = (PROJECT / "NYKRA_VerticalSlice.yyp").read_text(encoding="utf-8")
+        for name in ("sBnd_player", "sPlayer_idle", "sPlayer_run", "sPlayer_jump", "sPlayer_walk", "sFx_3"):
+            self.assertIn(f'"name":"{name}"', yyp, name)
+            self.assertTrue((PROJECT / "sprites" / name / f"{name}.yy").exists(), name)
+        yy = load_yy(PROJECT / "sprites" / "sBnd_player" / "sBnd_player.yy")
+        self.assertEqual((yy["width"], yy["height"], yy["collisionKind"]), (8, 24, 0))
+
+    def test_boot_creates_the_player_at_the_origin_and_enters_play_mode(self):
+        boot = code_of("objects/oControl/Other_4.gml")
+        self.assertIn("instance_find(oOrigin, 0)", boot)
+        self.assertIn("instance_create_depth(_origin.x, _origin.y - 32, 0, oPlayer)", boot)
+        self.assertIn("mode = 3;", boot)
+
+
+def code_of(relative):
+    return re.sub(r"//[^\n]*", "", (PROJECT / relative).read_text(encoding="utf-8"))
+
+
 if __name__ == "__main__":
     unittest.main()
