@@ -1,0 +1,30 @@
+// lifted from gml_Object_oFade_in_Draw_73.c
+// ?? void gml_Object_oFade_in_Draw_73(longlong *param_1,undefined8 param_2)
+{
+    // ?? puStack_1c8 = &UNK_1419893d2;
+    // ?? puRam0000000142182d78 = &uStack_1d0;
+    // ?? plRam0000000142182d90 = param_1;
+    // ?? uVar3 = (**(code **)(*param_1 + 8))(param_1,0x18828);
+    // ?? uVar4 = (**(code **)(*param_1 + 8))(param_1,0x18707);
+    uStack_a8 = uVar4;
+    // ?? puStack_1f8 = &uStack_a8;
+    // ?? FUN_140002730(&uStack_98,0x1420ba518);
+    // ?? puStack_1f0 = &uStack_98;
+    uStack_88 = uVar3;
+    // ?? puStack_1e8 = &uStack_88;
+    // ?? uVar3 = FUN_1416cda40(&uStack_48,2,&puStack_1f8);
+    uStack_78 = uVar3;
+    // ?? puStack_1e0 = &uStack_78;
+    // ?? FUN_14003ee60(param_1,param_2,&uStack_68,2,&puStack_1e8);
+    // ?? uVar3 = (**(code **)(*param_1 + 8))(param_1,0x1890a);
+    // ?? cVar1 = FUN_1416927d0(uVar3);
+    if (cVar1 != '\0') {
+        // ?? uVar4 = (**(code **)(*param_1 + 0x10))(param_1,0x18707);
+        uVar4 *= uStack_58;
+    }
+    if (uVar4 <= uStack_58) {
+        // ?? (**(code **)(*param_1 + 0x10))(param_1,0x18707);
+        // ?? FUN_1416f8210(param_1,param_2,0,0);
+    }
+    // ?? puRam0000000142182d78 = (undefined8 *)uStack_1d0;
+}
