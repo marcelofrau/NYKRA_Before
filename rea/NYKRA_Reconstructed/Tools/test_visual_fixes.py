@@ -102,6 +102,56 @@ class VisualFixTests(unittest.TestCase):
         for name in ("LIGHTING", "oGlow_Beam_L", "oGlow_Beam_S", "oGlw_yellow_m"):
             self.assertTrue((PROJECT / "objects" / name / f"{name}.yy").exists(), name)
 
+    def test_lighting_events_are_registered(self):
+        yy = load_yy(PROJECT / "objects/LIGHTING/LIGHTING.yy")
+        events = [(e["eventType"], e["eventNum"]) for e in yy["eventList"]]
+        for event in ((0, 0), (1, 0), (2, 0), (8, 73)):
+            self.assertIn(event, events)
+        create = code("objects/LIGHTING/Create_0.gml")
+        self.assertIn("surface_create(camera_get_view_width(cam) + 6, camera_get_view_height(cam) + 6)", create)
+        self.assertIn("depth = 100;", create)
+        self.assertIn("alarm[0] = 2;", create)
+        self.assertIn("COLOUR = c_ink;", create)
+        self.assertIn("g = 1;", code("objects/LIGHTING/Alarm_0.gml"))
+        self.assertIn("surface_free(surf);", code("objects/LIGHTING/Destroy_0.gml"))
+        draw = code("objects/LIGHTING/Draw_73.gml")
+        for fragment in (
+            "if (!g) {",
+            "draw_rectangle_view(COLOUR, 1);",
+            "if (oControl.mode != 3) exit;",
+            "surface_exists(surf)",
+            "surface_set_target(surf);",
+            "draw_clear(COLOUR);",
+            "gpu_set_blendmode(bm_add);",
+            "with (all)",
+            "object_is_ancestor(object_index, parGlow_Beam)",
+            "draw_ellipse_color(_sx - 24, _sy - 24, _sx + 24, _sy + 24, c_white, c_black, false);",
+            "draw_primitive_begin(pr_trianglefan);",
+            "draw_vertex_colour(_sx, _sy, c_white, 1);",
+            "draw_vertex_colour(fx2 - _vx, fy2 - _vy, c_black, 1);",
+            "gpu_set_blendmode_ext(bm_dest_colour, bm_zero);",
+            "draw_surface(surf, _vx, _vy);",
+            "gpu_set_blendmode(bm_normal);",
+        ):
+            self.assertIn(fragment, draw)
+
+    def test_glow_beam_parent_casts_three_rays(self):
+        yy = load_yy(PROJECT / "objects/parGlow_Beam/parGlow_Beam.yy")
+        self.assertIn((0, 0), [(e["eventType"], e["eventNum"]) for e in yy["eventList"]])
+        beam = code("objects/parGlow_Beam/Create_0.gml")
+        for fragment in (
+            "if (object_index == oGlow_Beam_L)",
+            "_off = 13.5;",
+            "_off = 8.5;",
+            "sx1 = xstart - _off;",
+            "sxm = xstart;",
+            "sx2 = xstart + _off;",
+            "check_block(floor(fx1 / 16), floor(fy1 / 16)) == 1",
+            "check_block(floor(fxm / 16), floor(fym / 16)) == 1",
+            "check_block(floor(fx2 / 16), floor(fy2 / 16)) == 1",
+        ):
+            self.assertIn(fragment, beam)
+
     def test_door_arrival_snaps_camera(self):
         step = code("objects/oPlayer/Step_1.gml")
         arrival = step.split("if door_n!=-1 {", 1)[1].split("door_n = -1;", 1)[0]

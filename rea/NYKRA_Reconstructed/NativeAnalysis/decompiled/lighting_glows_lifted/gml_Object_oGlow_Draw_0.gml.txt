@@ -1,0 +1,12 @@
+// lifted from gml_Object_oGlow_Draw_0.c
+// ?? void gml_Object_oGlow_Draw_0(undefined8 param_1)
+{
+    // ?? puStack_158 = &UNK_141988ba1;
+    // ?? puRam0000000142182d78 = &uStack_160;
+    // ?? uRam0000000142182d90 = param_1;
+    // ?? FUN_1416d0010(0x4f,0x18ad9/*var:mode*/,0x80000000,&uStack_178,0,0);
+    if (uStack_178 != uStack_188) {
+        // ?? FUN_1416b8390(param_1);
+    }
+    // ?? puRam0000000142182d78 = (undefined8 *)uStack_160;
+}

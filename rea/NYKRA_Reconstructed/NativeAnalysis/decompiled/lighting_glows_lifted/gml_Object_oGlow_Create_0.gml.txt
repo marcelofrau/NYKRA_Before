@@ -1,0 +1,14 @@
+// lifted from gml_Object_oGlow_Create_0.c
+// ?? void gml_Object_oGlow_Create_0(longlong *param_1)
+{
+    // ?? puStack_48 = &UNK_141988b87;
+    // ?? puRam0000000142182d78 = &uStack_50;
+    // ?? plRam0000000142182d90 = param_1;
+    c = 0x416fffffe0000000/*1.67772e+07*/;
+    r = 0x4030000000000000/*16 (obj:oDlg_BM_Julaak)*/;
+    spot = 0;
+    xf = 0;
+    yf = 0;
+    // ?? FUN_1416cfae0(param_1,uRam00000001420d5b28,0x80000000,&uStack_38);
+    // ?? puRam0000000142182d78 = (undefined8 *)uStack_50;
+}

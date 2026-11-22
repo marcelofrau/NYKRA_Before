@@ -1,0 +1,144 @@
+// lifted from gml_Object_oGlow_Beam_S_Create_0.c
+// ?? void gml_Object_oGlow_Beam_S_Create_0(longlong *param_1,undefined8 param_2)
+{
+    // ?? puStack_b0 = &UNK_14198905a;
+    // ?? puRam0000000142182d78 = &uStack_b8;
+    // ?? plRam0000000142182d90 = param_1;
+    // ?? FUN_1416cea80(param_1,uRam00000001420d59f8,0x80000000,&uStack_c8,in_stack_fffffffffffffdb8,
+    // ?? FUN_140003ba0(&uStack_70,&uStack_c8,_UNK_141986948);
+    sx1 = uStack_70;
+    // ?? func_0x0001416a8c00(1);
+    // ?? ppuVar10 = (undefined8 **)(in_stack_fffffffffffffdc0 & 0xffffffffffffff00);
+    // ?? ppuVar8 = (undefined8 **)(in_stack_fffffffffffffdb8 & 0xffffffffffffff00);
+    // ?? FUN_1416cea80(param_1,uRam00000001420d5a08,0x80000000,&uStack_118,ppuVar8,ppuVar10);
+    sy1 = uStack_118;
+    // ?? func_0x0001416a8c00(1);
+    uStack_70 = sx1;
+    uStack_70 += 1;
+    fx1 = uStack_70;
+    // ?? func_0x0001416a8c00(1);
+    uStack_70 = sy1;
+    uStack_70 += 1;
+    fy1 = uStack_70;
+    // ?? func_0x0001416a8c00(1);
+    // ?? fy1 = _UNK_141982ef8;
+    for (iVar7 = 0x80; 0 < iVar7; iVar7 = iVar7 + -1) {
+        // ?? (**(code **)(*param_1 + 0x10))(param_1,0x18d4f/*var:sx1*/);
+        // ?? (**(code **)(*param_1 + 0x10))(param_1,0x18d52/*var:sy1*/);
+        // ?? FUN_140004520(&uStack_70,fx1,fy1);
+        uStack_108 = uStack_70;
+        // ?? puStack_138 = &uStack_108;
+        // ?? FUN_140004520(&uStack_70,fy1,fy1);
+        uStack_f8 = uStack_70;
+        // ?? puStack_130 = &uStack_f8;
+        // ?? fy1 = CONCAT44(uVar11,uRam00000001420da4b0);
+        // ?? fx1 = FUN_1416ab210(param_1,param_2,&uStack_90,1,fy1,&puStack_138);
+        uStack_e8 = fx1;
+        // ?? puStack_128 = &uStack_e8;
+        // ?? ppuVar10 = &puStack_130;
+        // ?? fx1 = FUN_1416ab210(param_1,param_2,&uStack_80,1,CONCAT44(uVar11,uRam00000001420da4b0),
+        // ?? ppuVar10);
+        uStack_d8 = fx1;
+        // ?? puStack_120 = &uStack_d8;
+        // ?? ppuVar8 = &puStack_128;
+        // ?? fx1 = FUN_14012cc90(param_1,param_2,&uStack_a0,2,ppuVar8);
+        if (iVar1 == 0) break;
+        fx1 += 1;
+        fy1 += 1;
+    }
+    // ?? uVar12 = (ulonglong)ppuVar10 & 0xffffffffffffff00;
+    // ?? uVar9 = (ulonglong)ppuVar8 & 0xffffffffffffff00;
+    // ?? FUN_1416cea80(param_1,uRam00000001420d59f8,0x80000000,&uStack_c8,uVar9,uVar12);
+    sxm = uStack_c8;
+    // ?? func_0x0001416a8c00(1);
+    // ?? ppuVar10 = (undefined8 **)(uVar12 & 0xffffffffffffff00);
+    // ?? ppuVar8 = (undefined8 **)(uVar9 & 0xffffffffffffff00);
+    // ?? FUN_1416cea80(param_1,uRam00000001420d5a08,0x80000000,&uStack_118,ppuVar8,ppuVar10);
+    sym = uStack_118;
+    // ?? func_0x0001416a8c00(1);
+    uStack_70 = sxm;
+    uStack_70 += 1;
+    fxm = uStack_70;
+    // ?? func_0x0001416a8c00(1);
+    uStack_70 = sym;
+    uStack_70 += 1;
+    fym = uStack_70;
+    // ?? func_0x0001416a8c00(1);
+    // ?? fym = _UNK_141982ef8;
+    for (iVar7 = 0x80; 0 < iVar7; iVar7 = iVar7 + -1) {
+        // ?? (**(code **)(*param_1 + 0x10))(param_1,0x18d51/*var:sxm*/);
+        // ?? (**(code **)(*param_1 + 0x10))(param_1,0x18d54/*var:sym*/);
+        // ?? FUN_140004520(&uStack_70,fxm,fym);
+        uStack_108 = uStack_70;
+        // ?? puStack_138 = &uStack_108;
+        // ?? FUN_140004520(&uStack_70,fym,fym);
+        uStack_f8 = uStack_70;
+        // ?? puStack_130 = &uStack_f8;
+        // ?? fym = CONCAT44(uVar11,uRam00000001420da4b0);
+        // ?? fxm = FUN_1416ab210(param_1,param_2,&uStack_90,1,fym,&puStack_138);
+        uStack_e8 = fxm;
+        // ?? puStack_128 = &uStack_e8;
+        // ?? ppuVar10 = &puStack_130;
+        // ?? fxm = FUN_1416ab210(param_1,param_2,&uStack_80,1,CONCAT44(uVar11,uRam00000001420da4b0),
+        // ?? ppuVar10);
+        uStack_d8 = fxm;
+        // ?? puStack_120 = &uStack_d8;
+        // ?? ppuVar8 = &puStack_128;
+        // ?? fxm = FUN_14012cc90(param_1,param_2,&uStack_a0,2,ppuVar8);
+        if (iVar1 == 0) break;
+        fxm += 1;
+        fym += 1;
+    }
+    // ?? uVar12 = (ulonglong)ppuVar10 & 0xffffffffffffff00;
+    // ?? uVar9 = (ulonglong)ppuVar8 & 0xffffffffffffff00;
+    // ?? FUN_1416cea80(param_1,uRam00000001420d59f8,0x80000000,&uStack_c8,uVar9,uVar12);
+    uStack_70 = uStack_c8;
+    uStack_70 += _UNK_141986948;
+    sx2 = uStack_70;
+    // ?? func_0x0001416a8c00(1);
+    // ?? ppuVar10 = (undefined8 **)(uVar9 & 0xffffffffffffff00);
+    // ?? FUN_1416cea80(param_1,uRam00000001420d5a08,0x80000000,&uStack_118,ppuVar10,
+    // ?? uVar12 & 0xffffffffffffff00);
+    sy2 = uStack_118;
+    // ?? func_0x0001416a8c00(1);
+    uStack_70 = sx2;
+    uStack_70 += 1;
+    fx2 = uStack_70;
+    // ?? func_0x0001416a8c00(1);
+    uStack_70 = sy2;
+    uStack_70 += 1;
+    fy2 = uStack_70;
+    // ?? func_0x0001416a8c00(1);
+    // ?? fy2 = _UNK_141982ef8;
+    // ?? iVar7 = 0x80;
+    do {
+        if (iVar7 < 1) {
+            // ?? code_r0x00014086e41b:
+            // ?? puRam0000000142182d78 = (undefined8 *)uStack_b8;
+        }
+        // ?? (**(code **)(*param_1 + 0x10))(param_1,0x18d50/*var:sx2*/);
+        // ?? (**(code **)(*param_1 + 0x10))(param_1,0x18d53/*var:sy2*/);
+        // ?? FUN_140004520(&uStack_70,fx2,fy2);
+        uStack_108 = uStack_70;
+        // ?? puStack_138 = &uStack_108;
+        // ?? FUN_140004520(&uStack_70,fy2,fy2);
+        uStack_f8 = uStack_70;
+        // ?? puStack_130 = &uStack_f8;
+        // ?? fy2 = CONCAT44(uVar11,uRam00000001420da4b0);
+        // ?? fx2 = FUN_1416ab210(param_1,param_2,&uStack_90,1,fy2,&puStack_138);
+        uStack_e8 = fx2;
+        // ?? puStack_128 = &uStack_e8;
+        // ?? fx2 = FUN_1416ab210(param_1,param_2,&uStack_80,1,CONCAT44(uVar11,uRam00000001420da4b0),
+        // ?? &puStack_130);
+        uStack_d8 = fx2;
+        // ?? puStack_120 = &uStack_d8;
+        // ?? ppuVar10 = &puStack_128;
+        // ?? fx2 = FUN_14012cc90(param_1,param_2,&uStack_a0,2,ppuVar10);
+        if (fx2 == uStack_70) {
+            goto code_r0x00014086e41b;
+        }
+        fx2 += 1;
+        // ?? iVar7 = iVar7 + -1;
+        fy2 += 1;
+        // ?? } while( true );
+    }

@@ -1,0 +1,34 @@
+// lifted from gml_Object_LIGHTING_Create_0.c
+// ?? void gml_Object_LIGHTING_Create_0(longlong *param_1,undefined8 param_2)
+{
+    // ?? puStack_c8 = &UNK_141988992;
+    // ?? puRam0000000142182d78 = &uStack_d0;
+    // ?? plRam0000000142182d90 = param_1;
+    // ?? uStack_70._4_4_ = 0xffffff;
+    uStack_f8 = cam;
+    // ?? puStack_108 = &uStack_f8;
+    // ?? uVar3 = FUN_1416ab210(param_1,param_2,&uStack_68,1,uRam00000001420da3b0,&puStack_108);
+    uStack_b8 = uVar3;
+    uStack_e8 = cam;
+    // ?? puStack_100 = &uStack_e8;
+    // ?? cam = FUN_1416ab210(param_1,param_2,&uStack_78,1,uRam00000001420da3c0,&puStack_100);
+    uStack_a8 = cam;
+    uStack_58 = uStack_b8;
+    uStack_58 += 6;
+    uStack_f8 = uStack_58;
+    // ?? puStack_108 = &uStack_f8;
+    uStack_58 = uStack_a8;
+    uStack_58 += 6;
+    uStack_e8 = uStack_58;
+    // ?? puStack_100 = &uStack_e8;
+    // ?? uVar3 = FUN_1416ab210(param_1,param_2,&uStack_68,2,uRam00000001420d9ef0,&puStack_108);
+    surf = uVar3;
+    // ?? func_0x0001416a8c00(1);
+    // ?? FUN_1416cfae0(param_1,uRam00000001420d5a18,0x80000000,&uStack_98);
+    g = 0;
+    // ?? plRam0000000142182d90 = (longlong *)0x109fa;
+    // ?? FUN_1416cfae0(param_1,uRam00000001420d5a48,0,&uStack_88);
+    COLOUR = c_ink;
+    // ?? func_0x0001416a8c00(1);
+    // ?? puRam0000000142182d78 = (undefined8 *)uStack_d0;
+}

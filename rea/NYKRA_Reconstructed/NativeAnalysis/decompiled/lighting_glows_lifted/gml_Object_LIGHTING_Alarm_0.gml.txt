@@ -1,0 +1,9 @@
+// lifted from gml_Object_LIGHTING_Alarm_0.c
+// ?? void gml_Object_LIGHTING_Alarm_0(longlong *param_1)
+{
+    // ?? puStack_160 = &UNK_1419889cd;
+    // ?? puRam0000000142182d78 = &uStack_168;
+    // ?? plRam0000000142182d90 = param_1;
+    g = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+    // ?? puRam0000000142182d78 = (undefined8 *)uStack_168;
+}

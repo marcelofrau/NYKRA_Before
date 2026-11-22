@@ -1,0 +1,11 @@
+// lifted from gml_Object_LIGHTING_Destroy_0.c
+// ?? void gml_Object_LIGHTING_Destroy_0(longlong *param_1,undefined8 param_2)
+{
+    // ?? puStack_178 = &UNK_1419889af;
+    // ?? puRam0000000142182d78 = &uStack_180;
+    // ?? plRam0000000142182d90 = param_1;
+    uStack_48 = surf;
+    // ?? puStack_188 = &uStack_48;
+    // ?? FUN_1416ab210(param_1,param_2,&uStack_38,1,uRam00000001420da7f0,&puStack_188);
+    // ?? puRam0000000142182d78 = (undefined8 *)uStack_180;
+}

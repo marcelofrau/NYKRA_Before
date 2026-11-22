@@ -128,7 +128,7 @@ Feito nesta sessão, mediante o pedido do usuário:
 - Corrigir `oMal_Door_Flat/Draw_0.gml`: a metade superior agora avança o topo da fonte (`hrnd(anim * 18)`) e mantém a altura cheia.
 - Adicionar `oControl/Draw_72.gml`: gradiente azul→aqua em Draw Begin, agora com o parallax completo de `sMal_bg1..4`.
 - Recriar eventos de `oFade_in` (`Create_0`, `Alarm_0`, `Draw_73`) para cobrir a tela durante `map_load`.
-- Rodar a suíte Python: 66 testes OK, 1 erro de import preexistente em `test_save_v1_format.py`; `Tools/test_visual_fixes.py` passa com 9 testes.
+- Rodar a suíte Python: 68 testes OK, 1 erro de import preexistente em `test_save_v1_format.py`; `Tools/test_visual_fixes.py` passa com 11 testes.
 - Corrigido fade-in: GML LTS faz divisão inteira em `1/30`, então `fade_alpha` nunca caía. Agora rampa temporal em `Draw_73`, de 1 a 0 em 500 ms.
 - Decompilados os eventos originais de `oFade_in` e as funções de draw de `oControl` (`NativeAnalysis/decompiled/fade_in*`, `ocontrol_draw*`).
 - Provado que `oFade_in` original é usado em `rmMM`, não na transição de portas. A transição pertence a `parDoor_Flat` (`fade`, `fade_in`).
@@ -139,13 +139,14 @@ Feito nesta sessão, mediante o pedido do usuário:
 - Parallax de Maldis portado: `sMal_bg1..4` importados com canvas, origem e PNG de layer (`layers/<frame>/<layer>.png`); `draw_bg_tiled_h` e `draw_bg_tiled_hwave` reconstruídos do YYC com assinatura `function`, registrados no `.yyp`.
 - Costura das montanhas: `draw_bg_tiled_h` corrigido para o algoritmo do YYC (`_x mod tile_w`, laço `-2..view_x/tile_w + view_width/tile_w + 1`). F5 confirmou costuras perfeitas, mas restou uma montanha cortada que sumia ao caminhar.
 - Residuo da montanha cortada: `draw_bg_tiled_hwave` também reconstruído com 4 vértices por tile e UVs `0/1`, conforme o YYC. Versão anterior usava 2 vértices e `u` fracionário, produzindo textura distorcida que mudava com a fase do parallax. F5 confirmado pelo usuário em 22/11: artefato sumiu; nuvens visíveis na camada seguinte.
+- `LIGHTING` ganhou `Create_0`, `Alarm_0`, `Destroy_0` e `Draw_73`; `parGlow_Beam/Create_0` calcula os três raios com os offsets originais (L 13.5, S 8.5, par 2) e parada em `check_block(...) == 1`. Primeiro F5: luz visível, mas sem interação com o cenário; a versão inicial escurecia a tela e somava branco por cima. Assembly completo mostrou duas surfaces, `draw_ellipse_color`, centenas de `draw_circle_colour` e composição final com `gpu_set_blendmode_ext` + `draw_surface`. `Draw_73` foi reescrito como máscara multiplicativa (`draw_clear(COLOUR)` + elipses/cones brancos em `bm_add`, depois `gpu_set_blendmode_ext(bm_dest_colour, bm_zero)`), preservando cor e detalhe do ambiente dentro da luz. Decompilação integral estourou 600 s no Ghidra; estrutura lida do assembly em `NativeAnalysis/decompiled/lighting_draw/lighting_draw.asm`. F5 validado pelo usuário em 22/11: luz projetada nos objetos e refletida no ambiente; pedra com bilhete sutilmente visível no quarto escuro.
 
 Pendente para o agente, mediante autorização:
 
 - Rodar Igor/build por linha de comando.
 - Rodar UTMT CLI sobre `data.win`.
 
-Próximo passo sugerido: rodar F5 de novo e conferir céu, porta e transição; só então avançar para build por linha de comando.
+Próximo passo: fios e propagação de sinal (P34), conforme a ordem do plano.
 
 ---
 
