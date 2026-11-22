@@ -25,8 +25,42 @@ class VisualFixTests(unittest.TestCase):
             self.assertIn(fragment, draw)
         for fragment in ("if (_camera < 0) _camera = view_camera[0];", "view_camera[0]"):
             self.assertIn(fragment, draw)
-        for missing in ("sMal_bg1", "sMal_bg2", "sMal_bg3", "sMal_bg4", "sPraedim_Mal"):
-            self.assertNotIn(missing, draw)
+        for name in ("sMal_bg1", "sMal_bg2", "sMal_bg3", "sMal_bg4"):
+            self.assertIn(name, draw)
+        self.assertIn("draw_bg_tiled_hwave(sMal_bg2,", draw)
+        self.assertIn("draw_bg_tiled_h(sMal_bg3,", draw)
+        self.assertIn("draw_bg_tiled_h(sMal_bg4,", draw)
+        self.assertNotIn("sPraedim_Mal", draw)
+
+    def test_maldis_sky_assets_and_scripts_are_registered(self):
+        yyp = (PROJECT / "NYKRA_VerticalSlice.yyp").read_text(encoding="utf-8")
+        for name in ("sMal_bg1", "sMal_bg2", "sMal_bg3", "sMal_bg4"):
+            self.assertIn(f'"name":"{name}","path":"sprites/{name}/{name}.yy"', yyp)
+            sprite_yy = load_yy(PROJECT / "sprites" / name / f"{name}.yy")
+            frame = sprite_yy["frames"][0]["name"]
+            layer = sprite_yy["layers"][0]["name"]
+            layer_png = PROJECT / "sprites" / name / "layers" / frame / f"{layer}.png"
+            self.assertTrue(layer_png.exists(), str(layer_png))
+        for name in ("draw_bg_tiled_h", "draw_bg_tiled_hwave"):
+            self.assertIn(f'"name":"{name}","path":"scripts/{name}/{name}.yy"', yyp)
+            self.assertTrue((PROJECT / "scripts" / name / f"{name}.gml").exists(), name)
+        wave = code("scripts/draw_bg_tiled_hwave/draw_bg_tiled_hwave.gml")
+        self.assertIn("function draw_bg_tiled_hwave(_sprite, _x, _y, _xscale, _yscale, _colour, _alpha, _wave_length, _wave_speed)", wave)
+        self.assertIn("draw_primitive_begin_texture(pr_trianglestrip, sprite_get_texture(_sprite, 0))", wave)
+        self.assertIn("var _offset = _x mod _tile_w;", wave)
+        self.assertIn("for (var _i = -2; _i <= _end; _i++)", wave)
+        self.assertIn("lengthdir_x(_wave_length, _dir)", wave)
+        self.assertIn("lengthdir_y(_wave_length * 1.25, _dir)", wave)
+        self.assertIn("draw_vertex_texture_colour(_px, _py, 0, 0, _colour, _alpha);", wave)
+        self.assertIn("draw_vertex_texture_colour(_px, _py + _tile_h, 0, 1, _colour, _alpha);", wave)
+        self.assertIn("draw_vertex_texture_colour(_px + _tile_w, _py, 1, 0, _colour, _alpha);", wave)
+        self.assertIn("draw_vertex_texture_colour(_px + _tile_w, _py + _tile_h, 1, 1, _colour, _alpha);", wave)
+        htiled = code("scripts/draw_bg_tiled_h/draw_bg_tiled_h.gml")
+        self.assertIn("function draw_bg_tiled_h(_sprite, _x, _y, _xscale, _yscale, _colour, _alpha)", htiled)
+        self.assertIn("var _offset = _x mod _tile_w;", htiled)
+        self.assertIn("for (var _i = -2; _i <= _end; _i++)", htiled)
+        self.assertIn("camera_get_view_width(_camera) / _tile_w", htiled)
+        self.assertIn("(_i * _tile_w) + _offset", htiled)
 
     def test_door_top_panel_advances_source_top(self):
         draw = code("objects/oMal_Door_Flat/Draw_0.gml")

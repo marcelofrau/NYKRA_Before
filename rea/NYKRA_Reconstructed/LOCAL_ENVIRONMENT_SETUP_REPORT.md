@@ -126,16 +126,19 @@ Feito pelo usuário:
 Feito nesta sessão, mediante o pedido do usuário:
 
 - Corrigir `oMal_Door_Flat/Draw_0.gml`: a metade superior agora avança o topo da fonte (`hrnd(anim * 18)`) e mantém a altura cheia.
-- Adicionar `oControl/Draw_72.gml`: gradiente azul→aqua em Draw Begin, sem depender de `sMal_bg1..4`.
+- Adicionar `oControl/Draw_72.gml`: gradiente azul→aqua em Draw Begin, agora com o parallax completo de `sMal_bg1..4`.
 - Recriar eventos de `oFade_in` (`Create_0`, `Alarm_0`, `Draw_73`) para cobrir a tela durante `map_load`.
-- Rodar a suíte Python: 66 testes OK, incluindo `Tools/test_visual_fixes.py`.
+- Rodar a suíte Python: 66 testes OK, 1 erro de import preexistente em `test_save_v1_format.py`; `Tools/test_visual_fixes.py` passa com 9 testes.
 - Corrigido fade-in: GML LTS faz divisão inteira em `1/30`, então `fade_alpha` nunca caía. Agora rampa temporal em `Draw_73`, de 1 a 0 em 500 ms.
 - Decompilados os eventos originais de `oFade_in` e as funções de draw de `oControl` (`NativeAnalysis/decompiled/fade_in*`, `ocontrol_draw*`).
 - Provado que `oFade_in` original é usado em `rmMM`, não na transição de portas. A transição pertence a `parDoor_Flat` (`fade`, `fade_in`).
 - Causa raiz do "sem fade in": `oFade_in` era criado em profundidade `-1011` (desenhado cedo) e a porta desenhava uma cobertura opaca em `fade_in == 2` (`fade` de 300, `min(fade,1)`).
 - Corrigido: `oFade_in` agora em profundidade `1000` (topo) e a cobertura opaca de chegada foi removida de `parDoor_Flat/Draw_73.gml`. O fade-out da porta permanece.
 - F5 expôs erro em `oFade_in/Create_0`: `FADE_COLOUR` foi lido como variável de instância. Corrigido para `colour = c_black;`; `map_load` já sobrescreve com `oControl.FADE_COLOUR`.
-- Instrumentação temporária: `SKY draw ...` (1/s) em `oControl/Draw_72.gml`. `FADE draw/alarm ...` removida de `oFade_in`.
+- Instrumentação temporária `SKY draw ...` e `CLAMP ...` removida antes do commit. `FADE draw/alarm ...` também removida de `oFade_in`.
+- Parallax de Maldis portado: `sMal_bg1..4` importados com canvas, origem e PNG de layer (`layers/<frame>/<layer>.png`); `draw_bg_tiled_h` e `draw_bg_tiled_hwave` reconstruídos do YYC com assinatura `function`, registrados no `.yyp`.
+- Costura das montanhas: `draw_bg_tiled_h` corrigido para o algoritmo do YYC (`_x mod tile_w`, laço `-2..view_x/tile_w + view_width/tile_w + 1`). F5 confirmou costuras perfeitas, mas restou uma montanha cortada que sumia ao caminhar.
+- Residuo da montanha cortada: `draw_bg_tiled_hwave` também reconstruído com 4 vértices por tile e UVs `0/1`, conforme o YYC. Versão anterior usava 2 vértices e `u` fracionário, produzindo textura distorcida que mudava com a fase do parallax. F5 confirmado pelo usuário em 22/11: artefato sumiu; nuvens visíveis na camada seguinte.
 
 Pendente para o agente, mediante autorização:
 
@@ -152,5 +155,5 @@ Próximo passo sugerido: rodar F5 de novo e conferir céu, porta e transição; 
 - O pacote winget do UTMT instala só a GUI; o CLI veio do asset separado `UTMT_CLI_v0.9.2.0-Windows.zip`.
 - Não foi possível confirmar o login sem interação do usuário.
 - `oFade_in` continua com eventos reconstruídos: os originais foram decompilados, mas são do menu (`rmMM`) e não servem de referência para a transição de portas.
-- O gradiente do céu não inclui `sMal_bg1..4` nem os scripts `draw_bg_tiled_h`/`draw_bg_tiled_hwave`, ainda ausentes no projeto. Causa do céu preto ainda não provada; F5 com log `SKY draw ...` é o próximo dado necessário.
+- O céu já tem gradiente e parallax de `sMal_bg1..4`; costuras e UVs passaram no F5. Ainda não há elementos específicos por sala (por exemplo `sPraedim_Mal`) nem planetas 1..N.
 - Nenhum build Igor, UTMT CLI ou novo F5 foi executado pelo agente nesta sessão.

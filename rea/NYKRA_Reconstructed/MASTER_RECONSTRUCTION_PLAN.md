@@ -21,6 +21,23 @@
 | 3.4 — Save V1 | ⬜ | só codec Python de referência |
 | 4 — Resto do jogo | ⬜ | 2.720 funções YYC; 16 reconstruídas |
 
+### 0.1 Atualização em 22/11/2026 — branch `reconstruction-attempt-pickle`
+
+Branch criada a partir de `origin/reconstruction-attempt-1` @ `113393e`, com três commits e push. Estado verificado no F5 pelo usuário:
+
+- animação da porta corrigida (recorte superior em `oMal_Door_Flat/Draw_0.gml`);
+- fade de transição corrigido (`oFade_in` no depth `1000`; cobertura opaca removida de `parDoor_Flat/Draw_73.gml`);
+- céu em gradiente visível (`oControl/Draw_72.gml`; `Background` preto de `rmMAIN` desligado);
+- câmera com clamp correto em `oVIEW_CONSTRICT` (`mean` agora pesa a posição constrita 4×);
+- cascas de `LIGHTING`, `oGlow_Beam_L`, `oGlow_Beam_S` e `oGlw_yellow_m` e snap da câmera na chegada pela porta;
+- suíte Python: 65 testes OK, 1 erro de import preexistente em `test_save_v1_format.py`; `git diff --check` limpo.
+
+**Gamepad:** decidido pelo usuário em 22/11 para ficar na Fase 4, junto com o `oControl` completo (P1/P11) e a cauda de `set_controls` (P16). Não é item do marco atual.
+
+**Ordem retomada em 22/11:** (1) ✓ parallax do céu com `sMal_bg1..4` + `draw_bg_tiled_h`/`draw_bg_tiled_hwave` — aceito no F5 pelo usuário em 22/11 (costuras e UVs ok; nuvens visíveis); (2) eventos e sprites de `LIGHTING`/glows; (3) fios e propagação de sinal (P34); (4) `oOrigin`, `oEo`, `oCamera_Point` e curvas `easing` restantes; (5) Fase 4, base global.
+
+**Correção do plano:** P14 cobriu `sMal_bg_leaves*`, não as camadas de céu `sMal_bg1..4`. Essas foram importadas em 22/11 com `Tools/import_maldis_sky.py`, juntas dos scripts `draw_bg_tiled_h` e `draw_bg_tiled_hwave` reconstruídos a partir do YYC (`NativeAnalysis/decompiled/parallax_annotated/`). F5 mostrou dois requisitos do formato LTS: sprite precisa do PNG em `sprites/<nome>/layers/<frame>/<layer>.png`, e script chamado com argumentos precisa declarar `function nome(...)`. Ambos corrigidos. F5 seguinte mostrou costura nas montanhas: `draw_bg_tiled_h` usava `_x / tile_w` como fase; o YYC original usa `_x mod tile_w`, laço de `-2` até `view_x/tile_w + view_width/tile_w + 1`. Corrigido. F5 seguinte: costuras perfeitas, mas sobrava uma "montanha cortada" que sumia ao caminhar. Causa era outro erro meu em `draw_bg_tiled_hwave`: eu emitia 2 vértices por tile com `u` fracionário; o YYC original emite 4 vértices por tile (`u=0` na borda esquerda, `u=1` na direita). Corrigido em 22/11 e aceito no F5. Lição: quando o defeito some com a fase do parallax, conferir as coordenadas de textura do primitivo antes de suspeitar da imagem do sprite. Próximo marco: dar eventos e sprites a `LIGHTING`/glows.
+
 ---
 
 ## 1. Bloqueio atual: por que os tiles não aparecem
