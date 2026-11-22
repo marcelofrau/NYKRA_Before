@@ -37,6 +37,7 @@ HAND_WRITTEN = {
     # stage 3: reconstructed from the decompilation (Tools/generate_reconstructed_objects.py)
     "oInput_pp", "oVIEW_CONSTRICT", "oDoor_Origin", "oWire", "oWire_DIODE_D", "oWire_TIMER",
     "parDoor_Flat", "oMal_Door_Flat",
+    "oFade_in",  # Draw_73 cover restored 22/11/2026
 }
 # Objects named by map_load, clear_objects and _SET_SCENE that are evaluated on the path
 # even when the level does not contain them (a missing asset is a runtime error).

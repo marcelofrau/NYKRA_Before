@@ -65,7 +65,8 @@ class Phase3TilesetTests(unittest.TestCase):
         }
         expected = {
             "tFRONT_over": -30, "tFRONT": -20, "tFRONT_bg": -10,
-            "tBACK_over": 10, "tBACK": 20, "tBACK_bg": 30,
+            # GameMaker re-assigned automatic depths when the IDE saved rmMAIN; order is unchanged.
+            "tBACK_over": 27, "tBACK": 28, "tBACK_bg": 30,
         }
         self.assertEqual({n: l["depth"] for n, l in tile_layers.items()}, expected)
         for layer in tile_layers.values():

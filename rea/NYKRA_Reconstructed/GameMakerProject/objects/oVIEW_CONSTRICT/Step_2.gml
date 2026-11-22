@@ -4,7 +4,8 @@
 // left edge cannot pass it; the view eases a fifth of the way toward the constrained position each step.
 // Not in play (editor modes) the line is drawn (visible) and does nothing. Two details kept from the
 // original: the vertical test uses the view WIDTH (not the height) on the far edge, and the five-value
-// mean weights the unconstrained view position four times (the lifted arguments are read as such).
+// mean weights the constrained position four times (C decompilation: four refs to local_140/local_130,
+// one ref to the original view in local_b8/local_a8).
 if (oControl.mode == 3) {
     if (go == 1) {
         var _vx = camera_get_view_x(cam);
@@ -27,7 +28,7 @@ if (oControl.mode == 3) {
         } else {
             if (_vy <= y) _ny = max(y, _vy);
         }
-        camera_set_view_pos(cam, mean(_nx, _vx, _vx, _vx, _vx), mean(_ny, _vy, _vy, _vy, _vy));
+        camera_set_view_pos(cam, mean(_nx, _nx, _nx, _nx, _vx), mean(_ny, _ny, _ny, _ny, _vy));
     }
     visible = false;
 } else {

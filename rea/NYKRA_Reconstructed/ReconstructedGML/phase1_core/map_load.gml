@@ -230,6 +230,15 @@ if (instance_exists(oPlayer)) {
                     var _px = x + (-2 * oPlayer.path_side);
                     var _py = y - 8;
                     obj_setpos(oPlayer, _px, _py);
+                    // Snap here: the camera alarm can run before the spawn position is applied.
+                    oCamera.x = _px;
+                    oCamera.y = _py;
+                    oCamera.xx = _px;
+                    oCamera.yy = _py;
+                    oCamera.mv = 0;
+                    oCamera.mh = 0;
+                    oCamera.alarm[0] = 0;
+                    camera_set_view_pos(cam, _px - (camera_get_view_width(cam) / 2), _py - (camera_get_view_height(cam) / 2));
                     break;
                 }
             }
@@ -250,7 +259,8 @@ if (oControl.START_GAME) {
 
 reset_files();
 
-var _fade = instance_create_depth(10, 10, -1011, oFade_in);
+// Positive depth keeps the cover above tiles and the door's own fade overlay.
+var _fade = instance_create_depth(10, 10, 1000, oFade_in);
 with (_fade) {
     colour = oControl.FADE_COLOUR;
 }

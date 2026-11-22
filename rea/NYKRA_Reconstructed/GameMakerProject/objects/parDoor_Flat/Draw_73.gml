@@ -1,7 +1,7 @@
 // Reconstructed from gml_Object_parDoor_Flat_Draw_73 (Draw End; NativeAnalysis/decompiled/door_lifted;
 // plan P31/P35, several constants were lost: marked). Near the door, with control and no UI, it shows the
-// bobbing arrow (or LOCKED when locked); while the player walks in (in == 1) the screen fades to black,
-// and after arriving (fade_in == 2, fade from 300 down) it stays black until the fade runs out.
+// bobbing arrow (or LOCKED when locked); while the player walks in (in == 1) the screen fades to black.
+// Arrival fade-in is drawn by oFade_in at depth 1000, above this door's depth-18 overlay.
 if (instance_number(oPlayer) > 0) {
     if (oPlayer.control == 1) {
         if (point_distance(x, y - 8, oPlayer.x, oPlayer.y) < 15) {
@@ -29,8 +29,5 @@ if (instance_number(oPlayer) > 0) {
 }
 if (in == 1 && fade < 1) {
     draw_rectangle_view(c_black, 1 - fade);
-    oPlayer.control = 0;
-} else if (fade_in == 2 && fade >= 1) {
-    draw_rectangle_view(c_black, min(fade, 1));
     oPlayer.control = 0;
 }

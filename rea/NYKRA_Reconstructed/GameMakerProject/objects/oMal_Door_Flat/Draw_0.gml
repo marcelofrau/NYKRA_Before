@@ -49,9 +49,9 @@ if (open == 1) {
 var _w = sprite_width;
 var _h = sprite_height;
 draw_sprite(sprite_index, 1, x, y);
-// two panels sink into the floor as the door opens: the top part of each frame is drawn lower and shorter
+// bottom panel shrinks into the threshold; top panel slides up under the lintel
 draw_sprite_part(sprite_index, _lit ? 6 : 2, 0, 0, _w, _h - hrnd(anim * 15), x - _w / 2, hrnd(y + anim * 15 + 1 - _h));
-draw_sprite_part(sprite_index, _lit ? 7 : 3, 0, 0, _w, _h - hrnd(anim * 18), x - _w / 2, hrnd(y + anim * 3 + 1 - _h));
+draw_sprite_part(sprite_index, _lit ? 7 : 3, 0, hrnd(anim * 18), _w, _h, x - _w / 2, hrnd(y + anim * 3 + 1 - _h));
 draw_sprite(sprite_index, _lit ? 5 : 0, x, y);
 // glow of the moment the door starts to open
 gpu_set_blendmode(bm_add);
