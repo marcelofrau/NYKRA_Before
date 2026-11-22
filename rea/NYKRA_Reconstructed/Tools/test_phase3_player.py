@@ -169,7 +169,7 @@ class PlayerObjectTests(unittest.TestCase):
         self.assertEqual([m for m in re.findall(r"draw_sprite\(sprite_index, (\d),", doorway)], ["2", "1", "0"])
         for name, mask in (("oWire", "sWire"), ("oWire_DIODE_D", "sWire_DIODE"), ("oWire_TIMER", "sWire_TIMER")):
             yy = load_yy(PROJECT / "objects" / name / f"{name}.yy")
-            self.assertIsNone(yy["spriteId"], name)  # no raw sprite until Draw_0 exists (P34)
+            self.assertEqual(yy["spriteId"]["name"], mask, name)
             self.assertEqual(yy["spriteMaskId"]["name"], mask, name)
             create = code_of(f"objects/{name}/Create_0.gml")
             self.assertIn("rand = random_range(0, 0.4);", create)

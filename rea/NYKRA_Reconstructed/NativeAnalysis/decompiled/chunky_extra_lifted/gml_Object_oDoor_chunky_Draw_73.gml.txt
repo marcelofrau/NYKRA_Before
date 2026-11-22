@@ -1,0 +1,10 @@
+// lifted from gml_Object_oDoor_chunky_Draw_73.c
+// ?? void gml_Object_oDoor_chunky_Draw_73(longlong *param_1)
+{
+    // ?? puStack_178 = &UNK_141994a6a;
+    // ?? puRam0000000142182d78 = &uStack_180;
+    // ?? plRam0000000142182d90 = param_1;
+    power_on_t = power_on;
+    // ?? func_0x0001416a8c00(1);
+    // ?? puRam0000000142182d78 = (undefined8 *)uStack_180;
+}

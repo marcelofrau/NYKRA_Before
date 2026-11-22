@@ -1,0 +1,30 @@
+// lifted from gml_Object_oDoor_chunky2_Step_1.c
+// ?? void gml_Object_oDoor_chunky2_Step_1(longlong *param_1,undefined8 param_2)
+{
+    // ?? undefined1 auStack_68 [12];
+    // ?? puStack_78 = &UNK_14198c728;
+    // ?? puRam0000000142182d78 = &uStack_80;
+    // ?? plRam0000000142182d90 = param_1;
+    // ?? FUN_140009980(auStack_68,anim,_UNK_14198c720);
+    uStack_58 = by1;
+    uStack_58 += auStack_68;
+    y1 = uStack_58;
+    // ?? func_0x0001416a8c00(1);
+    // ?? FUN_140009980(auStack_68,anim,_UNK_14198c720);
+    uStack_58 = by2;
+    uStack_58 += auStack_68;
+    y2 = uStack_58;
+    // ?? func_0x0001416a8c00(1);
+    // ?? FUN_141706ee0(param_1,param_2);
+    // ?? FUN_140009980(auStack_68,anim,_UNK_14198c720);
+    uStack_58 = by1;
+    uStack_58 += auStack_68;
+    y1 = uStack_58;
+    // ?? func_0x0001416a8c00(1);
+    // ?? FUN_140009980(auStack_68,anim,_UNK_14198c720);
+    uStack_58 = by2;
+    uStack_58 += auStack_68;
+    y2 = uStack_58;
+    // ?? func_0x0001416a8c00(1);
+    // ?? puRam0000000142182d78 = (undefined8 *)uStack_80;
+}

@@ -1,0 +1,26 @@
+// lifted from gml_Script_bb_setmiddle.c
+// ?? undefined8 * gml_Script_bb_setmiddle(longlong *param_1,undefined8 param_2,undefined8 *param_3)
+{
+    // ?? puStack_b8 = &UNK_141982b26;
+    // ?? puRam0000000142182d78 = &uStack_c0;
+    // ?? plRam0000000142182d90 = param_1;
+    // ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+    // ?? *param_3 = 0;
+    // ?? FUN_1416ab750(uRam00000001420dc7f0);
+    uStack_98 = x1;
+    // ?? puStack_a8 = &uStack_98;
+    uStack_88 = x2;
+    // ?? puStack_a0 = &uStack_88;
+    // ?? x1 = FUN_1416ab210(param_1,param_2,&uStack_58,2,uRam00000001420da0c0,&puStack_a8);
+    uStack_78 = x1;
+    // ?? FUN_1416cfae0(param_1,uRam00000001420d58e8,0x80000000,&uStack_78);
+    uStack_98 = y1;
+    // ?? puStack_a8 = &uStack_98;
+    uStack_88 = y2;
+    // ?? puStack_a0 = &uStack_88;
+    // ?? y1 = FUN_1416ab210(param_1,param_2,&uStack_58,2,uRam00000001420da0c0,&puStack_a8);
+    uStack_68 = y1;
+    // ?? FUN_1416cfae0(param_1,uRam00000001420d58f8,0x80000000,&uStack_68);
+    // ?? puRam0000000142182d78 = (undefined8 *)uStack_c0;
+    // ?? return param_3;
+}

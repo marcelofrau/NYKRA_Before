@@ -246,6 +246,8 @@
     {"id":{"name":"sndSwish_2","path":"sounds/sndSwish_2/sndSwish_2.yy",},},
     {"id":{"name":"sndSwish_3","path":"sounds/sndSwish_3/sndSwish_3.yy",},},
     {"id":{"name":"sndSwish_4","path":"sounds/sndSwish_4/sndSwish_4.yy",},},
+    {"id":{"name":"sndWire_on","path":"sounds/sndWire_on/sndWire_on.yy",},},
+    {"id":{"name":"sndWire","path":"sounds/sndWire/sndWire.yy",},},
     {"id":{"name":"sArrow","path":"sprites/sArrow/sArrow.yy",},},
     {"id":{"name":"sBag_UI","path":"sprites/sBag_UI/sBag_UI.yy",},},
     {"id":{"name":"sBnd_player","path":"sprites/sBnd_player/sBnd_player.yy",},},

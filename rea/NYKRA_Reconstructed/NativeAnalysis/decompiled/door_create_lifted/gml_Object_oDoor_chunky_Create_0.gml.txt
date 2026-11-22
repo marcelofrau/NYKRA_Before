@@ -1,0 +1,105 @@
+// lifted from gml_Object_oDoor_chunky_Create_0.c
+// ?? void gml_Object_oDoor_chunky_Create_0(longlong *param_1,undefined8 param_2)
+{
+    // ?? puStack_98 = &UNK_1419949e9;
+    // ?? puRam0000000142182d78 = &uStack_a0;
+    // ?? plRam0000000142182d90 = param_1;
+    bw = 0x4030000000000000/*16 (obj:oDlg_BM_Julaak)*/;
+    bh = 0x4042000000000000/*36 (obj:oControls_EO)*/;
+    // ?? FUN_140004520(&uStack_58,bw,_UNK_141982c40);
+    bwh = uStack_58;
+    // ?? func_0x0001416a8c00(1);
+    // ?? FUN_140004520(&uStack_58,bh,_UNK_141982c40);
+    bhh = uStack_58;
+    // ?? func_0x0001416a8c00(1);
+    snd = 0xc010000000000000/*-4*/;
+    tog = 0;
+    grav = 0;
+    bounce = 0;
+    collide_object = 0;
+    physics = 0;
+    do_fric = 0;
+    do_grav = 0;
+    power_on_t = 0;
+    // ?? FUN_1416cea80(param_1,uRam00000001420d58e8,0x80000000,&uStack_88,
+    uStack_58 = uStack_88;
+    uStack_58 -= bwh;
+    uStack_b8 = uStack_58;
+    // ?? uVar6 = uRam00000001420da4b0;
+    // ?? ppuVar7 = &puStack_a8;
+    // ?? puStack_a8 = &uStack_b8;
+    // ?? uVar5 = FUN_1416ab210(param_1,param_2,&uStack_68,1,uRam00000001420da4b0,&puStack_a8);
+    x1 = uVar5;
+    // ?? func_0x0001416a8c00(1);
+    // ?? FUN_1416cea80(param_1,uRam00000001420d58f8,0x80000000,&uStack_78,uVar6 & 0xffffff00,
+    uStack_58 = uStack_78;
+    uStack_58 -= uStack_c0;
+    uStack_b8 = uStack_58;
+    // ?? uVar6 = uRam00000001420da4b0;
+    // ?? ppuVar7 = &puStack_a8;
+    // ?? puStack_a8 = &uStack_b8;
+    // ?? uVar5 = FUN_1416ab210(param_1,param_2,&uStack_68,1,uRam00000001420da4b0,&puStack_a8);
+    y1 = uVar5;
+    // ?? func_0x0001416a8c00(1);
+    // ?? FUN_1416cea80(param_1,uRam00000001420d58e8,0x80000000,&uStack_88,uVar6 & 0xffffff00,
+    uStack_58 = uStack_88;
+    uStack_58 += bwh;
+    uStack_b8 = uStack_58;
+    // ?? uVar6 = uRam00000001420da4b0;
+    // ?? ppuVar7 = &puStack_a8;
+    // ?? puStack_a8 = &uStack_b8;
+    // ?? uVar5 = FUN_1416ab210(param_1,param_2,&uStack_68,1,uRam00000001420da4b0,&puStack_a8);
+    x2 = uVar5;
+    // ?? func_0x0001416a8c00(1);
+    // ?? FUN_1416cea80(param_1,uRam00000001420d58f8,0x80000000,&uStack_78,uVar6 & 0xffffff00,
+    uStack_58 = uStack_78;
+    uStack_58 += uStack_c0;
+    uStack_b8 = uStack_58;
+    // ?? uVar6 = uRam00000001420da4b0;
+    // ?? ppuVar7 = &puStack_a8;
+    // ?? puStack_a8 = &uStack_b8;
+    // ?? uVar5 = FUN_1416ab210(param_1,param_2,&uStack_68,1,uRam00000001420da4b0,&puStack_a8);
+    y2 = uVar5;
+    // ?? func_0x0001416a8c00(1);
+    // ?? FUN_1416cea80(param_1,uRam00000001420d58e8,0x80000000,&uStack_88,uVar6 & 0xffffff00,
+    uStack_58 = uStack_88;
+    uStack_58 -= bwh;
+    uStack_b8 = uStack_58;
+    // ?? uVar6 = uRam00000001420da4b0;
+    // ?? ppuVar7 = &puStack_a8;
+    // ?? puStack_a8 = &uStack_b8;
+    // ?? uVar5 = FUN_1416ab210(param_1,param_2,&uStack_68,1,uRam00000001420da4b0,&puStack_a8);
+    bx1 = uVar5;
+    // ?? func_0x0001416a8c00(1);
+    // ?? FUN_1416cea80(param_1,uRam00000001420d58f8,0x80000000,&uStack_78,uVar6 & 0xffffff00,
+    uStack_58 = uStack_78;
+    uStack_58 -= uStack_c0;
+    uStack_b8 = uStack_58;
+    // ?? uVar6 = uRam00000001420da4b0;
+    // ?? ppuVar7 = &puStack_a8;
+    // ?? puStack_a8 = &uStack_b8;
+    // ?? uVar5 = FUN_1416ab210(param_1,param_2,&uStack_68,1,uRam00000001420da4b0,&puStack_a8);
+    by1 = uVar5;
+    // ?? func_0x0001416a8c00(1);
+    // ?? FUN_1416cea80(param_1,uRam00000001420d58e8,0x80000000,&uStack_88,uVar6 & 0xffffff00,
+    uStack_58 = uStack_88;
+    uStack_58 += bwh;
+    uStack_b8 = uStack_58;
+    // ?? uVar6 = uRam00000001420da4b0;
+    // ?? ppuVar7 = &puStack_a8;
+    // ?? puStack_a8 = &uStack_b8;
+    // ?? bwh = FUN_1416ab210(param_1,param_2,&uStack_68,1,uRam00000001420da4b0,&puStack_a8);
+    bx2 = bwh;
+    // ?? func_0x0001416a8c00(1);
+    // ?? FUN_1416cea80(param_1,uRam00000001420d58f8,0x80000000,&uStack_78,uVar6 & 0xffffff00,
+    uStack_58 = uStack_78;
+    uStack_58 += uStack_c0;
+    uStack_b8 = uStack_58;
+    // ?? puStack_a8 = &uStack_b8;
+    // ?? bx2 = FUN_1416ab210(param_1,param_2,&uStack_68,1,uRam00000001420da4b0,&puStack_a8);
+    by2 = bx2;
+    // ?? func_0x0001416a8c00(1);
+    anim = 0;
+    power_on = 0;
+    // ?? puRam0000000142182d78 = (undefined8 *)uStack_a0;
+}

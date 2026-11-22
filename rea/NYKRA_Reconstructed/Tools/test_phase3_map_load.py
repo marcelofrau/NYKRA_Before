@@ -265,7 +265,8 @@ class ShellObjectTests(unittest.TestCase):
             yy = load_yy(PROJECT / "objects" / name / f"{name}.yy")
             if name not in ("oMal_Tree1", "oNote"):  # plain children with a sprite and no events of their own
                 self.assertTrue(yy["eventList"], f"{name} has hand-written events")
-            self.assertEqual(yy["parent"]["name"], "Objects")
+            expected_folder = "Shells" if name == "oDoor_chunky" else "Objects"  # door stays in the Shells group
+            self.assertEqual(yy["parent"]["name"], expected_folder)
 
 
 if __name__ == "__main__":

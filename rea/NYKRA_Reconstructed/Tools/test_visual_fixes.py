@@ -181,6 +181,84 @@ class VisualFixTests(unittest.TestCase):
         ):
             self.assertIn(fragment, spawn.split("break;", 1)[0])
 
+    def test_wire_draw_and_signal_propagation(self):
+        yy = load_yy(PROJECT / "objects/oWire/oWire.yy")
+        events = [(e["eventType"], e["eventNum"]) for e in yy["eventList"]]
+        for event in ((8, 0), (8, 77)):
+            self.assertIn(event, events)
+        self.assertEqual("sWire", yy["spriteId"]["name"])
+        draw = code("objects/oWire/Draw_0.gml")
+        for fragment in (
+            "draw_sprite(sprite_index, 0, x, y);",
+            "draw_sprite_ext(sprite_index, 1, x, y, 1, 1, 0, 0xffff00, sqr(anim));",
+            "gpu_set_blendmode(bm_add);",
+            "draw_set_alpha(sqr(anim) / 2);",
+            "lengthdir_y(1, tick * 30) + 8.633",
+            "lengthdir_x(1, tick * 77) + 4.933",
+            "an[_i] = lerp(an[_i], d[_i], 0.15);",
+            "on = round(min(1, d[0] + d[1] + d[2] + d[3]));",
+            "if (anim >= 1) {",
+            "instance_place(x - 16, y, oWire)",
+            "_n.d[1] = 1;",
+            "instance_place(x, y - 16, oWire)",
+            "_target.power_on = bool(floor(real(on)));",
+        ):
+            self.assertIn(fragment, draw)
+        sound = code("objects/oWire/Draw_77.gml")
+        self.assertIn("play_sound_pos(sndWire, 10, 0,", sound)
+        self.assertIn("on == 1 && anim >= 0.6 && sfx == 0", sound)
+        self.assertIn("on == 0 && anim <= 0.4 && sfx == 1", sound)
+        diode_yy = load_yy(PROJECT / "objects/oWire_DIODE_D/oWire_DIODE_D.yy")
+        diode_events = [(e["eventType"], e["eventNum"]) for e in diode_yy["eventList"]]
+        self.assertIn((8, 0), diode_events)
+        self.assertNotIn((8, 77), diode_events)
+
+        timer_yy = load_yy(PROJECT / "objects/oWire_TIMER/oWire_TIMER.yy")
+        timer_events = [(e["eventType"], e["eventNum"]) for e in timer_yy["eventList"]]
+        for event in ((8, 0), (8, 77)):
+            self.assertIn(event, timer_events)
+        self.assertNotIn("play_sound_pos", code("objects/oWire_TIMER/Draw_77.gml"))
+
+        diode = code("objects/oWire_DIODE_D/Draw_0.gml")
+        self.assertIn("draw_sprite(sprite_index, 1, x, y);", diode)
+        self.assertIn("draw_sprite_ext(sprite_index, 5, x, y, 1, 1, 0, 0xffff00, sqr(anim));", diode)
+        self.assertIn("an[0] = 0;", diode)
+        self.assertIn("an[1] = 0;", diode)
+        self.assertIn("an[2] = lerp(an[2], d[2], 0.15);", diode)
+        self.assertIn("an[3] = 0;", diode)
+        self.assertNotIn("an[_i] = lerp", diode)
+        self.assertIn("if (anim >= 1) {", diode)
+
+        timer = code("objects/oWire_TIMER/Draw_0.gml")
+        self.assertIn("if (anim >= 3) {", timer)
+        self.assertIn("var _t = d[_i] ? 0.2 : 0.04;", timer)
+        self.assertIn("an[_i] = lerp(an[_i], d[_i] * 3, _t);", timer)
+        self.assertIn("var _timer_alpha = clamp(sqr(anim / 3), 0, 1);", timer)
+        self.assertIn("draw_sprite_ext(sprite_index, round(anim), x, y, 1, 1, 0, 0xffff00, _timer_alpha);", timer)
+        self.assertIn("draw_set_alpha(sqr(anim) / 2);", timer)
+        self.assertIn("play_sound_pos(sndWire, 10, 0, 0.816667, 1.5", timer)
+        self.assertIn("play_sound_pos(sndWire, 10, 0, 0.666667, 1.5", timer)
+        self.assertIn("play_sound_pos(sndWire, 10, 0, 0.516667, 1.5", timer)
+
+        self.assertIn("on = round(min(1, d[0] + d[1] + d[2] + d[3]));", diode)
+        self.assertIn("on = round(min(1, d[0] + d[1] + d[2] + d[3]));", timer)
+        self.assertNotIn("_n.d[1] = 1;", diode)
+        self.assertNotIn("_n.d[0] = 1;", diode)
+        self.assertIn("_n.d[2] = 1;", diode)
+        self.assertIn("d[0] = 0;", diode)
+
+        for name in ("oWire", "oWire_DIODE_D", "oWire_TIMER"):
+            src = code(f"objects/{name}/Draw_0.gml")
+            self.assertIn("if (anim <= 0.00001) {", src, name)
+            self.assertIn("on = min(1, d[0] + d[1] + d[2] + d[3]);", src, name)
+            self.assertNotIn("<= 0 && _n.anim <= 0", src, name)
+            self.assertEqual(src.count("<= 0.00001 && _n.anim <= 0.00001"), 4, name)
+            self.assertNotIn("_n.d[0] = 0;", src, name)
+            self.assertNotIn("_n.d[1] = 0;", src, name)
+            self.assertNotIn("_n.d[2] = 0;", src, name)
+            self.assertNotIn("_n.d[3] = 0;", src, name)
+            self.assertNotIn("show_debug_message", src, name)
+
     def test_view_constrict_favours_constrained_position(self):
         step = code("objects/oVIEW_CONSTRICT/Step_2.gml")
         self.assertIn("mean(_nx, _nx, _nx, _nx, _vx), mean(_ny, _ny, _ny, _ny, _vy)", step)

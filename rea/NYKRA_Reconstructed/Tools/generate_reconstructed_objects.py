@@ -15,19 +15,18 @@ sys.path.insert(0, str(TOOLS))
 from generate_player_object import event_yy, object_yy, PROJECT  # noqa: E402
 from yyp_edit import update_yyp  # noqa: E402
 
-# object -> (parent object, sprite, persistent). A sprite is linked only when the object's own events
-# make it draw as the original does (plan P3).
+# object -> (parent object, sprite, persistent, mask). A sprite is linked only when the object's own events
+# make it draw as the original does (plan P3). Diode/timer currently reuse oWire's Draw_0 (P34, provisional).
 OBJECTS = {
     "oInput_pp": (None, "sInput_pp", False, None),
     "oVIEW_CONSTRICT": (None, "sVIEW_CONSTRICT", False, None),
     "oDoor_Origin": (None, "sMal_Door1", False, None),
     "parDoor_Flat": ("parSAVE", None, False, None),
     "oMal_Door_Flat": ("parDoor_Flat", "sMal_Door_Flat", False, None),
-    # The wires keep no sprite until their Draw_0 is reconstructed (plan P34): it would draw the raw sprite.
-    # They do take it as the collision mask, so instance_place (the pressure plate's) still finds them.
-    "oWire": ("parWire", None, False, "sWire"),
-    "oWire_DIODE_D": ("oWire", None, False, "sWire_DIODE"),
-    "oWire_TIMER": ("oWire", None, False, "sWire_TIMER"),
+    # Wires draw sprite_index in Draw_0; oWire_DIODE_D and oWire_TIMER use their own YYC-ported Draw_0.
+    "oWire": ("parWire", "sWire", False, "sWire"),
+    "oWire_DIODE_D": ("oWire", "sWire_DIODE", False, "sWire_DIODE"),
+    "oWire_TIMER": ("oWire", "sWire_TIMER", False, "sWire_TIMER"),
 }
 
 

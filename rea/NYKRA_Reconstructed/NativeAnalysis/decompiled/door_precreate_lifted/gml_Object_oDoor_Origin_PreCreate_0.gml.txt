@@ -1,0 +1,8 @@
+// lifted from gml_Object_oDoor_Origin_PreCreate_0.c
+// ?? void gml_Object_oDoor_Origin_PreCreate_0(undefined8 param_1)
+{
+    // ?? puStack_168 = &UNK_14198ad73;
+    // ?? puRam0000000142182d78 = &uStack_170;
+    // ?? uRam0000000142182d90 = param_1;
+    // ?? puRam0000000142182d78 = (undefined8 *)uStack_170;
+}

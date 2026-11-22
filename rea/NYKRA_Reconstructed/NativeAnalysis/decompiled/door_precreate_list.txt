@@ -1,0 +1,1 @@
+gml_Object_oDoor_Origin_PreCreate_0	0x140a643a0
