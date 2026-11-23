@@ -28,7 +28,8 @@ PROJECT = REA / "GameMakerProject"
 # with reconstructed events or a sprite (parLeaves, oMal_Tree1).
 HAND_WRITTEN = {
     "oControl", "oCamera", "oMal_Tree1", "parLeaves",
-    "oOrigin",  # P21: Create_0 and Alarm_0..3 ported; Step_1, Draw_0 and Draw_73 pending
+    "oOrigin",  # P21: Create_0, Alarm_0..3, Step_1 (parallax), Draw_0 (arch); cutscene pending
+    "oGlow", "oGlw_yellow_m",  # point light parent + medium yellow glow in rmMal_o1
     "oMal_bg_leaves_bg", "oMal_bg_leaves_bg_fg", "oMal_bg_leaves_fg",
     "parGrass", "oGrass", "oGrass3",
     "parEntity",  # player stage 1: Create, Destroy, Step_1, Step_2 (provisional), Draw_77
