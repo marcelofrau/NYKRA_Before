@@ -160,7 +160,7 @@ Próximo passo: validar no F5 a correção completa de `oWire_DIODE_D` e `oWire_
 - **F5 do usuário em 23/11:** a porta abre, fecha e reabre pela placa. O circuito acende o diodo, os fios, o timer e a porta.
 - **Testes:** 70 no total, 69 OK, 1 erro de import preexistente em `test_save_v1_format.py`; `git diff --check` limpo.
 - **Pendente de F5:** bloqueio da porta fechada e passagem aberta; descarga do timer com os 3 cliques; circuito sem sinal preso depois de sair da placa.
-- **Pendente de código:** portar P24 (`COLLIDE`) e remover o bloqueio local do `Step_2`. `oDoor_chunky/Draw_73` foi portado (`power_on_t = power_on;`, não desenha nada); `Destroy_0` virou P36 (builtin de 1 argumento em `0x1420db340` não identificado).
+- **Pendente de código:** portar P24 (`COLLIDE`) e remover o bloqueio local do `Step_2`. `oDoor_chunky/Draw_73` (`power_on_t = power_on;`) e `Destroy_0` (`audio_stop_sound(snd);`, builtin identificado em `yyc-dat-symbols.json`) foram portados. P24 está mapeado em `NativeAnalysis/COLLIDE_PORT_NOTES.md`; falta nomear o comparador `0x1420f6b08` e as constantes `0x1420b27xx` antes de escrever o script.
 
 ---
 

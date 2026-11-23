@@ -47,7 +47,7 @@ Ponto de retomada para a próxima sessão. O plano completo, as pendências P1�
 2. **Porta aberta:** passagem livre e nenhum resto de laje na passagem.
 3. **Timer:** sair da placa e confirmar que a rede apaga com os três cliques descendentes, sem loop.
 4. **Duas placas:** o circuito liga os dois lados pelo fio central; confirmar que a porta abre pelo caminho esperado e que não há sinal preso.
-5. **`oDoor_chunky/Draw_73`:** portado (`power_on_t = power_on;`, nada visível) — não é mais pendência. **`Destroy_0`:** ver P36, depende de identificar o builtin em `0x1420db340`.
+5. **`oDoor_chunky/Draw_73` e `Destroy_0`:** ambos portados (`power_on_t = power_on;` e `audio_stop_sound(snd);`). O builtin do `Destroy_0` foi identificado em `RecoveredAssets/Metadata/yyc-dat-symbols.json` (`0x1420db340` = `audio_stop_sound`).
 6. **P24 (`COLLIDE`):** o bloqueio atual da porta está no `Step_2` local e só empurra o jogador no eixo X. O `COLLIDE` completo do `parEntity` continua pendente: colisão entidade-objeto, caixas empurráveis (`oDoor_chunky`/`parEntity`), água `oWATER`, plataformas móveis e `collision_list`. Substituir o bloqueio local quando P24 for portado.
 
 ## 4. Próximo marco do plano
