@@ -1,8 +1,9 @@
-// Reconstructed from gml_Object_oDoor_chunky_Draw_0: the three chunks share one canvas, so
-// they are drawn at the same y and the whole slab rises together. Original speeds: /12, /6.
-draw_sprite(sprite_index, 0, x, y);
-draw_sprite(sprite_index, 1, x, y);
-draw_sprite(sprite_index, 2, x, y);
+// Reconstructed from gml_Object_oDoor_chunky_Draw_0 @ 0x1411eb790.
+// The original event has no draw_sprite call at all: it only touches x, y, xstart, ystart,
+// sprite_index, mean and audio_sound_gain. sDoor_chunky has 4 frames, so the "pieces rising one after
+// the other" seen in the original is the sprite going through its frames while anim runs 0 -> 1.
+// This is an EXPERIMENT: one frame chosen by anim, instead of the three frames stacked at one y.
+draw_sprite(sprite_index, round(anim * 3), x, y);
 
 var _target = power_on ? 1 : 0;
 if (anim != _target && snd == -4) {
