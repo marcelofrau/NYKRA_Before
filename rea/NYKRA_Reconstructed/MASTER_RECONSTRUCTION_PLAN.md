@@ -55,6 +55,19 @@ Estado ao fim do dia, no F5 do usuário:
 
 **Identificação da porta e causa raiz do loop (22/11):** o alvo elétrico no `rmMal_Origin` é `oDoor_chunky` em `(152,272)` (porta vertical pesada entre as duas placas `(128,288)` e `(160,288)`, não caixa empurrável). O fio central em `(152,296)` sobrepõe a máscara da porta e escreve `power_on`; o `Step_1` original ajusta `y1/y2 = by1/by2 + anim*80 - 0.1` no YYC; com o `+` a laje afundava e as peças de cima ficavam no lugar, deixando meia parede. A reconstrução usa `y1/y2 = by1/by2 - anim*44`: fechada, a laje fica exatamente no ponto de spawn; aberta, sobe 44 px, o suficiente para o corpo de 36 px limpar a passagem e se esconder na pedra logo acima, sem vazar para fora da montanha. Os três quadros são desenhados no mesmo `y`, porque compartilham o mesmo canvas. O `oDoor_chunky` foi portado em 23/11 (`Create_0`, `Step_1`, `Step_2`, `Draw_0`, sprite `sDoor_chunky`); o bloqueio do jogador ficou provisório no `Step_2` até o `COLLIDE` (P24). **Causa real do "circuito que volta e nunca apaga":** a conclusão anterior de "latch intencional do YYC" estava errada! No YYC (`gml_Object_oWire_DIODE_D_Draw_0.c`, linhas 573-658), `oWire_DIODE_D` força `an[0] = 0`, `an[1] = 0`, `an[3] = 0` e faz `lerp` **apenas em `an[2]`** (entrada de cima, vinda da placa). Eu fazia `lerp` nos 4 lados (`an[0..3]`), transformando o diodo num fio bidirecional que se mantinha aceso por `d[0]`/`d[1]`/`d[3]` e reinjetava sinal no fio abaixo (`_n.d[2] = 1`), travando o loop! Além disso: (1) `oWire_DIODE_D` desenhava subframes `0` e `1` (diodo U, para cima) em vez dos subframes `1` e `5` do YYC (diodo D, para baixo); (2) `oWire_DIODE_D` não tem `Draw_77` no original (removido); (3) `oWire_TIMER` tem `Draw_77` vazio no YYC (`0x141155d70`) para não herdar o clique de `oWire`, e toca a própria sequência de 3 cliques descendentes (`0.816667`, `0.666667`, `0.516667`) dentro do `Draw_0` enquanto `anim` desce `2.5 → 1.5 → 0.5`; (4) `DAT_1420c7510` / `DAT_1420c7660` valem `1.0` (não `2.0`), e todos os três objetos recalculam `on = min(1, d[0]+d[1]+d[2]+d[3])` após o bloco de propagação. Tudo corrigido; 29/29 testes passaram. Falta F5 para validar que o circuito acende o timer até 3 barras e, ao sair da placa, o timer descarrega com 3 cliques e toda a rede apaga.
 
+### 0.3 Achados do F5 de 23/11 (original vs reconstrução)
+
+Comparação feita pelo usuário rodando o build original (`RuntimeBaseline`), depois de ver a intro:
+
+- **Confirmado:** o original **barra** o jogador na porta pesada fechada. O bloqueio provisório do `oDoor_chunky/Step_2` reproduz o efeito; o mecanismo do original continua desconhecido (a `collision_list` é vazia), mas o comportamento é fiel.
+- **Arco grande do cenário ausente:** é o sprite `sOrigin` (184×205, origem 92,204) do objeto `oOrigin`, que na reconstrução é casca sem eventos (P21). Confirmado abrindo `RecoveredAssets/Textures/Sprites/sOrigin/sOrigin_0.png`.
+- **Porta sobe inteira:** o `oDoor_chunky/Draw_0` atual desenha os três quadros no mesmo `y`; o original sobe peça por peça (efeito de rolar).
+- **Circuito mais lento que o original:** no original o diodo acende e a sequência corre de imediato; aqui é preciso esperar. Conferir a constante de carga (`lerp`) e o gate `anim >= 3`.
+- **Iluminação sutilmente diferente** perto da árvore.
+- **Título da janela:** "NYKRA VerticalSlice" em vez de "NYKRA" (falta `options/windows/options_windows.yy`).
+- **Falas, dica "spacebar" e UI de diálogo:** ausentes por desenho (Fase 4).
+- **`oOrigin` decompilado em 23/11** (`decompiled/oorigin/`): 8 dos 9 eventos saíram; `Draw_0` **falhou** com "Response buffer size exceeded" (evento grande, como `Step_1`, 24 KB). O `Draw_0` é o que desenha o templo/arco e precisa de uma passada com o buffer do decompilador aumentado.
+
 ---
 
 ## 1. Bloqueio atual: por que os tiles não aparecem

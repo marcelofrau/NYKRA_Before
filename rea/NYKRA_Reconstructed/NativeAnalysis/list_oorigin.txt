@@ -1,0 +1,9 @@
+gml_Object_oOrigin_Create_0	0x1409fe6b0
+gml_Object_oOrigin_Alarm_0	0x1409ff7b0
+gml_Object_oOrigin_Alarm_1	0x140a00070
+gml_Object_oOrigin_Alarm_2	0x140a009d0
+gml_Object_oOrigin_Alarm_3	0x140a01260
+gml_Object_oOrigin_Step_1	0x140a01ab0
+gml_Object_oOrigin_Draw_0	0x140a04cd0
+gml_Object_oOrigin_Draw_73	0x140a35bc0
+gml_Object_oOrigin_PreCreate_0	0x140a376e0
