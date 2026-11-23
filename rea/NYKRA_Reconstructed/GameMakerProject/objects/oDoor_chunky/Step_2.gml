@@ -7,10 +7,12 @@ if (instance_exists(oPlayer)) {
             _p.x2 = x1;
             _p.x1 = _p.x2 - _p.bw;
             _p.col_l = 1;
+            log_once("door blocked west", "door: blocked player on the west side, slab y1=" + string(y1) + " y2=" + string(y2) + " anim=" + string(anim));
         } else {
             _p.x1 = x2;
             _p.x2 = _p.x1 + _p.bw;
             _p.col_r = 1;
+            log_once("door blocked east", "door: blocked player on the east side, slab y1=" + string(y1) + " y2=" + string(y2) + " anim=" + string(anim));
         }
         _p.hsp = 0;
     }

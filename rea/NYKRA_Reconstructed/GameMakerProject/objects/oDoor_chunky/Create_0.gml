@@ -27,3 +27,4 @@ motion = 0;
 power_on_t = 0;
 anim = 0;
 power_on = 0;
+dbg_power = 0;  // debug only: last power_on already logged in Step_1

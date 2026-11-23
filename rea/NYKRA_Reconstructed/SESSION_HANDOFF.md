@@ -36,6 +36,7 @@ Ponto de retomada para a próxima sessão. O plano completo, as pendências P1�
 
 - Todo `show_debug_message` do projeto passa por `scripts/debug_log`: `global.LOG_LEVEL` é `0` (silencioso), `1` (marcos, padrão) ou `2` (detalhe por registro). Funções: `log_note`, `log_verbose`, `log_once`.
 - Saíram do log: o `FADE` por quadro do `oFade_in/Draw_73`, o `FADE alarm (no-op)`, a lista por tipo de objeto do boot (agora só no nível 2) e o log por quadro do `hurt_player` (agora uma vez por execução).
+- Entraram no nível 1 (só em mudança de estado, nunca por quadro): `plate: on=...` (avisa `NO WIRE under the plate` se não achar o fio), `door: power_on=...` e `door: blocked player on the west/east side ... slab y1/y2 anim`.
 - O overlay de diagnóstico do `oControl/Draw_64` só desenha no nível 2, para o teste visual ter tela limpa.
 - Ficaram no nível 1: resumo de uma linha do `map_load` (sala, tamanho, planeta, objetos, decor), objeto desconhecido que para a lista, arquivo de nível de porta ausente, jogador provisório criado e os `STUB`.
 - `Tools/test_phase3_map_load.py` ganhou teste que proíbe `show_debug_message` fora de `debug_log.gml`; suíte com **71 testes**, 70 OK, 1 erro de import preexistente.

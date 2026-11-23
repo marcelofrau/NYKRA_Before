@@ -7,6 +7,8 @@ if (_on != on) {
     if (_wire != noone) {
         _wire.d[2] = on;
     }
+    log_note("plate: on=" + string(on) + " at (" + string(x) + "," + string(y) + ")" +
+        (_wire == noone ? " NO WIRE under the plate" : ""));
 }
 _on = on;
 image_index = on;
