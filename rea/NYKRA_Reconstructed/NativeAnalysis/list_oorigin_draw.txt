@@ -1,0 +1,1 @@
+gml_Object_oOrigin_Draw_0	0x140a04cd0

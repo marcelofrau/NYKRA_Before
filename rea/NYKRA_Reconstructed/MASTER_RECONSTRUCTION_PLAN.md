@@ -66,7 +66,7 @@ Comparação feita pelo usuário rodando o build original (`RuntimeBaseline`), d
 - **Iluminação sutilmente diferente** perto da árvore.
 - **Título da janela:** "NYKRA VerticalSlice" em vez de "NYKRA" (falta `options/windows/options_windows.yy`).
 - **Falas, dica "spacebar" e UI de diálogo:** ausentes por desenho (Fase 4).
-- **`oOrigin` decompilado em 23/11** (`decompiled/oorigin/`): 8 dos 9 eventos saíram; `Draw_0` **falhou** com "Response buffer size exceeded" (evento grande, como `Step_1`, 24 KB). O `Draw_0` é o que desenha o templo/arco e precisa de uma passada com o buffer do decompilador aumentado.
+- **`oOrigin` decompilado em 23/11** (`decompiled/oorigin/`): os 9 eventos saíram. `Draw_0` falhou no primeiro lote com "Response buffer size exceeded"; depois de `DecompileFunctionList.java` passar a chamar `DecompileOptions.setMaxPayloadMBytes(256)`, ele saiu com **210 KB** (do porte do `Step_1`, 24 KB). O `Draw_0` é quem desenha o templo/arco: portar `oOrigin` é um marco por si só, não um ajuste.
 
 ---
 

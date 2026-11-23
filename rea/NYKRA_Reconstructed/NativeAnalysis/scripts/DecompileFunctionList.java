@@ -37,6 +37,11 @@ public class DecompileFunctionList extends GhidraScript {
 
         FunctionManager fm = currentProgram.getFunctionManager();
         DecompInterface decomp = new DecompInterface();
+        // Large events (oOrigin Draw_0, oControl Step_1) exceed the decompiler's default response
+        // buffer: "Response buffer size exceeded". Raise the payload limit before opening.
+        ghidra.app.decompiler.DecompileOptions options = new ghidra.app.decompiler.DecompileOptions();
+        options.setMaxPayloadMBytes(256);
+        decomp.setOptions(options);
         decomp.openProgram(currentProgram);
         int done = 0, failed = 0, skipped = 0;
 
