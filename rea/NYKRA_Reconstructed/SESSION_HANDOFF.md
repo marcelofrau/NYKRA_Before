@@ -43,13 +43,24 @@ Ponto de retomada para a próxima sessão. O plano completo, as pendências P1�
 
 Depois de fechar as checagens acima, seguir a ordem do `MASTER_RECONSTRUCTION_PLAN.md`:
 
-1. `oOrigin` (spawn/cutscene, P21).
-2. `oEo`.
-3. `oCamera_Point` (P33).
-4. Curvas `easing` restantes (P25).
-5. Fase 4: `oControl` completo, boot/menu, gamepad (P1/P11/P16), save V1.
+1. `LIGHTING/Draw_73` (P38, aberta em 23/11): validar no F5 o passe duplo (sombra multiplicada + bloom aditivo). Se a sala leste ainda estiver sem separação de raios ou o arco sem o tom quente, descer para os blocos individuais (`oPlayer`, `parGlow_Beam`, `oMal_Door_Flat`) via disassembly.
+2. `oOrigin` cutscene de intro (`anim >= 1`, P21).
+3. `oEo`.
+4. `oCamera_Point` (P33).
+5. Curvas `easing` restantes (P25).
+6. Fase 4: `oControl` completo, boot/menu, gamepad (P1/P11/P16), save V1.
 
 Gamepad continua na Fase 4, por decisão do usuário em 22/11.
+
+## 4.1. Ferramenta nova para o `LIGHTING`
+
+`LIGHTING_Draw_73` tem ~854 KB e não decompila no Ghidra, mas dá para ler a estrutura em segundos
+sem decompilar: copiar o range da função com `RuntimeBaseline/NYKRA.exe` (file offset
+`va - 0x140000c00`) e varrer chamadas `E8 rel32` para `FUN_1416ab810` (o `with()`), lendo o
+`48 B8 <double>` imediatamente antes para obter o índice do objeto. Depois varrer os operandos
+RIP-relative (`(byte & 0xC7) == 0x05`) e traduzir por `RecoveredAssets/Metadata/yyc-dat-symbols.json`
+para listar os builtins usados. Foi assim que apareceram `with (oGlow)`, `with (parGlow_Beam)`,
+`with (oMal_Door_Flat)` e o head com `draw_clear_alpha` / `draw_ellipse_color` / `draw_rectangle_color`.
 
 ## 5. Ambiente e comandos
 
