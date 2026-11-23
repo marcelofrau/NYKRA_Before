@@ -154,7 +154,36 @@ Ainda faltam dois trechos para escrever o GML: o ramo com `col_t != 0` e o trech
 Nada crítico. O que resta é ler ~2.400 linhas de lógica (blocos de `collision_list`, sólidos,
 plataformas móveis e as escritas finais).
 
-## 4. Esqueleto observado (linhas de `collide_annotated`)
+## 4. Achado de 23/11 que muda o escopo desta tarefa
+
+`collision_list` **nunca é preenchida** no jogo original. A busca pelo id da variável (`0x18826`) em
+todos os decompilados encontra apenas três arquivos:
+
+| Arquivo | Uso |
+|---|---|
+| `gml_Script_map_load.c` | `collision_list = ds_list_create()` e `collision_list[0] = noone` |
+| `gml_Object_parEntity_Step_2.c` | lê `array_length(collision_list)` e `collision_list[i]` (laço de candidatos) |
+| `gml_Script_COLLIDE.c` | as mesmas duas leituras |
+
+Nenhum `collision_list[...] = ...` além da inicialização. Para confirmar que não vem do controlador,
+os três `Step` do `oControl` foram decompilados agora (`decompiled/ocontrol_steps/`, 213 KB o `Step_1`)
+e também não tocam em `0x18826`.
+
+Consequência: o laço de `COLLIDE` itera a lista com `noone` na posição 0, `instance_exists(noone)` é
+falso e nada acontece. **Portar `COLLIDE` não muda comportamento observável** nesta build; a colisão
+real do jogador com sólidos vem de outro caminho (ainda não localizado — candidatos: os eventos do
+`oPlayer`, o `parEntity` fora do laço, ou o sistema `physics`).
+
+Por isso o bloqueio local de `oDoor_chunky/Step_2` **continua**, porque hoje é o que segura o jogador
+na porta e nada reconstruído o substitui.
+
+## 4b. Próximo passo real do P24
+
+1. Localizar onde o jogador colide com sólidos: procurar no `oPlayer` (Step/Create) e no `parEntity`
+   chamadas de colisão com objeto (`place_meeting`, `instance_place`, `collision_rectangle`).
+2. Só depois decidir se `COLLIDE` merece port (ele existe, mas é inerte nesta build).
+
+## 5. Esqueleto observado (linhas de `collide_annotated`)
 
 - `415-419` — retorno, `hit_obj = 0`, chamada com `gml_Script_COLLIDE` (indireção do próprio script).
 - `420-430` — `hit_obj = 0`; leitura de `mover` e comparação com 0 por `FUN_1416d9df0`.
