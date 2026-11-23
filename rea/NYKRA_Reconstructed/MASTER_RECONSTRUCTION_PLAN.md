@@ -38,7 +38,8 @@ Estado ao fim do dia, no F5 do usuário:
 
 - **Fios (P34) concluídos:** `oWire`, `oWire_DIODE_D` e `oWire_TIMER` com desenho, propagação e som próprios. O diodo anima só `an[2]` (entrada da placa) e empurra apenas para baixo; o timer usa `lerp(an, d*3, 0.04/0.2)`, limite 3 e três cliques descendentes. A limpeza de sinal agora escreve na própria entrada, não no vizinho. Logs `WIRE`/`PLATE` removidos.
 - **`oDoor_chunky` portado:** `Create_0`, `Step_1`, `Step_2` (End Step, bloqueio provisório), `Draw_0` e sprite `sDoor_chunky`. Fechada encosta no arco; aberta sobe 44 px e some na pedra acima. O valor 44 substitui os 80 px do YYC, que afundavam a laje e deixavam meia parede por causa do `min(y + 6, ystart)` no desenho.
-- **Suíte Python:** 70 testes, 69 OK, 1 erro de import preexistente em `test_save_v1_format.py`.
+- **Suíte Python:** 71 testes, 70 OK, 1 erro de import preexistente em `test_save_v1_format.py`.
+- **Logs:** todos os `show_debug_message` passam por `scripts/debug_log` (`global.LOG_LEVEL` 0/1/2; padrão 1). O `FADE` por quadro, o `FADE alarm` vazio, a lista por objeto do boot e o `hurt_player` por quadro saíram do log; o overlay do `oControl/Draw_64` só desenha no nível 2. Teste novo proíbe `show_debug_message` fora do gate.
 - **Pendências:** confirmar no F5 o bloqueio/passagem da porta, a descarga do timer com 3 cliques e o circuito sem sinal preso; portar `oDoor_chunky/Draw_73` e `Destroy_0`; portar P24 (`COLLIDE`) e remover o bloqueio local do `Step_2`.
 
 **Gamepad:** decidido pelo usuário em 22/11 para ficar na Fase 4, junto com o `oControl` completo (P1/P11) e a cauda de `set_controls` (P16). Não é item do marco atual.

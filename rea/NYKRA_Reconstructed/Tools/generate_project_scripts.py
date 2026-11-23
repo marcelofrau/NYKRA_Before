@@ -45,7 +45,7 @@ POLICY_SPRITE = (
     "        var _aspr = asset_get_index(_aspr_name);\n"
     "        if (_aspr == -1 || asset_get_type(_aspr_name) != asset_sprite) {\n"
     "            // POLICY EDIT (not in the original): never create a sprite with -1.\n"
-    "            show_debug_message(\"map_load: skipped sprite record '\" + _aspr_name + \"' at (\" + string(_ax) + \",\" + string(_ay) + \")\");\n"
+    "            log_verbose(\"map_load: skipped sprite record '\" + _aspr_name + \"' at (\" + string(_ax) + \",\" + string(_ay) + \")\");\n"
     "            continue;\n"
     "        }\n"
     "        var _sp_inst = layer_sprite_create(_al_id, _ax, _ay, _aspr);\n",
@@ -57,7 +57,7 @@ POLICY_OBJECT = (
     "    if (_oidx == -1 || asset_get_type(_oname) != asset_object) {\n"
     "        // POLICY EDIT (not in the original): the payload size of an unknown object is unknown,\n"
     "        // so reading on would silently desynchronise the rest of the file.\n"
-    "        show_debug_message(\"map_load: unknown object '\" + _oname + \"'; stopping the object list here\");\n"
+    "        log_note(\"map_load: unknown object '\" + _oname + \"'; stopping the object list here\");\n"
     "        break;\n"
     "    }\n"
     "    if (_oidx != -1) {\n",

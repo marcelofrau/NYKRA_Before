@@ -13,7 +13,7 @@ var _room_name = "rmMal_Origin";
 var _path = working_directory + "level_data/" + _room_name + ".rmlvl";
 if (!file_exists(_path)) {
     level_report = ["Level file not found: " + _path];
-    show_debug_message("oControl: " + level_report[0]);
+    log_note("oControl: " + level_report[0]);
     exit;
 }
 
@@ -39,7 +39,12 @@ while (!is_undefined(_key)) {
     _key = ds_map_find_next(_counts, _key);
 }
 ds_map_destroy(_counts);
-for (var _l = 0; _l < array_length(level_report); _l++) show_debug_message("oControl: " + level_report[_l]);
+// One milestone line per load; the per-type breakdown only at LOG_LEVEL 2 (the overlay in Draw_64
+// shows the same list on screen), which keeps the F5 log readable.
+log_note("map_load: " + CURRENTROOM + " " + string(mw) + "x" + string(mh) + " planet " + string(planet) +
+    " | objects " + string(ds_list_size(obj_list)) +
+    " | decor " + string(ds_list_size(asset_list[0])) + "/" + string(ds_list_size(asset_list[1])));
+for (var _l = 3; _l < array_length(level_report); _l++) log_verbose("oControl: " + level_report[_l]);
 
 // PROVISIONAL (plan P21): nothing in the recovered code creates the player in a new game, and oOrigin
 // (the wake-up cutscene) is not reconstructed, so the player starts where the original respawn puts him
@@ -54,5 +59,5 @@ if (_origin != noone && instance_number(oPlayer) < 1) {
     oCamera.xx = oPlayer.x;
     oCamera.yy = oPlayer.y;
     camera_set_view_pos(cam, oPlayer.x - camera_get_view_width(cam) / 2, oPlayer.y - camera_get_view_height(cam) / 2);
-    show_debug_message("oControl: PROVISIONAL player created at the oOrigin position (P21)");
+    log_note("oControl: PROVISIONAL player created at the oOrigin position (P21)");
 }

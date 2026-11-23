@@ -8,7 +8,7 @@ Ponto de retomada para a próxima sessão. O plano completo, as pendências P1�
 - Último commit antes deste handoff: `b6ef5f9 feat: reconstruct LIGHTING and glow beams`.
 - Projeto GameMaker: `rea/NYKRA_Reconstructed/GameMakerProject/NYKRA_VerticalSlice.yyp`.
 - O usuário roda pela IDE LTS 2026 com F5. O agente não executa build nem o jogo sozinho.
-- Suíte Python: **70 testes**, sendo **69 OK** e **1 erro de import preexistente** em `Tools/test_save_v1_format.py` (`attempted relative import with no known parent package`). Esse erro não é regressão.
+- Suíte Python: **71 testes**, sendo **70 OK** e **1 erro de import preexistente** em `Tools/test_save_v1_format.py` (`attempted relative import with no known parent package`). Esse erro não é regressão.
 - `git diff --check` limpo.
 
 ## 2. O que foi feito em 23/11
@@ -31,6 +31,14 @@ Ponto de retomada para a próxima sessão. O plano completo, as pendências P1�
 - `Draw_0` fecha a animação com `lerp(anim, target, 1/12)` na abertura e `1/6` no fechamento. O `mean` antigo travava em `1/13 = 0.077`.
 - O usuário confirmou no F5: abre, fecha, reabre pela placa.
 - O `+ anim * 80` do YYC afundava a laje e deixava meia parede porque `Draw_0` usa `min(y + 6, ystart)`; por isso a reconstrução usa subida de 44 px.
+
+### Logs do F5 (revisão antes do teste)
+
+- Todo `show_debug_message` do projeto passa por `scripts/debug_log`: `global.LOG_LEVEL` é `0` (silencioso), `1` (marcos, padrão) ou `2` (detalhe por registro). Funções: `log_note`, `log_verbose`, `log_once`.
+- Saíram do log: o `FADE` por quadro do `oFade_in/Draw_73`, o `FADE alarm (no-op)`, a lista por tipo de objeto do boot (agora só no nível 2) e o log por quadro do `hurt_player` (agora uma vez por execução).
+- O overlay de diagnóstico do `oControl/Draw_64` só desenha no nível 2, para o teste visual ter tela limpa.
+- Ficaram no nível 1: resumo de uma linha do `map_load` (sala, tamanho, planeta, objetos, decor), objeto desconhecido que para a lista, arquivo de nível de porta ausente, jogador provisório criado e os `STUB`.
+- `Tools/test_phase3_map_load.py` ganhou teste que proíbe `show_debug_message` fora de `debug_log.gml`; suíte com **71 testes**, 70 OK, 1 erro de import preexistente.
 
 ## 3. O que checar primeiro na próxima sessão
 

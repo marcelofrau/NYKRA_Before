@@ -19,7 +19,7 @@ if (in == 1) {
                 map_load(_path, _rm);
             }
         } else {
-            show_debug_message("door: level file not found: " + _path);
+            log_note("door: level file not found: " + _path);
             oPlayer.door_n = -1;
             oPlayer.control = 1;
             oPlayer.UI_OPEN = 0;

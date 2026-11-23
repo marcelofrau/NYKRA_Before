@@ -3,12 +3,9 @@
 // returns an inert value. None of them is a reconstruction; delete each one when the real script is.
 // Parameters are declared because GameMaker rejects extra arguments (GM1019); the names are placeholders.
 
-global.stub_logged = {};
+// STUB messages go through log_once (scripts/debug_log), so a stub that runs every frame logs once.
 function stub_log(_name, _why) {
-    if (!variable_struct_exists(global.stub_logged, _name)) {
-        global.stub_logged[$ _name] = true;
-        show_debug_message("STUB " + _name + ": " + _why);
-    }
+    log_once(_name, "STUB " + _name + ": " + _why);
 }
 
 /// @description create_flash(...): STUB, effect (stage 2)

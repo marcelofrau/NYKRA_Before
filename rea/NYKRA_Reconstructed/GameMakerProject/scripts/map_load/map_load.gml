@@ -124,7 +124,7 @@ for (var _al = 0; _al <= 1; _al++) {
         var _aspr = asset_get_index(_aspr_name);
         if (_aspr == -1 || asset_get_type(_aspr_name) != asset_sprite) {
             // POLICY EDIT (not in the original): never create a sprite with -1.
-            show_debug_message("map_load: skipped sprite record '" + _aspr_name + "' at (" + string(_ax) + "," + string(_ay) + ")");
+            log_verbose("map_load: skipped sprite record '" + _aspr_name + "' at (" + string(_ax) + "," + string(_ay) + ")");
             continue;
         }
         var _sp_inst = layer_sprite_create(_al_id, _ax, _ay, _aspr);
@@ -164,7 +164,7 @@ for (var _i = 0; _i < _obj_count; _i++) {
     if (_oidx == -1 || asset_get_type(_oname) != asset_object) {
         // POLICY EDIT (not in the original): the payload size of an unknown object is unknown,
         // so reading on would silently desynchronise the rest of the file.
-        show_debug_message("map_load: unknown object '" + _oname + "'; stopping the object list here");
+        log_note("map_load: unknown object '" + _oname + "'; stopping the object list here");
         break;
     }
     if (_oidx != -1) {

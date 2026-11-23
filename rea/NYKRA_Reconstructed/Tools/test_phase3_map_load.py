@@ -54,11 +54,13 @@ class PortedScriptsTests(unittest.TestCase):
         object_guard = text.index("if (_oidx == -1 || asset_get_type(_oname) != asset_object)")
         object_create = text.index("instance_create_depth(_ox, _oy, _odepth, _oidx)")
         self.assertLess(object_guard, object_create)
-        self.assertEqual(text.count("show_debug_message("), 2)  # both skips are logged
+        # Both skips are logged through the log gate (scripts/debug_log), not dropped silently.
+        self.assertEqual(text.count('log_verbose("map_load: skipped sprite record'), 1)
+        self.assertEqual(text.count('log_note("map_load: unknown object'), 1)
 
     def test_project_scripts_registered_in_the_yyp(self):
         names = {r["id"]["name"] for r in load_yy(PROJECT / "NYKRA_VerticalSlice.yyp")["resources"]}
-        for name in ported.SCRIPTS + ported.HAND_SCRIPTS + ["provisional_stubs"]:
+        for name in ported.SCRIPTS + ported.HAND_SCRIPTS + ["provisional_stubs", "debug_log"]:
             self.assertIn(name, names)
 
 
@@ -71,7 +73,7 @@ class ProvisionalControllerTests(unittest.TestCase):
         # Every stub declares its parameters (GM1019 rejects extra arguments otherwise).
         self.assertIn("function inv_add_obj(_item, _count, _instance)", stubs)
         self.assertEqual(sorted(functions), ["hurt_player", "inv_add_obj", "load_game", "save_game"])
-        self.assertEqual(stubs.count('show_debug_message("STUB '), len(functions))
+        self.assertEqual(len(re.findall(r'log_(?:once|note)\([^\n]*"STUB ', stubs)), len(functions))
         # No project code other than the stubs may define these names or write PROFILES.
         for path in PROJECT.glob("**/*.gml"):
             if path.name == "provisional_stubs.gml":
@@ -80,6 +82,18 @@ class ProvisionalControllerTests(unittest.TestCase):
             self.assertNotIn("PROFILES", text, path)
             for name in functions:
                 self.assertNotRegex(text, rf"^function {name}\(", path)
+
+    def test_debug_output_goes_through_the_log_gate(self):
+        # Spam in the F5 log hides the lines that matter, so every message goes through
+        # scripts/debug_log, which keeps LOG_LEVEL 1 (milestones) unless a session raises it.
+        gate = read(PROJECT / "scripts" / "debug_log" / "debug_log.gml")
+        self.assertIn("global.LOG_LEVEL = 1;", gate)
+        for function in ("log_note", "log_verbose", "log_once"):
+            self.assertRegex(gate, rf"(?m)^function {function}\(", function)
+        for path in PROJECT.glob("**/*.gml"):
+            if path.name == "debug_log.gml":
+                continue
+            self.assertNotIn("show_debug_message(", code(path), path)
 
     def test_camera_events_are_the_original_ones_and_the_room_uses_its_view(self):
         events = {(3, 2): "Step_2", (2, 0): "Alarm_0", (2, 1): "Alarm_1", (8, 75): "Draw_75", (0, 0): "Create_0"}
