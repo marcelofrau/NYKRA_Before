@@ -116,7 +116,40 @@ Ordem de port: parte 2 (núcleo), depois as escritas finais, depois `parDoor_out
 quando houver nível com água. Nada disso entra em `parEntity/Step_2` antes de o núcleo passar no F5,
 porque o bloqueio provisório da porta hoje funciona.
 
-## 3d. Ainda sem nome
+## 3e. Funções matemáticas usadas na resolução (decodificadas em 23/11)
+
+| Símbolo | Equivalente GML | Evidência |
+|---|---|---|
+| `FUN_1416cd660(&out, n, args)` | `choose(args...)` | sorteia o índice com `FUN_1417c32c0`, devolve o argumento sorteado |
+| `FUN_1416cd770(x)` | `round(x)` | soma o sinal 0,5 e aplica piso |
+| `FUN_1416cd800(a, b)` | `lengthdir_x(a, b)` | `cos(b) * a` |
+| `FUN_1416cd880(a, b)` | `lengthdir_y(a, b)` | `-sin(b) * a` |
+| `FUN_1416cdb80(a, b, c, d)` | `point_direction(a, b, c, d)` | 4 argumentos, usado como ângulo do empurrão |
+| `FUN_1416cdc30(x)` | `random(x)` | `random(1) * x` |
+| `FUN_1416cdc60(a, b)` | `random_range(min, max)` | diferença absoluta sorteada |
+| `FUN_1416cd900(ptr, n, lista)` | acesso a elemento de lista de argumentos | percorre `n` posições |
+| `FUN_140003f30(slot, x)` | `slot += x` | `case 0: *param_1 = param_2 + *param_1` |
+| `FUN_140003ba0(&out, &in, c)` | `out = in - c` | cópia e subtração de constante |
+
+Constantes novas lidas do `.exe`: `0.5` (`141981ea8`), `1.0` como float (`141981f80`),
+`0.95`, `1.05`, `0.6`, `0.7`, `510`, `1.2`, `1.1`.
+
+## 3f. Resolução de sobreposição (forma final)
+
+Depois do teste estreito de caixa, o original resolve em dois eixos:
+
+- eixo X: se `self.x2 + self.hsp >= other.x1 + other.hsp` e `self.x1 + self.hsp < other.x2 + other.hsp`:
+  quando `self.x1 >= other.x1` põe `self.x1 = other.x2` e `self.x2 = self.x1 + bw`; senão
+  `self.x2 = other.x1` e `self.x1 = self.x2 - bw`; em ambos os casos `hsp = other.hsp` (leva a
+  plataforma) e `hit_obj = 1`;
+- eixo Y: a mesma estrutura com a folga de `0.5` (`other.y1 + 0.5` / `other.y2 - 0.5`), gravando
+  `y1/y2`, `vsp = other.vsp`, `onsolid = 1`, `onobject = 1`, `hit_id = 8`, `onblock_id = 8` e,
+  se `grav > 0`, `hit_top = id`;
+- antes disso, um empurrão de 1 px na direção do centro do outro objeto (`lengthdir_x/y(1,
+  point_direction(...))` somado a `hsp`/`vsp`).
+
+Ainda faltam dois trechos para escrever o GML: o ramo com `col_t != 0` e o trecho depois de
+`3181` (fim do eixo Y / `mover`).
 
 Nada crítico. O que resta é ler ~2.400 linhas de lógica (blocos de `collision_list`, sólidos,
 plataformas móveis e as escritas finais).
