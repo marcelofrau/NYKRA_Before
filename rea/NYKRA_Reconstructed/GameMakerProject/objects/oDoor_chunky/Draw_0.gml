@@ -1,9 +1,12 @@
 // Reconstructed from gml_Object_oDoor_chunky_Draw_0 @ 0x1411eb790.
-// The original event has no draw_sprite call at all: it only touches x, y, xstart, ystart,
-// sprite_index, mean and audio_sound_gain. sDoor_chunky has 4 frames, so the "pieces rising one after
-// the other" seen in the original is the sprite going through its frames while anim runs 0 -> 1.
-// This is an EXPERIMENT: one frame chosen by anim, instead of the three frames stacked at one y.
-draw_sprite(sprite_index, round(anim * 3), x, y);
+// sDoor_chunky has one frame per slab piece: the door is a column of three 14x36 blocks stacked on
+// the spawn point, so frame 0 sits at the base, frame 1 one block above and frame 2 two blocks above.
+// Drawing them at one y (the first version) showed only the last frame, and the frame-by-frame
+// experiment showed only the bottom piece. The column also follows the rise of Step_2 (anim * 44).
+var _draw_y = ystart - anim * 44;
+draw_sprite(sprite_index, 0, xstart, _draw_y);
+draw_sprite(sprite_index, 1, xstart, _draw_y - bh);
+draw_sprite(sprite_index, 2, xstart, _draw_y - bh * 2);
 
 var _target = power_on ? 1 : 0;
 if (anim != _target && snd == -4) {
