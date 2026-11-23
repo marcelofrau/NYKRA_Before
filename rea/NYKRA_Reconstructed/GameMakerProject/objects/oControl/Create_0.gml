@@ -5,6 +5,7 @@
 // original oControl/Create_0.gml unless a comment says otherwise.
 
 START_GAME = 0;            // P6: load_game/save_game stay disabled (old save format)
+globalvar game_start;      // the original reads it as a global (scope 0x4f in oOrigin)
 game_start = START_GAME;
 CONTROL_MODE = 0;
 planet = 0;

@@ -125,7 +125,7 @@ class ProvisionalControllerTests(unittest.TestCase):
         # The leaves read these from the global scope (DAT_14218ecf8 in the decompilation), so an
         # instance variable of oControl is invisible to them ("not set before reading it").
         create = code(PROJECT / "objects" / "oControl" / "Create_0.gml")
-        for name in ("cam", "tick", "CMX", "CMY", "CX", "CY", "CW", "CH"):
+        for name in ("cam", "tick", "CMX", "CMY", "CX", "CY", "CW", "CH", "game_start"):
             self.assertRegex(create, rf"globalvar {name};", name)
 
     def test_boot_loads_rmMal_origin_through_map_load_only(self):
