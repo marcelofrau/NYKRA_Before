@@ -97,7 +97,26 @@ Entre `486` e `~800`, dentro do `with (oWATER)` (objeto 43), para cada instânci
 Com `height = 36` o fator fica `1 + 28/1.25 = 23.4`, ou seja arrasto muito forte. Falta confirmar
 de quem são `hsp`/`vsp` (da água ou da entidade) ao portar a linha 643-660.
 
-## 3c. Ainda sem nome
+## 3c. Escopo real do script (descoberto em 23/11)
+
+`COLLIDE` não é só colisão. O decompilado tem três partes grandes:
+
+1. **Água** (`486-1072`): arrasto em `hsp`/`vsp` **e** chamada de efeito com 18 argumentos
+   (`FUN_140106850`) e outra com 6 (`FUN_1400d2410`), usando os senos e as constantes
+   `157`…`162`, `10`, `46`, `59`. Virou P37: nenhum nível do recorte tem `oWATER`.
+2. **Laço de `collision_list`** (`2252`…): para cada instância da lista, testa `instance_exists`,
+   descarta a si mesma (`id`), descarta `oEo` (65), descarta `object_is_ancestor(…, 63)`, exige
+   `solidtoothers == 1` e o par `oPlayer` (64) / `player_solid == 1`; em seguida usa
+   `point_distance` para medir a caixa e resolve a penetração com `x1/y1/x2/y2` do alvo,
+   `hsp`/`vsp` de ambos e `tbwh`/`tbhh`.
+3. **Casos especiais e efeitos**: `object_get_parent == 51` (`parDoor_out`) tem ramo próprio; há
+   sons, poeira e escritas finais (`onsolid`, `onobject`, `hit_id`, `onblock_id`, `hit_top`, `mover`).
+
+Ordem de port: parte 2 (núcleo), depois as escritas finais, depois `parDoor_out`; a água fica para
+quando houver nível com água. Nada disso entra em `parEntity/Step_2` antes de o núcleo passar no F5,
+porque o bloqueio provisório da porta hoje funciona.
+
+## 3d. Ainda sem nome
 
 Nada crítico. O que resta é ler ~2.400 linhas de lógica (blocos de `collision_list`, sólidos,
 plataformas móveis e as escritas finais).
