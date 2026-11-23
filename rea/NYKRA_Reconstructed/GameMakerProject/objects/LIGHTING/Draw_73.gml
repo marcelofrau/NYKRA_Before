@@ -31,8 +31,8 @@ gpu_set_blendmode(bm_add);
 if (instance_exists(oPlayer)) {
     var _px = oPlayer.x - _vx;
     var _py = oPlayer.y - _vy;
-    draw_ellipse_color(_px - 96, _py - 66, _px + 96, _py + 66, merge_colour(c_light, c_white, 0.35), c_black, false);
-    draw_ellipse_color(_px - 46, _py - 34, _px + 46, _py + 34, c_white, c_black, false);
+    draw_ellipse_color(_px - 84, _py - 56, _px + 84, _py + 56, merge_colour(c_light, c_white, 0.3), c_black, false);
+    draw_ellipse_color(_px - 44, _py - 32, _px + 44, _py + 32, c_white, c_black, false);
 }
 
 with (oGlow) {
@@ -74,6 +74,7 @@ gpu_set_blendmode(bm_normal);
 surface_reset_target();
 
 // --- 2. warm bloom (added over the room) ---
+// Kept deliberately dim and local: the original tint is a soft wash on lit surfaces, not a flare.
 surface_set_target(surf_light);
 draw_clear(c_black);
 gpu_set_blendmode(bm_add);
@@ -81,20 +82,16 @@ gpu_set_blendmode(bm_add);
 if (instance_exists(oPlayer)) {
     var _lx = oPlayer.x - _vx;
     var _ly = oPlayer.y - _vy;
-    var _warm = make_colour_rgb(72, 42, 18);
-    draw_ellipse_color(_lx - 90, _ly - 60, _lx + 90, _ly + 60, _warm, c_black, false);
+    draw_ellipse_color(_lx - 34, _ly - 24, _lx + 34, _ly + 24, make_colour_rgb(30, 18, 8), c_black, false);
 }
 
 with (oGlow) {
-    draw_circle_colour(x - _vx, y - _vy, r * 1.8, merge_colour(c, make_colour_rgb(90, 60, 26), 0.6), c_black, false);
+    draw_circle_colour(x - _vx, y - _vy, r * 0.7, merge_colour(c, make_colour_rgb(40, 26, 12), 0.75), c_black, false);
 }
 
 with (parGlow_Beam) {
-    var _sxm2 = sxm - _vx, _sym2 = sym - _vy;
     var _fxm2 = fxm - _vx, _fym2 = fym - _vy;
-    var _bloom = make_colour_rgb(80, 54, 24);
-    draw_ellipse_color(_sxm2 - 24, _sym2 - 16, _sxm2 + 24, _sym2 + 20, _bloom, c_black, false);
-    draw_ellipse_color(_fxm2 - 20, _fym2 - 12, _fxm2 + 20, _fym2 + 12, merge_colour(_bloom, c_black, 0.4), c_black, false);
+    draw_ellipse_color(_fxm2 - 12, _fym2 - 8, _fxm2 + 12, _fym2 + 8, make_colour_rgb(34, 22, 10), c_black, false);
 }
 
 gpu_set_blendmode(bm_normal);
