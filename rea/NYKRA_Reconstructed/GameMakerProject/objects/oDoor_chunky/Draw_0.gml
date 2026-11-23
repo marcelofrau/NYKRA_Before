@@ -1,24 +1,33 @@
-// Reconstructed from gml_Object_oDoor_chunky_Draw_0 @ 0x1411eb790.
-// The four frames of sDoor_chunky are the pieces of one column, each already placed inside the same
-// 14x36 canvas: frame 0 covers rows 15-35 (base), frame 2 rows 2-33 (the X slab), frame 1 rows 0-21
-// (upper section) and frame 3 rows 0-4 (cap). They are drawn at the same point, so the column only
-// looks complete with all four; stacking them with a bh offset threw the upper pieces off screen.
-// The column follows the rise of Step_2 (anim * 44).
-var _draw_y = ystart - anim * 44;
-draw_sprite(sprite_index, 0, xstart, _draw_y);
-draw_sprite(sprite_index, 1, xstart, _draw_y);
-draw_sprite(sprite_index, 2, xstart, _draw_y);
-draw_sprite(sprite_index, 3, xstart, _draw_y);
+// Reconstructed from gml_Object_oDoor_chunky_Draw_0 @ 0x1411eb790
+// (NativeAnalysis/decompiled/chunky_annotated).
+// anim advances with reach() (not lerp()), plays a looping stone-grind sound (sndDoor_stonebig1/2)
+// while moving and fades it out over 200 ms on arrival. The 3 slab frames telescope upward:
+// frame 0 rises immediately at y, frame 1 waits 6 px at ystart, frame 2 waits 12 px at ystart.
+// Finally x/y return to xstart/ystart so oWire at depth -60 still overlaps the door's mask.
 
-var _target = power_on ? 1 : 0;
-if (anim != _target && snd == -4) {
-    audio_play_sound(sndStone_open, 10, 0);
-    snd = 0;
+draw_set_alpha(1);
+
+if (power_on || power_on_t) {
+    anim = reach(anim, 1, mean(abs(1 - anim) / 12, 0.02) / 2);
+    if (snd == -4 && anim != power_on) {
+        snd = play_sound_pos(choose(sndDoor_stonebig1, sndDoor_stonebig2), 10, 1, random_range(1, 1.05) * 0.89, 1.0 / 6.0, 400, x, y);
+    }
+} else {
+    anim = reach(anim, 0, mean(abs(0 - anim) / 6, 0.02));
+    if (snd == -4 && anim != power_on) {
+        snd = play_sound_pos(choose(sndDoor_stonebig1, sndDoor_stonebig2), 10, 1, random_range(1, 1.05) * 0.89, 1.0 / 6.0, 400, x, y);
+    }
 }
-var _speed = power_on ? 1.0 / 12.0 : 1.0 / 6.0;
-anim = lerp(anim, _target, _speed);
-if (abs(anim - _target) < 0.0001) anim = _target;
 
-// Original Draw_0 restores the instance to its spawn point after drawing.
+if (anim == power_on && snd != -4) {
+    audio_sound_gain(snd, 1.0 / 6.0, 0);
+    audio_sound_gain(snd, 0, 200);
+    snd = -4;
+}
+
+draw_sprite(sprite_index, 0, x, y);
+draw_sprite(sprite_index, 1, x, min(y + 6, ystart));
+draw_sprite(sprite_index, 2, x, min(y + 12, ystart));
+
 x = xstart;
 y = ystart;

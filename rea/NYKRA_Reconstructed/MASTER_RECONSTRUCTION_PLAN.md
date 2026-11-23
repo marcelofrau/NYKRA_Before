@@ -61,8 +61,8 @@ Comparação feita pelo usuário rodando o build original (`RuntimeBaseline`), d
 
 - **Confirmado:** o original **barra** o jogador na porta pesada fechada. O bloqueio provisório do `oDoor_chunky/Step_2` reproduz o efeito; o mecanismo do original continua desconhecido (a `collision_list` é vazia), mas o comportamento é fiel.
 - **Arco grande do cenário ausente:** é o sprite `sOrigin` (184×205, origem 92,204) do objeto `oOrigin`, que na reconstrução é casca sem eventos (P21). Confirmado abrindo `RecoveredAssets/Textures/Sprites/sOrigin/sOrigin_0.png`.
-- **Porta sobe inteira:** o `oDoor_chunky/Draw_0` atual desenha os três quadros no mesmo `y`; o original sobe peça por peça (efeito de rolar).
-- **Circuito mais lento que o original:** no original o diodo acende e a sequência corre de imediato; aqui é preciso esperar. Conferir a constante de carga (`lerp`) e o gate `anim >= 3`.
+- **Porta sobe inteira (corrigido em 23/11):** leitura completa do YYC (`oDoor_chunky_Draw_0.c` + `Step_1.c`) revelou que `FUN_1416b8480` é `draw_sprite`, `FUN_1416cda40` é `min` e `FUN_14003b450` é `reach`. A porta sobe `anim * 34` (não 44), usa `reach` com passo `mean(abs(1-anim)/12, 0.02)/2` (abrindo) e `mean(abs(0-anim)/6, 0.02)` (fechando), toca `sndDoor_stonebig1`/`sndDoor_stonebig2` em loop com fade-out de 200 ms, e desenha os 3 quadros em telescópio: `y`, `min(y + 6, ystart)`, `min(y + 12, ystart)`.
+- **Circuito mais lento/travado que o original (corrigido em 23/11):** `oWire`, `oWire_DIODE_D` e `oWire_TIMER` usavam `lerp` em vez de `reach` (`FUN_14003b450`), o que impedia `an[]` de bater 1/3 e 0 em tempo linear (7 frames por fio, 15 frames de carga / 75 frames de descarga linear no timer). Além disso, `_target.power_on` estava fora do `if (anim >= 1)`/`if (anim >= 3)`, e o timer tinha `round(anim)` sem `clamp(..., 1, 3)` e glow `sqr(anim)/2` (9× estourado) em vez de `sqr(anim/3)/2`. Tudo alinhado ao YYC.
 - **Iluminação sutilmente diferente** perto da árvore.
 - **Título da janela:** "NYKRA VerticalSlice" em vez de "NYKRA" (falta `options/windows/options_windows.yy`).
 - **Falas, dica "spacebar" e UI de diálogo:** ausentes por desenho (Fase 4).

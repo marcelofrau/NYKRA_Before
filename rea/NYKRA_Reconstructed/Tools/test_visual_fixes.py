@@ -195,7 +195,7 @@ class VisualFixTests(unittest.TestCase):
             "draw_set_alpha(sqr(anim) / 2);",
             "lengthdir_y(1, tick * 30) + 8.633",
             "lengthdir_x(1, tick * 77) + 4.933",
-            "an[_i] = lerp(an[_i], d[_i], 0.15);",
+            "an[_i] = reach(an[_i], d[_i], 0.15);",
             "on = round(min(1, d[0] + d[1] + d[2] + d[3]));",
             "if (anim >= 1) {",
             "instance_place(x - 16, y, oWire)",
@@ -224,18 +224,18 @@ class VisualFixTests(unittest.TestCase):
         self.assertIn("draw_sprite_ext(sprite_index, 5, x, y, 1, 1, 0, 0xffff00, sqr(anim));", diode)
         self.assertIn("an[0] = 0;", diode)
         self.assertIn("an[1] = 0;", diode)
-        self.assertIn("an[2] = lerp(an[2], d[2], 0.15);", diode)
+        self.assertIn("an[2] = reach(an[2], d[2], 0.15);", diode)
         self.assertIn("an[3] = 0;", diode)
-        self.assertNotIn("an[_i] = lerp", diode)
+        self.assertNotIn("an[_i] = reach", diode)
         self.assertIn("if (anim >= 1) {", diode)
 
         timer = code("objects/oWire_TIMER/Draw_0.gml")
         self.assertIn("if (anim >= 3) {", timer)
-        self.assertIn("var _t = d[_i] ? 0.2 : 0.04;", timer)
-        self.assertIn("an[_i] = lerp(an[_i], d[_i] * 3, _t);", timer)
-        self.assertIn("var _timer_alpha = clamp(sqr(anim / 3), 0, 1);", timer)
-        self.assertIn("draw_sprite_ext(sprite_index, round(anim), x, y, 1, 1, 0, 0xffff00, _timer_alpha);", timer)
-        self.assertIn("draw_set_alpha(sqr(anim) / 2);", timer)
+        self.assertIn("var _step = 0.2 * (d[_i] ? 1 : 0.2);", timer)
+        self.assertIn("an[_i] = reach(an[_i], d[_i] * 3, _step);", timer)
+        self.assertIn("var _sub = clamp(round(anim), 1, 3);", timer)
+        self.assertIn("draw_sprite_ext(sprite_index, _sub, x, y, 1, 1, 0, 0xffff00, sqr(anim / 3));", timer)
+        self.assertIn("draw_set_alpha(sqr(anim / 3) / 2);", timer)
         self.assertIn("play_sound_pos(sndWire, 10, 0, 0.816667, 1.5", timer)
         self.assertIn("play_sound_pos(sndWire, 10, 0, 0.666667, 1.5", timer)
         self.assertIn("play_sound_pos(sndWire, 10, 0, 0.516667, 1.5", timer)
@@ -249,15 +249,24 @@ class VisualFixTests(unittest.TestCase):
 
         for name in ("oWire", "oWire_DIODE_D", "oWire_TIMER"):
             src = code(f"objects/{name}/Draw_0.gml")
-            self.assertIn("if (anim <= 0.00001) {", src, name)
+            self.assertIn("if (anim <= 0) {", src, name)
             self.assertIn("on = min(1, d[0] + d[1] + d[2] + d[3]);", src, name)
-            self.assertNotIn("<= 0 && _n.anim <= 0", src, name)
-            self.assertEqual(src.count("<= 0.00001 && _n.anim <= 0.00001"), 4, name)
+            self.assertNotIn("lerp(", src, name)
+            self.assertEqual(src.count("<= 0 && _n.anim <= 0"), 4, name)
             self.assertNotIn("_n.d[0] = 0;", src, name)
             self.assertNotIn("_n.d[1] = 0;", src, name)
             self.assertNotIn("_n.d[2] = 0;", src, name)
             self.assertNotIn("_n.d[3] = 0;", src, name)
             self.assertNotIn("show_debug_message", src, name)
+
+        door_step = code("objects/oDoor_chunky/Step_1.gml")
+        self.assertIn("by1 - anim * 34", door_step)
+        door_draw = code("objects/oDoor_chunky/Draw_0.gml")
+        self.assertIn("reach(anim, 1, mean(abs(1 - anim) / 12, 0.02) / 2)", door_draw)
+        self.assertIn("reach(anim, 0, mean(abs(0 - anim) / 6, 0.02))", door_draw)
+        self.assertIn("draw_sprite(sprite_index, 1, x, min(y + 6, ystart));", door_draw)
+        self.assertIn("draw_sprite(sprite_index, 2, x, min(y + 12, ystart));", door_draw)
+        self.assertIn("sndDoor_stonebig1", door_draw)
 
     def test_view_constrict_favours_constrained_position(self):
         step = code("objects/oVIEW_CONSTRICT/Step_2.gml")
