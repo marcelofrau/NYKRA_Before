@@ -165,6 +165,15 @@ file_input = 0;
 MUSIC[0] = -1;   // background music
 MUSIC[1] = -1;   // ambience fx
 MUSIC[2] = -1;   // ambience bg
+MUSIC_ID[0] = -1;
+MUSIC_ID[1] = -1;
+MUSIC_ID[2] = -1;
+PLAYING_MUSIC[0] = -1;
+PLAYING_MUSIC[1] = -1;
+PLAYING_MUSIC[2] = -1;
+VOLUME = 1;
+pre_volume = 1;
+music_volume = 1;
 
 // Layer names used by map_load.
 _layer = ["tFRONT_over", "tFRONT", "tFRONT_bg", "tBACK_over", "tBACK", "tBACK_bg"];
@@ -175,7 +184,7 @@ asset_list = [ds_list_create(), ds_list_create()];
 // with (oControl), so they are -1 (= no sound). Delete this block when the sounds are
 // imported, otherwise these variables would shadow the real assets.
 sndAmb_inside = -1;
-sndAmb_windbirds = -1;
+// sndAmb_windbirds imported as a real GMSound asset (do not shadow it here)
 sndM_Amb_1 = -1;
 sndM_Maldis = -1;
 sndM_Praedim = -1;

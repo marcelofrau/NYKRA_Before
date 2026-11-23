@@ -138,7 +138,10 @@ class ProvisionalControllerTests(unittest.TestCase):
         create = read(PROJECT / "objects" / "oControl" / "Create_0.gml")
         scene = read(PROJECT / "scripts" / "_SET_SCENE" / "_SET_SCENE.gml")
         for sound in sorted(set(re.findall(r"\bsnd\w+", scene))):
-            self.assertIn(f"{sound} = -1;", create, sound)
+            if (PROJECT / "sounds" / sound / f"{sound}.yy").exists():
+                self.assertNotIn(f"{sound} = -1;", create, f"{sound} asset must not be shadowed")
+            else:
+                self.assertIn(f"{sound} = -1;", create, sound)
 
     def test_room_loads_through_oControl_and_has_the_layers_map_load_looks_up(self):
         room = load_yy(PROJECT / "rooms" / "rmMAIN" / "rmMAIN.yy")
