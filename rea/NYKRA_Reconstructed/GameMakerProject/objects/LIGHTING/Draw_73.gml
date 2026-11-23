@@ -31,16 +31,16 @@ gpu_set_blendmode(bm_add);
 if (instance_exists(oPlayer)) {
     var _px = oPlayer.x - _vx;
     var _py = oPlayer.y - _vy;
-    draw_ellipse_color(_px - 84, _py - 56, _px + 84, _py + 56, merge_colour(c_light, c_white, 0.3), c_black, false);
-    draw_ellipse_color(_px - 44, _py - 32, _px + 44, _py + 32, c_white, c_black, false);
+    draw_ellipse_color(_px - 84, _py - 56, _px + 84, _py + 56, merge_colour(c_light, c_black, 0.15), c_black, false);
+    draw_ellipse_color(_px - 44, _py - 32, _px + 44, _py + 32, c_light, c_black, false);
 }
 
 with (oGlow) {
-    draw_circle_colour(x - _vx, y - _vy, r, c, c_black, false);
+    draw_circle_colour(x - _vx, y - _vy, r, merge_colour(c, c_light, 0.35), c_black, false);
 }
 
 with (oMal_Door_Flat) {
-    draw_circle_colour(x - _vx, y - 16 - _vy, 30, merge_colour(c_light, c_white, 0.2), c_black, false);
+    draw_circle_colour(x - _vx, y - 16 - _vy, 30, merge_colour(c_light, c_black, 0.35), c_black, false);
 }
 
 with (parGlow_Beam) {
@@ -51,23 +51,23 @@ with (parGlow_Beam) {
     var _fxm = fxm - _vx, _fym = fym - _vy;
     var _fx2 = fx2 - _vx, _fy2 = fy2 - _vy;
 
-    // Three separate shafts: a 3 px gap between them keeps the rays readable.
+    // Three shafts, narrow at the source and wide where they hit the rock, with 3 px gaps.
     draw_primitive_begin(pr_trianglelist);
     draw_vertex_colour(_sx1, _sy1, c_white, 1);
-    draw_vertex_colour(_fx1 - 3, _fy1 - 3, merge_colour(c_white, c_black, 0.7), 1);
-    draw_vertex_colour(_fx1 + 3, _fy1 + 3, merge_colour(c_white, c_black, 0.7), 1);
+    draw_vertex_colour(_fx1 - 10, _fy1, merge_colour(c_white, c_black, 0.55), 1);
+    draw_vertex_colour(_fx1 + 10, _fy1, merge_colour(c_white, c_black, 0.55), 1);
 
     draw_vertex_colour(_sxm, _sym, c_white, 1);
-    draw_vertex_colour(_fxm - 3, _fym - 3, merge_colour(c_white, c_black, 0.7), 1);
-    draw_vertex_colour(_fxm + 3, _fym + 3, merge_colour(c_white, c_black, 0.7), 1);
+    draw_vertex_colour(_fxm - 10, _fym, merge_colour(c_white, c_black, 0.55), 1);
+    draw_vertex_colour(_fxm + 10, _fym, merge_colour(c_white, c_black, 0.55), 1);
 
     draw_vertex_colour(_sx2, _sy2, c_white, 1);
-    draw_vertex_colour(_fx2 - 3, _fy2 - 3, merge_colour(c_white, c_black, 0.7), 1);
-    draw_vertex_colour(_fx2 + 3, _fy2 + 3, merge_colour(c_white, c_black, 0.7), 1);
+    draw_vertex_colour(_fx2 - 10, _fy2, merge_colour(c_white, c_black, 0.55), 1);
+    draw_vertex_colour(_fx2 + 10, _fy2, merge_colour(c_white, c_black, 0.55), 1);
     draw_primitive_end();
 
     draw_ellipse_color(_sxm - 26, _sym - 18, _sxm + 26, _sym + 22, c_white, c_black, false);
-    draw_ellipse_color(_fxm - 24, _fym - 16, _fxm + 24, _fym + 16, merge_colour(c_white, c_black, 0.55), c_black, false);
+    draw_ellipse_color(_fxm - 26, _fym - 14, _fxm + 26, _fym + 14, merge_colour(c_white, c_black, 0.4), c_black, false);
 }
 
 gpu_set_blendmode(bm_normal);
@@ -82,16 +82,16 @@ gpu_set_blendmode(bm_add);
 if (instance_exists(oPlayer)) {
     var _lx = oPlayer.x - _vx;
     var _ly = oPlayer.y - _vy;
-    draw_ellipse_color(_lx - 34, _ly - 24, _lx + 34, _ly + 24, make_colour_rgb(30, 18, 8), c_black, false);
+    draw_ellipse_color(_lx - 30, _ly - 21, _lx + 30, _ly + 21, make_colour_rgb(18, 11, 5), c_black, false);
 }
 
 with (oGlow) {
-    draw_circle_colour(x - _vx, y - _vy, r * 0.7, merge_colour(c, make_colour_rgb(40, 26, 12), 0.75), c_black, false);
+    draw_circle_colour(x - _vx, y - _vy, r * 0.55, merge_colour(c, make_colour_rgb(26, 17, 8), 0.8), c_black, false);
 }
 
 with (parGlow_Beam) {
     var _fxm2 = fxm - _vx, _fym2 = fym - _vy;
-    draw_ellipse_color(_fxm2 - 12, _fym2 - 8, _fxm2 + 12, _fym2 + 8, make_colour_rgb(34, 22, 10), c_black, false);
+    draw_ellipse_color(_fxm2 - 14, _fym2 - 9, _fxm2 + 14, _fym2 + 9, make_colour_rgb(22, 14, 7), c_black, false);
 }
 
 gpu_set_blendmode(bm_normal);
