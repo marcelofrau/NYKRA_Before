@@ -114,6 +114,7 @@ class VisualFixTests(unittest.TestCase):
         self.assertIn("COLOUR = c_ink;", create)
         self.assertIn("g = 1;", code("objects/LIGHTING/Alarm_0.gml"))
         self.assertIn("surface_free(surf);", code("objects/LIGHTING/Destroy_0.gml"))
+        self.assertIn("surf_light = -1;", code("objects/LIGHTING/Create_0.gml"))
         draw = code("objects/LIGHTING/Draw_73.gml")
         for fragment in (
             "if (!g) {",
