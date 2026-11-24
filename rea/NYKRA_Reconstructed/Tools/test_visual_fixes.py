@@ -348,6 +348,29 @@ class VisualFixTests(unittest.TestCase):
         for name in ("create_flashline", "create_spark", "create_poly"):
             self.assertIn(f'stub_log("{name}"', player_stubs)
 
+    def test_death_respawn_survives_map_load(self):
+        # The author's own respawn: oPlayer/Draw_73 (original) reloads the previous room and
+        # restores hp. It crashed at map_load:94 because the reconstructed map_load read bare
+        # self._layer while the death path runs with self=oPlayer (the original's latent bug:
+        # every other caller wraps map_load in with(oControl), Draw_77.c:162-225).
+        load = code("scripts/map_load/map_load.gml")
+        self.assertIn("array_length(oControl._layer)", load)
+        self.assertIn("layer_get_id(oControl._layer[_li])", load)
+        self.assertNotRegex(load, r"array_length\(_layer\)")
+        self.assertNotRegex(load, r"layer_get_id\(_layer\[")
+        # ... and reset_files must not read bare self.file either (same crash class).
+        reset = code("scripts/reset_files/reset_files.gml")
+        self.assertIn("ds_list_clear(oControl.file);", reset)
+        self.assertNotIn("ds_list_clear(file);", reset)
+        self.assertIn("oControl.file_current = _room_name;", load)
+        self.assertIn("oControl.map_n = buffer_read(_b, buffer_u8);", load)
+        self.assertIn("oControl.planet = buffer_read(_b, buffer_u8);", load)
+        self.assertIn("oControl.collision_list[0] = noone;", load)
+        death = code("objects/oPlayer/Draw_73.gml")
+        self.assertIn("goto_map(SAVE_prev_rm,(death_final==0));", death)
+        self.assertIn("hp = hp_max;", death)
+        self.assertIn('SAVE_prev_rm = "rmMal_Origin";', death)  # fallback when nothing was saved
+
 
 if __name__ == "__main__":
     unittest.main()

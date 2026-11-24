@@ -36,7 +36,7 @@ HAND_SCRIPTS = ["reach_tween", "set_game_screen", "set_controls", "config_get", 
 GET_2D = re.compile(r"array_get_2D\((\w+),\s*(\w+),\s*(\w+)\)")
 LENGTH_1D = re.compile(r"array_length_1d\(([^()]+)\)")
 ARRAY_FROM_NUMBER = [
-    ("map = -1;\nmap[mw, mh] = 0;", "map = [];\nmap[mw, mh] = 0;"),
+    ("map = -1;\nmap[oControl.mw, oControl.mh] = 0;", "map = [];\nmap[oControl.mw, oControl.mh] = 0;"),
     ("collision_list = 0;\ncollision_list[0] = noone;", "collision_list = [];\ncollision_list[0] = noone;"),
 ]
 POLICY_SPRITE = (

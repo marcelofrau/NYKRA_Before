@@ -1,15 +1,1 @@
-{
-  "excludes": [
-    "rea/NYKRA_Reconstructed/RecoveredAssets/Textures/",
-    "rea/NYKRA_Reconstructed/RecoveredAssets/Masks/",
-    "rea/NYKRA_Reconstructed/RecoveredAssets/Sounds/",
-    "rea/NYKRA_Reconstructed/RecoveredAssets/EmbeddedTextures/",
-    "rea/NYKRA_Reconstructed/RecoveredAssets/Shaders/",
-    "rea/NYKRA_Reconstructed/RuntimeBaseline/",
-    "*.png",
-    "*.wav",
-    "*.ogg",
-    "rea/NYKRA_Reconstructed/RecoveredAssets/Metadata/asset-order.txt",
-    "rea/NYKRA_Reconstructed/RecoveredAssets/Metadata/yyc-symbols.txt"
-  ]
-}
+{"excludes": ["rea/NYKRA_Reconstructed/RecoveredAssets/Textures/", "rea/NYKRA_Reconstructed/RecoveredAssets/Masks/", "rea/NYKRA_Reconstructed/RecoveredAssets/Sounds/", "rea/NYKRA_Reconstructed/RecoveredAssets/EmbeddedTextures/", "rea/NYKRA_Reconstructed/RecoveredAssets/Shaders/", "rea/NYKRA_Reconstructed/RuntimeBaseline/", "*.png", "*.wav", "*.ogg", "rea/NYKRA_Reconstructed/RecoveredAssets/Metadata/asset-order.txt", "rea/NYKRA_Reconstructed/RecoveredAssets/Metadata/yyc-symbols.txt"], "code_only": false}

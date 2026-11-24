@@ -4,13 +4,17 @@
 /// Compat edits: none
 /// Policy edits: none
 function reset_files() {
-ds_list_clear(file);
+// BUG FIX (latent in the original): reads self.file like the compiled gml_Script_reset_files,
+// but every caller runs it through map_load with self=oControl except the death path
+// (oPlayer/Draw_73 -> goto_map), which hit "oPlayer.file not set". oControl.file, same fix class
+// as oControl._layer in map_load.
+ds_list_clear(oControl.file);
 var _f = file_find_first(working_directory + "level_data/*.rmlvl", 0);
 if (_f != "") {
-    ds_list_add(file, string_replace(_f, ".rmlvl", ""));
+    ds_list_add(oControl.file, string_replace(_f, ".rmlvl", ""));
     _f = file_find_next();
     while (_f != "") {
-        ds_list_add(file, string_replace(_f, ".rmlvl", ""));
+        ds_list_add(oControl.file, string_replace(_f, ".rmlvl", ""));
         _f = file_find_next();
         if (_f == "") break;
     }

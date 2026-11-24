@@ -1,0 +1,434 @@
+{
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script_ARRAY_COLLIDE.c": {
+    "mtime": 1794483967.3270953,
+    "seen": 1794928897.7207282,
+    "ast_hash": "ea2fd9e6718aab53c3b3e5c4be80a9b6",
+    "semantic_hash": "ea2fd9e6718aab53c3b3e5c4be80a9b6"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script_COLLIDE.c": {
+    "mtime": 1794483950.4623578,
+    "seen": 1794928897.7207282,
+    "ast_hash": "eddb9f36ed078d0cb9cf55e7137881c4",
+    "semantic_hash": "eddb9f36ed078d0cb9cf55e7137881c4"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script__SET_SCENE.c": {
+    "mtime": 1794483472.1877592,
+    "seen": 1794928897.7207282,
+    "ast_hash": "252de5ac3209480a6d934d52100ed5fb",
+    "semantic_hash": "252de5ac3209480a6d934d52100ed5fb"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script__save_ds_list.c": {
+    "mtime": 1794483662.9698617,
+    "seen": 1794928897.7207282,
+    "ast_hash": "f74bfbfbbf9dac1b30bf2124ad39b387",
+    "semantic_hash": "f74bfbfbbf9dac1b30bf2124ad39b387"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script__save_type.c": {
+    "mtime": 1794483582.6938472,
+    "seen": 1794928897.7207282,
+    "ast_hash": "0521ff5fab27c39e1601156f78c855f1",
+    "semantic_hash": "0521ff5fab27c39e1601156f78c855f1"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script__save_type_rec.c": {
+    "mtime": 1794483581.841838,
+    "seen": 1794928897.7207282,
+    "ast_hash": "28b60a429341aa5912181cb96ae4651f",
+    "semantic_hash": "28b60a429341aa5912181cb96ae4651f"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script__save_type_rec2.c": {
+    "mtime": 1794483581.0337596,
+    "seen": 1794928897.7207282,
+    "ast_hash": "e8faef427aa9a41eafb20b121adde323",
+    "semantic_hash": "e8faef427aa9a41eafb20b121adde323"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script_clear_objects.c": {
+    "mtime": 1794483580.2021382,
+    "seen": 1794928897.7207282,
+    "ast_hash": "b51622f889fa778a98f82d8bd5aaacaf",
+    "semantic_hash": "b51622f889fa778a98f82d8bd5aaacaf"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script_col_move.c": {
+    "mtime": 1794483580.907554,
+    "seen": 1794928897.7207282,
+    "ast_hash": "54b1d735ac2adca72872713366f30da0",
+    "semantic_hash": "54b1d735ac2adca72872713366f30da0"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script_col_move_yeah.c": {
+    "mtime": 1794483580.9171803,
+    "seen": 1794928897.7207282,
+    "ast_hash": "12aea73102580f6b5305217f9e9f295b",
+    "semantic_hash": "12aea73102580f6b5305217f9e9f295b"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script_goto_map.c": {
+    "mtime": 1794483662.8550768,
+    "seen": 1794928897.7207282,
+    "ast_hash": "a4553360a1315f671d3398028e0384ea",
+    "semantic_hash": "a4553360a1315f671d3398028e0384ea"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script_load_CHARACTER.c": {
+    "mtime": 1794483842.6757343,
+    "seen": 1794928897.7207282,
+    "ast_hash": "d78647a4ac4440de3ea289e80a7924b3",
+    "semantic_hash": "d78647a4ac4440de3ea289e80a7924b3"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script_load_CONTROL.c": {
+    "mtime": 1794483875.3977811,
+    "seen": 1794928897.7207282,
+    "ast_hash": "da7ad67db7a19109772a9e54547a44bf",
+    "semantic_hash": "da7ad67db7a19109772a9e54547a44bf"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script_load_GENERAL.c": {
+    "mtime": 1794483875.7534583,
+    "seen": 1794928897.7207282,
+    "ast_hash": "02e294ac5826c34ea3ba40a5a096f1e9",
+    "semantic_hash": "02e294ac5826c34ea3ba40a5a096f1e9"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script_load_game.c": {
+    "mtime": 1794483662.7417378,
+    "seen": 1794928897.7207282,
+    "ast_hash": "70cca91f96e7e4a1c5903a100ee11c49",
+    "semantic_hash": "70cca91f96e7e4a1c5903a100ee11c49"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script_map_load.c": {
+    "mtime": 1794483580.1659715,
+    "seen": 1794928897.7207282,
+    "ast_hash": "028d536d745fa301b028a8b3f3039806",
+    "semantic_hash": "028d536d745fa301b028a8b3f3039806"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script_map_save.c": {
+    "mtime": 1794483466.199652,
+    "seen": 1794928897.7207282,
+    "ast_hash": "80228906d08893bf335c6bb1265cbaca",
+    "semantic_hash": "80228906d08893bf335c6bb1265cbaca"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script_reset_files.c": {
+    "mtime": 1794483448.5115316,
+    "seen": 1794928897.7207282,
+    "ast_hash": "31ef4f375fa3ba0f552ebfb5909282e5",
+    "semantic_hash": "31ef4f375fa3ba0f552ebfb5909282e5"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script_save_CHARACTER.c": {
+    "mtime": 1794483678.3841317,
+    "seen": 1794928897.7207282,
+    "ast_hash": "b538f8519e4a8fc1dacca827b4f6888e",
+    "semantic_hash": "b538f8519e4a8fc1dacca827b4f6888e"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script_save_CONTROL.c": {
+    "mtime": 1794483684.0439315,
+    "seen": 1794928897.7207282,
+    "ast_hash": "1f80145d6ec6d006d0022bfa356437c6",
+    "semantic_hash": "1f80145d6ec6d006d0022bfa356437c6"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script_save_GENERAL.c": {
+    "mtime": 1794483875.5046604,
+    "seen": 1794928897.7207282,
+    "ast_hash": "3ecb52aef2d1a150ea12742b7afd4b39",
+    "semantic_hash": "3ecb52aef2d1a150ea12742b7afd4b39"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1/gml_Script_save_game.c": {
+    "mtime": 1794483606.360072,
+    "seen": 1794928897.7207282,
+    "ast_hash": "5ffb378cb5c6a6942cc92aae3b7298de",
+    "semantic_hash": "5ffb378cb5c6a6942cc92aae3b7298de"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script_ARRAY_COLLIDE.c": {
+    "mtime": 1794484099.0482504,
+    "seen": 1794928897.7207282,
+    "ast_hash": "0bddf2799d4bdc338d7abae7b55e6483",
+    "semantic_hash": "0bddf2799d4bdc338d7abae7b55e6483"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script_COLLIDE.c": {
+    "mtime": 1794484101.1757586,
+    "seen": 1794928897.7207282,
+    "ast_hash": "62f97dfb71ceebb7ec0224a8c076a996",
+    "semantic_hash": "62f97dfb71ceebb7ec0224a8c076a996"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script__SET_SCENE.c": {
+    "mtime": 1794484098.4025018,
+    "seen": 1794928897.7207282,
+    "ast_hash": "fd0f9a96a6e523610bd115dba640f3d4",
+    "semantic_hash": "fd0f9a96a6e523610bd115dba640f3d4"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script__save_ds_list.c": {
+    "mtime": 1794484093.6103852,
+    "seen": 1794928897.7207282,
+    "ast_hash": "767957d81ee3192f36e3a5f2f23013d8",
+    "semantic_hash": "767957d81ee3192f36e3a5f2f23013d8"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script__save_type.c": {
+    "mtime": 1794484094.2669685,
+    "seen": 1794928897.7207282,
+    "ast_hash": "2556801e844c951359ca3e5da6e03621",
+    "semantic_hash": "2556801e844c951359ca3e5da6e03621"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script__save_type_rec.c": {
+    "mtime": 1794484094.9370224,
+    "seen": 1794928897.7207282,
+    "ast_hash": "dc040ebd93c169c2fdb1ff1ea2d08baf",
+    "semantic_hash": "dc040ebd93c169c2fdb1ff1ea2d08baf"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script__save_type_rec2.c": {
+    "mtime": 1794484095.4272096,
+    "seen": 1794928897.7207282,
+    "ast_hash": "ef82436790eccda4ebc95541a44d7a7b",
+    "semantic_hash": "ef82436790eccda4ebc95541a44d7a7b"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script_clear_objects.c": {
+    "mtime": 1794484099.1339195,
+    "seen": 1794928897.7207282,
+    "ast_hash": "4488091607330bd170adde2bdb4ce2fa",
+    "semantic_hash": "4488091607330bd170adde2bdb4ce2fa"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script_col_move.c": {
+    "mtime": 1794484099.3653388,
+    "seen": 1794928897.7207282,
+    "ast_hash": "9183c046431f6a85a6a6895acf39a8df",
+    "semantic_hash": "9183c046431f6a85a6a6895acf39a8df"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script_col_move_yeah.c": {
+    "mtime": 1794484099.4104567,
+    "seen": 1794928897.7207282,
+    "ast_hash": "9c570acbb402b8493e2a608f1f926130",
+    "semantic_hash": "9c570acbb402b8493e2a608f1f926130"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script_goto_map.c": {
+    "mtime": 1794484101.2619166,
+    "seen": 1794928897.7207282,
+    "ast_hash": "a40cdb8f916e1763f847231f38e0cd98",
+    "semantic_hash": "a40cdb8f916e1763f847231f38e0cd98"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script_load_CHARACTER.c": {
+    "mtime": 1794484104.1133761,
+    "seen": 1794928897.7207282,
+    "ast_hash": "fc4a675f4919ed107605ec01af6309c1",
+    "semantic_hash": "fc4a675f4919ed107605ec01af6309c1"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script_load_CONTROL.c": {
+    "mtime": 1794484105.7233236,
+    "seen": 1794928897.7207282,
+    "ast_hash": "fa72fdce9106ddd8ee99d79a311498a8",
+    "semantic_hash": "fa72fdce9106ddd8ee99d79a311498a8"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script_load_GENERAL.c": {
+    "mtime": 1794484107.6977353,
+    "seen": 1794928897.7207282,
+    "ast_hash": "84ec011b9c277b6602c44569027cfcf1",
+    "semantic_hash": "84ec011b9c277b6602c44569027cfcf1"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script_load_game.c": {
+    "mtime": 1794484107.434541,
+    "seen": 1794928897.7207282,
+    "ast_hash": "9fc8f0b7ef5c3e1fe5144b42c591c7a2",
+    "semantic_hash": "9fc8f0b7ef5c3e1fe5144b42c591c7a2"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script_map_load.c": {
+    "mtime": 1794484109.478397,
+    "seen": 1794928897.7207282,
+    "ast_hash": "e6f9b1fe11d0c045e2a150827c7f4d95",
+    "semantic_hash": "e6f9b1fe11d0c045e2a150827c7f4d95"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script_map_save.c": {
+    "mtime": 1794484110.0498552,
+    "seen": 1794928897.7207282,
+    "ast_hash": "811b82ceb6cc5b1ae1dd8d3c6d724d21",
+    "semantic_hash": "811b82ceb6cc5b1ae1dd8d3c6d724d21"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script_reset_files.c": {
+    "mtime": 1794484110.1909814,
+    "seen": 1794928897.7207282,
+    "ast_hash": "6d1b4c2d79402be12d3fe1cdc384a923",
+    "semantic_hash": "6d1b4c2d79402be12d3fe1cdc384a923"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script_save_CHARACTER.c": {
+    "mtime": 1794484110.7687247,
+    "seen": 1794928897.7207282,
+    "ast_hash": "7b7ea6186269c69623061fd67d3f31cb",
+    "semantic_hash": "7b7ea6186269c69623061fd67d3f31cb"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script_save_CONTROL.c": {
+    "mtime": 1794484110.9181316,
+    "seen": 1794928897.7207282,
+    "ast_hash": "f77cd3711f8864c0044546c43cb7f0cd",
+    "semantic_hash": "f77cd3711f8864c0044546c43cb7f0cd"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script_save_GENERAL.c": {
+    "mtime": 1794484111.5768158,
+    "seen": 1794928897.7207282,
+    "ast_hash": "70930c032ac7e9d40674a7297ad701c8",
+    "semantic_hash": "70930c032ac7e9d40674a7297ad701c8"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/decompiled/phase1_annotated/gml_Script_save_game.c": {
+    "mtime": 1794484111.391917,
+    "seen": 1794928897.7207282,
+    "ast_hash": "5d7394c2af216320dfe8f62ee4f5bfd6",
+    "semantic_hash": "5d7394c2af216320dfe8f62ee4f5bfd6"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/scripts/DecompilePhase1Functions.java": {
+    "mtime": 1794483749.3204205,
+    "seen": 1794928897.7207282,
+    "ast_hash": "22f46820a07eecc943f893a79188c23b",
+    "semantic_hash": "22f46820a07eecc943f893a79188c23b"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/scripts/ExportFunctionInventory.java": {
+    "mtime": 1794480455.3833027,
+    "seen": 1794928897.7207282,
+    "ast_hash": "fc7c15cfdd92a40610519e222f829bf2",
+    "semantic_hash": "fc7c15cfdd92a40610519e222f829bf2"
+  },
+  "rea/NYKRA_Reconstructed/NativeAnalysis/scripts/annotate_yyc_c.py": {
+    "mtime": 1794484027.7178693,
+    "seen": 1794928897.7207282,
+    "ast_hash": "70f00ae5ba3a82612b0b05ecd1591299",
+    "semantic_hash": "70f00ae5ba3a82612b0b05ecd1591299"
+  },
+  "rea/NYKRA_Reconstructed/RecoveredAssets/Metadata/general-info.json": {
+    "mtime": 1794482464.3109343,
+    "seen": 1794928897.7207282,
+    "ast_hash": "a77a4c4b8f64facf4803399e1dd9ef69",
+    "semantic_hash": "a77a4c4b8f64facf4803399e1dd9ef69"
+  },
+  "rea/NYKRA_Reconstructed/RecoveredAssets/Metadata/objects-metadata.json": {
+    "mtime": 1794482464.3585923,
+    "seen": 1794928897.7207282,
+    "ast_hash": "67668403f38fa6e5e2bed460381124ad",
+    "semantic_hash": "67668403f38fa6e5e2bed460381124ad"
+  },
+  "rea/NYKRA_Reconstructed/RecoveredAssets/Metadata/rooms-metadata.json": {
+    "mtime": 1794482464.3711536,
+    "seen": 1794928897.7207282,
+    "ast_hash": "644ac421b3f3a3e47afc65fa0a823eeb",
+    "semantic_hash": "644ac421b3f3a3e47afc65fa0a823eeb"
+  },
+  "rea/NYKRA_Reconstructed/RecoveredAssets/Metadata/sounds-metadata.json": {
+    "mtime": 1794482464.3400335,
+    "seen": 1794928897.7207282,
+    "ast_hash": "60c3db45633c0e01f7085292290ef483",
+    "semantic_hash": "60c3db45633c0e01f7085292290ef483"
+  },
+  "rea/NYKRA_Reconstructed/RecoveredAssets/Metadata/sprites-metadata.json": {
+    "mtime": 1794482464.319481,
+    "seen": 1794928897.7207282,
+    "ast_hash": "49182253dfd4d7502f8c830922097a98",
+    "semantic_hash": "49182253dfd4d7502f8c830922097a98"
+  },
+  "rea/NYKRA_Reconstructed/RecoveredAssets/Metadata/tileset-TILES.json": {
+    "mtime": 1794559948.0048895,
+    "seen": 1794928897.7207282,
+    "ast_hash": "864855a28de1b55b8ff0ad23a1947703",
+    "semantic_hash": "864855a28de1b55b8ff0ad23a1947703"
+  },
+  "rea/NYKRA_Reconstructed/RecoveredAssets/Metadata/yyc-dat-symbols.json": {
+    "mtime": 1794484093.218915,
+    "seen": 1794928897.7207282,
+    "ast_hash": "41cdef76fe843c627c97b3342e6cdd28",
+    "semantic_hash": "41cdef76fe843c627c97b3342e6cdd28"
+  },
+  "rea/NYKRA_Reconstructed/RecoveredAssets/Metadata/yyc-function-table.json": {
+    "mtime": 1794482393.3879547,
+    "seen": 1794928897.7207282,
+    "ast_hash": "db9d470dc9462fe1e238dceb7f21c219",
+    "semantic_hash": "db9d470dc9462fe1e238dceb7f21c219"
+  },
+  "rea/NYKRA_Reconstructed/RecoveredAssets/Strings/data-win-strings.json": {
+    "mtime": 1794479689.3734298,
+    "seen": 1794928897.7207282,
+    "ast_hash": "3fd6d47ec41c3578fda670460e79ded6",
+    "semantic_hash": "3fd6d47ec41c3578fda670460e79ded6"
+  },
+  "rea/NYKRA_Reconstructed/Tools/phase1_validation_report.json": {
+    "mtime": 1794493502.7891989,
+    "seen": 1794928897.7207282,
+    "ast_hash": "b6df6ccb72862d8c3c59dc189f39bb1e",
+    "semantic_hash": "b6df6ccb72862d8c3c59dc189f39bb1e"
+  },
+  "rea/NYKRA_Reconstructed/Tools/save_v1_format.py": {
+    "mtime": 1794493457.464555,
+    "seen": 1794928897.7207282,
+    "ast_hash": "81ec984a06ff11de8e688124372eb235",
+    "semantic_hash": "81ec984a06ff11de8e688124372eb235"
+  },
+  "rea/NYKRA_Reconstructed/Tools/test_phase3_level_probe.py": {
+    "mtime": 1794552237.9647422,
+    "seen": 1794928897.7207282,
+    "ast_hash": "ec9c8550293a3db992cab80a3674ba26",
+    "semantic_hash": "ec9c8550293a3db992cab80a3674ba26"
+  },
+  "rea/NYKRA_Reconstructed/Tools/test_phase3_tileset.py": {
+    "mtime": 1794561266.4228418,
+    "seen": 1794928897.7207282,
+    "ast_hash": "0a4d6968f18755a29f2d7b785291c0f7",
+    "semantic_hash": "0a4d6968f18755a29f2d7b785291c0f7"
+  },
+  "rea/NYKRA_Reconstructed/Tools/test_save_load_compat.py": {
+    "mtime": 1794492089.4045596,
+    "seen": 1794928897.7207282,
+    "ast_hash": "1a5bf0a3e41766f769d33553a2593762",
+    "semantic_hash": "1a5bf0a3e41766f769d33553a2593762"
+  },
+  "rea/NYKRA_Reconstructed/Tools/test_save_v1_format.py": {
+    "mtime": 1794493272.9736729,
+    "seen": 1794928897.7207282,
+    "ast_hash": "560ed13663f6d994aa570893a7445172",
+    "semantic_hash": "560ed13663f6d994aa570893a7445172"
+  },
+  "rea/NYKRA_Reconstructed/Tools/validate_formats.py": {
+    "mtime": 1794490318.7499344,
+    "seen": 1794928897.7207282,
+    "ast_hash": "9f5f795512659f773645b88a4ff4e4e9",
+    "semantic_hash": "9f5f795512659f773645b88a4ff4e4e9"
+  },
+  "AGENTS.md": {
+    "mtime": 1794482661.1645758,
+    "seen": 1794928897.7207282,
+    "ast_hash": "df46b4eecaa84a9eb1c09af75ed60b74",
+    "semantic_hash": "df46b4eecaa84a9eb1c09af75ed60b74"
+  },
+  "CLAUDE.md": {
+    "mtime": 1794928423.6080387,
+    "seen": 1794928897.7207282,
+    "ast_hash": "b4d25264d5f7d3aaa9d717eab9e3a6f4",
+    "semantic_hash": "b4d25264d5f7d3aaa9d717eab9e3a6f4"
+  },
+  "README.md": {
+    "mtime": 1794474764.1555288,
+    "seen": 1794928897.7207282,
+    "ast_hash": "594c0dbfce8f9c593ef9e5cc6507677b",
+    "semantic_hash": "594c0dbfce8f9c593ef9e5cc6507677b"
+  },
+  "rea/NYKRA_Reconstructed/PHASE1_FORMATS_AND_INFRASTRUCTURE.md": {
+    "mtime": 1794490921.1714675,
+    "seen": 1794928897.7207282,
+    "ast_hash": "61cf78097940cddd47f5dbc08b789508",
+    "semantic_hash": "61cf78097940cddd47f5dbc08b789508"
+  },
+  "rea/NYKRA_Reconstructed/PHASE2_PRIORITY_BUGS.md": {
+    "mtime": 1794492349.1704054,
+    "seen": 1794928897.7207282,
+    "ast_hash": "280677f0a5686c32832f57a613154770",
+    "semantic_hash": "280677f0a5686c32832f57a613154770"
+  },
+  "rea/NYKRA_Reconstructed/PHASE3_EXECUTION_PLAN.md": {
+    "mtime": 1794561164.2721379,
+    "seen": 1794928897.7207282,
+    "ast_hash": "ec2c96bda70506f041098e05b3f2ec9f",
+    "semantic_hash": "ec2c96bda70506f041098e05b3f2ec9f"
+  },
+  "rea/NYKRA_Reconstructed/RECOVERY_NOTES.md": {
+    "mtime": 1794561164.2731378,
+    "seen": 1794928897.7207282,
+    "ast_hash": "a899cb2c1124da9a0b3b86704a1d6991",
+    "semantic_hash": "a899cb2c1124da9a0b3b86704a1d6991"
+  },
+  "rea/NYKRA_Reconstructed/RECOVERY_PLAN_AND_HANDOFF.md": {
+    "mtime": 1794490934.181143,
+    "seen": 1794928897.7207282,
+    "ast_hash": "4529ff74d74bd85151b357fda05cc70c",
+    "semantic_hash": "4529ff74d74bd85151b357fda05cc70c"
+  },
+  "rea/NYKRA_Reconstructed/SAVE_MIGRATION_DESIGN.md": {
+    "mtime": 1794493374.6809807,
+    "seen": 1794928897.7207282,
+    "ast_hash": "d18cb98d9fa46a0a884e5c93bdfdd506",
+    "semantic_hash": "d18cb98d9fa46a0a884e5c93bdfdd506"
+  }
+}

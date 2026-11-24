@@ -6,10 +6,10 @@ var _room_name = (argument_count > 1) ? argument[1] : "";
 draw_texture_flush();
 instance_activate_all();
 
-file_current = _room_name;
+oControl.file_current = _room_name;
 CURRENTROOM = _room_name;
 DIALOGUE_OPEN = 0;
-keyboard_string = file_current;
+keyboard_string = oControl.file_current;
 
 if (instance_exists(oCamera)) {
     if (instance_exists(oPlayer)) {
@@ -29,30 +29,30 @@ if (instance_exists(oCamera)) {
 }
 
 var _b = buffer_load(_filepath);
-map_n = buffer_read(_b, buffer_u8);
-mw = buffer_read(_b, buffer_u8);
-mh = buffer_read(_b, buffer_u8);
+oControl.map_n = buffer_read(_b, buffer_u8);
+oControl.mw = buffer_read(_b, buffer_u8);
+oControl.mh = buffer_read(_b, buffer_u8);
 
-oCamera.x = mean(oCamera.x, mw * 8);
-oCamera.y = mean(oCamera.y, mh * 8);
-oCamera.xx = mean(oCamera.xx, mw * 8);
-oCamera.yy = mean(oCamera.yy, mh * 8);
+oCamera.x = mean(oCamera.x, oControl.mw * 8);
+oCamera.y = mean(oCamera.y, oControl.mh * 8);
+oCamera.xx = mean(oCamera.xx, oControl.mw * 8);
+oCamera.yy = mean(oCamera.yy, oControl.mh * 8);
 camera_set_view_pos(cam, oCamera.x - (camera_get_view_width(cam) / 2), oCamera.y - (camera_get_view_height(cam) / 2));
 oCamera.mv = 0;
 oCamera.mh = 0;
 oCamera.alarm[0] = 1;
 
-planet = buffer_read(_b, buffer_u8);
-CURRENT_PLANET = planet;
-horizon = buffer_read(_b, buffer_u8);
+oControl.planet = buffer_read(_b, buffer_u8);
+CURRENT_PLANET = oControl.planet;
+oControl.horizon = buffer_read(_b, buffer_u8);
 var _r1 = buffer_read(_b, buffer_u8);
 var _r2 = buffer_read(_b, buffer_u8);
 var _r3 = buffer_read(_b, buffer_u8);
 
 map = -1;
-map[mw, mh] = 0;
-for (var _ix = 0; _ix <= mw; _ix++) {
-    for (var _iy = 0; _iy <= mh; _iy++) {
+map[oControl.mw, oControl.mh] = 0;
+for (var _ix = 0; _ix <= oControl.mw; _ix++) {
+    for (var _iy = 0; _iy <= oControl.mh; _iy++) {
         map[_ix, _iy] = 0;
     }
 }
@@ -70,8 +70,8 @@ if (instance_exists(oPlayer)) {
 }
 
 // 1. Collision & block grid
-for (var _ix = 0; _ix < mw; _ix++) {
-    for (var _iy = 0; _iy < mh; _iy++) {
+for (var _ix = 0; _ix < oControl.mw; _ix++) {
+    for (var _iy = 0; _iy < oControl.mh; _iy++) {
         var _cell = buffer_read(_b, buffer_u16);
         if (_cell == 0) {
             map[_ix, _iy] = 0;
@@ -87,12 +87,18 @@ for (var _ix = 0; _ix < mw; _ix++) {
 }
 
 // 2. Tilemap layers (_layer[0..5])
-for (var _li = 0; _li < array_length_1d(_layer); _li++) {
-    var _lid = layer_get_id(_layer[_li]);
+// BUG FIX (latent in the original): gml_Script_map_load.c:1425 reads bare self._layer via
+// local_78 = param_1, but the author always runs map_load with self=oControl (parDoor_Flat_
+// Draw_77.c:162-225 wraps it in with(oControl); oControl/Other_4 boots it) — except the death
+// path, where oPlayer/Draw_73:71 calls goto_map with self=oPlayer, so dying hit
+// "oPlayer._layer not set". The port reads oControl._layer explicitly, the same style the
+// author uses in parSun_Glow (oControl._layer[i], YYC 0x1416d0010 with 0x4f).
+for (var _li = 0; _li < array_length_1d(oControl._layer); _li++) {
+    var _lid = layer_get_id(oControl._layer[_li]);
     var _tmap = layer_tilemap_get_id(_lid);
     tilemap_clear(_tmap, 0);
-    for (var _ix = 0; _ix < mw; _ix++) {
-        for (var _iy = 0; _iy < mh; _iy++) {
+    for (var _ix = 0; _ix < oControl.mw; _ix++) {
+        for (var _iy = 0; _iy < oControl.mh; _iy++) {
             var _tile = buffer_read(_b, buffer_u16);
             if (_tile != 0) {
                 tilemap_set(_tmap, _tile, _ix, _iy);
@@ -139,8 +145,8 @@ ds_list_destroy(obj_list);
 obj_list = 0;
 obj_list = ds_list_create();
 
-collision_list = 0;
-collision_list[0] = noone;
+oControl.collision_list = [];
+oControl.collision_list[0] = noone;
 var _col_idx = 0;
 
 // 5. Spawn level objects
@@ -156,7 +162,7 @@ for (var _i = 0; _i < _obj_count; _i++) {
         var _inst = instance_create_depth(_ox, _oy, _odepth, _oidx);
         ds_list_add(obj_list, _inst);
         if (object_is_ancestor(_inst.object_index, parEntity)) {
-            collision_list[_col_idx] = _inst;
+            oControl.collision_list[_col_idx] = _inst;
             _col_idx += 1;
         }
         if (_oidx == PATH) {
