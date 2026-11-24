@@ -39,6 +39,27 @@ Tipos: 0 real, 1 string, 2 array, 3 ponteiro, 5 indefinido, 6 objeto/instância,
 | `FUN_1416cd880(len, dir)` | `lengthdir_y(len, dir)`: `-len * sin(dir * pi / 180)` (o sinal invertido aparece no corpo) |
 | `FUN_1416cd560(a, i, j, v)` | `array_set_2D(a, i, j, v)` |
 
+## Scripts do jogo e builtins já identificados
+
+**Antes de chutar o que um `FUN_14...` faz**, procure o endereço em `RecoveredAssets/Metadata/yyc-function-table.json`: se ele estiver lá, é um script do jogo com nome (`gml_Script_*`). Os ids de objeto, sprite e som passados como número são o `Index` de `objects-` / `sprites-` / `sounds-metadata.json`. Por exemplo, `instance_number(0x68)` = objeto 104 = `oLIGHTING_moonglow`.
+
+| Função | Significado | Fonte / conf. |
+|---|---|---|
+| `FUN_14003b450(self, other, &ret, 3, args)` | `reach(a, b, passo)`, que anda linearmente; não é `lerp` nem `reach_tween` | `gml_Script_reach` na tabela de funções; alta |
+| `FUN_14003ee60(self, other, &ret, 2, args)` | `draw_rectangle_view(cor, alpha)` | `gml_Script_draw_rectangle_view` na tabela; alta |
+| `FUN_1416d9df0(a, b, eps, modo)` | comparação de valores com epsilon; o Ghidra mostra o resultado como `-1<v`, `v<0`, `0<v`, `v!=-2&&v<1` | alta |
+| `FUN_1416ab810` | início de um `with (obj)` | alta |
+| `DAT_142182d90 = param_1; FUN_141706ee0();` | `event_inherited()`. Está em todo `PreCreate` e, fora dele, só em filhos (`oGrass`, `oSun_Mal`, `oGnarcier_*`, `oDoor_chunky`...). O `oPlayer/Step_1` original tem `event_inherited()` na linha 345, e o YYC chama essa função | alta |
+| `FUN_1416cd720(x)` | `cos(x)` (zera abaixo de um epsilon) | `decompiled/h_1416cd720.c`; alta |
+| `FUN_1416b86b0(r, g, b)` | `make_colour_rgb(r, g, b)`: retorna `r + g*256 + b*65536` | `decompiled/helpers/h_1416b86b0.c`; alta |
+| `FUN_140017bd0(d, s, n)` | `d = s - n` (n inteiro) | `decompiled/helpers/h_140017bd0.c`; alta |
+| `FUN_1400b9c80(self, other, &ret, 3, args)` | `reach_tween(a, b, d)` | `gml_Script_reach_tween` na tabela; alta |
+| `FUN_1416d0010(0x4f, var, i, &v, ...)` | `v = oControl.var[i]`: o primeiro argumento é o índice do objeto (79 = `oControl`) | uso em `parSun_Glow_Draw_0`; média |
+| `DAT_142181cd0`, `DAT_142180d10` | constante `0` montada na carga (fica no `.bss`, fora do arquivo): aparece como 2ª cor e como `outline` de `draw_*_colour`, que só podem ser `c_black` e `false` | uso; média |
+| `FUN_1416b8480` | `draw_sprite` | uso em `oDoor_chunky_Draw_0`; média |
+| `FUN_1416cda40` | `min` | uso em `oDoor_chunky_Draw_0`; média |
+| `FUN_1416a8cb0` / `FUN_1416a8c00` | `surface_set_target` / `surface_reset_target` | uso; baixa |
+
 ## Constantes
 `DAT_14...` e `_DAT_14...` são lidas direto do `.exe` pelo `lift_yyc.py`: `RValue` de 16 bytes (os 8 primeiros são um `double`) ou `float`/`double` soltos; argumentos de `lengthdir` são `float`. Convenções do compilador: um local `uint`/`undefined4` ao lado de um `undefined8` guarda tipo/flags do valor, e um `local_X = N;` com N pequeno marca a linha de código-fonte (descartado).
 
