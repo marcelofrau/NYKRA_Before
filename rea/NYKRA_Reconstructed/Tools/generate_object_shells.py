@@ -33,6 +33,7 @@ HAND_WRITTEN = {
     "LIGHTING",  # author's original events (Tools/generate_lighting.py, P38)
     "parGlow_Beam",  # Create_0 reconstructed from the YYC (the three rays LIGHTING draws)
     "parSun_Glow", "oSun_Mal", "oLight_Glow",  # 24/11, from decompiled/rmmal1_sun (generate_reconstructed_objects.py)
+    "parGnarcier", "oGnarcier_s", "oGnarcier_m", "oGnarcier_b", "DRAW_GNARCIER",  # 24/11, plan 0.7 item 1
     "oMal_bg_leaves_bg", "oMal_bg_leaves_bg_fg", "oMal_bg_leaves_fg",
     "parGrass", "oGrass", "oGrass3",
     "parEntity",  # player stage 1: Create, Destroy, Step_1, Step_2 (provisional), Draw_77
@@ -56,7 +57,6 @@ EXTRA = [
     # named by the original oPlayer events (player stage 1)
     "oAenox_Cell", "oAenox_Cell_Off", "oBolt_Colour", "oBolt_iiem", "oDlg_Aenox_1", "oDlg_Pod7",
     "oFx_OBSERVER", "oHeavybox_s", "oPod7_KS", "parAENOX", "parBreakable", "parDust", "parMob",
-    "parGnarcier",
     "oFx",  # parent parDust is created by the closure
 ]
 FOLDER = ("Shells", "folders/Objects/Shells.yy")

@@ -1,0 +1,25 @@
+// lifted from gml_Object_DRAW_GNARCIER_Alarm_0.c
+// ?? void gml_Object_DRAW_GNARCIER_Alarm_0(undefined8 param_1,undefined8 param_2)
+{
+    // ?? puStack_1b8 = &UNK_141993864;
+    // ?? puRam0000000142182d78 = &uStack_1c0;
+    // ?? uRam0000000142182d90 = param_1;
+    // ?? iVar1 = func_0x0001416f82f0(param_1,param_2,0x3a);
+    if (iVar1 < 1) {
+        // ?? FUN_1416f8210(param_1,param_2,0,0);
+    }
+    else {
+        // ?? uRam0000000142182d90 = 0x109fa;
+        // ?? func_0x0001416ce870(param_1,uRam00000001420d5cb8,0x80000000,&uStack_68);
+        // ?? FUN_140004520(&uStack_38,&uStack_68,0x4000000000000000/*2 (obj:oDlg_Iie_GatnaGone)*/);
+        uStack_78 = uStack_38;
+        // ?? puStack_1c8 = &uStack_78;
+        // ?? puVar2 = (undefined8 *)
+        // ?? FUN_1416ab210(param_1,param_2,&uStack_48,1,uRam00000001420da140,&puStack_1c8);
+        uStack_38 = puVar2;
+        uStack_38 += 30;
+        uStack_58 = uStack_38;
+        // ?? FUN_1416cfae0(param_1,uRam00000001420d5a48,0,&uStack_58);
+    }
+    // ?? puRam0000000142182d78 = (undefined8 *)uStack_1c0;
+}

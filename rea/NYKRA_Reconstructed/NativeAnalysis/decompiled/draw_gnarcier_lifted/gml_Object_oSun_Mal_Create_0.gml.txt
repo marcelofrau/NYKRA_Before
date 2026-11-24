@@ -1,0 +1,9 @@
+// lifted from gml_Object_oSun_Mal_Create_0.c
+// ?? void gml_Object_oSun_Mal_Create_0(longlong *param_1)
+{
+    // ?? puStack_170 = &UNK_14198fba1;
+    // ?? puRam0000000142182d78 = &uStack_178;
+    // ?? plRam0000000142182d90 = param_1;
+    col = 0x4130204000000000/*1.05683e+06*/;
+    // ?? puRam0000000142182d78 = (undefined8 *)uStack_178;
+}

@@ -1,0 +1,12 @@
+// lifted from gml_Object_parSun_Glow_Create_0.c
+// ?? void gml_Object_parSun_Glow_Create_0(longlong *param_1)
+{
+    // ?? puStack_178 = &UNK_14198fb12;
+    // ?? puRam0000000142182d78 = &uStack_180;
+    // ?? plRam0000000142182d90 = param_1;
+    l = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+    l_an = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+    l_ann = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+    col = 0x4140204000000000/*2.11366e+06*/;
+    // ?? puRam0000000142182d78 = (undefined8 *)uStack_180;
+}

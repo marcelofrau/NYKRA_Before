@@ -278,6 +278,76 @@ class VisualFixTests(unittest.TestCase):
         self.assertIn("mean(_nx, _nx, _nx, _nx, _vx), mean(_ny, _ny, _ny, _ny, _vy)", step)
         self.assertNotIn("mean(_nx, _vx, _vx, _vx, _vx)", step)
 
+    def test_gnarcier_fragments_match_the_yyc(self):
+        # decompiled/rmmal1_sun_annotated + draw_gnarcier_annotated (plan 0.7 item 1); constants from the .c.
+        create = code("objects/parGnarcier/Create_0.gml")
+        for fragment in (
+            "anim1 = irandom_range(15, 21);",
+            "if instance_number(DRAW_GNARCIER) < 1 {",
+            "instance_create_depth(1, 1, -32, DRAW_GNARCIER);",
+            "alarm[0] = irandom_range(30, 120);",
+            "r = random_range(-360, 360);",
+            "depth = -100;",
+            "has_spikes = 1;",
+            "x1 = x - sprite_get_width(mask_index)/2;",
+            "x2 = x + sprite_get_width(mask_index)/2;",
+            "f_ = choose(-1, 1);",
+            "r__ = choose(0, 90, 180, 270);",
+            "image_xscale = f_;",
+        ):
+            self.assertIn(fragment, create)
+        alarm = code("objects/parGnarcier/Alarm_0.gml")
+        self.assertIn("if choose(1, 1, 0) {", alarm)
+        self.assertIn("if point_distance(x, y, CMX, CMY) < CHYP {", alarm)
+        self.assertIn("choose(sndGnar_idle1, sndGnar_idle2, sndGnar_idle3, sndGnar_idle4)", alarm)
+        self.assertIn("(1.5/mean(1.5, 1, 1, point_distance(x, y,", alarm)
+        self.assertIn("alarm[0] = ceil(irandom_range(120, 360)/1.5) + 1;", alarm)
+        step = code("objects/parGnarcier/Step_0.gml")
+        for fragment in (
+            "if anim == 0 {",
+            "anim1 -= 1;",
+            "oCamera.follow = -60;",
+            "create_flashline(x, y, random(0)+240, -100, $4400ff, 1, 1);",
+            "cam_shake += 1;",
+            "choose(sndGnar_explode_02, sndGnar_explode_03, sndGnar_explode_04, sndGnar_explode_05, sndGnar_explode_06, sndGnar_explode_07)",
+            "sndGnarcier_IMPACT_08",
+            "repeat(8) {",
+            "random_range(0.01, 0.99), sFx_3, 0, 1, random_range(0.01, 0.99),",
+            "collision_rectangle_list(bbox_left-2, bbox_top-2, bbox_right+2, bbox_bottom+2, parGnarcier, _list, false, true, true)",
+            "with(instance_create_depth(x+random_range(0, 4), y+random_range(0, 4), -32, oBolt_Colour)) {",
+            "sleep(irandom_range(15, 21));",
+            "instance_destroy();",
+        ):
+            self.assertIn(fragment, step)
+        for name, sides in (("oGnarcier_s", "3"), ("oGnarcier_m", "4"), ("oGnarcier_b", "5")):
+            child = code(f"objects/{name}/Create_0.gml")
+            self.assertIn("event_inherited();", child)
+            self.assertIn(f"sides = {sides};", child)
+            self.assertEqual(load_yy(PROJECT / "objects" / name / f"{name}.yy")["parentObjectId"]["name"], "parGnarcier")
+        drawer_create = code("objects/DRAW_GNARCIER/Create_0.gml")
+        self.assertIn("depth = -32;", drawer_create)
+        self.assertIn("alarm[0] = 60;", drawer_create)
+        drawer_alarm = code("objects/DRAW_GNARCIER/Alarm_0.gml")
+        self.assertIn("if instance_number(parGnarcier) < 1 {", drawer_alarm)
+        self.assertIn("instance_destroy();", drawer_alarm)
+        self.assertIn("alarm[0] = ceil(fps/2) + 30;", drawer_alarm)
+        drawer_draw = code("objects/DRAW_GNARCIER/Draw_0.gml")
+        self.assertIn("var COL = $4400ff;", drawer_draw)
+        self.assertIn("if anim == 0 COL = $ffff00;", drawer_draw)
+        self.assertIn("f_*(1+(1-anim)/2), f__*(1+(1-anim)/2), r__, COL, 1);", drawer_draw)
+        self.assertIn("f_, f__, r__, c_white, 1);", drawer_draw)
+        # the parent's empty Draw events are registered, so the children inherit them and do not auto-draw
+        yy = load_yy(PROJECT / "objects/parGnarcier/parGnarcier.yy")
+        events = [(e["eventType"], e["eventNum"]) for e in yy["eventList"]]
+        for event in ((0, 0), (2, 0), (3, 0), (8, 0), (8, 72)):
+            self.assertIn(event, events)
+        # the provisional oControl keeps CHYP live (original oControl/Step_1.gml:11)
+        self.assertIn("CHYP = (sqrt(sqr(CW)+sqr(CH))/2);", code("objects/oControl/Draw_0.gml"))
+        # the death-only effect scripts stay loud stubs (P27): the player stage-2 file already has them
+        player_stubs = code("scripts/provisional_player_stubs/provisional_player_stubs.gml")
+        for name in ("create_flashline", "create_spark", "create_poly"):
+            self.assertIn(f'stub_log("{name}"', player_stubs)
+
 
 if __name__ == "__main__":
     unittest.main()

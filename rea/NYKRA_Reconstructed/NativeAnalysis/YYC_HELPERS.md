@@ -59,6 +59,18 @@ Tipos: 0 real, 1 string, 2 array, 3 ponteiro, 5 indefinido, 6 objeto/instância,
 | `FUN_1416b8480` | `draw_sprite` | uso em `oDoor_chunky_Draw_0`; média |
 | `FUN_1416cda40` | `min` | uso em `oDoor_chunky_Draw_0`; média |
 | `FUN_1416a8cb0` / `FUN_1416a8c00` | `surface_set_target` / `surface_reset_target` | uso; baixa |
+| `FUN_1416cd7b0(a, b)` | `irandom_range(a, b)`: `min + random(|b-a|+1)` | `decompiled/draw_gnarcier_annotated/FUN_1416cd7b0.c:8-16`; alta |
+| `FUN_1416cd660(ctx, n, args)` | `choose(args...)`: devolve um argumento aleatório (n = quantidade) | `decompiled/draw_gnarcier_annotated/FUN_1416cd660.c:13-28`; alta |
+| `FUN_1416f82f0(self, other, id)` | `instance_number(id)` (conta ativos; aceita objeto/self/other/all/instância) | `decompiled/draw_gnarcier_annotated/FUN_1416f82f0.c:15-118`; alta |
+| `FUN_1416b84f0` | `draw_sprite_ext(sprite, frame, x, y, xs, ys, rot, cor, alpha)` | portas validadas no F5: `door_annotated/gml_Object_oMal_Door_Flat_Draw_0.c:966` ↔ `Draw_0.gml:58` (cor `$ff0000` = `c_blue`, alpha `anim2`); alta. ⚠ Em lotes `-noanalysis` o Ghidra troca os rótulos dos dois floats `in_stack_...` e às vezes omite um parâmetro (compare `DRAW_GNARCIER_Draw_0.c:567-572` com `:823-828`); use a ordem canônica |
+| `FUN_1416ce870(ref, DAT/*var*/, 0x80000000, &v)` | `v = var` de **builtin/escopo global** (a `FUN_1416cea80` é a de variável de instância) | `door_annotated/gml_Object_parDoor_Flat_Draw_77.c:176` (`working_directory`); alta |
+| `FUN_1416d0720(ref, DAT/*var*/, 0x80000000, &v)` / `FUN_1416d0790(objId, ...)` / `FUN_1416cf840(objId, DAT/*var*/, 0x80000000, &v)` | `ref.var = v` / `obj.var = v` (escrita em outra instância/objeto) | `parGnarcier_Step_0.c:1349,357,363`; alta |
+| `FUN_1416cfc30(ref, DAT/*var*/, 0x80000000, &v)` | `v = ref.var` (leitura em outra instância; ref vem de `ds_list_find_value`) | `parGnarcier_Step_0.c:1372,1384`; alta |
+| `FUN_1416cfcc0(objId)` | prepara o escopo de `objId` para a `FUN_1416d0790` seguinte | `parGnarcier_Step_0.c:376-380`; média |
+| slot `DAT_1420d5cb8` | variável builtin **`fps`** | tabela de nomes do exe: o slot guarda um ponteiro para o blob `…\0yprevious\0fps\0bbox_left…`; calibrado com `x` (slot `0x1420d58e8` → `…\0zoom\0x\0y…`) e `alarm` (`0x1420d5a48` → `…\0keyboard_string\0alarm\0persistent…`); usos: `DRAW_GNARCIER_Alarm_0.c:130`, `oFade_in_Create_0.c:183` (item 4 da fila); alta |
+| `collision_rectangle_list` (YYC 2.2) | empilha `(x1, y1, x2, y2, obj, prec, notme, list, order)`; no GML atual a ordem é `(…, obj, list, prec, notme[, order])` — **reordenar no port** | `parGnarcier_Step_0.c:1306-1316`; média |
+| `DAT_1420c6990/69a0/69b0` | `-0.5`, `0.5`, `1` (jitter do `DRAW_GNARCIER`) | bytes lidos do `.exe` com o `va_to_off` do `lift_yyc.py`; alta |
+| `DAT_142182018`, `DAT_1421801a8`, `DAT_1421801b8` | `0` (`.bss`, montado na carga — mesma classe do `DAT_142181cd0`) | fora das 3 regiões mapeadas do exe; média |
 
 ## Constantes
 `DAT_14...` e `_DAT_14...` são lidas direto do `.exe` pelo `lift_yyc.py`: `RValue` de 16 bytes (os 8 primeiros são um `double`) ou `float`/`double` soltos; argumentos de `lengthdir` são `float`. Convenções do compilador: um local `uint`/`undefined4` ao lado de um `undefined8` guarda tipo/flags do valor, e um `local_X = N;` com N pequeno marca a linha de código-fonte (descartado).

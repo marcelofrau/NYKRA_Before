@@ -31,6 +31,12 @@ OBJECTS = {
     "parSun_Glow": (None, None, False, None),
     "oSun_Mal": ("parSun_Glow", None, False, None),
     "oLight_Glow": (None, None, False, None),
+    # 24/11 (plan 0.7 item 1): the red fragments of rmMal_1 and the singleton drawer their Create spawns.
+    "parGnarcier": (None, None, False, None),
+    "oGnarcier_s": ("parGnarcier", "sGnar_s", False, "sGnar_s"),
+    "oGnarcier_m": ("parGnarcier", "sGnar_m", False, "sGnar_m"),
+    "oGnarcier_b": ("parGnarcier", "sGnar_b", False, "sGnar_b"),
+    "DRAW_GNARCIER": (None, None, False, None),
 }
 
 

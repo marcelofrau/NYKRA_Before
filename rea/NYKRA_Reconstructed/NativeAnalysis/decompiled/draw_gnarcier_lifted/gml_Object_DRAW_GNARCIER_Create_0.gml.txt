@@ -1,0 +1,11 @@
+// lifted from gml_Object_DRAW_GNARCIER_Create_0.c
+// ?? void gml_Object_DRAW_GNARCIER_Create_0(undefined8 param_1)
+{
+    // ?? puStack_188 = &UNK_141993842;
+    // ?? puRam0000000142182d78 = &uStack_190;
+    // ?? uRam0000000142182d90 = param_1;
+    // ?? FUN_1416cfae0(param_1,uRam00000001420d5a18,0x80000000,&uStack_38);
+    // ?? uRam0000000142182d90 = 0x109fa;
+    // ?? FUN_1416cfae0(param_1,uRam00000001420d5a48,0,&uStack_28);
+    // ?? puRam0000000142182d78 = (undefined8 *)uStack_190;
+}

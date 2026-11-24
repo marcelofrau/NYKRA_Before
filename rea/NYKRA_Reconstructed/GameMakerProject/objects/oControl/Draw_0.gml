@@ -7,4 +7,5 @@ CW = camera_get_view_width(cam);
 CH = camera_get_view_height(cam);
 CMX = CX+(CW/2);
 CMY = CY+(CH/2);
+CHYP = (sqrt(sqr(CW)+sqr(CH))/2);   // original oControl/Step_1.gml:11; parGnarcier's idle-sound alarm needs it live
 depth = -1000;
