@@ -74,4 +74,6 @@ These rules exist because agents drifted before. On 22–23/11/2026 `LIGHTING/Dr
 - Update §7 with every shortcut.
 - Write "accepted" only when the user said so for that commit. Name the commit hash the user validated, because a later retune is not validated.
 
-**9. Never execute anything without asking the user first.** This covers builds, the game, UTMT, Ghidra, Python scripts and tests. Reading and editing files is fine.
+**9. Saves: do not reproduce the original save system.** Its severe problems made the original project unmaintainable. Investigate first (plan §2, 3.4, step 0), and keep saves off until the user approves the findings.
+
+**10. Never execute anything without asking the user first.** This covers builds, the game, UTMT, Ghidra, Python scripts and tests. Reading and editing files is fine.

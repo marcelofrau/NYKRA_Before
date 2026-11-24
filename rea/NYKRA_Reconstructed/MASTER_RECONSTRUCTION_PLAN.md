@@ -9,7 +9,8 @@
   2. **§0.6** (como trabalhar; obrigatório);
   3. §0.7 (fila: pegue **só o primeiro item aberto**);
   4. §0.5 (procedimento técnico de port);
-  5. §7 (provisórios).
+  5. §0.8 (mapa de todos os submarcos, para saber onde o item se encaixa);
+  6. §7 (provisórios).
 
   As regras curtas estão em `AGENTS.md` ("Reconstruction rules"). Os relatórios de cada port vão em `PORT_LOG.md`.
 - **Histórico:** os marcos 3.0–3.2c, o bloqueio dos tiles, os levantamentos de 19/11 e as atualizações de 22–23/11 estão em `PLAN_HISTORY_2026-11.md`. Antigas referências a `§1.3c` apontam para lá (seção B).
@@ -27,7 +28,7 @@ O trabalho está na branch `reconstruction-attempt-pickle`. O projeto é `GameMa
 | 2 — Bugs prioritários | ✅ relatório | `PHASE2_PRIORITY_BUGS.md` |
 | 3.0–3.2c — ambiente, tiles, `map_load`, sprites | ✅ aceitos em 19/11 | `PLAN_HISTORY_2026-11.md` |
 | **3.3 — os três níveis do início (`rmMal_Origin`, `rmMal_1`, `rmMal_o1`) iguais ao original** | 🟨 em andamento | §0.1–§0.3 |
-| 3.4 — Save V1 | ⬜ | só o codec Python de referência (§2) |
+| 3.4 — Save V1 | ⬜ | começa por **investigar por que o save original falhava** (§2, passo 0); só o codec Python de referência existe |
 | 4 — Resto do jogo | ⬜ | §3 |
 
 Hoje o projeto tem 76 objetos (31 com eventos; os outros são cascas), 76 sprites, 99 sons, 43 scripts e 3 níveis em `datafiles`. Para conferir: `Tools/list_level_objects.py`.
@@ -311,13 +312,87 @@ Cada item diz onde estão as fontes. Os `.c` do `rmMal_1` **já estão** em `dec
 8. **P39, câmera:** ache por que a câmera não chega sozinha ao jogador na chegada. Suspeitos: `oCamera` (original na raiz) e `oCamera_Point` (`small_lifted/gml_Object_oCamera_Point_Draw_0`). Remova os dois enxertos quando achar a causa.
 9. **P24, colisão com objetos:** leia `NativeAnalysis/COLLIDE_PORT_NOTES.md`, localize o caminho real jogador × sólido e tire o bloqueio local do `oDoor_chunky/Step_2`.
 10. **Fechamento do 3.3:** checklist da §0.3 com o usuário; revisão da §7.
+11. **Antes de qualquer código de save: a investigação do save original** (§2, 3.4, passo 0). O save do jogo original foi o que inviabilizou o projeto; o objetivo é não repetir aquilo.
+
+### 0.8 Mapa completo dos marcos (submarcos, ordem e aceite)
+
+Um submarco fecha só com F5 do usuário. Os números entre parênteses são os itens da fila §0.7. As contagens de níveis vêm de `RecoveredAssets/Included Files/level_data/`. A ordem dos capítulos vem dos templates `DATA/CHAPTER_TEMPLATES/chapter_1..6/ROOMS`:
+- cap. 1: Maldis;
+- cap. 2: + Praedim;
+- cap. 3: + Mexulta;
+- caps. 4–5: + EO;
+- cap. 6: Mexulta.
+
+**Fase 3: o recorte jogável (Maldis, começo)**
+
+| Submarco | Conteúdo | Estado | Aceite |
+|---|---|---|---|
+| 3.0 | Ambiente (IDE LTS 2026, F5) | ✅ 19/11 | projeto abre e roda |
+| 3.1 | Projeto mínimo e primeiro sprite | ✅ 19/11 | sprite visível |
+| 3.2 | Tiles do nível | ✅ 19/11 | 6 camadas do `rmMal_Origin` |
+| 3.2b | `map_load` reconstruído | ✅ 19/11 | 79 objetos criados ou logados |
+| 3.2c | Sprites dos objetos | ✅ 19/11 | canvas e origem iguais ao original |
+| **3.3a** | Jogador e núcleo: movimento, colisão com tiles, câmera, sons, poeira, notas | ✅ 19/11 | anda, pula e colide como no original |
+| **3.3b** | Exterior `rmMal_Origin`: grama, folhas, céu, sol, placas, fios, porta pesada, portas, arco e cutscene `oOrigin` (7), câmera P39 (8), colisão com objetos P24 (9), fade P40 (4) | 🟨 | o exterior igual ao original, incluindo a abertura de um jogo novo |
+| **3.3c** | Sala leste `rmMal_o1`: `LIGHTING` ✅, feixes P41 (3) | 🟨 quase | sala igual ao original (a luz já está) |
+| **3.3d** | Sala oeste `rmMal_1`: lâmpadas ✅, fragmentos (1), `oMUSIC_VOL_HALF` (2), livro (5), falas (6) | 🟨 | sala igual ao original, livro e falas incluídos |
+| **3.3e** | O que esses 3 níveis usam e ainda é stub: `hurt_player` (P22), efeitos `create_*`/`mask_*` (P27), outras `easing` (P25), só onde aparecerem | ⬜ | nenhum `STUB` no log ao jogar os 3 níveis |
+| **3.3f** | Fechamento: checklist §0.3 e revisão da §7 (10) | ⬜ | o usuário aceita o 3.3 |
+| **3.4a** | Investigação do save original, S1–S9 (11) | ⬜ | `SAVE_INVESTIGATION.md` aprovado pelo usuário |
+| **3.4b** | Desenho revisado do Save V1 | ⬜ | `SAVE_MIGRATION_DESIGN.md` revisado e aprovado |
+| **3.4c** | Implementação e testes do Save V1 | ⬜ | aceite de §2, passo 5 |
+
+**Fase 4: o jogo inteiro** (proposta; confirmar a ordem com o usuário ao começar cada um)
+
+| Submarco | Conteúdo | Tamanho | Aceite |
+|---|---|---|---|
+| 4.1 | **Base global:** `oControl` original (25 eventos, copiado por gerador como o `LIGHTING`), boot `INIT → rmMM → rmMAIN`, menu, opções, `set_controls` completo e gamepad (P1, P11, P16). Sai o `oControl` provisório | 1 objeto grande + menu | o jogo abre no menu e um jogo novo começa como no original (P21) |
+| 4.2 | **Sistemas compartilhados:** ataque Telarod e dano, inventário (`ITEM`, `inv_*`), diálogo (`parDialogue`, original) e livro já estáveis, efeitos `create_*`, todas as `easing`, máscaras, shaders usados em Maldis | ~20–40 scripts | os sistemas funcionam em qualquer nível de Maldis |
+| 4.3 | **Maldis completo** (cap. 1), por grupos de níveis vizinhos, cada grupo com o `list_level_objects.py` zerado (nenhum `absent`/`SHELL` que aja) | 33 níveis, 108 tipos de objeto (131 com pais) | o cap. 1 jogável do começo ao fim, com save |
+| 4.4 | **Praedim** (cap. 2) | 17 níveis | cap. 2 jogável |
+| 4.5 | **Mexulta** (caps. 3, 5 e 6), o maior planeta | 43 níveis | caps. 3, 5 e 6 jogáveis |
+| 4.6 | **Eo** (cap. 4): `oEo` (original na raiz) e níveis `rmEO` | 16 níveis | cap. 4 jogável |
+| 4.7 | **Restante:** Arthek 12, Irnem 13, Quornem 10, Septeon 9, Iiedakama 6, Oosasma 2 e salas avulsas (`rmVEN`, `rmPod7`, `rmKeu`, ...). Eles **não aparecem nos templates de capítulo**: confirmar com o usuário ou o autor se são conteúdo jogável ou cortado antes de investir | ~60 níveis | decidido com o usuário |
+| 4.8 | **Cenas 3D da estação:** buffers `DATA/*` (malhas zlib, 24 bytes por vértice) e os 25 shaders | 74 arquivos `DATA` | cenas iguais ao original |
+| 4.9 | **Bugs:** os aprovados da Fase 2 e os achados durante o port, cada um com teste de regressão antes da correção | — | lista de bugs fechada com o usuário |
+| 4.10 | **Aceite final** (§3.4) | 183 níveis | jogável do menu ao fim, save confiável |
+
+Regra para a Fase 4: cada submarco começa com um levantamento (`list_level_objects.py` nos níveis do grupo, mais `survey_object_dependencies.py`). O levantamento vira itens na §0.7 antes de qualquer port.
 
 ---
 
 ## 2. Fase 3 restante — Save V1 (marco 3.4)
 
 ### 3.4 — Save V1
-Seguir `SAVE_MIGRATION_DESIGN.md` integralmente (root `PROFILES_V1`, header `NYKRASV\0`, tags tipadas, snapshots, ativação por ponteiro). Passos:
+
+> **Contexto (registrado em 24/11, segundo o usuário):** o sistema de save do jogo original tinha **problemas severos**. Foi isso que tornou o projeto inviável de manter. O objetivo do 3.4 **não** é reproduzir o save original. É entender por que ele falhava e construir um que não falhe. **Nenhum agente porta código de save do YYC "como está" para o projeto.** O código de save reconstruído continua desligado (`START_GAME = 0`; `save_game`/`load_game` são stubs barulhentos, P6) até o fim da investigação abaixo.
+
+#### Passo 0 — Investigar o save original (obrigatório, antes de qualquer código)
+
+Escreva o resultado em `SAVE_INVESTIGATION.md`, com evidência por item (arquivo `.c` e linha, fixture, byte). Comece pelo que já se sabe:
+
+| # | Problema | Estado | Evidência / onde |
+|---|---|---|---|
+| S1 | O writer nativo **omite o payload** de arrays vazios ou cujo primeiro elemento é string, e o leitor desalinha a leitura seguinte | confirmado estaticamente | `PHASE2_PRIORITY_BUGS.md` §2; `gml_Script__save_type*.c`; `chapter_4/CONTROL` (`asset_layer\0FPS\0`) |
+| S2 | **51 valores ambíguos ou ilegíveis em 18 arquivos** de save/template | confirmado | `Tools/phase1_validation_report.json` |
+| S3 | Strings gravadas com tag `2`, que os leitores de array não tratam | confirmado estaticamente | `PHASE2_PRIORITY_BUGS.md` §2 |
+| S4 | `int64` gravado como `f32`: inteiros acima de 2^24 perdem unidades | risco condicional | `PHASE2_PRIORITY_BUGS.md` §3 |
+| S5 | `save_game()` roda em **toda** troca de sala (`PATH` e portas `parDoor_Flat/Draw_77`), regravando `ROOMS/<sala>.SAVE`. Falta medir o custo e o risco de corromper o arquivo se o jogo fechar no meio | a investigar | `gml_Script_save_game.c:1442-1533`; `oPlayer/Step_2` original |
+| S6 | Ponto de persistência **global** (`CHARACTER`, `CONTROL`, `GENERAL`) desconhecido: nenhum trecho recuperado chama `save_CHARACTER`/`save_CONTROL` | a investigar | `PHASE2_PRIORITY_BUGS.md` §1 |
+| S7 | A gravação não é atômica: o arquivo é sobrescrito no lugar, sem cópia temporária nem verificação. Confirmar no YYC (`buffer_save`, `file_*`) | a investigar | `gml_Script_save_game.c` e `save_*` |
+| S8 | Formatos misturados (buffers zlib, DS, JSON, `ds_*_write`) e templates de capítulo copiados para o perfil: conferir se há versão ou checagem de integridade | a investigar | `RECOVERY_PLAN_AND_HANDOFF.md`; `DATA/CHAPTER_TEMPLATES/` |
+| S9 | **Sintomas que os jogadores relatavam** (perda de progresso, sala errada, softlock após carregar...) | **perguntar ao usuário e ao autor** | — |
+
+**Critério de pronto do passo 0:**
+- cada S tem causa e evidência, ou está marcado "não confirmado";
+- cada sintoma de S9 está ligado a pelo menos uma causa;
+- o usuário aprovou a lista do que o Save V1 tem de evitar.
+
+Só depois disso o desenho de `SAVE_MIGRATION_DESIGN.md` é revisto à luz do que se achou e implementado.
+
+#### Passos do Save V1 (depois do passo 0)
+
+Seguir `SAVE_MIGRATION_DESIGN.md`, revisado pelo passo 0: raiz `PROFILES_V1`, header `NYKRASV\0`, tags tipadas, snapshots, ativação por ponteiro. Passos:
 1. Especificar os payloads concretos de `GENERAL`, `CONTROL`, `CHARACTER` e `ROOM` (ainda não definidos).
 2. Portar `save_v1_format.py` para GML; gerar vetores de teste no Python e verificar no GML byte a byte.
 3. Verificar no runtime: `buffer_sha1`/SHA-256 disponível? Atomicidade de `file_copy`/rename? Não afirmar sem prova.
@@ -344,13 +419,7 @@ Níveis por planeta (prefixo do nome): Mex 43, Mal 33, Prae 17, EO 16, Irn 13, A
 O pipeline é o **§0.5** (passos 0 a 7), com o protocolo da **§0.6**. Ele já existe e foi usado em 24/11: listas com `Tools/list_object_functions.py`, decompilação com `DecompileFunctionList.java`, anotação e elevação com `annotate_yyc_c.py`/`lift_yyc.py`, `.yy` com `generate_reconstructed_objects.py` (moldes no formato da LTS 2026), cópia de originais com `generate_player_object.py`/`generate_lighting.py`. Para a Fase 4 falta só automatizar o progresso: uma tabela gerada, por exemplo `Tools/reconstruction_progress.tsv`, com função, estado `todo/decompiled/ported/F5-ok` e commit.
 
 ### 3.3 Ordem de ataque
-1. **Base global:** `oControl` completo (25 eventos originais) + global scripts usados no boot; rooms `INIT → rmMM → rmMAIN`; menu `oMainMenu`, `oFade_in`, `oIs_Inside`.
-2. **Capítulo/planeta Maldis** (33 níveis): todos os objetos `oMal_*` e genéricos que ele usa. Fecha o primeiro capítulo jogável do início ao fim.
-3. **Diálogo:** `parDialogue` (original) + 147 objetos `oDlg_*` + `dlg_eng.lang`.
-4. **Eo:** `oEo` (original) e níveis `EO*`.
-5. Demais planetas em ordem de capítulo (confirmar com os templates `CHAPTER_TEMPLATES` 1–6): Mexulta, Arthek, Irnem, Septeon, Quornem, Iiedakama, Prae/Nen/Oosasma.
-6. **Cenas 3D/estação:** buffers `DATA/*` (meshes zlib, 24 bytes/vértice) + 25 shaders.
-7. **Bugs:** aplicar os aprovados da Fase 2 e os novos achados, cada um com teste de regressão antes da correção.
+A ordem, os submarcos (4.1–4.10) e o aceite de cada um estão na **§0.8**. A ordem dos planetas segue os templates de capítulo: Maldis, Praedim, Mexulta, EO.
 
 ### 3.4 Aceite final
 Jogo completo jogável do menu ao fim: 183 níveis carregam, transições funcionam e o save V1 é confiável. Tudo que foi simulado ou reconstruído por inferência fica listado; os fixtures originais continuam com hash inalterado.
