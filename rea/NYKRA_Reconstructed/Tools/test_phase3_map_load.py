@@ -283,7 +283,7 @@ class ShellObjectTests(unittest.TestCase):
             if name not in ("oMal_Tree1", "oNote"):  # plain children with a sprite and no events of their own
                 self.assertTrue(yy["eventList"], f"{name} has hand-written events")
             # Objects still being ported keep the Shells group until their port is complete.
-            expected_folder = "Shells" if name in ("oDoor_chunky", "oOrigin", "oGlow", "oGlw_yellow_m") else "Objects"
+            expected_folder = "Shells" if name in ("oDoor_chunky", "oOrigin", "oGlow", "oGlw_yellow_m", "parGlow_Beam") else "Objects"
             self.assertEqual(yy["parent"]["name"], expected_folder)
 
 

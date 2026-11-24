@@ -27,6 +27,10 @@ OBJECTS = {
     "oWire": ("parWire", "sWire", False, "sWire"),
     "oWire_DIODE_D": ("oWire", "sWire_DIODE", False, "sWire_DIODE"),
     "oWire_TIMER": ("oWire", "sWire_TIMER", False, "sWire_TIMER"),
+    # 24/11 (plan 0.5): the Maldis sun outdoors (_SET_SCENE creates oSun_Mal) and the lamps of rmMal_1.
+    "parSun_Glow": (None, None, False, None),
+    "oSun_Mal": ("parSun_Glow", None, False, None),
+    "oLight_Glow": (None, None, False, None),
 }
 
 

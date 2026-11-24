@@ -1,0 +1,3 @@
+// lifted from gml_Object_oGnarcier_s_Create_0.c
+sides = 0x4008000000000000/*3 (obj:oKS_Reality)*/;
+}

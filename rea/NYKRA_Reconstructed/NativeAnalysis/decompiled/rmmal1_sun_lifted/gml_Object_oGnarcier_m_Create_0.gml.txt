@@ -1,0 +1,3 @@
+// lifted from gml_Object_oGnarcier_m_Create_0.c
+sides = 0x4010000000000000/*4 (obj:oKS_Iiedakama)*/;
+}

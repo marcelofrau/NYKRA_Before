@@ -1,0 +1,9 @@
+// lifted from gml_Object_oBook_UI_Destroy_0.c
+v78 = sPages;
+v50 = sprite_exists(v78);
+// ?? cVar1 = FUN_1416927d0(v50);
+if (cVar1 != '\0') {
+    v68 = sPages;
+    v40 = sprite_delete();
+}
+}

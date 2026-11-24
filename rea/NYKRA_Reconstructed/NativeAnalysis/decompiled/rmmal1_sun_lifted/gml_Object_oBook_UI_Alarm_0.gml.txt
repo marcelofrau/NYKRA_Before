@@ -1,0 +1,21 @@
+// lifted from gml_Object_oBook_UI_Alarm_0.c
+// ?? void gml_Object_oBook_UI_Alarm_0(undefined8 param_1,undefined8 param_2)
+{
+    v270 = ?;
+    v138 = 106;
+    v128 = 107;
+    v118 = 108;
+    v108 = 109;
+    vf8 = 110;
+    ve8 = 111;
+    vd8 = 112;
+    uVar1 = choose(v138, v128, v118, v108, vf8, ve8, vd8);
+    vc8 = uVar1;
+    vb8 = 10;
+    va8 = ?;
+    // ?? dVar2 = (double)FUN_1416cdc60(0x3feccccccccccccd/*0.9*/,0x3ff199999999999a/*1.1*/);
+    // ?? local_98 = dVar2 * 0.9;
+    v88 = 0.666667;
+    v78 = 1;
+    // ?? FUN_1400d2410(param_1,param_2,&local_60,6,&local_2a0);
+}

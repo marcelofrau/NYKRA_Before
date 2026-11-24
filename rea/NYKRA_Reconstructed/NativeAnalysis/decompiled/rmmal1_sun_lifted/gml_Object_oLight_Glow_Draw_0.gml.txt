@@ -1,0 +1,37 @@
+// lifted from gml_Object_oLight_Glow_Draw_0.c
+v138 = 1;
+v60 = gpu_set_blendmode(v138);
+// ?? uVar7 = (ulonglong)ppuVar6 & 0xffffffffffffff00;
+vd0 = x;
+// ?? uVar7 = uVar7 & 0xffffffffffffff00;
+vc0 = y;
+// ?? uVar7 = uVar7 & 0xffffffffffffff00;
+v158 = xstart;
+v148 = ystart;
+// ?? uVar7 & 0xffffffffffffff00);
+v138 = vd0;
+v128 = vc0;
+vb0 = tick * 123;
+v70 = vb0;
+v70 += vd0;
+v80 = v70;
+v80 += vc0;
+v90 = v80;
+v90 += v158;
+va0 = v90;
+va0 += v148;
+if ((local_94 & 0xffffff) == 0) {
+}
+else {
+    // ?? dVar4 = (double)FUN_1416940c0(&local_a0);
+}
+// ?? fVar3 = (float)FUN_1416cd800(0x3f000000,(float)dVar4);
+v118 = (fVar3 + 33.0);
+// ?? iVar1 = FUN_1416b86b0(0x38,0x24,0x15);
+// ?? local_108 = (double)iVar1;
+vf8 = ?;
+ve8 = ?;
+v60 = draw_circle_colour(v138, v128, v118, v108, vf8, ve8);
+v138 = ?;
+v60 = gpu_set_blendmode(v138);
+}

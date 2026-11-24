@@ -1,0 +1,117 @@
+// lifted from gml_Object_oBook_Draw_73.c
+// ?? local_130 = CONCAT44(0xffffff,(undefined4)local_130);
+// ?? ppuVar14 = (undefined8 **)0x0;
+// ?? uVar6 = FUN_140120860(param_1,param_2,&local_d0,0,0);
+// ?? cVar2 = FUN_1416927d0(uVar6);
+if (cVar2 == '\0') goto LAB_1414c75b5;
+// ?? uVar15 = (ulonglong)ppuVar14 & 0xffffffffffffff00;
+v128 = x;
+v118 = y;
+v1c8 = v128;
+v1b8 = v118;
+v1a8 = 17;
+v198 = 4235519;
+// ?? FUN_1400d6da0(param_1,param_2,&local_f0,4,ppuVar14);
+vb0 = 0;
+if (anim2 != vb0) goto LAB_1414c75b5;
+v1c8 = 1;
+uVar15 = CONCAT44(uVar17,0);
+// ?? FUN_1416ab210(param_1,param_2,&local_d0,1,uVar15,ppuVar14);
+// ?? uVar18 = (ulonglong)ppuVar14 & 0xffffffffffffff00;
+// ?? uVar15 = uVar15 & 0xffffffffffffff00;
+v148 = sprite_index;
+// ?? uVar18 = uVar18 & 0xffffffffffffff00;
+// ?? uVar15 = uVar15 & 0xffffffffffffff00;
+v128 = x;
+// ?? uVar18 = uVar18 & 0xffffffffffffff00;
+// ?? uVar15 = uVar15 & 0xffffffffffffff00;
+v118 = y;
+// ?? uVar18 = uVar18 & 0xffffffffffffff00;
+// ?? uVar15 = uVar15 & 0xffffffffffffff00;
+v218 = xstart;
+v1c8 = v218;
+// ?? uVar15 = uVar15 & 0xffffffffffffff00;
+v208 = ystart;
+// ?? uVar17 = (undefined4)(uVar15 >> 0x20);
+v1b8 = v208;
+uVar7 = CONCAT44(uVar17,0);
+// ?? anim2 = FUN_1416ab210(param_1,param_2,&local_f0,1,uVar7,&local_1f0);
+uVar16 = CONCAT44((int)((ulonglong)uVar7 >> 0x20),0);
+// ?? uVar7 = FUN_1416ab210(param_1,param_2,&local_d0,1,uVar16,ppuVar14);
+v158 = tick * 300;
+ve0 = v158;
+// ?? pdVar1 = local_220;
+ve0 += uVar7;
+vc0 = ve0;
+vc0 += anim2;
+// ?? uStack_100._0_4_ = local_b8;
+// ?? uStack_100.@COPY &local_108 &local_c0;
+v108 += v128;
+// ?? local_a4 = uStack_100._4_4_;
+// ?? local_a8 = (undefined4)uStack_100;
+vb0 = v108;
+vb0 += v118;
+// ?? fVar8 = (float)FUN_1416cd800(0x3f000000,(float)dVar9);
+if ((*(uint *)((longlong)c_ink + 0xc) & 0xffffff) == 0) {
+    // ?? dVar9 = *c_ink;
+    if ((local_10c & 0xffffff) != 0) goto LAB_1414c73b1;
+    LAB_1414c741e:
+    if ((local_11c & 0xffffff) != 0) goto LAB_1414c73cd;
+    LAB_1414c7433:
+    if ((*(uint *)((longlong)pdVar1 + 0xc) & 0xffffff) != 0) goto LAB_1414c73e8;
+    LAB_1414c7447:
+    // ?? dVar12 = *pdVar1;
+    if ((local_13c & 0xffffff) != 0) goto LAB_1414c73ff;
+    LAB_1414c7459:
+}
+else {
+    // ?? dVar9 = (double)FUN_1416940c0(c_ink);
+    if ((local_10c & 0xffffff) == 0) goto LAB_1414c741e;
+    LAB_1414c73b1:
+    // ?? dVar10 = (double)FUN_1416940c0(&local_118);
+    if ((local_11c & 0xffffff) == 0) goto LAB_1414c7433;
+    LAB_1414c73cd:
+    // ?? dVar11 = (double)FUN_1416940c0(&local_128);
+    if ((*(uint *)((longlong)pdVar1 + 0xc) & 0xffffff) == 0) goto LAB_1414c7447;
+    LAB_1414c73e8:
+    // ?? dVar12 = (double)FUN_1416940c0(pdVar1);
+    if ((local_13c & 0xffffff) == 0) goto LAB_1414c7459;
+    LAB_1414c73ff:
+    // ?? dVar13 = (double)FUN_1416940c0(&local_148);
+}
+// ?? FUN_1416b84f0(param_1,(longlong)dVar13,(longlong)dVar12,(float)dVar11,tick,
+// ?? CONCAT44(uVar19,0x3f800000),0x3f800000,0,(int)(longlong)dVar9,fVar8 + 0.5);
+v1c8 = ?;
+ppuVar14 = (undefined8 **)CONCAT44(uVar17,0);
+// ?? FUN_1416ab210(param_1,param_2,&local_d0,1,ppuVar14,in_stack_fffffffffffffca0);
+LAB_1414c75b5:
+v108 = 0;
+// ?? uVar15 = (ulonglong)ppuVar14 & 0xffffffffffffff00;
+// ?? FUN_1416d0010(0x4f,0x18ad9/*var:mode*/,0x80000000,&local_108,uVar15,uVar18);
+// ?? local_b0 = 3.0;
+if (v108 != vb0) {
+    // ?? FUN_1416f15a0(0xffff00);
+    // ?? FUN_1416f1550(0x3f800000);
+    // ?? uVar18 = uVar18 & 0xffffffffffffff00;
+    // ?? uVar15 = uVar15 & 0xffffffffffffff00;
+    v128 = x;
+    // ?? uVar15 = uVar15 & 0xffffffffffffff00;
+    v118 = y;
+    // ?? uVar17 = (undefined4)(uVar15 >> 0x20);
+    v1c8 = book_text;
+    v1b8 = book;
+    v1a8 = v128;
+    v198 = v118;
+    uVar6 = CONCAT44(uVar17,0);
+    // ?? book_text = FUN_1416ab210(param_1,param_2,&local_138,1,uVar6,&local_1f0);
+    // ?? FUN_1416ac010(&local_e0,&DAT_1420cba58);
+    uVar6 = CONCAT44(uVar17,0);
+    // ?? c_ink = (double *)FUN_1416ab210(param_1,param_2,&local_f0,1,uVar6,&local_1f8);
+    vc0 = c_ink;
+    vc0 += ve0;
+    vb0 = vc0;
+    vb0 += book_text;
+    v188 = vb0;
+    // ?? FUN_1416ab210(param_1,param_2,&local_d0,3,CONCAT44(uVar17,DAT_1420d9eb0/*draw_text*/),&local_1e8);
+}
+}

@@ -1,0 +1,12 @@
+// lifted from gml_Object_oBook_Create_0.c
+anim = 0;
+anim1 = 0;
+anim2 = 0;
+book_text = 0;
+book = 0;
+on = 0;
+v48 = 10;
+depth = v48;
+v38 = 2;
+// ?? FUN_1416cfae0(param_1,DAT_1420d5a48/*alarm*/,0,&local_38);
+}

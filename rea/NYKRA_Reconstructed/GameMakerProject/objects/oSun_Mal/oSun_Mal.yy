@@ -1,13 +1,15 @@
 {
   "$GMObject": "",
   "%Name": "oSun_Mal",
-  "eventList": [],
+  "eventList": [
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+  ],
   "managed": true,
   "name": "oSun_Mal",
   "overriddenProperties": [],
   "parent": {
-    "name": "Shells",
-    "path": "folders/Objects/Shells.yy",
+    "name": "Objects",
+    "path": "folders/Objects.yy",
   },
   "parentObjectId": {"name":"parSun_Glow","path":"objects/parSun_Glow/parSun_Glow.yy",},
   "persistent": false,

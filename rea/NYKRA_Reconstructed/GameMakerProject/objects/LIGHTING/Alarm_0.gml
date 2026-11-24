@@ -1,2 +1,2 @@
-// Reconstructed from gml_Object_LIGHTING_Alarm_0.
+// Original LIGHTING/Alarm_0.gml, copied verbatim by Tools/generate_lighting.py
 g = 1;

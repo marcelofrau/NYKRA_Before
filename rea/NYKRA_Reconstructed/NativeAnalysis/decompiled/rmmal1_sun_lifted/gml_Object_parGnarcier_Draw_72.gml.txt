@@ -1,0 +1,4 @@
+// lifted from gml_Object_parGnarcier_Draw_72.c
+// ?? void gml_Object_parGnarcier_Draw_72(undefined8 param_1)
+{
+}

@@ -1,0 +1,4 @@
+// lifted from gml_Object_oMUSIC_VOL_HALF_Create_0.c
+// ?? void gml_Object_oMUSIC_VOL_HALF_Create_0(undefined8 param_1)
+{
+}

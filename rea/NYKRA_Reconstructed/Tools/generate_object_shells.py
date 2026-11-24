@@ -30,6 +30,9 @@ HAND_WRITTEN = {
     "oControl", "oCamera", "oMal_Tree1", "parLeaves",
     "oOrigin",  # P21: Create_0, Alarm_0..3, Step_1 (parallax), Draw_0 (arch); cutscene pending
     "oGlow", "oGlw_yellow_m",  # point light parent + medium yellow glow in rmMal_o1
+    "LIGHTING",  # author's original events (Tools/generate_lighting.py, P38)
+    "parGlow_Beam",  # Create_0 reconstructed from the YYC (the three rays LIGHTING draws)
+    "parSun_Glow", "oSun_Mal", "oLight_Glow",  # 24/11, from decompiled/rmmal1_sun (generate_reconstructed_objects.py)
     "oMal_bg_leaves_bg", "oMal_bg_leaves_bg_fg", "oMal_bg_leaves_fg",
     "parGrass", "oGrass", "oGrass3",
     "parEntity",  # player stage 1: Create, Destroy, Step_1, Step_2 (provisional), Draw_77

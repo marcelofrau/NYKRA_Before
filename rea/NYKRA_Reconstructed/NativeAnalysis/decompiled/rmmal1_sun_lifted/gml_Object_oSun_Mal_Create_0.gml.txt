@@ -1,0 +1,3 @@
+// lifted from gml_Object_oSun_Mal_Create_0.c
+col = 0x4130204000000000/*1.05683e+06*/;
+}

@@ -1,0 +1,6 @@
+// lifted from gml_Object_parSun_Glow_Create_0.c
+l = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+l_an = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+l_ann = 0x3ff0000000000000/*1 (obj:oDlg_Quo_Radio3)*/;
+col = 0x4140204000000000/*2.11366e+06*/;
+}

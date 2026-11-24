@@ -107,35 +107,38 @@ class VisualFixTests(unittest.TestCase):
         events = [(e["eventType"], e["eventNum"]) for e in yy["eventList"]]
         for event in ((0, 0), (1, 0), (2, 0), (8, 73)):
             self.assertIn(event, events)
-        create = code("objects/LIGHTING/Create_0.gml")
-        self.assertIn("surface_create(camera_get_view_width(cam) + 6, camera_get_view_height(cam) + 6)", create)
-        self.assertIn("depth = 100;", create)
-        self.assertIn("alarm[0] = 2;", create)
-        self.assertIn("COLOUR = c_ink;", create)
-        self.assertIn("g = 1;", code("objects/LIGHTING/Alarm_0.gml"))
-        self.assertIn("surface_free(surf);", code("objects/LIGHTING/Destroy_0.gml"))
-        self.assertIn("surf_light = -1;", code("objects/LIGHTING/Create_0.gml"))
+        # P38: the events are the author's original LIGHTING/*.gml (repo root), not a reconstruction.
+        # Draw_73 only has `//~ ` in front of blocks whose assets are not in the project yet.
+        original_dir = REA.parents[1] / "LIGHTING"
+        for path in original_dir.glob("*.gml"):
+            ours = code(f"objects/LIGHTING/{path.name}").split("\n", 1)[1]
+            if path.name == "Draw_73.gml":
+                ours = ours.split("\n", 1)[1].replace("//~ ", "")
+            self.assertEqual(ours, path.read_text(encoding="utf-8"), path.name)
         draw = code("objects/LIGHTING/Draw_73.gml")
-        for fragment in (
-            "if (!g) {",
-            "draw_rectangle_view(COLOUR, 1);",
-            "if (oControl.mode != 3) exit;",
-            "surface_exists(surf)",
-            "surface_set_target(surf);",
-            "draw_clear(COLOUR);",
-            "gpu_set_blendmode(bm_add);",
-            "if (instance_exists(oPlayer))",
-            "with (oGlow)",
-            "with (oMal_Door_Flat)",
-            "with (parGlow_Beam)",
-            "draw_primitive_begin(pr_trianglelist);",
-            "surface_set_target(surf_light);",
-            "draw_surface(surf_light, _vx, _vy);",
-            "gpu_set_blendmode_ext(bm_dest_colour, bm_zero);",
-            "draw_surface(surf, _vx, _vy);",
-            "gpu_set_blendmode(bm_normal);",
-        ):
+        active = "\n".join(l for l in draw.split("\n") if not l.startswith("//~ "))
+        for fragment in ("draw_circle_colour(oPlayer.x-cx,oPlayer.y-cy,32,",
+                         "with(parGlow_Beam) {", "with(oMal_Door_Flat) {", "with(oGlow) {", "with(oWire) {",
+                         "with(oFx) {", "gpu_set_blendmode_ext(bm_zero,bm_subtract);"):
+            self.assertIn(fragment, active)  # the blocks this level needs stay live
+
+    def test_sun_and_lamp_glows_match_the_yyc(self):
+        # decompiled/rmmal1_sun_annotated (plan 0.5): constants read from the .c, not tuned.
+        draw = code("objects/parSun_Glow/Draw_0.gml")
+        for fragment in ("depth = -111;", "var _a = (CW / 7) + 8;", "floor((CY + 8) / 16) - 1", "l /= 24;",
+                         "l_an = reach_tween(l_an, power(l, 8), 10);", "l_ann = reach_tween(l_ann, l_an, 10);",
+                         "gpu_set_blendmode_ext(bm_dest_colour, bm_zero);",
+                         "draw_rectangle_view(merge_color(c_white, col, (1 - l_ann) / 3), 1);",
+                         "draw_circle_colour(CX + _a, CY + 1, CH - 2,", "merge_color(c_black, col, l_ann / 8)"):
             self.assertIn(fragment, draw)
+        self.assertIn("col = make_colour_rgb(128, 64, 32);", code("objects/parSun_Glow/Create_0.gml"))
+        sun = code("objects/oSun_Mal/Create_0.gml")
+        self.assertLess(sun.index("event_inherited();"), sun.index("col = make_colour_rgb(64, 32, 16);"))
+        self.assertEqual(load_yy(PROJECT / "objects/oSun_Mal/oSun_Mal.yy")["parentObjectId"]["name"], "parSun_Glow")
+        lamp = code("objects/oLight_Glow/Draw_0.gml")
+        self.assertIn("33 + lengthdir_x(0.5, (tick * 123) + x + y + xstart + ystart), make_colour_rgb(56, 36, 21)", lamp)
+        lighting = "\n".join(l for l in code("objects/LIGHTING/Draw_73.gml").split("\n") if not l.startswith("//~ "))
+        self.assertIn("with(oLight_Glow) {", lighting)  # the LIGHTING block came back once the object exists
 
     def test_glow_beam_parent_casts_three_rays(self):
         yy = load_yy(PROJECT / "objects/parGlow_Beam/parGlow_Beam.yy")
