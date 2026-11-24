@@ -284,7 +284,14 @@ Esta seção existe porque o histórico de 22–23/11 mostra padrões que levara
 
 **Texto para colar no início de uma sessão com outro agente**
 
-> Você vai continuar a reconstrução do NYKRA: Before em `rea/NYKRA_Reconstructed/`. Antes de qualquer coisa, leia `AGENTS.md` ("Reconstruction rules") e, em `MASTER_RECONSTRUCTION_PLAN.md`, as seções §0, §0.6, §0.7 e §0.5. Depois leia `SESSION_HANDOFF.md` e o fim do `PORT_LOG.md`. Trabalhe **só no primeiro item aberto da §0.7**. Não invente nem ajuste valores "a olho": cada número vem do GML original da raiz ou do `.c` anotado do YYC, citado no relatório. Não execute nada (testes, scripts, Ghidra, UTMT, build) sem me perguntar antes. Comece me dizendo, em até 10 linhas, quais fontes você encontrou para o item, o que pretende rodar e o que eu devo ver no F5.
+> Você vai continuar a reconstrução do NYKRA: Before em `rea/NYKRA_Reconstructed/`. Antes de qualquer coisa, leia `AGENTS.md` ("Reconstruction rules") e, em `MASTER_RECONSTRUCTION_PLAN.md`, as seções §0, §0.6 (incluindo "Modelos e subagentes"), §0.7 e §0.5. Depois leia `SESSION_HANDOFF.md` e o fim do `PORT_LOG.md`. Trabalhe **só no primeiro item aberto da §0.7**. Não invente nem ajuste valores "a olho": cada número vem do GML original da raiz ou do `.c` anotado do YYC, citado no relatório. **Delegue aos subagentes baratos**:
+> - `nykra-scout`: buscas e levantamentos;
+> - `nykra-checker`: auditoria do port antes do F5;
+> - `nykra-scribe`: `PORT_LOG.md`, plano e handoff, a partir dos fatos que você passar.
+>
+> **A leitura do `.c` e a escrita do GML ficam com você.** Confira no arquivo citado o que um subagente afirmar antes de usar. Não execute nada (testes, scripts, Ghidra, UTMT, build) sem me perguntar antes. Comece me dizendo, em até 10 linhas, quais fontes você encontrou para o item, o que pretende rodar e o que eu devo ver no F5.
+
+**Modelos e subagentes:** veja `MODELOS_E_AGENTES.md`, que traz qual modelo usar para cada papel, preço ÷ teto da cota do Go, horário de pico, os três subagentes de `.opencode/agents/` e a rotina por item. Em resumo: o principal é `opencode-go/glm-5.3` e lê o `.c` e escreve o GML; `nykra-scout` e `nykra-checker` usam `deepseek-v4.1-flash`; `nykra-scribe` usa `glm-5.3-flash`.
 
 ### 0.7 Fila de trabalho (em ordem; um item por vez, com F5 entre eles)
 
