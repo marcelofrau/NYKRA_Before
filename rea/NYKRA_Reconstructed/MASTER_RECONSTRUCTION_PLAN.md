@@ -322,6 +322,11 @@ Cada item diz onde estão as fontes. Os `.c` do `rmMal_1` **já estão** em `dec
      - **5b** decompilar `BOOK_input` e `open_book`;
      - **5c** `oBook_UI` por blocos do `Draw_73`;
      - **5d** ligar o disparo (hoje o `oControl` é provisório) e o texto (`book_text`).
+   - **Achados da 5a (26/11, leitura do `Create_0`, `Alarm_0` e `Draw_0`; nada portado ainda):**
+     - `Create_0`: `anim = anim1 = anim2 = book_text = book = on = 0`, `depth = 10`, `alarm[0] = 2`.
+     - `Alarm_0`: `FUN_140112250` = `gml_Script_open_book`, chamado como `open_book(book_text, <DAT_142182be8>)` (`.bss`, provavelmente 0 = "não é do inventário"). Falta entender por que o `Create_0` arma esse alarme em toda instância; ler o `open_book` completo (`decompiled/player_lifted2/gml_Script_open_book.gml.txt`: destrói e recria o `oBook_UI` em `(CMX, CMY, -100)`, lê o ini `BOOKS` e preenche `txt`, `name`, `book_id`, `is_inv`) antes de decidir.
+     - `Draw_0` é a **mesma máquina de estados do `parNote/Draw_0`** (original na raiz): `on==0` com `player_interact(x,y,17,0,0)` / `(17,1,1)`, `anim = reach_tween(anim,1,7)`, `anim1 = max(anim1*0.5-0.001, 0)`; `on==1` com `reach_tween(anim1,2,10.5)` e `player_interact(x,y,32,1,0)`; `on==2` com `reach_tween(anim1,0,5.25)`. No `oBook`, o `on==1` ainda faz `ds_list_insert(oPlayer.books, 0, book_text)` e `instance_destroy` (verificar a ordem no `.c`). Desenha `draw_sprite(sprite_index?, book, ...)` (`FUN_1416b8480(self, 0x193, book, ...)`: sprite 403 por índice) e um brilho aditivo com `c_ink`. `FUN_1400d7df0` = `player_interact`, já existe no projeto.
+     - Pendentes para a 5a: `Draw_73` (545 linhas), constantes `DAT_1420cba90..cbaf0` e `DAT_142182c08`, e confirmar o que é o sprite 403 em `sprites-metadata.json`.
 6. **Falas (`parDialogue` + `oDlg_Mal1`/`oDlg_Mal2`):**
    - `parDialogue` tem **original na raiz**: copie com gerador, como o `LIGHTING`.
    - Os `oDlg_*` têm só `Create_0` (`.c` já existem).
