@@ -14,3 +14,6 @@ graphify-out/.graphify_root
 
 # Python bytecode
 __pycache__/
+
+# JVM crash logs (Ghidra/Java)
+hs_err_pid*.log
