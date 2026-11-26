@@ -46,6 +46,7 @@ HAND_WRITTEN = {
     "parDoor_Flat", "oMal_Door_Flat",
     "oDoor_chunky",  # chunky door: Create_0, Step_1, Draw_0 + linked sprite
     "oFade_in",  # Draw_73 cover restored 22/11/2026
+    "oBook",  # 26/11, plan 0.7 item 5a: Create_0, Alarm_0, Draw_0, Draw_73 (generate_reconstructed_objects.py)
 }
 # Objects named by map_load, clear_objects and _SET_SCENE that are evaluated on the path
 # even when the level does not contain them (a missing asset is a runtime error).

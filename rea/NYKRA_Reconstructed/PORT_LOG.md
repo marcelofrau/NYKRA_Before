@@ -93,3 +93,17 @@ Modelo e regras: `MASTER_RECONSTRUCTION_PLAN.md` §0.6. Um bloco é escrito **du
 - **Removido:** o bloco `var _sx/_sy ... camera_set_view_pos` do `oPlayer/Step_1` (volta a ser a linha original `obj_setpos(oPlayer,x,y-16);`) e o bloco `oCamera.x = _px ...` do `map_load` (seção 6, chegada por `PATH`).
 - **Teste:** `test_visual_fixes.test_arrival_camera_grafts_are_gone`; `test_phase3_player` volta a exigir `oPlayer/Step_1` idêntico ao original.
 - **F5 (26/11, usuário, build de `5cd089f`):** câmera chega certa pelas portas, sem ficar torta nem "varrer"; log limpo (só `STUB save_game`, que a porta chama a cada travessia).
+
+### oBook (item 5a) — 26/11/2026
+- **Fontes:** raiz não (só o `parNote` tem a mesma máquina de estados); YYC `Create_0` `0x1414c5680`, `Alarm_0` `0x1414c6150`, `Draw_73` `0x1414c6b00`, `Draw_0` `0x1414c9420`; metadado: `oBook` sem pai, sprite `sBook` (índice 403, 16×8, confirmado), eventos Create, Alarm_0, Draw_0, Draw_73 (e PreCreate vazio, não portado).
+- **Lote:** `decompiled/rmmal1_sun_annotated` + `rmmal1_sun_lifted` (já existiam).
+- **Constantes e ids:** `0x193` = 403 = `sBook`; `0x40` = `oPlayer`; `0x4f` = `oControl`; `FUN_140120860` = `playerhascontrol`; `FUN_1400d6da0` = `interact_arrow` (17, cor 4235519 = `$40a0ff`); `FUN_1400d7df0` = `player_interact`; `DAT_1420cba90` = 17, `cbaa0` = 1, `cbab0` = 7, `cbac0` = 2, `cbad0` = 10.5, `cbae0` = 32, `cbaf0` = 5.25; `DAT_142182c08` = 0 (`.bss`, deduzido do uso: posição do `ds_list_insert`, limite do `max`, destino do `reach_tween`, `gpu_set_blendmode` de volta ao normal).
+- **Achados:**
+  - `on==1` já insere `book_text` em `oPlayer.books` e **destrói a instância** no primeiro quadro; o zoom do `parNote` quase não aparece no livro.
+  - O `Alarm_0` (armado em todo `Create`) chama `open_book(book_text, X)`. No script, `is_inv == 1` abre já (`book_id = -4`); senão `book_id` = id do livro do mundo. Leitura provável: o `oBook_UI` nasce fechado e abre quando o livro some (a confirmar na 5b/5c, **não portado**).
+  - `BOOK_input` e o rótulo `oControl.mode != 3` do `Draw_73` são do **editor** (`oControl/Step_1:413`, `Draw_73:488`); no jogo (`mode = 3`) só valem o `Draw_0` e o brilho do `Draw_73`. A 5d, "ligar o disparo", deixa de existir como tal.
+  - Sem a guarda `instance_number(oPlayer)` e sem os sons do `parNote`.
+- **Desvios e atalhos:** P42 (plan §7): 2º argumento do `open_book` = 0 (`.bss` `DAT_142182be8` não lido) e separador do rótulo de editor = `"\n"` (string `DAT_1420cba58` não lida). `open_book` segue stub (loga `STUB open_book` uma vez).
+- **Teste:** `test_visual_fixes.test_book_in_the_world_follows_the_yyc`. `oBook` entrou em `HAND_WRITTEN` e em `generate_reconstructed_objects.py` (sprite `sBook`).
+- **Sprite:** `sBook` (2 quadros) exportado do `data.win` com `ExportSpritesRestored.csx` e importado com `generate_object_sprites.py`; `generate_reconstructed_objects.py` ligou o sprite. Testes: 74 rodados, só o erro de import já conhecido do `test_save_v1_format`.
+- **F5 (26/11, usuário, build sem commit ainda):** o livro aparece com o quadro certo, seta laranja, brilho que some ao interagir, o livro some e entra no inventário. Log sem erro; `STUB open_book` uma vez, ~80 ms depois do `STUB save_game` (o `Alarm_0` de 2 quadros dispara em todo livro ao carregar o nível, como lido no YYC).

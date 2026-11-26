@@ -95,6 +95,29 @@ class VisualFixTests(unittest.TestCase):
         self.assertNotIn("else if (fade_in == 2", door_draw)  # oFade_in owns the arrival ramp
         self.assertIn("oFade_in (depth -1011", door_draw)
 
+    def test_book_in_the_world_follows_the_yyc(self):
+        # 5a: oBook's four YYC events (decompiled/rmmal1_sun_annotated), same state machine as parNote/Draw_0.
+        yy = load_yy(PROJECT / "objects/oBook/oBook.yy")
+        events = [(e["eventType"], e["eventNum"]) for e in yy["eventList"]]
+        for event in ((0, 0), (2, 0), (8, 0), (8, 73)):
+            self.assertIn(event, events)
+        create, alarm = code("objects/oBook/Create_0.gml"), code("objects/oBook/Alarm_0.gml")
+        draw, draw73 = code("objects/oBook/Draw_0.gml"), code("objects/oBook/Draw_73.gml")
+        for fragment in ("anim2 = 0;", "book_text = 0;", "book = 0;", "on = 0;", "depth = 10;", "alarm[0] = 2;"):
+            self.assertIn(fragment, create)
+        self.assertIn("open_book(book_text, 0);", alarm)
+        for fragment in ("player_interact(x,y,17,0,0)", "player_interact(x,y,17,1,1)", "anim2 = 1;", "reach_tween(anim,1,7)",
+                         "max((anim1*0.5)-0.001,0)", "ds_list_insert(oPlayer.books,0,book_text);", "instance_destroy();",
+                         "reach_tween(anim1,2,10.5)", "anim1>1.9", "player_interact(x,y,32,1,0)", "reach_tween(anim1,0,5.25)",
+                         "anim1<0.1", "draw_sprite(sBook,book,x,y);", "if anim2==0 {",
+                         "c_ink,sqr(0.5+lengthdir_x(0.5,(tick*300)+sqr(xstart)+sqr(ystart)+x+y))"):
+            self.assertIn(fragment, draw)
+        self.assertNotIn("instance_number(oPlayer)", draw)  # the YYC has no such guard here
+        for fragment in ("if playerhascontrol() {", "interact_arrow(x,y,17,$40a0ff);",
+                         "c_ink,0.5+lengthdir_x(0.5,(tick*300)+sqr(xstart)+sqr(ystart)+x+y)", "if oControl.mode!=3 {"):
+            self.assertIn(fragment, draw73)
+        self.assertEqual(yy["spriteId"]["name"], "sBook")
+
     def test_room_background_layer_does_not_cover_sky(self):
         room = load_yy(PROJECT / "rooms/rmMAIN/rmMAIN.yy")
         backgrounds = [layer for layer in room["layers"] if layer["name"] == "Background"]

@@ -37,6 +37,8 @@ OBJECTS = {
     "oGnarcier_m": ("parGnarcier", "sGnar_m", False, "sGnar_m"),
     "oGnarcier_b": ("parGnarcier", "sGnar_b", False, "sGnar_b"),
     "DRAW_GNARCIER": (None, None, False, None),
+    # 26/11 (plan 0.7 item 5a): the world book of rmMal_1; sBook needs Tools/ExportSpritesRestored.csx + generate_object_sprites.py first.
+    "oBook": (None, "sBook", False, None),
 }
 
 
