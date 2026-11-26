@@ -305,8 +305,8 @@ Cada item diz onde estão as fontes. Os `.c` do `rmMal_1` **já estão** em `dec
    - O `oPlayer/Collision_parGnarcier` (original) e o bloco `with(parGnarcier)` do `LIGHTING` passam a valer.
    - ⚠ **Não crie cascas dos `oGnarcier_*` antes do port:** o bloco do `LIGHTING` lê `f_`, `f__`, `r__` e `anim` das instâncias, e numa casca isso é erro de variável não definida.
    - Aceite: os fragmentos aparecem, brilham e reagem como no original.
-2. **`oMUSIC_VOL_HALF`:** o `Create_0` é vazio, então é só um marcador. Antes de criar a casca, ache quem o consulta com `rg -n "oMUSIC_VOL_HALF" rea/NYKRA_Reconstructed/NativeAnalysis/decompiled oControl` e confira se esse código já está portado.
-3. **P41, feixes de luz:** decompile `gml_Object_oGlow_Beam_L_Create_0` e `gml_Object_oGlow_Beam_S_Create_0`, porte cada um no próprio filho e tire o `object_index ==` do pai. Aceite: os feixes iguais aos de hoje (que já batem com o original).
+2. ✅ **`oMUSIC_VOL_HALF`** (26/11, `b2cce24`): ninguém portado o consulta e o `oControl` original não o usa; ficou como casca (junto com `oDlg_Mal1/2`). Texto original: o `Create_0` é vazio, então é só um marcador. Antes de criar a casca, ache quem o consulta com `rg -n "oMUSIC_VOL_HALF" rea/NYKRA_Reconstructed/NativeAnalysis/decompiled oControl` e confira se esse código já está portado.
+3. 🟨 **P41, feixes de luz (portado em 26/11, falta F5 na `rmMal_o1`; os `.c` já existiam em `lighting_glows_annotated`; filhos sem `event_inherited`, deslocamento 13.5 / 8.5 lidos do `.exe`, pai 2).** Texto original: decompile `gml_Object_oGlow_Beam_L_Create_0` e `gml_Object_oGlow_Beam_S_Create_0`, porte cada um no próprio filho e tire o `object_index ==` do pai. Aceite: os feixes iguais aos de hoje (que já batem com o original).
 4. **P40, `oFade_in`:** decompile `Create_0` (`0x14087d320`), `Alarm_0` (`0x14087f960`) e `Draw_73` (`0x140881b00`), porte-os e volte o `map_load` para `instance_create_depth(10, 10, -1011, oFade_in)`. Aceite: o fade de porta igual ao original, sem tela preta presa.
 5. **Livro (`oBook` + `oBook_UI`, `rmMal_1`):**
    - Os `.c` já existem. O `oBook_UI/Draw_73` tem 156 KB.

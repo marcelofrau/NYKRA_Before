@@ -32,6 +32,7 @@ HAND_WRITTEN = {
     "oGlow", "oGlw_yellow_m",  # point light parent + medium yellow glow in rmMal_o1
     "LIGHTING",  # author's original events (Tools/generate_lighting.py, P38)
     "parGlow_Beam",  # Create_0 reconstructed from the YYC (the three rays LIGHTING draws)
+    "oGlow_Beam_L", "oGlow_Beam_S",  # own Create_0 in the YYC (offset 13.5 / 8.5), P41
     "parSun_Glow", "oSun_Mal", "oLight_Glow",  # 24/11, from decompiled/rmmal1_sun (generate_reconstructed_objects.py)
     "parGnarcier", "oGnarcier_s", "oGnarcier_m", "oGnarcier_b", "DRAW_GNARCIER",  # 24/11, plan 0.7 item 1
     "oMal_bg_leaves_bg", "oMal_bg_leaves_bg_fg", "oMal_bg_leaves_fg",

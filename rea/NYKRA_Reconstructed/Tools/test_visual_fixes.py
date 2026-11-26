@@ -144,10 +144,16 @@ class VisualFixTests(unittest.TestCase):
         yy = load_yy(PROJECT / "objects/parGlow_Beam/parGlow_Beam.yy")
         self.assertIn((0, 0), [(e["eventType"], e["eventNum"]) for e in yy["eventList"]])
         beam = code("objects/parGlow_Beam/Create_0.gml")
+        self.assertNotIn("object_index", beam)  # P41: each child has its own Create_0 in the YYC
+        self.assertIn("var _off = 2;", beam)
+        for child, off in (("oGlow_Beam_L", "13.5"), ("oGlow_Beam_S", "8.5")):
+            child_yy = load_yy(PROJECT / f"objects/{child}/{child}.yy")
+            self.assertIn((0, 0), [(e["eventType"], e["eventNum"]) for e in child_yy["eventList"]])
+            child_code = code(f"objects/{child}/Create_0.gml")
+            self.assertIn(f"var _off = {off};", child_code)
+            self.assertNotIn("event_inherited();", child_code)
+            self.assertEqual(child_code.split("sx1 = ", 1)[1], beam.split("sx1 = ", 1)[1])  # same body as the parent
         for fragment in (
-            "if (object_index == oGlow_Beam_L)",
-            "_off = 13.5;",
-            "_off = 8.5;",
             "sx1 = xstart - _off;",
             "sxm = xstart;",
             "sx2 = xstart + _off;",

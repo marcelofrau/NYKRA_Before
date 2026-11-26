@@ -1,13 +1,15 @@
 {
   "$GMObject": "",
   "%Name": "oGlow_Beam_L",
-  "eventList": [],
+  "eventList": [
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+  ],
   "managed": true,
   "name": "oGlow_Beam_L",
   "overriddenProperties": [],
   "parent": {
-    "name": "Shells",
-    "path": "folders/Objects/Shells.yy",
+    "name": "Objects",
+    "path": "folders/Objects.yy",
   },
   "parentObjectId": {"name":"parGlow_Beam","path":"objects/parGlow_Beam/parGlow_Beam.yy",},
   "persistent": false,

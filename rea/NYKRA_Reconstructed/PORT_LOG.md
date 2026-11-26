@@ -63,3 +63,12 @@ Modelo e regras: `MASTER_RECONSTRUCTION_PLAN.md` §0.6. Um bloco é escrito **du
 - **Atalhos:** `create_flashline`, `create_fx`, `create_spark`, `create_poly` e `oBolt_Colour` seguem como stubs/estado provisório do projeto (P27). `Alarm_0`, `Create_0` e `DRAW_GNARCIER` não têm o problema: o `.c` já mostra as constantes (`-0.02`, `-360`).
 - **Teste:** `test_visual_fixes.test_gnarcier_fragments_match_the_yyc` (atualizado).
 - **F5 (26/11, usuário):** fragmentos aparecem com brilho e ruído; a colisão com o jogador rebate, dá dano e brilha (original `oPlayer/Collision_parGnarcier`). **Explosão sem teste:** o gatilho de `anim = 0` não está portado (não está no GML da raiz; provavelmente o ataque) e os efeitos `create_flashline/spark/poly` são stubs. A borda vermelha na morte do jogador não vem deste objeto.
+
+### oGlow_Beam_L + oGlow_Beam_S (P41) — 26/11/2026
+- **Fontes:** raiz não; YYC `oGlow_Beam_L_Create_0` `0x14086a630`, `oGlow_Beam_S_Create_0` `0x14086d2f0`, pai `parGlow_Beam_Create_0` `0x1408680b0`; metadado: filhos de `parGlow_Beam`.
+- **Lote:** `decompiled/lighting_glows_annotated` (já existia).
+- **Constantes e ids:** `_UNK_141986e50` = 13.5 (L), `_UNK_141986948` = 8.5 (S), `_UNK_141982ef8` = 16, `FUN_14012cc90` = `check_block` (2 args), laços de 128 passos; lidos do `.exe` pelo cabeçalho PE. O pai usa o literal 2.
+- **Achado:** nenhum dos três chama `event_inherited()` (sem `FUN_141706ee0`). Cada filho tem o corpo completo e só muda o deslocamento. O `object_index ==` do pai (P41) saiu.
+- **Desvios e atalhos:** nenhum. `check_block` e `xstart`/`ystart` seguem como no port anterior do pai (o F5 de 24/11 já validou os feixes).
+- **Teste:** `test_visual_fixes.test_glow_beam_parent_casts_three_rays` (filhos com evento registrado, mesmo corpo do pai). Objetos movidos de `Shells` para `Objects` e incluídos em `HAND_WRITTEN`.
+- **F5:** pendente (`rmMal_o1`: os feixes devem ficar iguais aos de hoje).

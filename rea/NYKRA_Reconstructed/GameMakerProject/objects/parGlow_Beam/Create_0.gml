@@ -1,11 +1,7 @@
-// Reconstructed from gml_Object_parGlow_Beam_Create_0 and the L/S child Create events.
+// Reconstructed from gml_Object_parGlow_Beam_Create_0 @ 0x1408680b0 (NativeAnalysis/decompiled/lighting_glows_annotated).
 // The light casts three rays down-right; each stops at the first solid tile.
+// oGlow_Beam_L / oGlow_Beam_S have their own Create_0 (same code, offset 13.5 / 8.5; P41), no event_inherited().
 var _off = 2;
-if (object_index == oGlow_Beam_L) {
-    _off = 13.5;
-} else if (object_index == oGlow_Beam_S) {
-    _off = 8.5;
-}
 
 sx1 = xstart - _off;
 sxm = xstart;
