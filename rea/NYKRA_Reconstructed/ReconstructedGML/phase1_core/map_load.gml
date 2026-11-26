@@ -265,8 +265,8 @@ if (oControl.START_GAME) {
 
 reset_files();
 
-// Positive depth keeps the cover above tiles and the door's own fade overlay.
-var _fade = instance_create_depth(10, 10, 1000, oFade_in);
+// YYC: instance_create_depth(10, 10, -1011, oFade_in) (DAT_1420b2708 = -1011, DAT_1420b2718 = object 136); P40.
+var _fade = instance_create_depth(10, 10, -1011, oFade_in);
 with (_fade) {
     colour = oControl.FADE_COLOUR;
 }

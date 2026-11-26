@@ -72,3 +72,18 @@ Modelo e regras: `MASTER_RECONSTRUCTION_PLAN.md` §0.6. Um bloco é escrito **du
 - **Desvios e atalhos:** nenhum. `check_block` e `xstart`/`ystart` seguem como no port anterior do pai (o F5 de 24/11 já validou os feixes).
 - **Teste:** `test_visual_fixes.test_glow_beam_parent_casts_three_rays` (filhos com evento registrado, mesmo corpo do pai). Objetos movidos de `Shells` para `Objects` e incluídos em `HAND_WRITTEN`.
 - **F5:** pendente (`rmMal_o1`: os feixes devem ficar iguais aos de hoje).
+
+### oFade_in (P40) — 26/11/2026
+- **Fontes:** raiz não; YYC `Create_0` `0x14087d320`, `Alarm_0` `0x14087f960`, `Draw_73` `0x140881b00`; metadado: `oFade_in` = objeto 136, eventos Create, Alarm_0, Draw_73 (e PreCreate vazio).
+- **Lote:** `decompiled/fade_in` (+ `fade_in_annotated`, gerado em 26/11).
+- **Constantes e ids:**
+  - `_UNK_141987d48` = 11, logo `alarm[0] = 2 + ceil(fps / 11)` (`DAT_1420d5cb8` = `fps`, `DAT_1420da140` = `ceil`);
+  - depth `-1011` (`0xc08f980000000000`), `alpha = 1.12` (`0x3ff1eb851eb851ec`), `colour = 0`, `fade = 0` no Create; `fade = 1`, `alpha = 1` no Alarm;
+  - objetos: `0x40` = 64 = `oPlayer`, `0x4e` = 78 = `oCamera`, `0x4f` = 79 = `oControl` (`objects-metadata.json`);
+  - `DAT_1420ba518` = 1 (o `min(alpha, 1)` do Draw), `0x3feccccccccccccd` = 0.9, `DAT_1420f6b08` = 1e-5 (epsilon da comparação);
+  - `map_load`: `DAT_1420b2708` = -1011 e `DAT_1420b2718` = 136 (`oFade_in`), depth confirmado no `.exe`;
+  - `FUN_140001a50(d, s, n)` = `s * n`, `FUN_140003e00(a, x)` = `a -= x`, `FUN_140001fe0(a, x)` = `a *= x`, `FUN_1416cda40` = `min`, `FUN_14003ee60` = `draw_rectangle_view`.
+- **Bloco de câmera (Create e Alarm):** se há `oPlayer` e `oCamera`, `with(oControl)`: `oCamera.x/y/xx/yy = mean(atual, mw*8 / mh*8)`, `camera_set_view_pos(cam, oCamera.x - w/2, oCamera.y - h/2)`, `oCamera.mv = oCamera.mh = 0`, `oCamera.alarm[0] = 1` (o `oCamera/Alarm_0` da raiz centra no mapa).
+- **Desvios e atalhos:** `alpha <= 0.00001` no lugar de `alpha <= 0` (no YYC o epsilon é implícito na comparação; regra do `AGENTS.md`). Nenhum outro.
+- **Teste:** `test_visual_fixes.test_fade_in_covers_the_load` (reescrito; o antigo fixava o depth `1000` e o fade por tempo inventados).
+- **F5:** pendente. Conferir o fade de porta (sem tela preta presa) e a câmera na chegada (P39: o enxerto do `oPlayer/Step_1` continua ativo).

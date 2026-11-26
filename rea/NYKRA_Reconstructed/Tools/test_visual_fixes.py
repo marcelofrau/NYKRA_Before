@@ -76,21 +76,24 @@ class VisualFixTests(unittest.TestCase):
         alarm = code("objects/oFade_in/Alarm_0.gml")
         create = code("objects/oFade_in/Create_0.gml")
         draw = code("objects/oFade_in/Draw_73.gml")
-        self.assertIn("colour = c_black;", create)
-        self.assertNotIn("colour = FADE_COLOUR;", create)  # instance var lives on oControl
-        self.assertIn("fade_start = current_time;", create)
-        self.assertIn("(current_time - fade_start) / 500.0", draw)
-        self.assertIn("clamp(1.0 - _progress, 0.0, 1.0)", draw)
-        self.assertIn("draw_rectangle_view(colour, _alpha);", draw)
-        self.assertIn("if (_alpha <= 0) instance_destroy();", draw)
-        self.assertNotIn("instance_destroy();", alarm)  # alarm must not cut the ramp short
-        self.assertNotIn("fade_alpha -= 1 / 30;", alarm)  # int/int division == 0 in GML LTS
+        # P40: the three events are the YYC ones (decompiled/fade_in_annotated), constants read from the exe.
+        for fragment in ("fade = 0;", "alarm[0] = 2 + ceil(fps / 11);", "depth = -1011;", "alpha = 1.12;", "colour = 0;",
+                         "oCamera.x = mean(oCamera.x, mw*8);", "oCamera.yy = mean(oCamera.yy, mh*8);",
+                         "camera_set_view_pos(cam, oCamera.x - camera_get_view_width(cam)/2, oCamera.y - camera_get_view_height(cam)/2);",
+                         "oCamera.alarm[0] = 1;"):
+            self.assertIn(fragment, create)
+        for fragment in ("fade = 1;", "alpha = 1;", "depth = -1011;", "oCamera.alarm[0] = 1;"):
+            self.assertIn(fragment, alarm)
+        self.assertNotIn("instance_destroy", alarm)
+        for fragment in ("draw_rectangle_view(colour, min(alpha, 1));", "alpha *= 0.9;", "if alpha <= 0.00001 {", "instance_destroy();"):
+            self.assertIn(fragment, draw)
+        self.assertNotIn("current_time", create + alarm + draw)  # the invented time-based fade is gone
         load = code("scripts/map_load/map_load.gml")
-        self.assertIn("instance_create_depth(10, 10, 1000, oFade_in)", load)
-        self.assertNotIn("instance_create_depth(10, 10, -1011, oFade_in)", load)
+        self.assertIn("instance_create_depth(10, 10, -1011, oFade_in)", load)
+        self.assertNotIn("instance_create_depth(10, 10, 1000, oFade_in)", load)
         door_draw = code("objects/parDoor_Flat/Draw_73.gml")
         self.assertNotIn("else if (fade_in == 2", door_draw)  # oFade_in owns the arrival ramp
-        self.assertIn("oFade_in at depth 1000", door_draw)
+        self.assertIn("oFade_in (depth -1011", door_draw)
 
     def test_room_background_layer_does_not_cover_sky(self):
         room = load_yy(PROJECT / "rooms/rmMAIN/rmMAIN.yy")
