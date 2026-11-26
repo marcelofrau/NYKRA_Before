@@ -166,34 +166,14 @@ class VisualFixTests(unittest.TestCase):
         ):
             self.assertIn(fragment, beam)
 
-    def test_door_arrival_snaps_camera(self):
+    def test_arrival_camera_grafts_are_gone(self):
+        # P39: the camera reaches the player the way the original does: oFade_in (Create_0/Alarm_0) snaps it and
+        # sets oCamera.alarm[0] = 1, whose original Alarm_0 centres it on oPlayer once the player is placed.
         step = code("objects/oPlayer/Step_1.gml")
-        arrival = step.split("if door_n!=-1 {", 1)[1].split("door_n = -1;", 1)[0]
-        for fragment in (
-            "var _sx = x;",
-            "var _sy = y-16;",
-            "obj_setpos(oPlayer,_sx,_sy);",
-            "oCamera.x = _sx;",
-            "oCamera.y = _sy;",
-            "oCamera.xx = _sx;",
-            "oCamera.yy = _sy;",
-            "oCamera.alarm[0] = 0;",
-            "camera_set_view_pos(cam,_sx-(camera_get_view_width(cam)/2),_sy-(camera_get_view_height(cam)/2));",
-        ):
-            self.assertIn(fragment, arrival)
-
-    def test_camera_snaps_to_path_spawn(self):
+        self.assertNotIn("oCamera", step.split("if door_n!=-1 {", 1)[1].split("door_n = -1;", 1)[0])
         load = code("scripts/map_load/map_load.gml")
-        spawn = load.split("obj_setpos(oPlayer, _px, _py);", 1)[1]
-        for fragment in (
-            "oCamera.x = _px;",
-            "oCamera.y = _py;",
-            "oCamera.xx = _px;",
-            "oCamera.yy = _py;",
-            "oCamera.alarm[0] = 0;",
-            "camera_set_view_pos(cam, _px - (camera_get_view_width(cam) / 2), _py - (camera_get_view_height(cam) / 2));",
-        ):
-            self.assertIn(fragment, spawn.split("break;", 1)[0])
+        spawn = load.split("obj_setpos(oPlayer, _px, _py);", 1)[1].split("break;", 1)[0]
+        self.assertNotIn("oCamera", spawn)
 
     def test_wire_draw_and_signal_propagation(self):
         yy = load_yy(PROJECT / "objects/oWire/oWire.yy")

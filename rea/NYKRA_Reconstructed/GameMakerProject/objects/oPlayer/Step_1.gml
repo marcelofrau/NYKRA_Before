@@ -165,18 +165,7 @@ if door_n!=-1 {
 	control = 0;
 	with(parDoor_Flat) {
 		if n==oPlayer.door_n {
-			var _sx = x;
-			var _sy = y-16;
-			obj_setpos(oPlayer,_sx,_sy);
-			// Snap here: this arrival path has no PATH object to drive the camera alarm.
-			oCamera.x = _sx;
-			oCamera.y = _sy;
-			oCamera.xx = _sx;
-			oCamera.yy = _sy;
-			oCamera.mv = 0;
-			oCamera.mh = 0;
-			oCamera.alarm[0] = 0;
-			camera_set_view_pos(cam,_sx-(camera_get_view_width(cam)/2),_sy-(camera_get_view_height(cam)/2));
+			obj_setpos(oPlayer,x,y-16);
 			if instance_number(oEo)>=1 {
 				obj_setpos(oEo,x,y-16);
 				oEo.tx = 0;

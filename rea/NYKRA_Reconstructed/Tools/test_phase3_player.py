@@ -57,15 +57,9 @@ class PlayerObjectTests(unittest.TestCase):
         for f in files:
             ours = (PROJECT / "objects" / "oPlayer" / f.name).read_text(encoding="utf-8")
             original = f.read_text(encoding="utf-8")
-            if f.name == "Step_1.gml":
-                # One intentional deviation: the arrival door branch snaps the camera before
-                # the rest of the original event runs. Everything around that line stays verbatim.
-                before, after = original.split("\t\t\tobj_setpos(oPlayer,x,y-16);", 1)
-                self.assertIn(before, ours)
-                self.assertTrue(ours.endswith(after), f.name)
-                self.assertIn("var _sx = x;", ours)
-            else:
-                self.assertTrue(ours.endswith(original), f.name)
+            # P39 closed: the camera snap graft is gone, every event is the original, verbatim.
+            self.assertTrue(ours.endswith(original), f.name)
+            self.assertNotIn("_sx", ours)
         self.assertEqual((yy["parentObjectId"]["name"], yy["persistent"]), ("parEntity", True))
         self.assertEqual(yy["spriteMaskId"]["name"], "sBnd_player")
         collisions = [e["collisionObjectId"]["name"] for e in yy["eventList"] if e["eventType"] == 4]
