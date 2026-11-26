@@ -92,4 +92,4 @@ Modelo e regras: `MASTER_RECONSTRUCTION_PLAN.md` §0.6. Um bloco é escrito **du
 - **Causa:** o `oFade_in` inventado não centrava a câmera. No original, `Create_0` e `Alarm_0` fazem o snap e armam `oCamera.alarm[0] = 1` (ver bloco do `oFade_in`); o `Alarm_0` da raiz (`oCamera/Alarm_0.gml`) põe a câmera no `oPlayer`. O alarme dispara antes do `Step` do jogador, por isso o primeiro disparo vê a posição antiga e o segundo (do `oFade_in/Alarm_0`) acerta.
 - **Removido:** o bloco `var _sx/_sy ... camera_set_view_pos` do `oPlayer/Step_1` (volta a ser a linha original `obj_setpos(oPlayer,x,y-16);`) e o bloco `oCamera.x = _px ...` do `map_load` (seção 6, chegada por `PATH`).
 - **Teste:** `test_visual_fixes.test_arrival_camera_grafts_are_gone`; `test_phase3_player` volta a exigir `oPlayer/Step_1` idêntico ao original.
-- **F5:** pendente. Se a câmera chegar torta, reverter o commit.
+- **F5 (26/11, usuário, build de `5cd089f`):** câmera chega certa pelas portas, sem ficar torta nem "varrer"; log limpo (só `STUB save_game`, que a porta chama a cada travessia).
