@@ -77,3 +77,5 @@ Tipos: 0 real, 1 string, 2 array, 3 ponteiro, 5 indefinido, 6 objeto/instância,
 
 ## Limites
 O elevador não reconstrói laços `for/while`, `with`, `switch` nem acesso a arrays: mantém a estrutura do decompilador e marca `// ?? <linha>` o que não reconhece.
+
+**Armadilha de `xmm0` (26/11/2026):** o Ghidra perde o primeiro argumento `double` de funções chamadas com `xmm0`. Por isso `FUN_1416cdc30(0)` é `random(<valor em xmm0>)`, e `FUN_1416cdc60(0xcccccccd, 1.1)` é `random_range(<xmm0>, 1.1)`: só o segundo argumento aparece. Nunca traduza o `0` para `random(0)`. Leia o asm (`DisassembleRange.java`) e siga `MOVSD XMM0,[DAT]` ou o registrador `XMM6..XMM15` carregado antes do laço; converta o `DAT` com o cabeçalho PE do `.exe`. Evidência: `parGnarcier_Step_0` (`decompiled/rmmal1_sun_disasm/`). O mesmo padrão aparece 31× em `oOrigin/Draw_0.c` (item 7 da fila).

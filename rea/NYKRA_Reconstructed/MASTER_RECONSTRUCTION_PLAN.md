@@ -297,7 +297,7 @@ Esta seção existe porque o histórico de 22–23/11 mostra padrões que levara
 
 Cada item diz onde estão as fontes. Os `.c` do `rmMal_1` **já estão** em `decompiled/rmmal1_sun_annotated/` (lote de 24/11).
 
-1. **Fragmentos vermelhos (`parGnarcier` + `oGnarcier_s/m/b`, `rmMal_1`):**
+1. **Fragmentos vermelhos (`parGnarcier` + `oGnarcier_s/m/b`, `rmMal_1`):** 🟨 **portados em `fba9e52`; em 26/11 o `Step_0` foi corrigido** (12× `random(0)` e `random_range` com mínimos errados: o Ghidra perde o argumento de `xmm0`; ver `PORT_LOG.md` e `YYC_HELPERS.md`). F5 de 26/11: fragmentos com brilho e ruído, colisão e rebote ok (usuário). **A explosão (`anim == 0`) não foi testada:** nada portado a dispara (provavelmente o ataque Telarod) e `create_flashline`/`create_spark`/`create_poly` são stubs (P27). O mesmo erro existe no `oOrigin/Draw_0.c` (item 7).
    - YYC:
      - `parGnarcier`: `Create_0` 16 KB, `Alarm_0` 21 KB, `Step_0` 65 KB; `Draw_0` e `Draw_72` são vazios.
      - Os filhos têm `Create_0` = `event_inherited(); sides = 3/4/5;`.

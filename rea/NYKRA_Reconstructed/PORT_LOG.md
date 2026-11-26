@@ -45,3 +45,21 @@ Modelo e regras: `MASTER_RECONSTRUCTION_PLAN.md` §0.6. Um bloco é escrito **du
 - **Desvios e atalhos:** nenhum.
 - **Teste:** o mesmo do sol. A volta do objeto reativou `with(oLight_Glow)` no `LIGHTING`.
 - **F5:** lâmpadas ok (usuário, 24/11).
+
+### parGnarcier + oGnarcier_s/m/b + DRAW_GNARCIER — 26/11/2026 — commit `fba9e52`, correção de `Step_0` em 26/11 (sem commit ainda)
+- **Fontes:**
+  - raiz: não;
+  - YYC: `parGnarcier_Create_0` `0x14036aeb0`, `Alarm_0` `0x14036ce90`, `Step_0` `0x14036f4d0`; `DRAW_GNARCIER_Draw_0` `0x141088a20`;
+  - metadado: filhos `oGnarcier_s/m/b` só chamam `event_inherited()` e põem `sides = 3/4/5`.
+- **Lote:** `decompiled/rmmal1_sun_annotated`, `decompiled/draw_gnarcier_annotated`; asm de `Step_0` em `decompiled/rmmal1_sun_disasm/parGnarcier_Step_0.asm` (`DisassembleRange.java`, 0x14036f4d0–0x140378de0).
+- **Achado de 26/11 (erro do port de 24/11):** o primeiro argumento `double` de `random()`/`random_range()` vai em `xmm0` e o Ghidra o perde (aparece `FUN_1416cdc30(0)`; em `random_range` aparece lixo como `0xcccccccd`). O `Step_0` tinha 12× `random(0)` (sempre 0) e `random_range` com mínimos errados. Valores lidos do asm (`MOVSD XMM0,[DAT]` / registradores `XMM6..XMM14` carregados em `0x1403711fe`):
+  - ângulo das 3 `create_flashline`: **uma só** `random(360)`, depois `+120` e `+240` (antes eram 3 sorteios);
+  - som: `random_range(0.9, 1.1)` (era 0.1);
+  - cada um dos 3 `create_fx`: `sqr(random(1.5))` (÷1, ÷2, ÷4), ângulo `random(360)`, `random_range(0.97, 0.99)` ×2, `random_range(0.2, mean(random(1), 0.5, 0.5))`;
+  - posições: `x/y + random_range(-8, 8)`;
+  - `create_spark`: ângulo `random(360)`, `sqr(random(2))`, `random_range(-90, 90)`, `mean(4, sqr(random(2)))`;
+  - `create_poly`: `random(360)`; `oBolt_Colour`: `random_range(-4, 4)` ×4.
+- **Não verificado:** os registradores `XMM9`/`XMM8` são recarregados em `0x140373215`; os valores acima assumem o fluxo reto do asm (sem salto que pule o carregamento de `0x1403711fe`).
+- **Atalhos:** `create_flashline`, `create_fx`, `create_spark`, `create_poly` e `oBolt_Colour` seguem como stubs/estado provisório do projeto (P27). `Alarm_0`, `Create_0` e `DRAW_GNARCIER` não têm o problema: o `.c` já mostra as constantes (`-0.02`, `-360`).
+- **Teste:** `test_visual_fixes.test_gnarcier_fragments_match_the_yyc` (atualizado).
+- **F5 (26/11, usuário):** fragmentos aparecem com brilho e ruído; a colisão com o jogador rebate, dá dano e brilha (original `oPlayer/Collision_parGnarcier`). **Explosão sem teste:** o gatilho de `anim = 0` não está portado (não está no GML da raiz; provavelmente o ataque) e os efeitos `create_flashline/spark/poly` são stubs. A borda vermelha na morte do jogador não vem deste objeto.
