@@ -71,7 +71,7 @@ Modelo e regras: `MASTER_RECONSTRUCTION_PLAN.md` §0.6. Um bloco é escrito **du
 - **Achado:** nenhum dos três chama `event_inherited()` (sem `FUN_141706ee0`). Cada filho tem o corpo completo e só muda o deslocamento. O `object_index ==` do pai (P41) saiu.
 - **Desvios e atalhos:** nenhum. `check_block` e `xstart`/`ystart` seguem como no port anterior do pai (o F5 de 24/11 já validou os feixes).
 - **Teste:** `test_visual_fixes.test_glow_beam_parent_casts_three_rays` (filhos com evento registrado, mesmo corpo do pai). Objetos movidos de `Shells` para `Objects` e incluídos em `HAND_WRITTEN`.
-- **F5:** pendente (`rmMal_o1`: os feixes devem ficar iguais aos de hoje).
+- **F5 (26/11, usuário, build de `715adeb`):** feixes de luz ok.
 
 ### oFade_in (P40) — 26/11/2026
 - **Fontes:** raiz não; YYC `Create_0` `0x14087d320`, `Alarm_0` `0x14087f960`, `Draw_73` `0x140881b00`; metadado: `oFade_in` = objeto 136, eventos Create, Alarm_0, Draw_73 (e PreCreate vazio).
@@ -86,4 +86,4 @@ Modelo e regras: `MASTER_RECONSTRUCTION_PLAN.md` §0.6. Um bloco é escrito **du
 - **Bloco de câmera (Create e Alarm):** se há `oPlayer` e `oCamera`, `with(oControl)`: `oCamera.x/y/xx/yy = mean(atual, mw*8 / mh*8)`, `camera_set_view_pos(cam, oCamera.x - w/2, oCamera.y - h/2)`, `oCamera.mv = oCamera.mh = 0`, `oCamera.alarm[0] = 1` (o `oCamera/Alarm_0` da raiz centra no mapa).
 - **Desvios e atalhos:** `alpha <= 0.00001` no lugar de `alpha <= 0` (no YYC o epsilon é implícito na comparação; regra do `AGENTS.md`). Nenhum outro.
 - **Teste:** `test_visual_fixes.test_fade_in_covers_the_load` (reescrito; o antigo fixava o depth `1000` e o fade por tempo inventados).
-- **F5:** pendente. Conferir o fade de porta (sem tela preta presa) e a câmera na chegada (P39: o enxerto do `oPlayer/Step_1` continua ativo).
+- **F5 (26/11, usuário, build de `715adeb`):** fade ok, câmera chega sozinha, nenhum erro de variável no log. Obs.: com os enxertos P39 ainda ativos (`oPlayer/Step_1` e `map_load`); a remoção deles está no commit seguinte.
