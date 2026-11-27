@@ -157,3 +157,17 @@ Modelo e regras: `MASTER_RECONSTRUCTION_PLAN.md` §0.6. Um bloco é escrito **du
 - **Importado/gerado:** `sBook_cover` (258, 82×100, 6 quadros) com `ExportSpritesRestored.csx` + `generate_object_sprites.py` (SHA do `data.win` igual); casca `oControls_bag` (647) e o pai `parControlsTut` com `generate_object_shells.py` (`EXTRA`).
 - **Desvios e atalhos:** P45.
 - **Teste:** `test_open_book_step1_reads_the_ini_like_the_yyc` (`oBook_UI` com 4 eventos, trechos do `Alarm_0`). Suíte: só o erro de import conhecido.
+
+### oBook_UI Draw_73, blocos B1-B5 + B12 (item 5c, etapa 2) — 27/11/2026
+- **Fontes:** raiz não (`ls oBook_UI` na raiz: não existe); YYC `gml_Object_oBook_UI_Draw_73` `0x1414a2ef0` (`rmmal1_sun_annotated:1-997` e `:4039-4256`; o `lifted` só serviu de mapa); metadado: `oBook_UI` 665, evento Draw_73 (8,73).
+- **Constantes e ids (bytes do `.exe`, PE manual):** `cb8c8` = -2, `cb8d8..cb918` = 101..105 (`sndPaper_01..05`), `cb928` = 10, `cb938` = 0.1, `cb948/958/968` = 113/114/115 (o `choose` leva `cb968` duas vezes), `cb978` = 0.333333333333333, `cb988` = 1, `cba28` = 0.666666666666667, `cba38/48` = 60/45. `FUN_1400b9c80` = `reach_tween`, `FUN_14003b450` = `reach`, `FUN_14003ee60` = `draw_rectangle_view`, `FUN_1400d2410` = `play_sound` (6 args: id, prioridade, loops, pitch, ganho, tempo de ganho).
+- **Achados:** `goto LAB_1414abeb8` (livro ainda fechado) pula tudo menos o som de abrir e o `alarm[0]`, por isso B3-B12 vão dentro de `if (open)`. O ramo de som de página só vale com os dois `page_sel` (antigo e novo) fora das capas; com capa, `page_click = 0` e tocam papel baixo + `sndBook_slide`. `anim1` tende a `anim4 * (page_anim[0] >= 0.05 ? is_inv : 1)`. O 1º argumento perdido do `random_range` é 0.9 (sobra `0xcccccccd`, igual ao `Alarm_0`). `oPlayer.control` volta sozinho por `control += 0.33333` no `oPlayer/Step_1`.
+- **Desvios e atalhos:** P45 (`.bss` 0) e P46 (tecla "baixo" temporária, visualizador B mantido).
+- **Teste:** `test_open_book_step1_reads_the_ini_like_the_yyc` (trechos do `Draw_73`). Não rodado: pedir ao usuário.
+- **F5 pendente:** pegar o livro em `rmMal_1`: som de abrir, tela escurece, jogador parado, sem páginas; B mostra as páginas; "baixo" fecha, o jogador volta a andar; log `book: opened`, `book: closing`, `book: closed`.
+
+### Log do F5 em arquivo — 27/11/2026 (pedido do usuário: parar de colar o log)
+- `scripts/debug_log/debug_log.gml` (escrito à mão, sem gerador): `log_level` também acrescenta cada linha em `f5.log` dentro de `game_save_id` (esperado `%LOCALAPPDATA%\NYKRA_VerticalSlice\f5.log`, apagado a cada início). `exception_unhandled_handler` grava `EXCEPTION: ...` (mensagem e pilha) no mesmo arquivo; o jogo ainda fecha.
+- Não é save: não toca `PROFILES`. Caminho **não confirmado** até o próximo F5 (a pasta ainda não existia).
+- Uso: depois do F5 o usuário só diz "rodei"; o assistente lê o arquivo com `Grep`/`Read` (filtrar por `STUB|EXCEPTION|book:|<tema>`), sem o IDE colar nada.
+- Teste: `test_debug_output_goes_through_the_log_gate`.

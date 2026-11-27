@@ -153,6 +153,18 @@ class VisualFixTests(unittest.TestCase):
         for fragment in ("pages = _p + 1;", "ds_list_add(pagepile_right, _j);", "page_anim[_j] = 0;", 'page_txt[_j] = "";',
                          "pileR = pages;", "pileL = 0;", "pileRxA = 0;", "pileLxA = 0;", "surface_free(_surf);"):
             self.assertIn(fragment, book)
+        # 5c step 2: Draw_73 B1-B5 + B12 from the YYC; sounds, constants and tween divisors are the exe bytes
+        draw73 = code("objects/oBook_UI/Draw_73.gml")
+        for fragment in ("book_id.on == 1) open = 1;", "page_sel += (keyboard_check_pressed(global.kkr) - keyboard_check_pressed(global.kkl)) * 2;",
+                         "clamp(page_sel, -2, pages + 2)", "random_range(0.9, 1.1) * 0.9 * 0.5, 0.1, 0);",
+                         "sndBook_slide_03, sndBook_slide_03)", "0.333333333333333, 1);", "turn_an = reach_tween(turn_an, round(page_sel), 10);",
+                         "pileR = reach_tween(pileR, ds_list_size(pagepile_right), 10);",
+                         "var _bookY = CMY + (_h + CH / 2) * anim1;",
+                         "anim1 = reach_tween(anim1, anim4 * ((page_anim[0] >= 0.05) ? is_inv : 1), 10);",
+                         "draw_rectangle_view(c_blackink, (1 - anim1) / 2);", "draw_rectangle_view(c_black, (1 - anim1) / 2);",
+                         "oPlayer.control = 0;", "oPlayer.UI_OPEN = 1;", "if (anim4 == 1 && anim1 > 0.99) {",
+                         "page_sel = reach(page_sel, -2, 1);", "alarm[0] = floor(mean(fps, 60, 45));"):
+            self.assertIn(fragment, draw73)
         ui = code("objects/oBook_UI/Create_0.gml")
         for fragment in ("book_id = -4;", "sPages = -1;", "page_w = floor(78 * pscale);", "page_h = floor(96 * pscale);",
                          "ink_col = make_colour_rgb(73, 65, 77);", "buffer = 8;", "txtpntr = 1;"):
