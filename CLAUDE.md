@@ -26,7 +26,7 @@ python -B rea/NYKRA_Reconstructed/Tools/validate_formats.py               # REWR
 
 These tests check fixtures and structure only. They don't certify GML behaviour or rendering. GameMaker LTS 2026 (`C:\Program Files\GameMaker-LTS2026`, runtime under `C:\ProgramData\GameMakerStudio2-LTS2026\Cache\runtimes\runtime-2026.1.0.28`) is the current toolchain; the older 2024.14 install is still present. Build with Windows **VM**, not YYC. The simplest runtime check is the user pressing F5 in the IDE. See `MASTER_RECONSTRUCTION_PLAN.md` §5 for the Igor command line and `PHASE3_EXECUTION_PLAN.md` §2 for licensing caveats.
 
-On this machine, ask the user before executing builds, the game or anything that opens a window. Reading and editing files is fine. Command-line jobs (tests, generators with the IDE closed, UTMT CLI reads, Ghidra batches, `.exe` reads) are pre-approved: run them with the `nykra-runner` agent (Haiku, `.claude/agents/`), see AGENTS.md rule 10.
+On this machine, ask the user before executing builds, the game or anything that opens a window. Reading and editing files is fine. Command-line jobs (tests, generators, UTMT CLI reads, Ghidra batches, `.exe` reads) are pre-approved: run them with the `nykra-runner` agent (Haiku, `.claude/agents/`), see AGENTS.md rule 10.
 
 ## Before working in `rea/`
 

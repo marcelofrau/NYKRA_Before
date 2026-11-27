@@ -122,7 +122,7 @@ class VisualFixTests(unittest.TestCase):
         # 5b step 1: .c 143-615 of gml_Script_open_book plus oBook_UI Create_0/Destroy_0; the pages come in steps 2-4.
         yy = load_yy(PROJECT / "objects/oBook_UI/oBook_UI.yy")
         events = [(e["eventType"], e["eventNum"]) for e in yy["eventList"]]
-        self.assertEqual(sorted(events), [(0, 0), (1, 0), (2, 0), (8, 73)])  # (8, 73) = the temporary step-3 viewer
+        self.assertEqual(sorted(events), [(0, 0), (1, 0), (2, 0), (8, 73)])  # (8, 73) = the real Draw_73 (5c)
         alarm = code("objects/oBook_UI/Alarm_0.gml")  # 5c: sounds 106-112, loops .bss = 0 (P45), gain from the exe
         for fragment in ("sndBackpack_01", "sndBackpack_07", "10, 0, random_range(0.9, 1.1) * 0.9, 0.666666666666667, 1);"):
             self.assertIn(fragment, alarm)
@@ -165,6 +165,20 @@ class VisualFixTests(unittest.TestCase):
                          "oPlayer.control = 0;", "oPlayer.UI_OPEN = 1;", "if (anim4 == 1 && anim1 > 0.99) {",
                          "page_sel = reach(page_sel, -2, 1);", "alarm[0] = floor(mean(fps, 60, 45));"):
             self.assertIn(fragment, draw73)
+        # 5c step 3: B7/B8 page piles (.c 1582-2644); lengthdir, parity, y formulas and pile hand-over as read in the .c
+        for fragment in ("_y = 1 + _bookY + pileR * (_i / _n) + pileRxA * (1 - _i / _n);",
+                         "_y = _bookY + pileL * (_i / _n) + pileLxA * (1 - _i / _n);",
+                         "_lx = lengthdir_x(_w, _pa * 180);", "_ly = lengthdir_y(_w / 4, _pa * 180);",
+                         "if (abs(_pg mod 2) <= 0.00001) {", "if (abs((_pg + 1) mod 2) <= 0.00001) {",
+                         "draw_sprite_pos(sPages, _pg, CMX, _y - _h / 2, CMX + _lx, _y - _h / 2 + _ly * 1.5,",
+                         "CMX + _lx, _y + _h / 2 + _ly / 1.5, CMX, _y + _h / 2, 1);",
+                         "draw_sprite_pos(sPages, _pg, CMX + _lx, _y - _h / 2 + _ly * 1.5, CMX, _y - _h / 2,",
+                         "CMX, _y + _h / 2, CMX + _lx, _y + _h / 2 + _ly / 1.5, 1);",
+                         "page_anim[_pg] = reach_tween(page_anim[_pg], (round(page_sel) <= _pg) ? 0 : 1, 10);",
+                         "ds_list_insert(pagepile_left, 0, _pg);", "ds_list_insert(pagepile_right, 0, _pg);",
+                         "pileRxA += 1;", "pileLxA -= 1;", "pileLxA += 1;", "pileRxA -= 1;"):
+            self.assertIn(fragment, draw73)
+        self.assertNotIn("book viewer (temporary)", draw73)  # P46c: the step-3 viewer is gone now that B7/B8 draw the pages
         ui = code("objects/oBook_UI/Create_0.gml")
         for fragment in ("book_id = -4;", "sPages = -1;", "page_w = floor(78 * pscale);", "page_h = floor(96 * pscale);",
                          "ink_col = make_colour_rgb(73, 65, 77);", "buffer = 8;", "txtpntr = 1;"):
@@ -180,7 +194,7 @@ class VisualFixTests(unittest.TestCase):
                               ("objects/parDoor_Flat/Draw_77.gml", 'log_note("door: n="'),
                               ("scripts/map_load/map_load.gml", 'log_note("map_load: " + _room_name'),
                               ("objects/oBook/Draw_0.gml", 'log_note("book: picked up book'),
-                              ("objects/oBook_UI/Draw_73.gml", 'log_note("book viewer (temporary): B pressed')):
+                              ("objects/oBook_UI/Draw_73.gml", 'log_note("book: closing")')):
             self.assertIn(fragment, code(rel), rel)
 
     def test_room_background_layer_does_not_cover_sky(self):

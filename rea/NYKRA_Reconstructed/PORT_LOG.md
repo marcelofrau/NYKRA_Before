@@ -168,6 +168,14 @@ Modelo e regras: `MASTER_RECONSTRUCTION_PLAN.md` §0.6. Um bloco é escrito **du
 
 ### Log do F5 em arquivo — 27/11/2026 (pedido do usuário: parar de colar o log)
 - `scripts/debug_log/debug_log.gml` (escrito à mão, sem gerador): `log_level` também acrescenta cada linha em `f5.log` dentro de `game_save_id` (esperado `%LOCALAPPDATA%\NYKRA_VerticalSlice\f5.log`, apagado a cada início). `exception_unhandled_handler` grava `EXCEPTION: ...` (mensagem e pilha) no mesmo arquivo; o jogo ainda fecha.
-- Não é save: não toca `PROFILES`. Caminho **não confirmado** até o próximo F5 (a pasta ainda não existia).
+- Não é save: não toca `PROFILES`. Caminho confirmado no F5 de 27/11: `C:\Users\fraumar\AppData\Local\NYKRA_VerticalSlice\f5.log` (23 linhas, sem `EXCEPTION`).
 - Uso: depois do F5 o usuário só diz "rodei"; o assistente lê o arquivo com `Grep`/`Read` (filtrar por `STUB|EXCEPTION|book:|<tema>`), sem o IDE colar nada.
 - Teste: `test_debug_output_goes_through_the_log_gate`.
+
+### oBook_UI Draw_73, blocos B7-B8 (item 5c, etapa 3) — 27/11/2026
+- **Fontes:** raiz não; YYC `gml_Object_oBook_UI_Draw_73` `rmmal1_sun_annotated:1582-2644` (lido inteiro; o `lifted` perde o centro dos blocos).
+- **Constantes e ids:** `FUN_1416cd800` = `lengthdir_x`, `FUN_1416cd880` = `lengthdir_y` (`YYC_HELPERS.md`), `FUN_141944a50` / `FUN_14011fbe0` = `fmod`/`mod`, `DAT_1420f6b08` = 1e-05 (lido do `.exe`), `DAT_1420da5d0` = `draw_sprite_pos`, `DAT_1420d9ee0/2e0/300` = `ds_list_find_value/delete/insert`. `DAT_142182bd8` (.bss) = 0 como alvo do tween e índice de inserção (P45).
+- **Achados:** direita: `y = 1 + bookY + pileR*(i/n) + pileRxA*(1 - i/n)`; esquerda: o mesmo **sem o `+1`**, com `pileL`/`pileLxA`. Quad direito: (CMX, y-h/2), (CMX+lx, y-h/2+ly*1.5), (CMX+lx, y+h/2+ly/1.5), (CMX, y+h/2); o esquerdo é o espelho. Com `page_anim` >= 0,5 a página sai da direita (`ds_list_delete` + `ds_list_insert(esquerda, 0)`, `pileRxA += 1`, `pileLxA -= 1`, `page_click = 0`); abaixo de 0,5 na esquerda, o inverso. `n` é `ds_list_size` relido a cada volta. B7/B8 reaproveitam `_w`, `_h`, `_bookY` do B4 (o `.c` os recalcula iguais em 1588-1626).
+- **Desvios e atalhos:** nenhum novo; P46c resolvido (visualizador B apagado).
+- **Teste:** `test_open_book_step1_reads_the_ini_like_the_yyc` (trechos de B7/B8). Suíte via `nykra-runner`.
+- **F5 pendente:** pegar o livro: aparecem as páginas em duas pilhas (sem capas); kkr/kkl viram a página com a deformação; "baixo" fecha. Se algo vier invertido ou torto, reler o `.c` do quad antes de mexer em números.

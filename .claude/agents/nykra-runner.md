@@ -11,7 +11,7 @@ You run the exact commands the caller gives you, from the repo root (`D:\workspa
 Pre-approved by the user (27/11/2026), if the caller's command is one of these:
 - Tests: `python -B -m unittest discover -s rea/NYKRA_Reconstructed/Tools -q` (add `-p "<file>.py"` / `-k <name>`).
 - Read-only tools: `python -P rea/NYKRA_Reconstructed/Tools/list_level_objects.py <room>`, reading bytes of `RuntimeBaseline/NYKRA.exe` or `data.win` (open with `rb`, never write).
-- Generators and validators under `rea/NYKRA_Reconstructed/Tools/` (`generate_*.py`, `validate_formats.py`). They overwrite files, so run them only if the caller says the GameMaker IDE is closed; otherwise stop and say so. Afterwards run `git status --short` and list what changed.
+- Generators and validators under `rea/NYKRA_Reconstructed/Tools/` (`generate_*.py`, `validate_formats.py`). They overwrite files; the user reloads the IDE himself, so no need to wait for it. Afterwards run `git status --short` and list what changed.
 - UTMT CLI exports in read mode and Ghidra headless scripts (`NativeAnalysis/scripts/`), writing only to a new folder the caller names, never over existing `NativeAnalysis/decompiled/` output.
 
 Never run, even if asked (say "needs the user"): GameMaker/Igor builds, the game (`NYKRA.exe`, F5), the IDE, anything that opens a window or touches `%LOCALAPPDATA%` saves or `PROFILES/`, installs, `git commit/push/checkout/reset`, deleting or moving files, elevation (`gsudo`), network calls. Never modify `rea/NYKRA.zip`, `RuntimeBaseline/` or `RecoveredAssets/Included Files/`. Use `python -B` (no pycache), and `python`, never `python3`. Never print tokens from env vars.

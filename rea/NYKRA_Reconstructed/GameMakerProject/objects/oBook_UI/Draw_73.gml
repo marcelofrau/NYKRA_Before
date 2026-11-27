@@ -1,7 +1,8 @@
 // Reconstructed from gml_Object_oBook_UI_Draw_73 @ 0x1414a2ef0 (NativeAnalysis/decompiled/rmmal1_sun_annotated, 4.414 lines), plan 0.7 item 5c.
-// Source: the YYC (the author's original GML for oBook_UI is not in the repo root). This file holds steps 1-2 only:
+// Source: the YYC (the author's original GML for oBook_UI is not in the repo root). This file holds steps 1-3 so far:
 //   B1 prologue (.c 1-340), B2 door (341-391), B3 page input (392-684), B4 easing (685-945), B5 darkening and player lock (946-997),
-//   B12 closing (4039-4256). B6-B11 (covers, page piles, vignette, title, arrows) come in the next steps, in .c order, between B5 and B12.
+//   B7 right pile (1582-2129), B8 left pile (2130-2644), B12 closing (4039-4256). B6 and B9-B11 (covers, vignette, title, arrows) come in
+//   the next steps, in .c order. B7/B8 reuse _w, _h and _bookY from B4 (the .c recomputes the same values at 1582-1626).
 // Constants are the bytes read from the exe: sounds 101-105 sndPaper_01..05, 113-115 sndBook_slide_01..03 (115 twice in the choose(), as in the
 // exe), -2 = cover closed, 10 = priority and tween divisor, 0.1 / 0.333333333333333 / 0.666666666666667 = gains.
 // Ghidra lost the first argument of every random_range (xmm0); the leftover 0xcccccccd is the low half of 0.9, as in Alarm_0.
@@ -55,7 +56,62 @@ if (open) {
     oPlayer.control = 0;
     oPlayer.UI_OPEN = 1;
 
-    // B6-B11 (covers, piles, vignette, title, arrows, close key) are not ported yet.
+    // B6 (covers below the pages) is not ported yet.
+
+    // B7 (.c 1582-2129): right pile, last page first. Each page is a quad squeezed by its turn animation page_anim
+    // (0 = flat on the right, 1 = flat on the left); only the even frames are drawn here (the front faces).
+    // Past 0.5 the page changes pile. epsilon 0.00001 is DAT_1420f6b08, 1.5 and 4 are literals of the .c.
+    var _i, _n, _y, _pg, _pa, _lx, _ly;
+    _i = ds_list_size(pagepile_right) - 1;
+    while (_i >= 0) {
+        _n = ds_list_size(pagepile_right);
+        _y = 1 + _bookY + pileR * (_i / _n) + pileRxA * (1 - _i / _n);
+        _pg = ds_list_find_value(pagepile_right, _i);
+        _pa = page_anim[_pg];
+        if (_pa < 0.5) {
+            _lx = lengthdir_x(_w, _pa * 180);
+            _ly = lengthdir_y(_w / 4, _pa * 180);
+            if (abs(_pg mod 2) <= 0.00001) {
+                draw_sprite_pos(sPages, _pg, CMX, _y - _h / 2, CMX + _lx, _y - _h / 2 + _ly * 1.5,
+                    CMX + _lx, _y + _h / 2 + _ly / 1.5, CMX, _y + _h / 2, 1);
+            }
+            page_anim[_pg] = reach_tween(page_anim[_pg], (round(page_sel) <= _pg) ? 0 : 1, 10);
+        } else {
+            ds_list_delete(pagepile_right, _i);
+            ds_list_insert(pagepile_left, 0, _pg);
+            pileRxA += 1;
+            pileLxA -= 1;
+            page_click = 0;
+        }
+        _i -= 1;
+    }
+
+    // B8 (.c 2130-2644): left pile, the mirror of B7: odd frames, no "+ 1" in y, pages go back to the right below 0.5.
+    _i = ds_list_size(pagepile_left) - 1;
+    while (_i >= 0) {
+        _n = ds_list_size(pagepile_left);
+        _y = _bookY + pileL * (_i / _n) + pileLxA * (1 - _i / _n);
+        _pg = ds_list_find_value(pagepile_left, _i);
+        _pa = page_anim[_pg];
+        if (_pa >= 0.5) {
+            _lx = lengthdir_x(_w, _pa * 180);
+            _ly = lengthdir_y(_w / 4, _pa * 180);
+            if (abs((_pg + 1) mod 2) <= 0.00001) {
+                draw_sprite_pos(sPages, _pg, CMX + _lx, _y - _h / 2 + _ly * 1.5, CMX, _y - _h / 2,
+                    CMX, _y + _h / 2, CMX + _lx, _y + _h / 2 + _ly / 1.5, 1);
+            }
+            page_anim[_pg] = reach_tween(page_anim[_pg], (round(page_sel) <= _pg) ? 0 : 1, 10);
+        } else {
+            ds_list_delete(pagepile_left, _i);
+            ds_list_insert(pagepile_right, 0, _pg);
+            pileLxA += 1;
+            pileRxA -= 1;
+            page_click = 0;
+        }
+        _i -= 1;
+    }
+
+    // B9-B11 (covers above, vignette, title, arrows, close key) are not ported yet.
     // TEMPORARY, not in the original as a block: B11 closes the book with the "down" key (.c 3813-3826, inside a branch not read yet);
     // without it the book could not be closed while B11 is missing. Remove it when B11 is ported. P46.
     if (anim4 == 0 && keyboard_check_pressed(global.kkd)) anim4 = 1;
@@ -85,22 +141,4 @@ if (_open0 == 0 && open == 1) {
 if (anim4 != _anim4_0 && anim4 == 1) {
     log_note("book: closing");
     alarm[0] = floor(mean(fps, 60, 45));
-}
-
-// TEMPORARY viewer of step 3 (plan 0.7 item 5b), NOT in the original: kept until B6-B9 draw the pages (5c steps 3-4), then deleted.
-// While B is held it shows the page frames that open_book built, two at a time (left = odd frame, right = even frame),
-// changing spread every 2.5 s, so the pages can be compared with the original book.
-if (keyboard_check_pressed(ord("B"))) {
-    log_note("book viewer (temporary): B pressed, book " + string(book_n) + " '" + name + "', " + string(sprite_exists(sPages) ? sprite_get_number(sPages) : 0) + " frames");
-}
-if (keyboard_check(ord("B")) && sprite_exists(sPages)) {
-    var _n = sprite_get_number(sPages);
-    var _s = (current_time div 2500) mod (_n div 2 + 1);
-    var _x = camera_get_view_x(cam) + (camera_get_view_width(cam) - page_w * 2) / 2;
-    var _y = camera_get_view_y(cam) + (camera_get_view_height(cam) - page_h) / 2;
-    draw_set_colour(c_black);
-    draw_rectangle(_x - 4, _y - 4, _x + page_w * 2 + 4, _y + page_h + 4, false);
-    draw_set_colour(c_white);
-    if (_s * 2 - 1 >= 0) draw_sprite(sPages, _s * 2 - 1, _x, _y);
-    if (_s * 2 < _n) draw_sprite(sPages, _s * 2, _x + page_w, _y);
 }

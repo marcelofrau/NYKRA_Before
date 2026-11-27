@@ -78,5 +78,5 @@ These rules exist because agents drifted before. On 22–23/11/2026 `LIGHTING/Dr
 
 **10. Never execute anything without asking the user first, except the pre-approved list.** This covers builds, the game, UTMT, Ghidra, generators and Python scripts. Reading and editing files is fine.
 - **Pre-approved (27/11/2026, user):** command-line jobs listed in `.claude/agents/nykra-runner.md`: unit tests, generators and validators, UTMT CLI reads, Ghidra headless batches, `.exe` byte reads. Run them through that agent (Haiku), not in the main session.
-- Generators only with the GameMaker IDE closed (the user confirms in the conversation). After one, check `git status`.
+- Generators and edits do not need the IDE closed (user, 27/11/2026: he reloads the project after saving). After a generator, check `git status`.
 - Still ask first: GameMaker/Igor builds, the game, anything that opens a window or touches saves, installs, git writes.
