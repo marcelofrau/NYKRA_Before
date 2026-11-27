@@ -118,6 +118,45 @@ class VisualFixTests(unittest.TestCase):
             self.assertIn(fragment, draw73)
         self.assertEqual(yy["spriteId"]["name"], "sBook")
 
+    def test_open_book_step1_reads_the_ini_like_the_yyc(self):
+        # 5b step 1: .c 143-615 of gml_Script_open_book plus oBook_UI Create_0/Destroy_0; the pages come in steps 2-4.
+        yy = load_yy(PROJECT / "objects/oBook_UI/oBook_UI.yy")
+        events = [(e["eventType"], e["eventNum"]) for e in yy["eventList"]]
+        self.assertEqual(sorted(events), [(0, 0), (1, 0), (8, 73)])  # (8, 73) = the temporary step-3 viewer
+        book = code("scripts/open_book/open_book.gml")
+        for fragment in ("function open_book(_book_n = 0, _is_inv = 0)", "instance_number(oBook_UI) > 0",
+                         "instance_create_one(CMX, CMY, -100, oBook_UI)", "book_id = -4;", "open = 1;", "book_id = other.id;",
+                         "ini_language();", '",2]", ""', '",1]", ""', "round(real_string(", '",0]", "")', "ini_close();"):
+            self.assertIn(fragment, book)
+        self.assertNotIn(',3]"', book)  # [n,3] is the description, not read by open_book
+        # step 2: pagination (.c 616-1425); the constants are the bytes read from the exe
+        for fragment in ("while (txtpntr <= string_length(txt))", 'string_char_at(txt, txtpntr - 2) == "|"',
+                         "for (_j = 1; _j < 100; _j++)", "repeat (100)", 'case "n":', 'case "p":',
+                         'page_txt[_p] += _word + "\\n";', "chr(7) + string(", "txtpntr + 2 <= string_length(txt)",
+                         "string_width(page_txt[_p] + _word) > page_w - buffer * 2",
+                         "string_height(page_txt[_p]) >= page_h - buffer * 2", "txtpntr += (_j - 1) + _k;",
+                         "txtpntr -= 1;", "txtpntr += _j - 1;"):
+            self.assertIn(fragment, book)
+        # step 3: page surfaces and the sPages frames (.c 1426-2178)
+        for fragment in ("if (abs(_p mod 2) <= 0.00001) {", "surface_create(page_w, page_h)", "draw_clear_alpha(0, 0);",
+                         "draw_rectangle(-1, -1, page_w + 1, page_h + 1, false);",
+                         "draw_sprite_ext(sBook_page, 0, (abs(_odd) <= 0.00001) ? page_w : 0, 0,",
+                         "pscale * ((abs(_odd) > 0.00001) ? 1 : -1)", "chr(7)", "draw_text(buffer, buffer - 2, page_txt[_j]);",
+                         "sBook_pageimages, round(real_string(string_char_at(page_txt[_j], 2)))",
+                         "sprite_create_from_surface(_surf, 0, 0, page_w, page_h, false, false, 0, 0)",
+                         "sprite_add_from_surface(sPages, _surf, 0, 0, page_w, page_h, false, false)"):
+            self.assertIn(fragment, book)
+        # step 4: page piles (.c 2179-2303)
+        for fragment in ("pages = _p + 1;", "ds_list_add(pagepile_right, _j);", "page_anim[_j] = 0;", 'page_txt[_j] = "";',
+                         "pileR = pages;", "pileL = 0;", "pileRxA = 0;", "pileLxA = 0;", "surface_free(_surf);"):
+            self.assertIn(fragment, book)
+        ui = code("objects/oBook_UI/Create_0.gml")
+        for fragment in ("book_id = -4;", "sPages = -1;", "page_w = floor(78 * pscale);", "page_h = floor(96 * pscale);",
+                         "ink_col = make_colour_rgb(73, 65, 77);", "buffer = 8;", "txtpntr = 1;"):
+            self.assertIn(fragment, ui)
+        self.assertIn("sprite_delete(sPages);", code("objects/oBook_UI/Destroy_0.gml"))
+        self.assertNotIn("function open_book", code("scripts/provisional_player_stubs/provisional_player_stubs.gml"))  # no duplicate
+
     def test_room_background_layer_does_not_cover_sky(self):
         room = load_yy(PROJECT / "rooms/rmMAIN/rmMAIN.yy")
         backgrounds = [layer for layer in room["layers"] if layer["name"] == "Background"]

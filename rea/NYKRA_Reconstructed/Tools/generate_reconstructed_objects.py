@@ -39,6 +39,8 @@ OBJECTS = {
     "DRAW_GNARCIER": (None, None, False, None),
     # 26/11 (plan 0.7 item 5a): the world book of rmMal_1; sBook needs Tools/ExportSpritesRestored.csx + generate_object_sprites.py first.
     "oBook": (None, "sBook", False, None),
+    # 26/11 (plan 0.7 item 5b): the book reader, created by open_book; no sprite (it draws everything in Draw_73, step 5c).
+    "oBook_UI": (None, None, False, None),
 }
 
 

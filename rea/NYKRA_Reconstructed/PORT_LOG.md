@@ -107,3 +107,41 @@ Modelo e regras: `MASTER_RECONSTRUCTION_PLAN.md` §0.6. Um bloco é escrito **du
 - **Teste:** `test_visual_fixes.test_book_in_the_world_follows_the_yyc`. `oBook` entrou em `HAND_WRITTEN` e em `generate_reconstructed_objects.py` (sprite `sBook`).
 - **Sprite:** `sBook` (2 quadros) exportado do `data.win` com `ExportSpritesRestored.csx` e importado com `generate_object_sprites.py`; `generate_reconstructed_objects.py` ligou o sprite. Testes: 74 rodados, só o erro de import já conhecido do `test_save_v1_format`.
 - **F5 (26/11, usuário, build sem commit ainda):** o livro aparece com o quadro certo, seta laranja, brilho que some ao interagir, o livro some e entra no inventário. Log sem erro; `STUB open_book` uma vez, ~80 ms depois do `STUB save_game` (o `Alarm_0` de 2 quadros dispara em todo livro ao carregar o nível, como lido no YYC).
+
+### open_book etapa 1 + oBook_UI Create_0/Destroy_0 (item 5b) — 26/11/2026
+- **Fontes:** raiz não; YYC `gml_Script_open_book` `0x140112250` (linhas 143-615 do `.c`), `gml_Object_oBook_UI_Create_0` e `_Destroy_0` (`rmmal1_sun_annotated`); metadado: `oBook_UI` índice 665, sem pai, sem sprite, `Depth` 0; eventos PreCreate (`event_inherited()` vazio, sem pai: não portado), Create, Alarm_0, Destroy, Draw_73.
+- **Lote:** `player_annotated`/`player_lifted2` (`open_book`) e `rmmal1_sun_annotated`/`rmmal1_sun_lifted` (`oBook_UI`), já existiam.
+- **Constantes e ids:** `665` = `oBook_UI`, no projeto o objeto é citado pelo nome (o índice do jogo não vale no projeto); a criação é `instance_create_one(CMX, CMY, -100, oBook_UI)` (o lifter resolveu `-100` e `665`); chaves do ini `book[n,2]` = texto, `[n,1]` = título, `[n,0]` = tipo, seção `BOOKS` (conferido em `dlg_eng.lang:24945-24958`, `[n,3]` é a descrição e não é lido); `FUN_1416b86b0(0x49,0x41,0x4d)` = `make_colour_rgb(73, 65, 77)`; `sPages` começa em `-1` (`0xbff0…`); `thunk_FUN_14176d0f0` = `draw_set_font` (novo em `YYC_HELPERS.md`, média).
+- **Achados:** `is_inv == 1` → `book_id = -4; open = 1`, senão `book_id = other.id` (o `oBook` que chamou). O corpo todo roda dentro do `with` da instância nova. `Create_0` portado na ordem compilada, com o `page_txt = 0; page_txt[0] = ""` trocado por `[]` (compat 2.3+).
+- **Desvios e atalhos:** P43 (plan §7): script só até o `ini_close()`; `oBook_UI` sem `Draw_73`/`Alarm_0`; o `Destroy_0` original não libera as duas listas.
+- **Teste:** `test_visual_fixes.test_open_book_step1_reads_the_ini_like_the_yyc`. `oBook_UI` entrou em `HAND_WRITTEN` e em `generate_reconstructed_objects.py`; `open_book` saiu do `generate_player_stubs.py` e entrou em `HAND_SCRIPTS`. Os testes só passam depois dos geradores (ver abaixo).
+- **F5 pendente:** rodar `generate_player_stubs.py`, `generate_project_scripts.py` e `generate_reconstructed_objects.py`, abrir e salvar na IDE, F5 em `rmMal_1`. Esperado: o jogo igual à 5a, `STUB open_book` **sumiu** do log, nenhum erro novo. Nada novo aparece na tela (o `oBook_UI` ainda não desenha).
+
+### open_book etapa 2: paginação (item 5b) — 26/11/2026
+- **Fontes:** raiz não; YYC `gml_Script_open_book` linhas 616-1425 do `player_annotated/.c` (o lifted tem os `string_*` e os `goto` perdidos, então a leitura foi do `.c`).
+- **Constantes:** bytes lidos de `RuntimeBaseline/NYKRA.exe` (`.data`, RVA `0x20b32c8…`): `" "`, `"|"`, `"n"`, `"p"`, `"\n"`, `"\x07"` (`DAT_1420b32c8` a `…d2`). A tabela estática `DAT_14217f4a0/4b4` é um `switch` com os casos `"n"` e `"p"`. `FUN_140003e00` = `-=`, `FUN_140003ca0` = `+=`, `FUN_140001c50` = `+= n`, `FUN_140017bd0(d, a, n)` = `d = a - n`, `FUN_1416d9df0(a, b, eps, 1)` = comparação (`> 0` é maior).
+- **Achados:**
+  - Uma palavra começa no 1º caractere, depois de um espaço ou depois de um código de escape; o espaço final faz parte da palavra.
+  - Palavra que não cabe: `page_txt[p] += "\n"`, página nova se `string_height >= page_h - 2*buffer`, e `txtpntr -= 1` para ler a palavra de novo. O mesmo teste de altura vale para `|n`.
+  - `|<dígito>` **descarta** o texto da página em curso e a substitui por `chr(7) + dígito`.
+  - Palavra de 100 caracteres ou mais é descartada (o `for` termina com `j = 100`).
+- **Desvios e atalhos:** P43: laço sem guarda contra palavra mais larga que uma linha (o original trava igual); `string_char_at(txt, 0)` em `txtpntr = 2` segue o YYC. Diagnóstico temporário de log (não é do original).
+- **Também nesta mudança (pedido do usuário):** `map_load` ganhou uma edição de log no gerador (`POLICY_LOG`): uma linha `map_load: <sala> ...` por carga, não só no boot; o `Other_4` deixou de duplicá-la; `parDoor_Flat/Draw_77` loga `door: n=.. -> sala`.
+- **Teste:** `test_open_book_step1_reads_the_ini_like_the_yyc` (agora com os trechos da etapa 2). Suíte: só o erro de import conhecido.
+- **F5 pendente:** entrar em `rmMal_1`; o log deve ter `map_load: rmMal_1 ...` e, por livro, `open_book: book N '<título>' type T, X pages` mais uma linha por página. Conferir os livros 4, 6 e 8/10 contra o `dlg_eng.lang` (6 e 4 estão em `:24946` e `:24956`).
+
+### open_book etapa 3: páginas em superfícies (item 5b) — 26/11/2026
+- **Fontes:** raiz não; YYC `gml_Script_open_book` linhas 1426-2178 do `player_annotated/.c`.
+- **Constantes e ids:** `0x101` = 257 = `sBook_page` (78×96), `0x105` = 261 = `sBook_pageimages` (156×192) (`sprites-metadata.json`); `DAT_141983ddc` = -1.0, `141981f80` = 1.0, `b32f8` = 1.0, `b3308` = 2.0, `141983de0` = {-1.0, 1.0}, `f6b08` = 1e-5, `141982c40` = 2.0 (bytes do `.exe`); `DAT_14217f488` = `.bss`, usado como 0. Helpers: `FUN_14176d130/d160(0)` = `draw_set_halign/valign(fa_left/fa_top)` (por ordem e valor, média), `FUN_1416f15a0` = `draw_set_colour`, `FUN_1416f1550` = `draw_set_alpha`, `FUN_1416f1520` = `draw_rectangle`, `FUN_1416b84f0` = `draw_sprite_ext`, `FUN_1416b86c0` = `surface_set_target`, `FUN_1416e34b0` = `surface_reset_target`, `FUN_141944a50` = `fmod`.
+- **Achados:** cada página: superfície `page_w × page_h`, `draw_clear_alpha(0, 0)`, retângulo branco, `sBook_page` com `pscale` (espelhado e desenhado a partir de `x = page_w` nos quadros ímpares), texto em `ink_col`/`FONT_MAIN` em `(buffer, buffer - 2)`, ou, se o 1º caractere é `chr(7)`, o quadro `sBook_pageimages` do dígito. O quadro 0 vira `sPages` (`sprite_create_from_surface`) e os outros entram com `sprite_add_from_surface`. Antes disso, o número de páginas fica par (`p mod 2`, divisor 2.0 vindo do `xmm8`).
+- **Desvios e atalhos:** P44.
+- **Teste:** `test_open_book_step1_reads_the_ini_like_the_yyc` (agora com os trechos da etapa 3; `oBook_UI` tem 3 eventos). Suíte: só o erro de import conhecido.
+- **F5 pendente:** exportar e importar os 2 sprites (ver o plano), abrir e salvar na IDE, F5 em `rmMal_1`, **segurar B** perto do livro: aparecem as páginas em pares. Esperado no livro 4: 8 quadros em `sPages` (7 + a página em branco), `open_book: ... 8 pages, 8 frames in sPages`.
+
+### open_book etapa 4: pilhas de páginas (item 5b) — 27/11/2026
+- **Fontes:** raiz não; YYC `gml_Script_open_book` linhas 2179-2303 do `player_annotated/.c`.
+- **Constantes e ids:** variáveis por id (`0x18b71` `pages`, `0x18b70` `pagepile_right`, `0x18b64` `page_anim`, `0x18b91` `pileR`, `0x18b8f` `pileL`, `0x18b92` `pileRxA`, `0x18b90` `pileLxA`); `DAT_1420da1d0` = `ds_list_add`, `DAT_1420da7f0` = `surface_free`; `DAT_14217f480` = `""`.
+- **Achados:** `pages = p + 1`; para `j = 0..pages-1`: `ds_list_add(pagepile_right, j)`, `page_anim[j] = 0` e `page_txt[j] = ""` (o texto é descartado depois de desenhado); `pileR = pages` (o `uVar12` ainda guarda `pages`), `pileL = pileRxA = pileLxA = 0`; `surface_free` só da última superfície. No fim o `with` acaba e o script retorna (o `iVar8 < 1` do `with` do YYC é só a saída do laço de instâncias).
+- **Desvios e atalhos:** P43 resolvido (script completo); P44 segue (último `surface_free` e vazamento das outras).
+- **Teste:** `test_open_book_step1_reads_the_ini_like_the_yyc` (agora com os trechos da etapa 4). Suíte: só o erro de import conhecido.
+- **F5 pendente:** o jogo deve ficar igual ao da etapa 3 (log com `8 pages, 8 frames`, B mostrando as páginas), sem erro de `page_anim`/`ds_list_add`.

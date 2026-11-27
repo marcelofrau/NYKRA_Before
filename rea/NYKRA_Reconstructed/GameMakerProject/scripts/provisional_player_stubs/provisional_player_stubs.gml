@@ -74,12 +74,6 @@ function mask_set(_a0 = undefined, _a1 = undefined, _a2 = undefined, _a3 = undef
     return 0;
 }
 
-/// @description open_book(...): STUB, UI (stage 3)
-function open_book(_a0 = undefined, _a1 = undefined) {
-    stub_log("open_book", "UI (stage 3)");
-    return 0;
-}
-
 /// @description string_n(...): STUB, text (stage 3)
 function string_n(_a0 = undefined, _a1 = undefined) {
     stub_log("string_n", "text (stage 3)");

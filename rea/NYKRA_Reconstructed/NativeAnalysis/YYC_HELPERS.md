@@ -52,6 +52,7 @@ Tipos: 0 real, 1 string, 2 array, 3 ponteiro, 5 indefinido, 6 objeto/instância,
 | `DAT_142182d90 = param_1; FUN_141706ee0();` | `event_inherited()`. Está em todo `PreCreate` e, fora dele, só em filhos (`oGrass`, `oSun_Mal`, `oGnarcier_*`, `oDoor_chunky`...). O `oPlayer/Step_1` original tem `event_inherited()` na linha 345, e o YYC chama essa função | alta |
 | `FUN_1416cd720(x)` | `cos(x)` (zera abaixo de um epsilon) | `decompiled/h_1416cd720.c`; alta |
 | `FUN_1416b86b0(r, g, b)` | `make_colour_rgb(r, g, b)`: retorna `r + g*256 + b*65536` | `decompiled/helpers/h_1416b86b0.c`; alta |
+| `thunk_FUN_14176d0f0(FONT_MAIN)` | `draw_set_font(FONT_MAIN)`: o `Create_0` do `oBook_UI` e o `open_book` leem `FONT_MAIN` no início só para passá-lo a esta chamada, e no `open_book` ela vem logo antes de `string_width` | `gml_Object_oBook_UI_Create_0.c:74,128`, `gml_Script_open_book.c:195`; média |
 | `FUN_140017bd0(d, s, n)` | `d = s - n` (n inteiro) | `decompiled/helpers/h_140017bd0.c`; alta |
 | `FUN_1400b9c80(self, other, &ret, 3, args)` | `reach_tween(a, b, d)` | `gml_Script_reach_tween` na tabela; alta |
 | `FUN_1416d0010(0x4f, var, i, &v, ...)` | `v = oControl.var[i]`: o primeiro argumento é o índice do objeto (79 = `oControl`) | uso em `parSun_Glow_Draw_0`; média |
