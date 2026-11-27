@@ -192,6 +192,17 @@ class VisualFixTests(unittest.TestCase):
                          "draw_sprite_stretched_ext(sScreen_Glow, 0, CX, CY, CW, CH, c_blackink, (1 - anim1) / 2);",
                          "draw_sprite_stretched_ext(sScreen_Glow, 0, CX, CY, CW, CH, c_black, (1 - anim1) / 2);"):
             self.assertIn(fragment, draw73)
+        # 5c step 6: B11 title, hints, close key (.c 3390-4038); the temporary "down" shortcut (P46b) is gone, the real key closes
+        for fragment in ("draw_set_colour(merge_colour(0, 16776960, sqr(anim5 * (1 - anim1))));",
+                         "draw_text(CMX, mean(CMY - 50, CY), name);",
+                         "anim5 = reach_tween(anim5, (round(page_sel) == -2) ? 1 : 0, 7);",
+                         "draw_ui_arrow(0, mean(CX + CW, CX + CW, CMX), CMY, 1, 33023);",
+                         "draw_ui_arrow(0, CMX, mean(CMY + 50, CY + CH) + 8, 2, merge_colour(33023, 0, sqr(anim3 * (1 - anim1))));",
+                         "if (ds_list_size(oPlayer.books) <= 1) instance_create_one(oPlayer.x, oPlayer.y, -100, oControls_bag);",
+                         "oPlayer.inv_open_book = 1;", "random_range(0.9, 1.1) * 0.9 * 0.35, 0.35, 0);",
+                         "random_range(0.9, 1.1) * 0.9 * 0.9, 0.333333333333333, 1);"):
+            self.assertIn(fragment, draw73)
+        self.assertNotIn("TEMPORARY", draw73)
         self.assertNotIn("book viewer (temporary)", draw73)  # P46c: the step-3 viewer is gone now that B7/B8 draw the pages
         ui = code("objects/oBook_UI/Create_0.gml")
         for fragment in ("book_id = -4;", "sPages = -1;", "page_w = floor(78 * pscale);", "page_h = floor(96 * pscale);",

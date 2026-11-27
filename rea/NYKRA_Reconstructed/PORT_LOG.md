@@ -195,3 +195,11 @@ Modelo e regras: `MASTER_RECONSTRUCTION_PLAN.md` §0.6. Um bloco é escrito **du
 - **Desvios e atalhos:** nenhum novo.
 - **Teste:** `test_open_book_step1_reads_the_ini_like_the_yyc` (trechos do B10).
 - **F5 pendente:** passar páginas e fechar: as pilhas ficam no lugar, sem páginas sobrando acima; vinheta escura nas bordas.
+
+### oBook_UI Draw_73, bloco B11 (item 5c, etapa 6, fecha o evento) — 27/11/2026
+- **Fontes:** raiz não; YYC `gml_Object_oBook_UI_Draw_73` `rmmal1_sun_annotated:3390-4038`.
+- **Constantes e ids (bytes do `.exe`):** `cb9b8` = 16776960 ($FFFF00), `cb9c8` = 7 (divisor do `anim5`), `cb9d8` = 2 (giros da seta de baixo), `cb9e8` = 33023 ($0080FF), `cb9f8` = -100 (profundidade), `cba08` = 647 (`oControls_bag`), `cba18` = 0.35. `FUN_140101340` = `instance_create_one` e `FUN_1400d9120` = `draw_ui_arrow` (`yyc-function-table.json`); `FUN_14176d0f0` = `draw_set_font`, `FUN_14176d130/160` = `draw_set_halign/valign` (os dois com 1, a ordem não importa), `FUN_1416f15a0` = `draw_set_colour`, `FUN_1416f1550` = `draw_set_alpha`, `DAT_1420da090` = `gpu_set_blendmode` (arg 1 = `bm_add`).
+- **Achados:** com `anim4 == 0`: título aditivo; setas (direita com `anim3 >= 1` e `is_inv != 1`, embaixo com `anim3 < 1`, cor `merge_color($0080FF, 0, sqr(anim3*(1-anim1)))`); tecla `kkd`: `anim4 = 1`; sem `is_inv`, cria o `oControls_bag` se `ds_list_size(oPlayer.books) <= 1` e toca papel (0.35) + papel (2/3) + `sndBook_slide` (1/3, tempo 1); com `is_inv`, `oPlayer.inv_open_book = 1` e `sndBook_slide` (2/3, tempo 1).
+- **Desvios e atalhos:** P46b resolvido (atalho "baixo" apagado). P45 segue: `oControls_bag` é só uma casca.
+- **Teste:** `test_open_book_step1_reads_the_ini_like_the_yyc` (trechos do B11, e sem "TEMPORARY").
+- **F5 pendente:** pegar o livro: título com a capa fechada, seta de dica, "baixo" fecha com os sons; o log tem `book: closing`/`closed`.

@@ -1,8 +1,8 @@
 // Reconstructed from gml_Object_oBook_UI_Draw_73 @ 0x1414a2ef0 (NativeAnalysis/decompiled/rmmal1_sun_annotated, 4.414 lines), plan 0.7 item 5c.
-// Source: the YYC (the author's original GML for oBook_UI is not in the repo root). This file holds steps 1-5 so far:
+// Source: the YYC (the author's original GML for oBook_UI is not in the repo root). This file holds steps 1-6, all the blocks:
 //   B1 prologue (.c 1-340), B2 door (341-391), B3 page input (392-684), B4 easing (685-945), B5 darkening and player lock (946-997),
 //   B6 covers below (998-1581), B7 right pile (1582-2129), B8 left pile (2130-2644), B9 covers above (2645-3304), B12 closing
-//   (4039-4256), B10 pile decay and vignette (3305-3389). B11 (title, arrows) comes in the next step, in .c order. B7/B8 reuse _w, _h and _bookY from B4
+//   (4039-4256), B10 pile decay and vignette (3305-3389). B11 title, hints and close key (3390-4038). The whole event is ported now. B7/B8 reuse _w, _h and _bookY from B4
 //   (the .c recomputes the same values at 1582-1626).
 // Constants are the bytes read from the exe: sounds 101-105 sndPaper_01..05, 113-115 sndBook_slide_01..03 (115 twice in the choose(), as in the
 // exe), -2 = cover closed, 10 = priority and tween divisor, 0.1 / 0.333333333333333 / 0.666666666666667 = gains.
@@ -153,10 +153,50 @@ if (open) {
     draw_sprite_stretched_ext(sScreen_Glow, 0, CX, CY, CW, CH, c_blackink, (1 - anim1) / 2);
     draw_sprite_stretched_ext(sScreen_Glow, 0, CX, CY, CW, CH, c_black, (1 - anim1) / 2);
 
-    // B11 (title, arrows, close key) is not ported yet.
-    // TEMPORARY, not in the original as a block: B11 closes the book with the "down" key (.c 3813-3826, inside a branch not read yet);
-    // without it the book could not be closed while B11 is missing. Remove it when B11 is ported. P46.
-    if (anim4 == 0 && keyboard_check_pressed(global.kkd)) anim4 = 1;
+    // B11 (.c 3390-4038), only while the book is not closing. Constants read from the exe: 16776960 = $FFFF00, 7, 2, 33023 = $0080FF,
+    // -100, 647 = oControls_bag, 0.35. FUN_14176d0f0 / 14176d130 / 14176d160 are set_font / set_halign / set_valign (both aligns are 1).
+    // The title (the cover frames are plain): additive, fading with anim5, shown while the book is closed (page_sel == -2).
+    if (anim4 == 0) {
+        gpu_set_blendmode(bm_add);
+        draw_set_colour(merge_colour(0, 16776960, sqr(anim5 * (1 - anim1))));
+        draw_set_alpha(sqr(anim5 * (1 - anim1)));
+        draw_set_halign(fa_center);
+        draw_set_valign(fa_middle);
+        draw_set_font(FONT_MAIN);
+        draw_text(CMX, mean(CMY - 50, CY), name);
+        draw_set_alpha(1);
+        anim5 = reach_tween(anim5, (round(page_sel) == -2) ? 1 : 0, 7);
+    }
+    // Hints (draw_ui_arrow, the project's reconstruction): while anim3 >= 1 an arrow on the right ("turn the page"); once anim3 fades
+    // (after the first page) an arrow below ("down closes"). Then "down" closes the book.
+    if (anim4 == 0) {
+        if (anim3 >= 1) {
+            if (is_inv != 1) {
+                draw_set_alpha(sqr(anim5 * (1 - anim1)));
+                draw_ui_arrow(0, mean(CX + CW, CX + CW, CMX), CMY, 1, 33023);
+                draw_set_alpha(1);
+            }
+        } else {
+            draw_ui_arrow(0, CMX, mean(CMY + 50, CY + CH) + 8, 2, merge_colour(33023, 0, sqr(anim3 * (1 - anim1))));
+        }
+        if (keyboard_check_pressed(global.kkd)) {
+            anim4 = 1;
+            if (is_inv == 0) {
+                // with one book or none in the bag the controls tutorial object appears (a shell for now, P45)
+                if (ds_list_size(oPlayer.books) <= 1) instance_create_one(oPlayer.x, oPlayer.y, -100, oControls_bag);
+                play_sound(choose(sndPaper_01, sndPaper_02, sndPaper_03, sndPaper_04, sndPaper_05),
+                    10, 0, random_range(0.9, 1.1) * 0.9 * 0.35, 0.35, 0);
+                play_sound(choose(sndPaper_01, sndPaper_02, sndPaper_03, sndPaper_04, sndPaper_05),
+                    10, 0, random_range(0.9, 1.1) * 0.9, 0.666666666666667, 0);
+                play_sound(choose(sndBook_slide_01, sndBook_slide_02, sndBook_slide_03, sndBook_slide_03),
+                    10, 0, random_range(0.9, 1.1) * 0.9 * 0.9, 0.333333333333333, 1);
+            } else {
+                oPlayer.inv_open_book = 1;
+                play_sound(choose(sndBook_slide_01, sndBook_slide_02, sndBook_slide_03, sndBook_slide_03),
+                    10, 0, random_range(0.9, 1.1) * 0.9, 0.666666666666667, 1);
+            }
+        }
+    }
 
     // B12: closing
     gpu_set_blendmode(bm_normal);
