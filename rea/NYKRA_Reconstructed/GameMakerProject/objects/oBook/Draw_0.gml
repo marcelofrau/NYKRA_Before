@@ -18,6 +18,7 @@ if on==0 {
 else
 if on==1 {
 	ds_list_insert(oPlayer.books,0,book_text);
+	log_note("book: picked up book " + string(book_text) + " at (" + string(x) + "," + string(y) + "), inventory now has " + string(ds_list_size(oPlayer.books)) + " books");   // LOG (not in the original)
 	instance_destroy();
 	oPlayer.control = 0;
 	oPlayer.UI_OPEN = 1;

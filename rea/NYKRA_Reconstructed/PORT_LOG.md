@@ -145,3 +145,7 @@ Modelo e regras: `MASTER_RECONSTRUCTION_PLAN.md` §0.6. Um bloco é escrito **du
 - **Desvios e atalhos:** P43 resolvido (script completo); P44 segue (último `surface_free` e vazamento das outras).
 - **Teste:** `test_open_book_step1_reads_the_ini_like_the_yyc` (agora com os trechos da etapa 4). Suíte: só o erro de import conhecido.
 - **F5 pendente:** o jogo deve ficar igual ao da etapa 3 (log com `8 pages, 8 frames`, B mostrando as páginas), sem erro de `page_anim`/`ds_list_add`.
+
+### Log de interações do jogador — 27/11/2026 (pedido do usuário)
+- `player_interact` loga todo "cima" apertado perto de algo (`interact: <objeto> id N at (x,y)`: livro, nota...); `oMal_Door_Flat/Draw_0` loga a porta abrindo/fechando (uma vez por mudança, via `topen != open`) e o jogador entrando (`door: player walks in, n=.. -> sala`); `oBook/Draw_0` loga o livro pego e o tamanho do inventário; o visualizador do `oBook_UI` loga o B apertado. Já existiam: `map_load: <sala> ...` a cada carga, `door: n=.. -> sala` na troca, `input: <tecla>`, `STUB ...`. Tudo marcado `LOG (not in the original)`; os eventos que são cópia do original (`oPlayer` etc.) não foram tocados.
+- **Não há** log de "abriu o livro": o `oBook_UI` ainda não abre o leitor (5c).

@@ -7,7 +7,12 @@ function player_interact(_x, _y, _radius, _mode, _force) {
     if (!_has_control && _force != 0) return 0;
     if (point_distance(_x, _y, oPlayer.x, oPlayer.y) < _radius) {
         if (_mode == 0) return 1;
-        if (_mode == 1) return keyboard_check_pressed(global.kku);
+        if (_mode == 1) {
+            var _pressed = keyboard_check_pressed(global.kku);
+            // LOG (not in the original): every "up" press on an interactable (book, note...) names the caller
+            if (_pressed) log_note("interact: " + object_get_name(object_index) + " id " + string(id) + " at (" + string(x) + "," + string(y) + ")");
+            return _pressed;
+        }
     }
     return 0;
 }

@@ -6,6 +6,8 @@
 var _lit = instance_exists(oIs_Inside);   // another set of frames while an oIs_Inside exists
 if (topen != open) {
     if (open == 1) anim2 = 1;
+    // LOG (not in the original): topen is last step's open (Step_1), so this runs once per change
+    log_note("door: " + (open == 1 ? "opening" : "closing") + " n=" + string(n) + " at (" + string(x) + "," + string(y) + ")");
 }
 if (open == 1) {
     anim2 *= 0.8;
@@ -31,6 +33,7 @@ if (open == 1) {
                         if (oPlayer.UI_OPEN == 0) {
                             in = 1;
                             oControl.FADE_COLOUR = 0;
+                            log_note("door: player walks in, n=" + string(n) + " -> " + rm);   // LOG (not in the original)
                         }
                     }
                 }

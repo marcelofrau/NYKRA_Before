@@ -157,6 +157,17 @@ class VisualFixTests(unittest.TestCase):
         self.assertIn("sprite_delete(sPages);", code("objects/oBook_UI/Destroy_0.gml"))
         self.assertNotIn("function open_book", code("scripts/provisional_player_stubs/provisional_player_stubs.gml"))  # no duplicate
 
+    def test_player_interactions_are_logged(self):
+        # 27/11 (user request): every interaction with the world leaves a line in the F5 log
+        for rel, fragment in (("scripts/player_interact/player_interact.gml", 'log_note("interact: "'),
+                              ("objects/oMal_Door_Flat/Draw_0.gml", 'log_note("door: " + (open == 1 ? "opening" : "closing")'),
+                              ("objects/oMal_Door_Flat/Draw_0.gml", 'log_note("door: player walks in'),
+                              ("objects/parDoor_Flat/Draw_77.gml", 'log_note("door: n="'),
+                              ("scripts/map_load/map_load.gml", 'log_note("map_load: " + _room_name'),
+                              ("objects/oBook/Draw_0.gml", 'log_note("book: picked up book'),
+                              ("objects/oBook_UI/Draw_73.gml", 'log_note("book viewer (temporary): B pressed')):
+            self.assertIn(fragment, code(rel), rel)
+
     def test_room_background_layer_does_not_cover_sky(self):
         room = load_yy(PROJECT / "rooms/rmMAIN/rmMAIN.yy")
         backgrounds = [layer for layer in room["layers"] if layer["name"] == "Background"]
