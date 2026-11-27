@@ -6,11 +6,28 @@
 global.LOG_LEVEL = 1;
 global.logged_once = {};
 global.log_t0 = get_timer();
+// Every line is also appended to f5.log in the game's save folder (game_save_id, normally %LOCALAPPDATA%\NYKRA_VerticalSlice\),
+// which is wiped at each start, so an assistant can grep the last run instead of the user pasting the IDE output.
+// It is a debug file, not a save: it has nothing to do with the save code.
+global.log_file = game_save_id + "f5.log";
+if (file_exists(global.log_file)) file_delete(global.log_file);
+// runtime errors that end the game never reach show_debug_message, so write them to the file too (the game still ends)
+exception_unhandled_handler(function(_ex) {
+    log_level(0, "EXCEPTION: " + string(_ex.longMessage) + " | " + string(_ex.stacktrace));
+    return 0;
+});
 
-/// @description log_level(level, msg): prints "[1234 ms] msg" when LOG_LEVEL reaches level
+/// @description log_level(level, msg): prints "[1234 ms] msg" when LOG_LEVEL reaches level (level 0 = always)
 function log_level(_level, _msg) {
     if (global.LOG_LEVEL < _level) return;
-    show_debug_message("[" + string(floor((get_timer() - global.log_t0) / 1000)) + " ms] " + _msg);
+    var _line = "[" + string(floor((get_timer() - global.log_t0) / 1000)) + " ms] " + _msg;
+    show_debug_message(_line);
+    var _f = file_text_open_append(global.log_file);
+    if (_f != -1) {
+        file_text_write_string(_f, _line);
+        file_text_writeln(_f);
+        file_text_close(_f);
+    }
 }
 
 /// @description log_note(msg): milestone or error worth reading on every run

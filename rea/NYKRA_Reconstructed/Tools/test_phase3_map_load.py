@@ -88,6 +88,10 @@ class ProvisionalControllerTests(unittest.TestCase):
         # scripts/debug_log, which keeps LOG_LEVEL 1 (milestones) unless a session raises it.
         gate = read(PROJECT / "scripts" / "debug_log" / "debug_log.gml")
         self.assertIn("global.LOG_LEVEL = 1;", gate)
+        # 27/11: every line is mirrored to f5.log in game_save_id (wiped at start) so the log can be grepped instead of pasted
+        for fragment in ('game_save_id + "f5.log"', "file_delete(global.log_file)", "file_text_open_append(global.log_file)",
+                         "exception_unhandled_handler("):
+            self.assertIn(fragment, gate)
         for function in ("log_note", "log_verbose", "log_once"):
             self.assertRegex(gate, rf"(?m)^function {function}\(", function)
         for path in PROJECT.glob("**/*.gml"):
