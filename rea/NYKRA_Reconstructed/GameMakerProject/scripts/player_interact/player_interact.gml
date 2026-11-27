@@ -10,7 +10,7 @@ function player_interact(_x, _y, _radius, _mode, _force) {
         if (_mode == 1) {
             var _pressed = keyboard_check_pressed(global.kku);
             // LOG (not in the original): every "up" press on an interactable (book, note...) names the caller
-            if (_pressed) log_note("interact: " + object_get_name(object_index) + " id " + string(id) + " at (" + string(x) + "," + string(y) + ")");
+            if (_pressed) log_note("interact: " + object_get_name(object_index) + " id " + string(real(id)) + " at (" + string(x) + "," + string(y) + ")");
             return _pressed;
         }
     }

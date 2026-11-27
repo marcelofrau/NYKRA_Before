@@ -59,7 +59,7 @@ Tipos: 0 real, 1 string, 2 array, 3 ponteiro, 5 indefinido, 6 objeto/instância,
 | `DAT_142181cd0`, `DAT_142180d10` | constante `0` montada na carga (fica no `.bss`, fora do arquivo): aparece como 2ª cor e como `outline` de `draw_*_colour`, que só podem ser `c_black` e `false` | uso; média |
 | `FUN_1416b8480` | `draw_sprite` | uso em `oDoor_chunky_Draw_0`; média |
 | `FUN_1416cda40` | `min` | uso em `oDoor_chunky_Draw_0`; média |
-| `FUN_1416a8cb0` / `FUN_1416a8c00` | `surface_set_target` / `surface_reset_target` | uso; baixa |
+| `FUN_1416a8cb0` / `FUN_1416a8c00` | **Não são de superfície** (corrigido em 27/11): abrem e fecham a escrita numa variável/elemento de array (`FUN_1416a8cb0(owner); FUN_1400019a0(dest, valor); FUN_1416a8c00(n)`), ruído do YYC; não portar nada. As de superfície são `FUN_1416b86c0` (`surface_set_target`) e `FUN_1416e34b0` (`surface_reset_target`) | `gml_Script_open_book.c:1744-1746`, `:2158`; média |
 | `FUN_1416cd7b0(a, b)` | `irandom_range(a, b)`: `min + random(|b-a|+1)` | `decompiled/draw_gnarcier_annotated/FUN_1416cd7b0.c:8-16`; alta |
 | `FUN_1416cd660(ctx, n, args)` | `choose(args...)`: devolve um argumento aleatório (n = quantidade) | `decompiled/draw_gnarcier_annotated/FUN_1416cd660.c:13-28`; alta |
 | `FUN_1416f82f0(self, other, id)` | `instance_number(id)` (conta ativos; aceita objeto/self/other/all/instância) | `decompiled/draw_gnarcier_annotated/FUN_1416f82f0.c:15-118`; alta |

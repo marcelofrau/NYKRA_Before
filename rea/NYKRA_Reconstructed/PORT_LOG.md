@@ -149,3 +149,11 @@ Modelo e regras: `MASTER_RECONSTRUCTION_PLAN.md` §0.6. Um bloco é escrito **du
 ### Log de interações do jogador — 27/11/2026 (pedido do usuário)
 - `player_interact` loga todo "cima" apertado perto de algo (`interact: <objeto> id N at (x,y)`: livro, nota...); `oMal_Door_Flat/Draw_0` loga a porta abrindo/fechando (uma vez por mudança, via `topen != open`) e o jogador entrando (`door: player walks in, n=.. -> sala`); `oBook/Draw_0` loga o livro pego e o tamanho do inventário; o visualizador do `oBook_UI` loga o B apertado. Já existiam: `map_load: <sala> ...` a cada carga, `door: n=.. -> sala` na troca, `input: <tecla>`, `STUB ...`. Tudo marcado `LOG (not in the original)`; os eventos que são cópia do original (`oPlayer` etc.) não foram tocados.
 - **Não há** log de "abriu o livro": o `oBook_UI` ainda não abre o leitor (5c).
+
+### oBook_UI Alarm_0 + preparação da 5c — 27/11/2026
+- **Fontes:** raiz não; YYC `gml_Object_oBook_UI_Alarm_0` `0x1414a1ec0` (`rmmal1_sun_annotated:166-198`); metadado: `oBook_UI` 665, eventos Create, Alarm_0, Destroy, Draw_73 (e PreCreate vazio).
+- **Constantes e ids:** `DAT_1420cb828..cb888` = 106..112 (`sndBackpack_01..07`, `sounds-metadata.json`), `cb898` = 10, `cb8a8` = 0.666666666666667, `cb8b8` = 1.0 (bytes do `.exe`); `FUN_1400d2410` = `play_sound`; `FUN_1416cd660` = `choose`; `FUN_1416cdc60(0.9, 1.1)` = `random_range`; `DAT_142182bc8` = `.bss` (loops, usado como 0).
+- **Achados:** o `Alarm_0` só toca o som de mochila (o livro voltando para a mochila); quem o arma é o `Draw_73` quando `anim4` vira 1, e o `Draw_73` se destrói com `anim4 == 1 && anim1 > 0.99`, então o som talvez nunca toque no original (inferência, conferir no F5).
+- **Importado/gerado:** `sBook_cover` (258, 82×100, 6 quadros) com `ExportSpritesRestored.csx` + `generate_object_sprites.py` (SHA do `data.win` igual); casca `oControls_bag` (647) e o pai `parControlsTut` com `generate_object_shells.py` (`EXTRA`).
+- **Desvios e atalhos:** P45.
+- **Teste:** `test_open_book_step1_reads_the_ini_like_the_yyc` (`oBook_UI` com 4 eventos, trechos do `Alarm_0`). Suíte: só o erro de import conhecido.

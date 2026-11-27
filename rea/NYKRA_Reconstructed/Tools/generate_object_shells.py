@@ -61,6 +61,7 @@ EXTRA = [
     "oAenox_Cell", "oAenox_Cell_Off", "oBolt_Colour", "oBolt_iiem", "oDlg_Aenox_1", "oDlg_Pod7",
     "oFx_OBSERVER", "oHeavybox_s", "oPod7_KS", "parAENOX", "parBreakable", "parDust", "parMob",
     "oFx",  # parent parDust is created by the closure
+    "oControls_bag",  # created by oBook_UI/Draw_73 (5c); its YYC Create_0/PreCreate_0 are not decompiled yet
 ]
 FOLDER = ("Shells", "folders/Objects/Shells.yy")
 

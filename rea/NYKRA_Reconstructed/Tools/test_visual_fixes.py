@@ -122,7 +122,10 @@ class VisualFixTests(unittest.TestCase):
         # 5b step 1: .c 143-615 of gml_Script_open_book plus oBook_UI Create_0/Destroy_0; the pages come in steps 2-4.
         yy = load_yy(PROJECT / "objects/oBook_UI/oBook_UI.yy")
         events = [(e["eventType"], e["eventNum"]) for e in yy["eventList"]]
-        self.assertEqual(sorted(events), [(0, 0), (1, 0), (8, 73)])  # (8, 73) = the temporary step-3 viewer
+        self.assertEqual(sorted(events), [(0, 0), (1, 0), (2, 0), (8, 73)])  # (8, 73) = the temporary step-3 viewer
+        alarm = code("objects/oBook_UI/Alarm_0.gml")  # 5c: sounds 106-112, loops .bss = 0 (P45), gain from the exe
+        for fragment in ("sndBackpack_01", "sndBackpack_07", "10, 0, random_range(0.9, 1.1) * 0.9, 0.666666666666667, 1);"):
+            self.assertIn(fragment, alarm)
         book = code("scripts/open_book/open_book.gml")
         for fragment in ("function open_book(_book_n = 0, _is_inv = 0)", "instance_number(oBook_UI) > 0",
                          "instance_create_one(CMX, CMY, -100, oBook_UI)", "book_id = -4;", "open = 1;", "book_id = other.id;",
