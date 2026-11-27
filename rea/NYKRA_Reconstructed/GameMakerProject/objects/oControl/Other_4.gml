@@ -39,11 +39,8 @@ while (!is_undefined(_key)) {
     _key = ds_map_find_next(_counts, _key);
 }
 ds_map_destroy(_counts);
-// One milestone line per load; the per-type breakdown only at LOG_LEVEL 2 (the overlay in Draw_64
-// shows the same list on screen), which keeps the F5 log readable.
-log_note("map_load: " + CURRENTROOM + " " + string(mw) + "x" + string(mh) + " planet " + string(planet) +
-    " | objects " + string(ds_list_size(obj_list)) +
-    " | decor " + string(ds_list_size(asset_list[0])) + "/" + string(ds_list_size(asset_list[1])));
+// The milestone line "map_load: <room> ..." is logged by map_load itself (every load, not only the boot);
+// the per-type breakdown only at LOG_LEVEL 2 (the overlay in Draw_64 shows the same list on screen).
 for (var _l = 3; _l < array_length(level_report); _l++) log_verbose("oControl: " + level_report[_l]);
 
 // PROVISIONAL (plan P21): nothing in the recovered code creates the player in a new game, and oOrigin

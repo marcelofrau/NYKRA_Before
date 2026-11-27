@@ -15,6 +15,7 @@ if (in == 1) {
         var _rm = rm;
         var _path = working_directory + "level_data/" + _rm + ".rmlvl";
         if (file_exists(_path)) {
+            log_note("door: n=" + string(n) + " -> " + _rm + " (from " + CURRENTROOM + ")");
             with (oControl) {
                 map_load(_path, _rm);
             }

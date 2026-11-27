@@ -29,7 +29,7 @@ SCRIPTS = ["map_load", "clear_objects", "reset_files", "_SET_SCENE", "goto_map"]
 HAND_SCRIPTS = ["reach_tween", "set_game_screen", "set_controls", "config_get", "draw_sprite_skew",
                 "check_array_cell", "check_array", "check_block", "bb_setmiddle", "ARRAY_COLLIDE",
                 "playerhascontrol", "reach", "obj_setpos", "instance_create_one", "sleep", "hrnd",
-                "box_inside_bound", "real_string", "ini_language",
+                "box_inside_bound", "real_string", "ini_language", "open_book",
                 "player_distance", "player_interact", "interact_arrow", "draw_ui_arrow", "draw_rectangle_view",
                 "easing", "create_fx", "play_sound", "play_sound_pos", "snd_step_grass", "snd_step_dirt", "snd_step_stone", "snd_step_wood"]
 
@@ -62,6 +62,14 @@ POLICY_OBJECT = (
     "    }\n"
     "    if (_oidx != -1) {\n",
 )
+POLICY_LOG = (
+    "    oEo.ring_fade = 1;\n}\n\ninstance_activate_all();",
+    "    oEo.ring_fade = 1;\n}\n\ninstance_activate_all();\n\n"
+    "// LOG EDIT (not in the original): one milestone line per level load, whoever calls map_load (boot, doors, goto_map).\n"
+    "log_note(\"map_load: \" + _room_name + \" \" + string(oControl.mw) + \"x\" + string(oControl.mh) + \" planet \" + string(oControl.planet) +\n"
+    "    \" | objects \" + string(ds_list_size(obj_list)) +\n"
+    "    \" | decor \" + string(ds_list_size(oControl.asset_list[0])) + \"/\" + string(ds_list_size(oControl.asset_list[1])));",
+)
 
 
 def convert(name, text):
@@ -85,7 +93,8 @@ def convert(name, text):
             compat.append(f"'{old.splitlines()[0]}' -> '{new.splitlines()[0]}'")
     policy = []
     if name == "map_load":
-        for label, (old, new) in (("no sprite with -1", POLICY_SPRITE), ("stop at unknown object", POLICY_OBJECT)):
+        for label, (old, new) in (("no sprite with -1", POLICY_SPRITE), ("stop at unknown object", POLICY_OBJECT),
+                                  ("log every load", POLICY_LOG)):
             if body.count(old) != 1:
                 raise ValueError(f"map_load: expected exactly one match for policy edit '{label}'")
             body = body.replace(old, new)
