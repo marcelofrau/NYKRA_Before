@@ -179,3 +179,19 @@ Modelo e regras: `MASTER_RECONSTRUCTION_PLAN.md` §0.6. Um bloco é escrito **du
 - **Desvios e atalhos:** nenhum novo; P46c resolvido (visualizador B apagado).
 - **Teste:** `test_open_book_step1_reads_the_ini_like_the_yyc` (trechos de B7/B8). Suíte via `nykra-runner`.
 - **F5 pendente:** pegar o livro: aparecem as páginas em duas pilhas (sem capas); kkr/kkl viram a página com a deformação; "baixo" fecha. Se algo vier invertido ou torto, reler o `.c` do quad antes de mexer em números.
+
+### oBook_UI Draw_73, blocos B6 e B9 (item 5c, etapa 4) — 27/11/2026
+- **Fontes:** raiz não; YYC `gml_Object_oBook_UI_Draw_73` `rmmal1_sun_annotated:998-1581` e `2645-3304` (lidos inteiros).
+- **Constantes e ids:** `DAT_1420cb998` = 258.0 = `sBook_cover` (lido do `.exe`, 6 quadros: `type*2` = por cima, `type*2 + 1` = por baixo); `0x3fe8e38e0f21dbf3` = 0.7777777 (para o B10).
+- **Achados:** B6: `frontcov_an >= 0.5` desenha em `CMX + 2` com `y = bookY + pileL`; `backcov_an < 0.5` em `CMX - 2` com `y = bookY + pileR`. B9: `frontcov_an = reach_tween(frontcov_an, round(page_sel) >= 0, 10)`; `backcov_an = reach_tween(backcov_an, round(page_sel) >= pages + 2, 10)`; `frontcov_an < 0.5` desenha em `CMX - 2`, `backcov_an >= 0.5` em `CMX + 2` com `y = bookY + pileR`. Os 4 quads são idênticos em forma (`_cover_quad`). A capa da frente por cima usa o `local_130` herdado (sem recalcular), reproduzido com um `_y` único. Aqui a largura e a altura da capa sobrescrevem `local_2d0/2c0` no `.c`, por isso o B7 as recalcula; no GML as da capa são locais da função.
+- **Desvios e atalhos:** `_cover_quad` agrupa 4 trechos repetidos do `.c` (mesmo resultado). Nenhum atalho novo.
+- **Teste:** `test_open_book_step1_reads_the_ini_like_the_yyc` (trechos de B6/B9).
+- **F5 pendente:** pegar o livro: capa da frente fechada à direita sobre as páginas, abrir (kkr) vira a capa para a esquerda; no fim, a contracapa vem da direita; capas no quadro do tipo 0 (livro 4). Se a capa vier desalinhada em y, reler o `.c:2841` antes de mexer.
+
+### oBook_UI Draw_73, bloco B10 (item 5c, etapa 5) — 27/11/2026
+- **Fontes:** raiz não; YYC `gml_Object_oBook_UI_Draw_73` `rmmal1_sun_annotated:3305-3389`.
+- **Constantes e ids:** `0x3fe8e38e0f21dbf3` = 0.7777777 (não 7/9); `DAT_1420cb9a8` = 459.0 = `sScreen_Glow` (`.exe` e `sprites-metadata.json`); `DAT_1420dade0` = `draw_sprite_stretched_ext` (8 args: sprite, subimg, CX, CY, CW, CH, cor, alfa). A 2ª chamada usa o `.bss` 0 como cor (c_black), como no B5 (P46a).
+- **Achados:** `pileRxA *= 0.7777777; pileLxA *= 0.7777777;` e duas vinhetas com alfa `(1 - anim1) / 2`. Sem o decaimento, o `+1`/`-1` de cada troca de pilha do B7/B8 acumula e as folhas sobem (visto no F5 do B6+B9).
+- **Desvios e atalhos:** nenhum novo.
+- **Teste:** `test_open_book_step1_reads_the_ini_like_the_yyc` (trechos do B10).
+- **F5 pendente:** passar páginas e fechar: as pilhas ficam no lugar, sem páginas sobrando acima; vinheta escura nas bordas.

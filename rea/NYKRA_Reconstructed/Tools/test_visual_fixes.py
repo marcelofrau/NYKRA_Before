@@ -178,6 +178,20 @@ class VisualFixTests(unittest.TestCase):
                          "ds_list_insert(pagepile_left, 0, _pg);", "ds_list_insert(pagepile_right, 0, _pg);",
                          "pileRxA += 1;", "pileLxA -= 1;", "pileLxA += 1;", "pileRxA -= 1;"):
             self.assertIn(fragment, draw73)
+        # 5c step 4: B6/B9 covers (.c 998-1581, 2645-3304): one quad shape, frames 1 + type * 2 below and type * 2 above
+        for fragment in ("draw_sprite_pos(sBook_cover, _frame, _ax, _cy - _ch / 2, _ax + _cx, _cy - _ch / 2 + _cl * 1.5,",
+                         "_ax + _cx, _cy + _ch / 2 + _cl / 1.5, _ax, _cy + _ch / 2, 1);",
+                         "if (frontcov_an >= 0.5) {", "_cover_quad(1 + type * 2, CMX + 2, _y, frontcov_an);",
+                         "if (backcov_an < 0.5) {", "_cover_quad(1 + type * 2, CMX - 2, _y, backcov_an);",
+                         "frontcov_an = reach_tween(frontcov_an, (round(page_sel) >= 0) ? 1 : 0, 10);",
+                         "backcov_an = reach_tween(backcov_an, (round(page_sel) >= pages + 2) ? 1 : 0, 10);",
+                         "_cover_quad(type * 2, CMX - 2, _y, frontcov_an);", "_cover_quad(type * 2, CMX + 2, _y, backcov_an);"):
+            self.assertIn(fragment, draw73)
+        # 5c step 5: B10 decay and vignette (.c 3305-3389); 0x3fe8e38e0f21dbf3 is 0.7777777, not 7/9
+        for fragment in ("pileRxA *= 0.7777777;", "pileLxA *= 0.7777777;",
+                         "draw_sprite_stretched_ext(sScreen_Glow, 0, CX, CY, CW, CH, c_blackink, (1 - anim1) / 2);",
+                         "draw_sprite_stretched_ext(sScreen_Glow, 0, CX, CY, CW, CH, c_black, (1 - anim1) / 2);"):
+            self.assertIn(fragment, draw73)
         self.assertNotIn("book viewer (temporary)", draw73)  # P46c: the step-3 viewer is gone now that B7/B8 draw the pages
         ui = code("objects/oBook_UI/Create_0.gml")
         for fragment in ("book_id = -4;", "sPages = -1;", "page_w = floor(78 * pscale);", "page_h = floor(96 * pscale);",
