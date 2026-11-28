@@ -1,0 +1,4 @@
+- [NYKRA handoff](nykra-handoff-2026-11-17.md) — 24/11: branch pickle; LIGHTING was invented, port root original (P38); oOrigin Draw_0 unported
+- [Confirm before running](nykra-confirm-before-running.md) — command-line jobs (tests, generators, UTMT reads, Ghidra, exe reads) run via the nykra-runner Haiku agent; still ask before builds/game/windows/saves/installs/git writes
+- [Provisional register](nykra-provisional-register.md) — plan §7 tracks every shortcut (P1–P17); review at each milestone close
+- [F5 log file](nykra-f5-log-file.md) — f5.log in game_save_id after each F5; grep it, do not ask for pastes
