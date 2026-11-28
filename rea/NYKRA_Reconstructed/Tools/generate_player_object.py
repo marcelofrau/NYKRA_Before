@@ -18,12 +18,13 @@ from yyp_edit import update_yyp  # noqa: E402
 REA = TOOLS.parent
 REPO = REA.parents[1]
 PROJECT = REA / "GameMakerProject"
-EVENT_TYPES = {"Create": 0, "Destroy": 1, "Alarm": 2, "Step": 3, "Collision": 4, "Other": 7, "Draw": 8, "KeyPress": 9}
+EVENT_TYPES = {"Create": 0, "Destroy": 1, "Alarm": 2, "Step": 3, "Collision": 4, "Other": 7, "Draw": 8, "KeyPress": 9, "KeyRelease": 10}
 # object -> (parent object or None, sprite or None, mask sprite or None, persistent)
 OBJECTS = {
     "oPlayer": ("parEntity", "sBnd_player", "sBnd_player", True),
     "parNote": (None, "sNote_Small", None, False),
     "oNote": ("parNote", "sNote_Small", None, False),  # no events of its own (only an empty PreCreate)
+    "parDialogue": ("parSAVE", None, None, False),  # dialogue system (plan 0.7 item 6): 6 original events, no sprite
 }
 
 

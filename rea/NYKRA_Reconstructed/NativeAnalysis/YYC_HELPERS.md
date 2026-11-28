@@ -80,3 +80,12 @@ Tipos: 0 real, 1 string, 2 array, 3 ponteiro, 5 indefinido, 6 objeto/instância,
 O elevador não reconstrói laços `for/while`, `with`, `switch` nem acesso a arrays: mantém a estrutura do decompilador e marca `// ?? <linha>` o que não reconhece.
 
 **Armadilha de `xmm0` (26/11/2026):** o Ghidra perde o primeiro argumento `double` de funções chamadas com `xmm0`. Por isso `FUN_1416cdc30(0)` é `random(<valor em xmm0>)`, e `FUN_1416cdc60(0xcccccccd, 1.1)` é `random_range(<xmm0>, 1.1)`: só o segundo argumento aparece. Nunca traduza o `0` para `random(0)`. Leia o asm (`DisassembleRange.java`) e siga `MOVSD XMM0,[DAT]` ou o registrador `XMM6..XMM15` carregado antes do laço; converta o `DAT` com o cabeçalho PE do `.exe`. Evidência: `parGnarcier_Step_0` (`decompiled/rmmal1_sun_disasm/`). O mesmo padrão aparece 31× em `oOrigin/Draw_0.c` (item 7 da fila).
+
+## Diálogo (item 6, 27/11/2026)
+| Função | Significado | Evidência |
+|---|---|---|
+| `FUN_1400ec080(self, other, &ret, 0, 0)` | `load_dialogue()`: chamada direta de script (é `gml_Script_load_dialogue`, `yyc-function-table.json`); na última linha de `oDlg_Mal1/2_Create_0`. **Não é** cópia de array nem `event_inherited` | `decompiled/load_dialogue_annotated/gml_Script_load_dialogue.c`; alta |
+| `FUN_140109fe0(self, other, &ret, 0, 0)` | `ini_language()` (`gml_Script_ini_language`, `0x140109fe0`) | tabela de funções; alta |
+| `FUN_141700ad0(secção, chave, -1)` | `ini_read_real(secção, chave, -1)`, seguido de `real()` e `round()` | só pelos argumentos e pelos valores do `.lang`; **média** (P47) |
+| `DAT_1420da540` / `da730` / `da550` / `da320` / `da230` / `da340` / `da460` / `da240` | `ini_read_string` / `ini_key_exists` / `ini_close` / `object_get_name` / `round` / `real` / `asset_get_index` / `array_get_2D` | `yyc-dat-symbols.json`; alta |
+| `FUN_141706ee0()` em `Create_0` | `event_inherited()`; o lifter o omite (vira `v70 = ?`), confira no `.c` | `gml_Object_oDlg_Mal1_Create_0.c:120`; alta |

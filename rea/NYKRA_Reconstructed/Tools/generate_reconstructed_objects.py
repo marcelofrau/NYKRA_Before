@@ -41,6 +41,9 @@ OBJECTS = {
     "oBook": (None, "sBook", False, None),
     # 26/11 (plan 0.7 item 5b): the book reader, created by open_book; no sprite (it draws everything in Draw_73, step 5c).
     "oBook_UI": (None, None, False, None),
+    # 27/11 (plan 0.7 item 6): the two lines of Keu in rmMal_1; only a Create_0 each, the rest is parDialogue.
+    "oDlg_Mal1": ("parDialogue", None, False, None),
+    "oDlg_Mal2": ("parDialogue", None, False, None),
 }
 
 

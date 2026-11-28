@@ -40,6 +40,8 @@ HAND_WRITTEN = {
     "parEntity",  # player stage 1: Create, Destroy, Step_1, Step_2 (provisional), Draw_77
     "oPlayer",  # player stage 1: the 21 original events (Tools/generate_player_object.py)
     "oFx",  # player stage 2: the particle create_fx spawns (reconstructed events)
+    "oDlg_Mal1", "oDlg_Mal2",  # 27/11, plan 0.7 item 6: Create_0 from the YYC (generate_reconstructed_objects.py)
+    "parDialogue",  # plan 0.7 item 6: the 6 original events (Tools/generate_player_object.py)
     "parNote", "oNote",  # stage 3: parNote's 4 original events; oNote only links the sprite (generate_player_object.py)
     # stage 3: reconstructed from the decompilation (Tools/generate_reconstructed_objects.py)
     "oInput_pp", "oVIEW_CONSTRICT", "oDoor_Origin", "oWire", "oWire_DIODE_D", "oWire_TIMER",

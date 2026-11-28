@@ -28,8 +28,9 @@ def read(path):
 
 
 def code(path):
-    """GML source without // comments, so mentions in comments are not counted as calls."""
-    return re.sub(r"//[^\n]*", "", read(path))
+    """GML source without // and /* */ comments, so mentions in comments are not counted as calls
+    (the original oControl/KeyRelease_117 carries a long commented-out block with show_debug_message)."""
+    return re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", read(path), flags=re.S))
 
 
 class PortedScriptsTests(unittest.TestCase):

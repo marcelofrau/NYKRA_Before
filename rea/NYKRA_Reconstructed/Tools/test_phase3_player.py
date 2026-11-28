@@ -143,6 +143,42 @@ class PlayerObjectTests(unittest.TestCase):
             kind = "sounds" if name.startswith("snd") else "sprites"
             self.assertTrue((PROJECT / kind / name / f"{name}.yy").exists(), name)
 
+    def test_parDialogue_uses_the_six_original_events(self):
+        original = REA.parents[1] / "parDialogue"
+        yy = load_yy(PROJECT / "objects" / "parDialogue" / "parDialogue.yy")
+        self.assertEqual(yy["parentObjectId"]["name"], "parSAVE")
+        self.assertEqual(sorted((e["eventType"], e["eventNum"]) for e in yy["eventList"]),
+                         [(0, 0), (1, 0), (2, 0), (3, 0), (7, 10), (8, 73)])
+        for f in original.glob("*.gml"):
+            ours = (PROJECT / "objects" / "parDialogue" / f.name).read_text(encoding="utf-8")
+            self.assertTrue(ours.endswith(f.read_text(encoding="utf-8")), f.name)
+
+    def test_oDlg_Mal_literals_agree_with_the_language_file_and_load_dialogue_reads_it(self):
+        lang = (PROJECT / "datafiles" / "dlg_eng.lang").read_text(encoding="utf-8")
+        for name, rows in (("oDlg_Mal1", 2), ("oDlg_Mal2", 3)):
+            section = lang.split(f"[{name}]\n", 1)[1].split("\n[", 1)[0]
+            self.assertIn(f'dlg="{rows}.000000"', section)
+            create = code_of(f"objects/{name}/Create_0.gml")
+            self.assertIn("event_inherited();", create)
+            self.assertTrue(create.rstrip().endswith("load_dialogue();"))
+            for text in re.findall(r'^dlg\[\d+,1\]="(.*)"$', section, re.M):
+                self.assertIn(f'"{text}"', create)
+        load = code("load_dialogue")
+        for fragment in ("object_get_name(object_index)", "ini_key_exists(dlg_name", "while (_left > 0)",
+                         'asset_get_index(ini_read_string(dlg_name, _k + "18]", ""))', '== "-2"', "ini_close();"):
+            self.assertIn(fragment, load)
+        voice = code("sound_voice_Keu")
+        self.assertEqual(len(re.findall(r"sndV_Keu\d+", voice)), 11)
+        self.assertNotIn("sndV_Keu5", voice)
+
+    def test_oControl_F6_event_is_the_original_and_turns_dialogue_on(self):
+        original = (REA.parents[1] / "oControl" / "KeyRelease_117.gml").read_text(encoding="utf-8")
+        ours = (PROJECT / "objects" / "oControl" / "KeyRelease_117.gml").read_text(encoding="utf-8")
+        self.assertTrue(ours.endswith(original))
+        self.assertIn("game_dialogue = 1;", ours)
+        yy = load_yy(PROJECT / "objects" / "oControl" / "oControl.yy")
+        self.assertIn((10, 117), [(e["eventType"], e["eventNum"]) for e in yy["eventList"]])
+
     def test_grass_reacts_to_the_player_with_the_spring_of_the_decompilation(self):
         draw = code_of("objects/parGrass/Draw_0.gml")
         for fragment in ("tshake += -shake / 9;", "shake += tshake / 9;", "shake *= 0.975;", "tshake *= 0.975;",

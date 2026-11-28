@@ -1,0 +1,36 @@
+// lifted from gml_Script_sound_voice_Keu.c
+// ?? undefined8 * gml_Script_sound_voice_Keu(undefined8 param_1,undefined8 param_2,undefined8 *param_3)
+{
+    // ?? puStack_f8 = &UNK_14198243c;
+    // ?? puRam0000000142182d78 = &uStack_100;
+    // ?? uRam0000000142182d90 = param_1;
+    // ?? *(undefined4 *)((longlong)param_3 + 0xc) = 5;
+    // ?? *param_3 = 0;
+    // ?? FUN_1416ab750(uRam00000001420dc490);
+    // ?? FUN_140002730(&uStack_e8,0x1420b13e0);
+    // ?? puStack_158 = &uStack_e8;
+    // ?? FUN_140002730(&uStack_d8,0x1420b13f0);
+    // ?? puStack_150 = &uStack_d8;
+    // ?? FUN_140002730(&uStack_c8,0x1420b1400);
+    // ?? puStack_148 = &uStack_c8;
+    // ?? FUN_140002730(&uStack_b8,0x1420b1410);
+    // ?? puStack_140 = &uStack_b8;
+    // ?? FUN_140002730(&uStack_a8,0x1420b1420);
+    // ?? puStack_138 = &uStack_a8;
+    // ?? FUN_140002730(&uStack_98,0x1420b1430);
+    // ?? puStack_130 = &uStack_98;
+    // ?? FUN_140002730(&uStack_88,0x1420b1440);
+    // ?? puStack_128 = &uStack_88;
+    // ?? FUN_140002730(&uStack_78,0x1420b1450);
+    // ?? puStack_120 = &uStack_78;
+    // ?? FUN_140002730(&uStack_68,0x1420b1460);
+    // ?? puStack_118 = &uStack_68;
+    // ?? FUN_140002730(&uStack_58,0x1420b1470);
+    // ?? puStack_110 = &uStack_58;
+    // ?? FUN_140002730(&uStack_48,0x1420b1480);
+    // ?? puStack_108 = &uStack_48;
+    // ?? uVar1 = FUN_1416cd660(&uStack_30,0xb,&puStack_158);
+    param_3 = uVar1;
+    // ?? puRam0000000142182d78 = (undefined8 *)uStack_100;
+    // ?? return param_3;
+}
